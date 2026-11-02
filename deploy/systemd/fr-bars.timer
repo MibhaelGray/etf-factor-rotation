@@ -1,0 +1,10 @@
+[Unit]
+Description=factor-rotation: daily bars after the close
+
+[Timer]
+OnCalendar=Mon..Fri *-*-* 16:30:00 America/New_York
+Persistent=false
+Unit=fr@bars.service
+
+[Install]
+WantedBy=timers.target

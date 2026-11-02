@@ -1,0 +1,11 @@
+[Unit]
+Description=factor-rotation %i
+After=network-online.target docker.service
+
+[Service]
+Type=oneshot
+User=ubuntu
+WorkingDirectory=/opt/factor-rotation
+EnvironmentFile=/opt/factor-rotation/.env
+ExecStart=/usr/bin/flock /tmp/fr-ib.lock /opt/factor-rotation/deploy/run.sh %i
+TimeoutStartSec=3h

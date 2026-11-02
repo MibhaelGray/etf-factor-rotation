@@ -1,0 +1,11 @@
+[Unit]
+Description=factor-rotation: full universe snapshot at 10:00 and 15:30 ET
+
+[Timer]
+OnCalendar=Mon..Fri *-*-* 10:00:00 America/New_York
+OnCalendar=Mon..Fri *-*-* 15:30:00 America/New_York
+Persistent=false
+Unit=fr@options-all.service
+
+[Install]
+WantedBy=timers.target

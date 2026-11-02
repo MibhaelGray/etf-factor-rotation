@@ -1,0 +1,14 @@
+services:
+  ib-gateway:
+    image: ghcr.io/gnzsnz/ib-gateway:stable
+    restart: always
+    env_file: ../.env
+    environment:
+      READ_ONLY_API: "yes"
+      TIME_ZONE: America/New_York
+      AUTO_RESTART_TIME: "11:55 PM"
+      RELOGIN_AFTER_TWOFA_TIMEOUT: "yes"
+      TWOFA_TIMEOUT_ACTION: restart
+    ports:
+      - "127.0.0.1:4001:4003"
+      - "127.0.0.1:4002:4004"

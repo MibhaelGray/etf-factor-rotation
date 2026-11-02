@@ -1,0 +1,10 @@
+[Unit]
+Description=factor-rotation: hourly ETF-only snapshot
+
+[Timer]
+OnCalendar=Mon..Fri *-*-* 11..14:00:00 America/New_York
+Persistent=false
+Unit=fr@options-etfs.service
+
+[Install]
+WantedBy=timers.target

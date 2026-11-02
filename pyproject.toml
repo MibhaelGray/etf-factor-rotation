@@ -1,0 +1,24 @@
+[project]
+name = "factor-rotation"
+version = "0.1.0"
+description = "Factor rotation research: IBKR options and bar collection, nightly pair ideas, scorecard"
+readme = "README.md"
+authors = [
+    { name = "Your Name" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "ib-async>=2.1.0",
+    "numpy>=2.5.4",
+    "pandas>=3.1.0",
+    "pandas-market-calendars>=5.6.0",
+    "pyarrow>=26.0.0",
+    "scipy>=1.18.1",
+]
+
+[build-system]
+requires = ["uv_build>=0.13.5,<0.14.0"]
+build-backend = "uv_build"
+
+[project.scripts]
+fr = "factor_rotation.cli:main"
