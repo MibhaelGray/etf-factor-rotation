@@ -1,0 +1,303 @@
+{
+  "as_of": "2026-11-02",
+  "trade_date": "2026-11-03",
+  "built_at": "2026-11-03T00:18:41.618746-05:00",
+  "incumbent": {
+    "name": "combo_equal",
+    "members": [
+      "credit_lead",
+      "momentum_12_1",
+      "momentum_3m",
+      "reversal_5d",
+      "trend_100d",
+      "turn_of_month"
+    ],
+    "horizon": 20,
+    "band": 1.0
+  },
+  "gross_exposure": 0.7404,
+  "positions": [
+    {
+      "spread": "xli_spy",
+      "long": "XLI",
+      "short": "SPY",
+      "weight": -0.0577
+    },
+    {
+      "spread": "mdy_spy",
+      "long": "MDY",
+      "short": "SPY",
+      "weight": -0.0552
+    },
+    {
+      "spread": "lqd_spy",
+      "long": "LQD",
+      "short": "SPY",
+      "weight": -0.0464
+    },
+    {
+      "spread": "xly_spy",
+      "long": "XLY",
+      "short": "SPY",
+      "weight": -0.0408
+    },
+    {
+      "spread": "dia_spy",
+      "long": "DIA",
+      "short": "SPY",
+      "weight": -0.0366
+    },
+    {
+      "spread": "xlu_spy",
+      "long": "XLU",
+      "short": "SPY",
+      "weight": -0.0354
+    },
+    {
+      "spread": "size",
+      "long": "IWM",
+      "short": "SPY",
+      "weight": -0.0347
+    },
+    {
+      "spread": "growth_value",
+      "long": "IWF",
+      "short": "IWD",
+      "weight": -0.0252
+    },
+    {
+      "spread": "breadth",
+      "long": "RSP",
+      "short": "SPY",
+      "weight": -0.0233
+    },
+    {
+      "spread": "xrt_spy",
+      "long": "XRT",
+      "short": "SPY",
+      "weight": -0.022
+    },
+    {
+      "spread": "xlre_spy",
+      "long": "XLRE",
+      "short": "SPY",
+      "weight": -0.0213
+    },
+    {
+      "spread": "tlt_spy",
+      "long": "TLT",
+      "short": "SPY",
+      "weight": -0.0206
+    },
+    {
+      "spread": "xlc_spy",
+      "long": "XLC",
+      "short": "SPY",
+      "weight": -0.0184
+    },
+    {
+      "spread": "itb_spy",
+      "long": "ITB",
+      "short": "SPY",
+      "weight": -0.0169
+    },
+    {
+      "spread": "quality",
+      "long": "QUAL",
+      "short": "SPY",
+      "weight": -0.0164
+    },
+    {
+      "spread": "efa_spy",
+      "long": "EFA",
+      "short": "SPY",
+      "weight": -0.016
+    },
+    {
+      "spread": "xlb_spy",
+      "long": "XLB",
+      "short": "SPY",
+      "weight": -0.0159
+    },
+    {
+      "spread": "kre_spy",
+      "long": "KRE",
+      "short": "SPY",
+      "weight": -0.0154
+    },
+    {
+      "spread": "fxi_spy",
+      "long": "FXI",
+      "short": "SPY",
+      "weight": -0.0147
+    },
+    {
+      "spread": "xlf_spy",
+      "long": "XLF",
+      "short": "SPY",
+      "weight": -0.0143
+    },
+    {
+      "spread": "uup_spy",
+      "long": "UUP",
+      "short": "SPY",
+      "weight": -0.0125
+    },
+    {
+      "spread": "xlp_spy",
+      "long": "XLP",
+      "short": "SPY",
+      "weight": -0.0068
+    },
+    {
+      "spread": "cyclical_defensive",
+      "long": "XLY",
+      "short": "XLP",
+      "weight": -0.0053
+    },
+    {
+      "spread": "gld_spy",
+      "long": "GLD",
+      "short": "SPY",
+      "weight": -0.0045
+    },
+    {
+      "spread": "banks",
+      "long": "KRE",
+      "short": "XLF",
+      "weight": -0.0031
+    },
+    {
+      "spread": "igv_spy",
+      "long": "IGV",
+      "short": "SPY",
+      "weight": -0.0009
+    },
+    {
+      "spread": "ibit_spy",
+      "long": "IBIT",
+      "short": "SPY",
+      "weight": 0.001
+    },
+    {
+      "spread": "momentum",
+      "long": "MTUM",
+      "short": "USMV",
+      "weight": 0.0014
+    },
+    {
+      "spread": "semis_software",
+      "long": "SMH",
+      "short": "IGV",
+      "weight": 0.0024
+    },
+    {
+      "spread": "slv_spy",
+      "long": "SLV",
+      "short": "SPY",
+      "weight": 0.0026
+    },
+    {
+      "spread": "smh_spy",
+      "long": "SMH",
+      "short": "SPY",
+      "weight": 0.0038
+    },
+    {
+      "spread": "xbi_spy",
+      "long": "XBI",
+      "short": "SPY",
+      "weight": 0.0046
+    },
+    {
+      "spread": "eem_spy",
+      "long": "EEM",
+      "short": "SPY",
+      "weight": 0.0051
+    },
+    {
+      "spread": "xop_spy",
+      "long": "XOP",
+      "short": "SPY",
+      "weight": 0.0059
+    },
+    {
+      "spread": "energy",
+      "long": "XLE",
+      "short": "SPY",
+      "weight": 0.006
+    },
+    {
+      "spread": "credit",
+      "long": "HYG",
+      "short": "IEF",
+      "weight": 0.006
+    },
+    {
+      "spread": "xle_spy",
+      "long": "XLE",
+      "short": "SPY",
+      "weight": 0.006
+    },
+    {
+      "spread": "arkk_spy",
+      "long": "ARKK",
+      "short": "SPY",
+      "weight": 0.0065
+    },
+    {
+      "spread": "uso_spy",
+      "long": "USO",
+      "short": "SPY",
+      "weight": 0.0065
+    },
+    {
+      "spread": "high_beta",
+      "long": "SPHB",
+      "short": "SPLV",
+      "weight": 0.0074
+    },
+    {
+      "spread": "small_quality",
+      "long": "IJR",
+      "short": "IWM",
+      "weight": 0.0077
+    },
+    {
+      "spread": "xlv_spy",
+      "long": "XLV",
+      "short": "SPY",
+      "weight": 0.0091
+    },
+    {
+      "spread": "megacap_tech",
+      "long": "QQQ",
+      "short": "RSP",
+      "weight": 0.0097
+    },
+    {
+      "spread": "xlk_spy",
+      "long": "XLK",
+      "short": "SPY",
+      "weight": 0.0114
+    },
+    {
+      "spread": "qqq_spy",
+      "long": "QQQ",
+      "short": "SPY",
+      "weight": 0.0126
+    },
+    {
+      "spread": "tech_utilities",
+      "long": "XLK",
+      "short": "XLU",
+      "weight": 0.0215
+    },
+    {
+      "spread": "value",
+      "long": "VLUE",
+      "short": "SPY",
+      "weight": 0.0229
+    }
+  ]
+}
