@@ -9,7 +9,7 @@ Next evening:
 Files are write-once: recording over an existing ideas or score file is refused,
 so the record can't be edited after the outcome is known.
 
-Every idea is a dollar-neutral pair (long one ETF or stock, short another),
+Every idea is an outright long, an outright short, or a dollar-neutral pair,
 entered at the next session's open and exited at its close. Close-to-close
 (from the as_of close) is recorded alongside for comparison.
 """
@@ -116,13 +116,17 @@ def record_ideas(draft_path: Path) -> Path:
         raise ValueError("record 1-3 ideas")
     universe = set(bar_universe())
     for i, idea in enumerate(ideas, 1):
-        for field in ("long", "short", "factor", "thesis", "confidence", "invalidation", "key_signals"):
+        for field in ("factor", "thesis", "confidence", "invalidation", "key_signals"):
             if field not in idea:
                 raise ValueError(f"idea {i} missing {field}")
-        if idea["long"] not in universe or idea["short"] not in universe:
+        legs = _legs(idea)
+        if not legs:
+            raise ValueError(f"idea {i} needs a long leg, a short leg, or both")
+        if any(s not in universe for s in legs):
             raise ValueError(f"idea {i} legs must be in the universe")
         if idea["confidence"] not in (1, 2, 3, 4, 5):
             raise ValueError(f"idea {i} confidence must be 1-5")
+        idea["kind"] = "pair" if len(legs) == 2 else ("long" if idea.get("long") else "short")
         idea["id"] = f"{as_of}-{i}"
     trade_date = next_trading_day(as_of)
     payload = {
@@ -134,6 +138,10 @@ def record_ideas(draft_path: Path) -> Path:
         "ideas": ideas,
     }
     return _write_once(JOURNAL / "ideas" / f"{trade_date}.json", payload)
+
+
+def _legs(idea: dict) -> list[str]:
+    return [idea[k] for k in ("long", "short") if idea.get(k)]
 
 
 def _bar(bars: pd.DataFrame, symbol: str, day: date) -> pd.Series | None:
@@ -150,30 +158,33 @@ def score() -> list[Path]:
         entry = json.loads(ideas_path.read_text())
         trade_date = date.fromisoformat(entry["trade_date"])
         as_of = date.fromisoformat(entry["as_of"])
-        legs = {s for i in entry["ideas"] for s in (i["long"], i["short"])} | {"SPY"}
+        legs = {s for i in entry["ideas"] for s in _legs(i)} | {"SPY"}
         bars = load(sorted(legs))
         if bars.empty or _bar(bars, "SPY", trade_date) is None:
             continue
         results = []
         for idea in entry["ideas"]:
-            lt, st = _bar(bars, idea["long"], trade_date), _bar(bars, idea["short"], trade_date)
-            lp, sp = _bar(bars, idea["long"], as_of), _bar(bars, idea["short"], as_of)
-            if any(b is None for b in (lt, st, lp, sp)):
-                results.append({"id": idea["id"], "long": idea["long"], "short": idea["short"], "missing_bars": True})
+            base = {"id": idea["id"], "long": idea.get("long"), "short": idea.get("short")}
+            today = {s: _bar(bars, s, trade_date) for s in _legs(idea)}
+            prior = {s: _bar(bars, s, as_of) for s in _legs(idea)}
+            if any(b is None for b in [*today.values(), *prior.values()]):
+                results.append({**base, "missing_bars": True})
                 continue
-            oc_long, oc_short = lt["close"] / lt["open"] - 1, st["close"] / st["open"] - 1
-            cc_long, cc_short = lt["close"] / lp["close"] - 1, st["close"] / sp["close"] - 1
+            oc = {s: today[s]["close"] / today[s]["open"] - 1 for s in today}
+            cc = {s: today[s]["close"] / prior[s]["close"] - 1 for s in today}
+            sign = {idea.get("long"): 1, idea.get("short"): -1}
+            oc_ret = sum(sign[s] * oc[s] for s in oc)
+            cc_ret = sum(sign[s] * cc[s] for s in cc)
             results.append({
-                "id": idea["id"],
-                "long": idea["long"],
-                "short": idea["short"],
+                **base,
+                "kind": idea.get("kind", "pair"),
                 "factor": idea["factor"],
                 "confidence": idea["confidence"],
-                "open_to_close_bps": round((oc_long - oc_short) * 1e4, 1),
-                "close_to_close_bps": round((cc_long - cc_short) * 1e4, 1),
-                "long_oc_bps": round(oc_long * 1e4, 1),
-                "short_oc_bps": round(oc_short * 1e4, 1),
-                "hit": bool(oc_long > oc_short),
+                "open_to_close_bps": round(oc_ret * 1e4, 1),
+                "close_to_close_bps": round(cc_ret * 1e4, 1),
+                "long_oc_bps": round(oc[idea["long"]] * 1e4, 1) if idea.get("long") else None,
+                "short_oc_bps": round(oc[idea["short"]] * 1e4, 1) if idea.get("short") else None,
+                "hit": bool(oc_ret > 0),
             })
         spy = _bar(bars, "SPY", trade_date)
         payload = {
@@ -214,7 +225,7 @@ def scorecard_report() -> str:
     overall = block(df).to_frame("all").T
     by_conf = df.groupby("confidence").apply(block, include_groups=False)
     by_factor = df.groupby("factor").apply(block, include_groups=False).sort_values("total_oc_bps", ascending=False)
-    recent = df.tail(10)[["trade_date", "long", "short", "confidence", "open_to_close_bps", "hit"]]
+    recent = df.tail(10)[["trade_date", "long", "short", "confidence", "open_to_close_bps", "hit"]].fillna("-")
     known = {p.name for p in FACTOR_PAIRS}
     unlisted = sorted(set(df["factor"]) - known)
     parts = [

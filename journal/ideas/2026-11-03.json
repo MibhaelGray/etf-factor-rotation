@@ -1,0 +1,58 @@
+{
+  "as_of": "2026-11-02",
+  "trade_date": "2026-11-03",
+  "recorded_at": "2026-11-02T23:53:29.116589-05:00",
+  "brief_sha256": "bfa6beb56b836817041d5a2a2c3a7c5e7d6dd438afcc90dc94764f6f29762122",
+  "macro_context": "Revised after a deep research pass (8 research agents, IBKR snapshots on 51 names, historical studies on daily data since 1998, and an independent reviewer); the full evidence dossier is journal/research/2026-11-02-dossier.md. This supersedes an earlier pre-open draft (long RSP/short QQQ, long XRT/short XLP) kept in journal/superseded/2026-11-03-v1.json; the history showed the RSP/QQQ continuation bet runs against a 75% next-day reversal base rate and QQQ beat RSP on 4 of 5 midterm Election Days, and the oil research showed this war's peace-headline oil drops all reversed within days. Setup: Election Day with results after the close (Kalshi D sweep 74%); month-long AI/megacap unwind with record hedge fund de-grossing but no retail capitulation; SPX 7,541 just above the 7,500 put wall with dealers short gamma; VIX 21 with futures below spot; HY OAS 344bp; Brent $105 after a 7.6% drop, +0.5% overnight on a US strike on Qeshm; Kospi -3% overnight on memory names; NQ +0.1%, ES flat. In-window: JOLTS 10:00, possible Oracle $10B equity pricing, PFE/SHOP/ETN pre-market. After the close: election results, AMD/ANET/SMCI earnings, Okta S&P add. My read: index 55/45 up, AI vs equal weight 55-60% continuation; no edge above 3 on any single idea.",
+  "ideas": [
+    {
+      "long": "RSP",
+      "factor": "election_day_drift",
+      "confidence": 3,
+      "thesis": "Own the broad, equal-weighted market on Election Day without the AI exposure. Since 2006 RSP and SPY rose open to close on 9 of 10 Election Days (midterm SPY mean +23 bp) and VIX usually falls into the vote. SPY closed at a 13-week low on a day RSP rose; the 8 prior instances saw RSP up the next session 6 of 8 times (mean +102 bp). SPX sits just above its 7,500 put wall and September lows (7,508-7,528), equity put/call is at fear levels, and ES held flat overnight despite Apple -2.8% after hours. Equal weight sidesteps the in-window AI supply (Oracle offering, pre-AMD de-risking) that could weigh on SPY.",
+      "invalidation": "SPX loses 7,500 (SPY below ~$748) after the 10:00 JOLTS release, VIX trades above 23, or an Iran escalation headline hits.",
+      "key_signals": [
+        "Election Day open->close: RSP up 9/10, SPY up 9/10 (2006-2024)",
+        "SPY at 13-week closing low on an RSP up day: next-day RSP o->c +102 bp mean, 6/8 up (n=8)",
+        "SPX 7,541 vs 7,500 put wall; ZeroGEX net GEX -$46B (dealers short gamma)",
+        "VIX 21.15, VIX futures below spot; VIX falls on most Election Days",
+        "Breadth: RSP +0.76% and ~2:1 advancers on a -0.51% SPX day"
+      ],
+      "kind": "long",
+      "id": "2026-11-02-1"
+    },
+    {
+      "long": "SPY",
+      "short": "ITB",
+      "factor": "homebuilder_fade",
+      "confidence": 2,
+      "thesis": "Fade the homebuilder chase. ITB jumped 4.6% Monday to +13% over 20 days, driven by the oil drop rather than rates (10y still 4.89%, 30y mortgage ~7.24%) while fundamentals deteriorate (DHI orders -7%, cancellations 23%, record-low pending home sales). After ITB +4% days with a 20-day gain above 10%, ITB lagged SPY the next session by 54 bp on average and beat it only 33% of the time (42 declustered cases), the cleanest large sample in tonight's studies. Every earlier peace-headline oil drop in this war reversed within days, and Brent is already firmer overnight.",
+      "invalidation": "ITB trades more than 1% above Monday's close after JOLTS, or the 10y drops below ~4.85%; also wrong if the market starts pricing the Democratic-sweep homebuilder trade intraday.",
+      "key_signals": [
+        "ITB +4.56% 1d, +13.3% 20d, RSI 68",
+        "After ITB +4% & 20d > +10%: next-day ITB-SPY -54 bp, hit 33% (42 declustered)",
+        "10y 4.89%, Freddie 30y 7.24%; DHI orders -7%, cancellations 23%",
+        "War-era peace-headline oil drops (Apr 8, Apr 17, May 6) reversed within days; Brent +0.5% overnight"
+      ],
+      "kind": "pair",
+      "id": "2026-11-02-2"
+    },
+    {
+      "long": "XLV",
+      "short": "SMH",
+      "factor": "blue_wave_ai_supply",
+      "confidence": 2,
+      "thesis": "Pre-positioning for the vote plus in-window supply against AI hardware. Health care is the consensus Democratic-sweep winner and XLV rose on all 5 midterm Election Days (mean +44 bp); semis are named most at risk under a sweep (Wells), and JPMorgan says a sweep could trigger an AI selloff. During the session, Oracle's $10B equity offering may price, Asian memory names fell 3-5% overnight, and AMD reports after the close having fallen 18% in two sessions (earnings-day closes down 11 of 17). After XLK/XLU 20-day spreads below -15%, tech kept underperforming defensives the next day (-91 bp, 38% hit, 32 declustered). Scored dollar-neutral, so this is also net short beta and partly hedges idea 1.",
+      "invalidation": "SMH is more than 2% above its open by 11:00 (short squeeze: hedge fund short leverage is at the 99th percentile), or Oracle prices at a small discount and AI names rally on relief.",
+      "key_signals": [
+        "XLV up on 5/5 midterm Election Days, mean +44 bp; RSI 71.7 near highs",
+        "SMH -19.8% 20d; Kospi -3%, SK Hynix -4 to -5% overnight",
+        "After XLK/XLU 20d < -15%: next-day XLK-XLU -91 bp, hit 38% (32 declustered)",
+        "Counter-evidence: after SMH 20d < -15% next-day SMH-SPY +74 bp declustered; SMH IV 36 below realized 38",
+        "Oracle $10B equity pricing pending; AMD after the close"
+      ],
+      "kind": "pair",
+      "id": "2026-11-02-3"
+    }
+  ]
+}

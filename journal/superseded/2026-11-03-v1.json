@@ -1,0 +1,40 @@
+{
+  "as_of": "2026-11-02",
+  "trade_date": "2026-11-03",
+  "recorded_at": "2026-11-02T23:33:03.858893-05:00",
+  "brief_sha256": "bfa6beb56b836817041d5a2a2c3a7c5e7d6dd438afcc90dc94764f6f29762122",
+  "macro_context": "Election Day Tue Nov 3; Kalshi prices a Democratic sweep ~74%, results land after the close so the trade window is pre-resolution. Month-long AI/momentum unwind: Goldman PB shows record tech selling and net leverage at a 1y low, Morgan Stanley shows the largest L/S de-grossing since 2016, yet AI infrastructure is still ~35% of HF net exposure and BofA FMS tech overweight is the highest since 2020. Mon Nov 2: SPX -0.51% to its lowest close since Jul 31 while RSP +0.76% with 2:1 breadth; XLK -2.95%, XLE -3.96%, XLY +2.41%; WTI -7.4% to ~$96 on US-Iran talk hopes (Iran still demands the blockade lifted first). After hours: AAPL ~-2.8% on gross margin guide, PLTR lower. Tue: JOLTS 10:00, PFE/SHOP/ETN pre-open, AMD/ANET/SMCI after the close. Fed on hold at 3.75-4.00% with a December hike ~80% priced; 10y 4.89%. VIX 21.2 in backwardation; SPX dealer gamma negative (vendor data). IBKR implied vols at or near 13-week highs across SPY 16.2/QQQ 23.8/IWM 20.5/XLK 33.3/XLP 18.6/XLE 29.9 against realized 10.8/18.9/15.0/24.6/16.5/24.0. Bars for this brief came from Yahoo (checked against IBKR SPY closes) because the IBKR collector is not running yet; no options exposures in the brief.",
+  "ideas": [
+    {
+      "long": "RSP",
+      "short": "QQQ",
+      "factor": "breadth",
+      "confidence": 3,
+      "thesis": "Ride the de-grossing out of crowded AI/megacap longs into the equal-weight market for one more session. Positioning is still heavy (AI infra ~35% of HF net, record FMS tech overweight) while the unwind is ongoing, and Tuesday adds supply and catalysts against megacaps: AAPL and PLTR weak after hours, the Meta and Oracle equity raises, and AMD/ANET/SMCI reporting after the close, which discourages dip buying in semis intraday. Negative dealer gamma and elevated QQQ vol favor trend persistence. Monday was the template: QQQ -1.4% vs RSP +0.8%.",
+      "invalidation": "QQQ outperforms RSP by more than 50 bp in the first hour (dip buyers absorbing the AAPL gap), or semis rally into AMD earnings with SMH up more than 2%.",
+      "key_signals": [
+        "megacap_tech pair (QQQ/RSP) 20d -1457 bp, 5d -570 bp, z_50d -2.21",
+        "breadth pair (RSP/SPY) z_50d +2.13, RSI 73.7, 20d +709 bp",
+        "QQQ IV 23.8 vs RV 18.9, 13w IV percentile 98%",
+        "XLK put volume 1.5x its average with calls at half average",
+        "Goldman/Morgan Stanley PB record de-grossing; AI still ~35% of HF net"
+      ],
+      "id": "2026-11-02-1"
+    },
+    {
+      "long": "XRT",
+      "short": "XLP",
+      "factor": "cyclical_defensive",
+      "confidence": 2,
+      "thesis": "Within the defensive rotation, rotate from staples into consumer cyclicals. The 7% oil drop is a direct consumer tailwind (airlines +4-5% Monday), strategists see a Democratic sweep as good for retail, and XRT is equal weighted so it avoids the AMZN/TSLA AI-capex exposure inside XLY. XLP looks crowded: at a 52-week high with RSI ~70, a 52-week IV percentile of 94%, and call volume 1.4x average.",
+      "invalidation": "Oil reverses Monday's drop (WTI back above ~$102 on a breakdown in Iran talks) or a weak JOLTS print revives a growth scare that sends money back into staples.",
+      "key_signals": [
+        "WTI -7.4% to ~$96, Brent -7.6%",
+        "XRT +2.05% 1d vs XLP +1.58%, XRT rs_vs_spy_20d +12.1%",
+        "XLP RSI 69.5, at 52w high, IV 18.6 vs RV 16.5, 52w IV percentile 94%, calls 1.4x average",
+        "cyclical_defensive pair (XLY/XLP) +82 bp 1d, 7 of 10 up days, z_50d -1.45"
+      ],
+      "id": "2026-11-02-2"
+    }
+  ]
+}
