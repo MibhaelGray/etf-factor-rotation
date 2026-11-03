@@ -57,23 +57,6 @@ Draft format:
 
 Each idea is dollar-neutral, entered at the next open and exited at the close. Close-to-close is recorded alongside.
 
-## Research engine
-
-`src/factor_rotation/research/` is the systematic side.
-- **Data:** a full-history panel of every ETF plus VIX and crude (Yahoo, from inception).
-- **Spreads:** 47 dollar-neutral pairs (style pairs, and each sector, industry and cross-asset fund against SPY).
-- **Signals:** a library of pure signal functions with fixed prior signs.
-- **Backtester:** decides at the close and trades at the next open, sizes for equal risk with a book volatility target, uses a no-trade band and per-ETF costs.
-- **Trial registry:** every backtest appends to `journal/research/trials.jsonl`, so deflated Sharpe ratios account for everything tried.
-
-```bash
-uv run fr research-fetch          # rebuild the panel
-uv run fr research-run            # backtest every signal and the blend (logs trials)
-uv run fr book                    # record tonight's systematic book (write-once)
-```
-
-The incumbent book (`research/book.py`) is recorded nightly in `journal/book/` and scored open to close in `journal/book_scores/`, so the discretionary ideas always have a systematic benchmark. Periods: train to 2014, validate 2015–2022, holdout from 2023; only use the holdout to confirm a result, never to tune one.
-
 ## Server setup (Ubuntu 24.04)
 
 1. **IBKR login:** create a second username in Client Portal (Settings → Users & Access Rights) and subscribe it to US options (OPRA) and US equity market data. Its own subscriptions mean your own TWS or phone sessions never cut off the collector. Expect an IB Key approval on your phone about once a week, when the gateway's session expires.
