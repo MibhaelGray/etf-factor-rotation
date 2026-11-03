@@ -78,6 +78,30 @@ def _term_iv(atm: pd.Series, days: float) -> float | None:
     return float(np.sqrt(np.interp(target, t, total_var) / target))
 
 
+def _expiry_profile(df: pd.DataFrame, spot: float, keep: int = 6) -> list[dict]:
+    """How much of the dealer gamma and the delta-weighted open interest sits in each of the nearest expiries.
+
+    gross_gex_share is each expiry's share of the summed |gamma exposure| across every expiry we hold, so a
+    large share in the next expiry means that much hedging rolls off when it expires."""
+    oi = df["open_interest"].fillna(0)
+    work = pd.DataFrame({
+        "expiry": df["expiry"],
+        "dte": df["T"] * 365.25,
+        "gex": df["gex"],
+        "gross_gex": df["gex"].abs(),
+        "open_interest": oi,
+        "delta_notional": df["delta"].abs() * oi * df["multiplier"] * spot,
+    })
+    by = work.groupby("expiry").agg(dte=("dte", "first"), gex=("gex", "sum"), gross_gex=("gross_gex", "sum"),
+                                    open_interest=("open_interest", "sum"), delta_notional=("delta_notional", "sum"))
+    total_gross, total_notional = by["gross_gex"].sum(), by["delta_notional"].sum()
+    by["gross_gex_share"] = by["gross_gex"] / total_gross if total_gross else np.nan
+    by["delta_notional_share"] = by["delta_notional"] / total_notional if total_notional else np.nan
+    by = by.sort_values("dte").head(keep).reset_index()
+    by["dte"] = by["dte"].round(1)
+    return by.replace([np.inf, -np.inf], np.nan).astype(object).where(by.notna(), None).to_dict("records")
+
+
 def summarize(raw: pd.DataFrame) -> tuple[dict, pd.DataFrame]:
     r = settings().risk_free_rate
     df = enrich(raw)
@@ -108,6 +132,8 @@ def summarize(raw: pd.DataFrame) -> tuple[dict, pd.DataFrame]:
     calls, puts = df[df["right"] == "C"], df[df["right"] == "P"]
     unusual = df[(df["volume"] >= UNUSUAL_MIN_VOLUME) & (df["volume"] > df["open_interest"].fillna(0))]
     top_unusual = unusual.nlargest(5, "premium")[["local_symbol", "volume", "open_interest", "premium", "iv", "delta"]]
+
+    expiry_profile = _expiry_profile(df, spot)
 
     calls_gex = calls.groupby("strike")["gex"].sum()
     puts_gex = puts.groupby("strike")["gex"].sum()
@@ -146,6 +172,7 @@ def summarize(raw: pd.DataFrame) -> tuple[dict, pd.DataFrame]:
         "unusual_count": len(unusual),
         "unusual_premium": float(unusual["premium"].sum()),
         "top_unusual": json.dumps(top_unusual.to_dict("records"), default=float),
+        "expiry_profile": json.dumps(expiry_profile, default=float),
     }
     summary["gamma_flip_distance"] = summary["gamma_flip"] / spot - 1 if summary["gamma_flip"] else None
     summary["term_slope"] = (

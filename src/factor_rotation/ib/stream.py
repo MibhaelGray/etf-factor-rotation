@@ -28,7 +28,7 @@ def option_ready(t: Ticker) -> bool:
 
 def underlying_ready(t: Ticker) -> bool:
     has_price = present(t.last) or present(t.close) or (present(t.bid) and present(t.ask))
-    return has_price and present(t.impliedVolatility) and present(t.callOpenInterest)
+    return has_price and present(t.impliedVolatility) and present(t.callOpenInterest) and present(t.shortableShares)
 
 
 async def harvest(

@@ -6,6 +6,8 @@ Collects option chains and daily bars for the largest ETFs and their top constit
 
 Data collection runs on the collector: a second Mac that stays on, plugged in and logged in, with the IB Gateway in Docker. The main Mac only reads the brief, runs the research and records the ideas.
 
+Every collected dataset comes from IBKR, so the pipeline has one data source. Web research feeds the nightly dossier as context, not as stored data.
+
 | Command | Runs on | When (ET, trading days) | Writes |
 |---|---|---|---|
 | `fr options --group all` | collector | 10:00, 15:30 | `options_raw/`, `options_underlying/`, `exposures/`, `exposures_by_strike/` |
@@ -38,6 +40,19 @@ Strikes are kept within ±2.5 standard deviations of spot, using the underlying'
 - **Flow:** put/call ratios by volume and open interest, premium traded, 0DTE share, and unusual volume (volume above open interest)
 
 GEX assumes dealers are long calls and short puts. Open interest updates once a day, overnight.
+
+## Forced flows
+
+The brief's `forced_flows` section estimates trading that has to happen regardless of anyone's view, from the same IBKR data:
+- **Calendar:** monthly and quarterly option expiries, VIX expiry, month and quarter ends, in sessions from tonight.
+- **Dealer gamma by expiry:** each upcoming expiry's share of gamma and delta-weighted open interest, for the index ETFs and largest names (`expiry_profile` in `exposures/`).
+- **Leveraged ETFs:** the close-of-day hedge of 18 leveraged and inverse funds, grouped by index: net assets × L(L−1) × the index return. Net assets come from IBKR into `journal/reference/leveraged_assets.json` (refreshed weekly) and are scaled by each fund's close.
+- **Month- and quarter-end rebalancing:** drift of a 60/40 SPY/AGG portfolio, ranked against completed periods.
+- **Vol-control funds:** exposure of a 10% vol-target fund on SPY (EWMA vol), and how a −3% to +2% session would change it.
+- **Trend followers:** a 20/60/120/250-day trend score per asset and the price where each lookback flips in the next session.
+- **Borrow:** shortable shares and IBKR's shortable indicator from the underlying snapshot (generic tick 236), compared with five sessions earlier.
+
+The leveraged funds and AGG are pulled as daily bars only; they aren't option underlyings or idea legs (`universe.idea_universe()`).
 
 ## Nightly loop
 

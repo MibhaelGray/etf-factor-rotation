@@ -27,7 +27,7 @@ from .stream import harvest, option_ready, present, underlying_ready
 
 log = logging.getLogger(__name__)
 
-UNDERLYING_TICKS = "100,101,104,106"
+UNDERLYING_TICKS = "100,101,104,106,236"  # 236: shortable shares and the shortable indicator
 OPTION_TICKS = "101"
 DEFAULT_IV = 0.30
 
@@ -98,6 +98,8 @@ async def snapshot_underlyings(ib: IB, symbols: list[str]) -> tuple[list[Underly
             "put_volume": _num(t.putVolume),
             "call_oi": _num(t.callOpenInterest),
             "put_oi": _num(t.putOpenInterest),
+            "shortable": _num(t.shortable),
+            "shortable_shares": _num(t.shortableShares),
             "market_data_type": t.marketDataType,
             "complete": complete,
         })

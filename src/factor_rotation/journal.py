@@ -25,11 +25,12 @@ import pandas as pd
 import pandas_market_calendars as mcal
 
 from . import storage
+from .analytics import flows
 from .analytics.compute import latest_snapshot
 from .analytics.technicals import factor_pair_technicals, regime, symbol_technicals
 from .config import NY
 from .ib.bars import load
-from .universe import ETFS, FACTOR_PAIRS, bar_universe
+from .universe import CONSTITUENTS, ETFS, FACTOR_PAIRS, bar_universe, idea_universe
 
 JOURNAL = Path(os.environ.get("FR_JOURNAL_DIR", "journal"))
 EXPOSURE_FIELDS = [
@@ -79,15 +80,20 @@ def _records(df: pd.DataFrame) -> list[dict]:
     return clean.to_dict("records")
 
 
+LEVERAGED_ASSETS = JOURNAL / "reference" / "leveraged_assets.json"
+
+
 def build_brief(as_of: date) -> dict:
-    bars = load(bar_universe())
-    bars = bars[bars["date"].dt.date <= as_of]
+    all_bars = load(bar_universe())
+    all_bars = all_bars[all_bars["date"].dt.date <= as_of]
+    bars = all_bars[all_bars["symbol"].isin(idea_universe())]
     techs = symbol_technicals(bars)
     pairs = factor_pair_technicals(bars)
     snapshot = latest_snapshot(as_of.isoformat())
     exposures = storage.read(f"exposures/date={as_of}/{snapshot}.parquet") if snapshot else pd.DataFrame()
     if not exposures.empty:
         exposures = exposures[[c for c in EXPOSURE_FIELDS if c in exposures]]
+    reference = json.loads(LEVERAGED_ASSETS.read_text()) if LEVERAGED_ASSETS.exists() else None
     brief = {
         "as_of": as_of.isoformat(),
         "built_at": datetime.now(NY).isoformat(),
@@ -96,8 +102,9 @@ def build_brief(as_of: date) -> dict:
         "regime": regime(bars) if not bars.empty else {},
         "factor_pairs": _records(pairs),
         "etf_technicals": _records(techs[techs["symbol"].isin(ETFS)]),
-        "constituent_technicals": _records(techs[~techs["symbol"].isin(ETFS)]),
+        "constituent_technicals": _records(techs[techs["symbol"].isin(CONSTITUENTS)]),
         "options": _records(exposures) if not exposures.empty else [],
+        "forced_flows": flows.build(all_bars, as_of, snapshot, reference) if not all_bars.empty else {},
     }
     path = JOURNAL / "briefs" / f"{as_of}.json"
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -114,7 +121,7 @@ def record_ideas(draft_path: Path) -> Path:
     ideas = draft["ideas"]
     if not 1 <= len(ideas) <= 3:
         raise ValueError("record 1-3 ideas")
-    universe = set(bar_universe())
+    universe = set(idea_universe())
     for i, idea in enumerate(ideas, 1):
         for field in ("factor", "thesis", "confidence", "invalidation", "key_signals", "stand_down_if"):
             if field not in idea:

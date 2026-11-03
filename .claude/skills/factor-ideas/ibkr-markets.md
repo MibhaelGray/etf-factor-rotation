@@ -35,3 +35,19 @@ Futures trade nearly around the clock, so before the open their `change` is the 
 ## ETFs and pre-market
 
 ETF legs are SMART-routed stocks (no `exchange` needed). Before 09:30, `last` is the latest pre-market trade and `prior_close` is the previous session's close. For the pre-market path, `get_price_history` with `step: FIFTEEN_MINS`, `period: ONE_DAY`, `outside_rth: true` returns bars from 04:00 ET.
+
+## Leveraged fund net assets
+
+`journal/reference/leveraged_assets.json` holds each leveraged fund's `total_net_assets` and `last` price from `get_price_snapshot`, and the brief scales them by the fund's own close. Refresh it when `forced_flows.leveraged_etfs.net_assets_age_days` passes 7, or after a big creation or redemption is in the news: one snapshot per fund with `["total_net_assets", "last"]`, then rewrite the file with today's date in `as_of`. Leverage and the index each fund tracks are in `universe.LEVERAGED`.
+
+| Fund | contract_id | Fund | contract_id |
+|---|---|---|---|
+| TQQQ | 72539702 | SOXS | 892340391 |
+| SQQQ | 831082828 | TNA | 55679435 |
+| QLD | 39622938 | TZA | 892340312 |
+| UPRO | 61228752 | TECL | 56539091 |
+| SPXL | 55679428 | FAS | 97276826 |
+| SPXU | 828937771 | LABU | 665380967 |
+| SSO | 39622943 | TMF | 665380902 |
+| SOXL | 73340487 | NVDL | 602261424 |
+| TSLL | 578561429 | MSTU | 910448350 |

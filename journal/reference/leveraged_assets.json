@@ -1,0 +1,24 @@
+{
+  "source": "IBKR total_net_assets and last price, from the IBKR connector",
+  "as_of": "2026-11-03",
+  "funds": {
+    "TQQQ": {"total_net_assets": 32062333467, "price": 60.77},
+    "SQQQ": {"total_net_assets": 2040131828, "price": 42.58},
+    "QLD": {"total_net_assets": 13255691477, "price": 81.54},
+    "UPRO": {"total_net_assets": 5194822733, "price": 140.64},
+    "SPXL": {"total_net_assets": 6661058535, "price": 268.99},
+    "SPXU": {"total_net_assets": 428242972, "price": 36.17},
+    "SSO": {"total_net_assets": 8451818653, "price": 67.48},
+    "SOXL": {"total_net_assets": 18286372812, "price": 74.04},
+    "SOXS": {"total_net_assets": 4952628632, "price": 52.96},
+    "TNA": {"total_net_assets": 1329492283, "price": 58.13},
+    "TZA": {"total_net_assets": 200088954, "price": 46.44},
+    "TECL": {"total_net_assets": 5074167439, "price": 164.5},
+    "FAS": {"total_net_assets": 2121171599, "price": 169.27},
+    "LABU": {"total_net_assets": 649185107, "price": 241.0},
+    "TMF": {"total_net_assets": 1968739015, "price": 29.41},
+    "NVDL": {"total_net_assets": 2931027118, "price": 29.62},
+    "TSLL": {"total_net_assets": 3729984341, "price": 11.06},
+    "MSTU": {"total_net_assets": 536078793, "price": 29.07}
+  }
+}

@@ -64,9 +64,47 @@ FACTOR_PAIRS = [
 ]
 
 
+@dataclass(frozen=True)
+class LeveragedFund:
+    symbol: str
+    leverage: float
+    exposure: str
+    reference: str  # the ETF or stock in our universe whose daily return stands in for the fund's index
+
+
+LEVERAGED = [
+    LeveragedFund("TQQQ", 3, "Nasdaq-100", "QQQ"),
+    LeveragedFund("SQQQ", -3, "Nasdaq-100", "QQQ"),
+    LeveragedFund("QLD", 2, "Nasdaq-100", "QQQ"),
+    LeveragedFund("UPRO", 3, "S&P 500", "SPY"),
+    LeveragedFund("SPXL", 3, "S&P 500", "SPY"),
+    LeveragedFund("SPXU", -3, "S&P 500", "SPY"),
+    LeveragedFund("SSO", 2, "S&P 500", "SPY"),
+    LeveragedFund("SOXL", 3, "Semiconductors", "SMH"),
+    LeveragedFund("SOXS", -3, "Semiconductors", "SMH"),
+    LeveragedFund("TNA", 3, "Russell 2000", "IWM"),
+    LeveragedFund("TZA", -3, "Russell 2000", "IWM"),
+    LeveragedFund("TECL", 3, "Technology", "XLK"),
+    LeveragedFund("FAS", 3, "Financials", "XLF"),
+    LeveragedFund("LABU", 3, "Biotech", "XBI"),
+    LeveragedFund("TMF", 3, "20+ year Treasuries", "TLT"),
+    LeveragedFund("NVDL", 2, "NVDA", "NVDA"),
+    LeveragedFund("TSLL", 2, "TSLA", "TSLA"),
+    LeveragedFund("MSTU", 2, "MSTR", "MSTR"),
+]
+
+# Daily bars only: the aggregate bond ETF for the pension rebalance estimate and the leveraged funds' own prices.
+# None of these are idea legs or option underlyings.
+BARS_ONLY = ["AGG"] + [f.symbol for f in LEVERAGED]
+
+
 def option_universe() -> list[str]:
     return ETFS + CONSTITUENTS
 
 
-def bar_universe() -> list[str]:
+def idea_universe() -> list[str]:
     return ETFS + CONSTITUENTS
+
+
+def bar_universe() -> list[str]:
+    return ETFS + CONSTITUENTS + BARS_ONLY
