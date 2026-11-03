@@ -4,15 +4,18 @@ Collects option chains and daily bars for the largest ETFs and their top constit
 
 ## Pieces
 
-| Command | Runs on | When (ET) | Writes |
+Everything runs on the server. The Mac only reads the brief and records the ideas.
+
+| Command | Runs on | When (ET, trading days) | Writes |
 |---|---|---|---|
-| `fr options --group all` | AWS | 10:00, 15:30 | `options_raw/`, `options_underlying/`, `exposures/`, `exposures_by_strike/` |
-| `fr options --group etfs` | AWS | 11:00–14:00 hourly | same, ETFs only |
-| `fr bars` | AWS | 16:30 | `bars_daily/` |
-| `fr score`, `fr brief`, `fr record` | Mac | ~19:30 | `journal/scores/`, `journal/briefs/`, `journal/ideas/` |
+| `fr options --group all` | server | 10:00, 15:30 | `options_raw/`, `options_underlying/`, `exposures/`, `exposures_by_strike/` |
+| `fr options --group etfs` | server | 11:00–14:00 hourly | same, ETFs only |
+| `fr bars` | server | 16:30 | `bars_daily/` |
+| `deploy/run.sh nightly` | server | 19:00 | runs `fr score` and `fr brief`, commits `journal/`, pushes |
+| `fr record` | Mac | ~19:30 | `journal/ideas/`, committed and pushed |
 | `fr scorecard` | anywhere | any time | prints the scorecard |
 
-Data lives under `FR_DATA_ROOT` (a local path or `s3://bucket/prefix`). The journal is committed to git.
+Market data lives on the server's disk under `FR_DATA_ROOT`. The journal (briefs, ideas, scores) travels through GitHub: the server pushes scores and briefs, and the Mac pulls them, records the ideas and pushes those back.
 
 ## Options data
 
@@ -35,10 +38,12 @@ GEX assumes dealers are long calls and short puts. Open interest updates once a 
 
 ## Nightly loop
 
+At 19:00 the server scores last session's ideas, builds tonight's brief and pushes both. Then, on the Mac:
+
 ```bash
-uv run fr score                   # score last session's ideas
-uv run fr brief                   # snapshot every input into journal/briefs/<today>.json
+git pull                          # brings in journal/briefs/<today>.json and the new scores
 uv run fr record draft.json       # record 1-3 ideas for the next session (write-once)
+git add journal && git commit -m "Ideas for <next trading day>" && git push
 uv run fr scorecard
 ```
 
@@ -52,18 +57,26 @@ Draft format:
 
 Each idea is dollar-neutral, entered at the next open and exited at the close. Close-to-close is recorded alongside.
 
-## AWS setup
+## Server setup (Ubuntu 24.04)
 
-1. **IBKR login:** create a paper login (or a second username) for the server, and share your live market data with it (Settings → Paper Trading Account). One username can't hold market data in two places, so using your main login here would fight with your own TWS or phone sessions. You'll need the US options market data (OPRA) and US equity subscriptions.
-2. **Server software:** install Docker and `uv`, then clone this repo to `/opt/factor-rotation`.
-3. **Settings:** copy `.env.example` to `.env` and fill it in. Give the instance an IAM role that can write to the bucket.
+1. **IBKR login:** create a second username in Client Portal (Settings → Users & Access Rights) and subscribe it to US options (OPRA) and US equity market data. Its own subscriptions mean your own TWS or phone sessions never cut off the collector. Expect an IB Key approval on your phone about once a week, when the gateway's session expires.
+2. **Software:** install Docker and `uv`, then clone this repo to `/opt/factor-rotation`. Add a GitHub deploy key with write access so the nightly job can push, and set `git config user.name` and `user.email` in the repo.
+3. **Settings:** copy `.env.example` to `.env` and fill in the login.
 4. **Start the gateway:** `docker compose -f deploy/docker-compose.yml up -d`
 5. **Install the schedules:**
    ```bash
    sudo cp deploy/systemd/* /etc/systemd/system/
    sudo systemctl daemon-reload
-   sudo systemctl enable --now fr-options-all.timer fr-options-etfs.timer fr-bars.timer
+   sudo systemctl enable --now fr-options-all.timer fr-options-etfs.timer fr-bars.timer fr-nightly.timer
    ```
 6. **First run:** `uv run fr bars` (backfills 5 years of bars), then `uv run fr options --symbols SPY,QQQ` to check permissions and timing.
 
 Logs: `journalctl -u 'fr@*'`.
+
+## Backup
+
+The server's disk holds the only copy of the market data, and past option chains can't be re-downloaded. Copy it to the Mac now and then:
+
+```bash
+rsync -az fr-server:/opt/factor-rotation/data/ ~/Documents/"ETF Factor Rotation"/data/
+```

@@ -7,7 +7,8 @@ from ..config import settings
 
 log = logging.getLogger(__name__)
 
-BENIGN_ERRORS = {2104, 2106, 2107, 2108, 2158, 10167, 10197, 300}
+BENIGN_ERRORS = {2104, 2106, 2107, 2108, 2158, 10167, 300}
+COMPETING_SESSION = 10197
 
 
 @asynccontextmanager
@@ -33,6 +34,9 @@ async def connect(client_id_offset: int = 0):
 
 def _log_error(req_id, code, message, contract):
     if code in BENIGN_ERRORS:
+        return
+    if code == COMPETING_SESSION:
+        log.error("competing_live_session req_id=%s: market data blocked by another login on this user", req_id)
         return
     symbol = getattr(contract, "localSymbol", "") or getattr(contract, "symbol", "")
     log.warning("ib_error req_id=%s code=%s contract=%s message=%s", req_id, code, symbol, message)

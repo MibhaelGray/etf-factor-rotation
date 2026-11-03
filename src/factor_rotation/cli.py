@@ -47,6 +47,7 @@ def main(argv: list[str] | None = None) -> None:
     c = sub.add_parser("record", help="record tonight's ideas from a draft JSON")
     c.add_argument("draft", type=Path)
 
+    sub.add_parser("trading-day", help="exit 0 if today is an NYSE trading day, else 1")
     sub.add_parser("score", help="score every idea whose trade date has bars")
     sub.add_parser("scorecard", help="print the running scorecard")
 
@@ -73,6 +74,8 @@ def main(argv: list[str] | None = None) -> None:
               f"bars_through={brief['bars_through']} snapshot={brief['options_snapshot']}")
     elif a.cmd == "record":
         print(journal.record_ideas(a.draft))
+    elif a.cmd == "trading-day":
+        sys.exit(0 if journal.is_trading_day(_today()) else 1)
     elif a.cmd == "score":
         for path in journal.score():
             print(path)

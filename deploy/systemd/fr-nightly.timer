@@ -1,0 +1,10 @@
+[Unit]
+Description=factor-rotation: score last session's ideas and build tonight's brief
+
+[Timer]
+OnCalendar=Mon..Fri *-*-* 19:00:00 America/New_York
+Persistent=false
+Unit=fr@nightly.service
+
+[Install]
+WantedBy=timers.target
