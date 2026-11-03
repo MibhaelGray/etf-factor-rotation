@@ -51,6 +51,16 @@ def main(argv: list[str] | None = None) -> None:
     sub.add_parser("score", help="score every idea whose trade date has bars")
     sub.add_parser("scorecard", help="print the running scorecard")
 
+    c = sub.add_parser("check", help="record the pre-open check from a draft JSON (before 09:30)")
+    c.add_argument("draft", type=Path)
+
+    c = sub.add_parser("intraday", help="store today's 15-minute bars for the session's idea legs")
+    c.add_argument("--date", default=None)
+
+    c = sub.add_parser("ledger", help="write every idea and its result as JSON rows for the dashboard")
+    c.add_argument("--marks", type=Path, help="intraday marks JSON for ideas not yet scored")
+    c.add_argument("--out", type=Path, default=Path("ledger.json"))
+
     a = p.parse_args(argv)
     if a.cmd == "options":
         if not journal.is_trading_day(_today()):
@@ -81,3 +91,17 @@ def main(argv: list[str] | None = None) -> None:
             print(path)
     elif a.cmd == "scorecard":
         print(journal.scorecard_report())
+    elif a.cmd == "check":
+        print(journal.record_check(a.draft))
+    elif a.cmd == "intraday":
+        day = date.fromisoformat(a.date) if a.date else _today()
+        symbols = journal.intraday_symbols(day)
+        if not symbols:
+            logging.info("no_ideas date=%s", day)
+            return
+        print(journal.write_intraday(day, asyncio.run(bars.collect_intraday(symbols, day))))
+    elif a.cmd == "ledger":
+        rows = journal.ledger(json.loads(a.marks.read_text()) if a.marks else None)
+        a.out.write_text(json.dumps(rows, indent=1) + "\n")
+        print(f"{a.out}  ideas={len(rows)} " + " ".join(
+            f"{s.lower()}={sum(r['status'] == s for r in rows)}" for s in ("Final", "Intraday", "Open")))

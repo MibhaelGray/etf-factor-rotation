@@ -13,6 +13,7 @@ import pandas as pd
 from ib_async import IB, Stock
 
 from .. import storage
+from ..config import NY
 from .session import connect
 
 log = logging.getLogger(__name__)
@@ -53,6 +54,39 @@ async def collect(symbols: list[str], duration: str = "5 Y") -> dict:
     stats = {"symbols": len(symbols), "failed": failed}
     log.info("bars_done %s", stats)
     return stats
+
+
+async def _pull_intraday(ib: IB, symbol: str, day, sem: asyncio.Semaphore) -> pd.DataFrame:
+    async with sem:
+        bars = await ib.reqHistoricalDataAsync(
+            Stock(symbol, "SMART", "USD"), endDateTime="", durationStr="1 D", barSizeSetting="15 mins",
+            whatToShow="TRADES", useRTH=False, formatDate=2, timeout=120,
+        )
+    df = pd.DataFrame([
+        {"ts": pd.Timestamp(b.date).tz_convert(NY), "open": b.open, "high": b.high, "low": b.low,
+         "close": b.close, "volume": b.volume}
+        for b in bars or []
+    ])
+    if df.empty:
+        log.warning("no_intraday_bars symbol=%s", symbol)
+        return df
+    df = df.assign(time=df["ts"].dt.strftime("%H:%M"))
+    df = df[(df["ts"].dt.date == day) & df["time"].ge("04:00") & df["time"].lt("16:00")]
+    return df.drop(columns="ts").reset_index(drop=True)
+
+
+async def collect_intraday(symbols: list[str], day) -> dict[str, pd.DataFrame]:
+    """15-minute TRADES bars from 04:00 to 16:00 New York time on `day`; pull after the close."""
+    sem = asyncio.Semaphore(4)
+    async with connect(client_id_offset=2) as ib:
+        results = await asyncio.gather(*[_pull_intraday(ib, s, day, sem) for s in symbols], return_exceptions=True)
+    out = {}
+    for s, r in zip(symbols, results):
+        if isinstance(r, Exception):
+            log.error("intraday_failed symbol=%s error=%r", s, r)
+        else:
+            out[s] = r
+    return out
 
 
 def load(symbols: list[str]) -> pd.DataFrame:
