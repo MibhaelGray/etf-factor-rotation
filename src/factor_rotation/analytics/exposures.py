@@ -82,7 +82,8 @@ def _expiry_profile(df: pd.DataFrame, spot: float, keep: int = 6) -> list[dict]:
     """How much of the dealer gamma and the delta-weighted open interest sits in each of the nearest expiries.
 
     gross_gex_share is each expiry's share of the summed |gamma exposure| across every expiry we hold, so a
-    large share in the next expiry means that much hedging rolls off when it expires."""
+    large share in the next expiry means that much hedging rolls off when it expires. Grouped by date, so an
+    index's AM- and PM-settled options on the same day count together."""
     oi = df["open_interest"].fillna(0)
     work = pd.DataFrame({
         "expiry": df["expiry"],
@@ -92,7 +93,7 @@ def _expiry_profile(df: pd.DataFrame, spot: float, keep: int = 6) -> list[dict]:
         "open_interest": oi,
         "delta_notional": df["delta"].abs() * oi * df["multiplier"] * spot,
     })
-    by = work.groupby("expiry").agg(dte=("dte", "first"), gex=("gex", "sum"), gross_gex=("gross_gex", "sum"),
+    by = work.groupby("expiry").agg(dte=("dte", "min"), gex=("gex", "sum"), gross_gex=("gross_gex", "sum"),
                                     open_interest=("open_interest", "sum"), delta_notional=("delta_notional", "sum"))
     total_gross, total_notional = by["gross_gex"].sum(), by["delta_notional"].sum()
     by["gross_gex_share"] = by["gross_gex"] / total_gross if total_gross else np.nan
@@ -120,11 +121,12 @@ def summarize(raw: pd.DataFrame) -> tuple[dict, pd.DataFrame]:
     by_strike["gex_net"] = by_strike.get("gex_c", 0) + by_strike.get("gex_p", 0)
     by_strike.insert(0, "underlying", df["underlying"].iloc[0])
 
-    expiry_t = df.groupby("expiry")["T"].first()
-    atm = pd.Series({expiry_t[e]: _atm_iv(g) for e, g in df.groupby("expiry")}).sort_index()
-    dte = expiry_t * 365.25
-    skew_expiry = (dte[dte >= 7] - 30).abs().idxmin() if (dte >= 7).any() else None
-    skew_df = df[df["expiry"] == skew_expiry] if skew_expiry else df.iloc[0:0]
+    # By series, not date: an index can list an AM-settled and a PM-settled option on the same expiry date.
+    series_t = df.groupby("series")["T"].first()
+    atm = pd.Series({series_t[e]: _atm_iv(g) for e, g in df.groupby("series")}).sort_index()
+    dte = series_t * 365.25
+    skew_series = (dte[dte >= 7] - 30).abs().idxmin() if (dte >= 7).any() else None
+    skew_df = df[df["series"] == skew_series] if skew_series else df.iloc[0:0]
     put25 = _delta_iv(skew_df, "P", -0.25)
     call25 = _delta_iv(skew_df, "C", 0.25)
 

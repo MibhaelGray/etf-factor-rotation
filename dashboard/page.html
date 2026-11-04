@@ -1,0 +1,985 @@
+<meta name="dash-one-writer">
+<style>
+  /* Layout: follows the nightly loop. What's on for the next open, how the last session went, whether the framework is working over time, then every row. */
+  .lg { max-width: 72rem; margin-inline: auto; display: grid; gap: calc(var(--cds-gap-xl) * 1.5); font-family: var(--font-anthropic-sans); padding-block: var(--cds-pad-lg) var(--cds-pad-xl); }
+  .lg-head { display: grid; gap: var(--cds-gap-md); padding-bottom: var(--cds-pad-lg); border-bottom: 1px solid var(--color-border-line); }
+  .lg-eyebrow, .lg-label, .lg-kicker, .lg .lg-table th { font-size: var(--cds-font-size-caption); letter-spacing: .08em; text-transform: uppercase; color: var(--color-fg-muted); margin: 0; font-weight: var(--cds-font-weight-medium); }
+  .lg-title { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: clamp(2.4rem, 7vw, 4.25rem); line-height: 1; letter-spacing: -.015em; margin: 0; text-wrap: balance; }
+  .lg-lede { font-family: var(--font-anthropic-serif); font-size: var(--cds-font-size-title); line-height: 1.4; max-width: 38em; margin: 0; text-wrap: pretty; }
+  .lg .lg-lede b, .lg .lg-note b, .lg .lg-subline b, .lg .lg-figsub b { font-weight: 500; font-variant-numeric: tabular-nums; }
+  .lg-note { font-size: var(--cds-font-size-body); color: var(--color-fg-muted); max-width: 62ch; margin: 0; line-height: 1.5; }
+  .lg-note::before { content: ""; display: inline-block; width: .5rem; height: .5rem; border-radius: 50%; background: var(--color-warn); margin-right: var(--cds-gap-sm); vertical-align: .05em; }
+
+  .lg-nav { display: flex; flex-wrap: wrap; gap: var(--cds-gap-xs); }
+  .lg-nav button { font: inherit; font-size: var(--cds-font-size-caption); color: var(--color-fg); background: transparent; border: 1px solid var(--color-border-line); border-radius: 999px; padding: var(--cds-pad-xs) var(--cds-pad-md); cursor: pointer; }
+  .lg-nav button:hover { border-color: var(--color-fg-muted); }
+  .lg-nav button:focus-visible, .lg-row summary:focus-visible, .lg-card summary:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 2px; }
+
+  .lg-sec { display: grid; gap: var(--cds-gap-lg); scroll-margin-top: var(--cds-pad-lg); }
+  .lg-sechead { display: grid; gap: var(--cds-gap-xs); max-width: 62ch; }
+  .lg-sechead h2 { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); margin: 0; text-wrap: balance; }
+  .lg-sechead p { margin: 0; color: var(--color-fg-muted); font-size: var(--cds-font-size-body); line-height: 1.5; }
+  .lg-subline { margin: 0; font-size: var(--cds-font-size-body); font-variant-numeric: tabular-nums; }
+
+  /* Next session: ideas waiting for the open */
+  .lg-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: var(--cds-gap-md); }
+  .lg-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); display: grid; gap: var(--cds-gap-sm); align-content: start; min-width: 0; }
+  .lg-cardtop { display: flex; justify-content: space-between; align-items: center; gap: var(--cds-gap-sm); flex-wrap: wrap; }
+  .lg-legs { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-heading); margin: 0; }
+  .lg-card details summary, .lg-detail .lg-label { cursor: pointer; }
+
+  /* Last session: one row per idea on a shared scale */
+  .lg-rows { display: grid; border-top: 2px solid var(--color-fg); min-height: 8rem; }
+  .lg-row { border-bottom: 1px solid var(--color-border-line); }
+  .lg-row summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: minmax(0, 1.5fr) 5.5rem minmax(6rem, 1.2fr) 5.5rem 9rem 1rem; align-items: center; gap: var(--cds-gap-md); padding-block: var(--cds-pad-md); }
+  .lg-row summary::-webkit-details-marker { display: none; }
+  .lg-row summary::after { content: "›"; color: var(--color-fg-muted); transition: transform var(--cds-dur-slow); justify-self: end; }
+  .lg-row[open] summary::after { transform: rotate(90deg); }
+  .lg-row summary:hover .lg-legs { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+  .lg-who { display: grid; gap: 2px; min-width: 0; }
+  .lg-val { font-family: var(--font-anthropic-serif); font-size: var(--cds-font-size-heading); text-align: right; font-variant-numeric: tabular-nums; }
+  .lg-bar { position: relative; height: .75rem; }
+  .lg-bar::before { content: ""; position: absolute; left: 50%; top: -4px; bottom: -4px; width: 1px; background: var(--cds-chart-axis); }
+  .lg-barfill { position: absolute; top: 0; bottom: 0; border-radius: 2px; background: var(--cds-chart-muted); }
+  .lg-barfill.lg-up { background: var(--color-ok); }
+  .lg-barfill.lg-down { background: var(--color-bad); }
+  .lg-detail { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: var(--cds-gap-lg); padding: 0 0 var(--cds-pad-lg); }
+  .lg-detail > div, .lg-block { display: grid; gap: var(--cds-gap-xs); align-content: start; }
+  .lg-detail p, .lg-card p { margin: 0; font-size: var(--cds-font-size-body); line-height: 1.5; }
+  .lg-detail p.lg-label, .lg-card p.lg-label { font-size: var(--cds-font-size-caption); }
+  @media (max-width: 40rem) {
+    .lg-row summary { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "who val" "bar bar" "conf chip"; row-gap: var(--cds-gap-sm); }
+    .lg-row summary::after { display: none; }
+    .lg-who { grid-area: who; } .lg-val { grid-area: val; } .lg-bar { grid-area: bar; } .lg-row .lg-conf { grid-area: conf; } .lg-row .lg-chips { grid-area: chip; justify-self: end; }
+  }
+
+  .lg-chip { font-size: var(--cds-font-size-caption); padding: 0 var(--cds-pad-sm); border-radius: 999px; border: 1px solid var(--color-border-line); color: var(--color-fg-muted); white-space: nowrap; justify-self: start; }
+  .lg-chip.is-final { color: var(--color-ok); border-color: currentColor; }
+  .lg-chip.is-intraday { color: var(--color-warn); border-color: currentColor; }
+  .lg-chip.is-down { color: var(--color-bad); border-color: currentColor; }
+  .lg-chips { display: flex; flex-wrap: wrap; gap: var(--cds-gap-xs); justify-self: start; }
+  .lg-spark { position: relative; min-height: 64px; }
+  .lg-spark svg text { fill: var(--color-fg-muted); font-size: var(--cds-font-size-caption); font-family: var(--font-anthropic-sans); }
+  .lg-conf { display: flex; align-items: center; gap: 3px; }
+  .lg-pip { width: .55rem; height: .55rem; border-radius: 50%; border: 1px solid var(--color-fg); display: inline-block; }
+  .lg-pip.on { background: var(--color-fg); }
+  .lg-pos { color: var(--color-ok); }
+  .lg-neg { color: var(--color-bad); }
+
+  /* Track record */
+  .lg-figs { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); gap: var(--cds-gap-lg); }
+  .lg-fig { display: grid; gap: var(--cds-gap-xs); align-content: start; border-top: 2px solid var(--color-fg); padding-top: var(--cds-pad-md); }
+  .lg-figval { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: calc(var(--cds-font-size-title) * 1.6); line-height: 1.05; font-variant-numeric: tabular-nums; min-height: 1.05em; }
+  .lg-figsub { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin: 0; line-height: 1.5; }
+  .lg-grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: var(--cds-gap-md); }
+  .lg-panel { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); display: grid; gap: var(--cds-gap-md); align-content: start; min-width: 0; }
+  .lg-panel h3 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); margin: 0; }
+  .lg-panel > p { margin: 0; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); line-height: 1.5; }
+  .lg-chart { position: relative; min-height: 240px; }
+  .lg-chart.is-calib { min-height: 188px; }
+  .lg-chart svg text { fill: var(--color-fg-muted); font-size: var(--cds-font-size-caption); font-family: var(--font-anthropic-sans); }
+  .lg-chart svg text.lg-strong { fill: var(--color-fg); }
+  .lg-legend { display: flex; flex-wrap: wrap; gap: var(--cds-gap-md); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin: 0; padding: 0; list-style: none; }
+  .lg-legend li { display: flex; align-items: center; gap: var(--cds-gap-xs); }
+  .lg-sw { width: .75rem; height: .75rem; border-radius: 2px; display: inline-block; background: var(--cds-chart-muted); }
+  .lg-sw.is-line { height: 2px; border-radius: 1px; }
+  .lg-tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); border-radius: var(--cds-radius); box-shadow: var(--cds-shadow-popover); padding: var(--cds-pad-xs) var(--cds-pad-sm); font-size: var(--cds-font-size-caption); display: grid; gap: 2px; white-space: nowrap; font-variant-numeric: tabular-nums; z-index: 2; }
+  .lg-tip .lg-tipdate { color: var(--cds-text-secondary); }
+  .lg-failed { display: flex; align-items: center; justify-content: center; gap: var(--cds-gap-sm); min-height: inherit; height: 100%; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+  .lg-failed::before { content: ""; width: .375rem; height: .375rem; border-radius: 50%; background: var(--color-bad); }
+
+  .lg-tablewrap { overflow-x: auto; border-top: 2px solid var(--color-fg); }
+  .lg-table { width: 100%; border-collapse: collapse; font-size: var(--cds-font-size-body); font-variant-numeric: tabular-nums; }
+  .lg .lg-table th { text-align: left; padding: var(--cds-pad-sm) var(--cds-pad-sm) var(--cds-pad-sm) 0; border-bottom: 1px solid var(--color-border-line); white-space: nowrap; }
+  .lg-table td { padding: var(--cds-pad-sm) var(--cds-pad-sm) var(--cds-pad-sm) 0; border-bottom: 1px solid var(--color-border-line); vertical-align: top; }
+  .lg .lg-table .num { text-align: right; padding-right: 0; }
+  @media (max-width: 40rem) { .lg-hide-narrow { display: none; } }
+
+  .lg-method { display: grid; gap: var(--cds-gap-sm); max-width: 62ch; border-top: 1px solid var(--color-border-line); padding-top: var(--cds-pad-lg); }
+  .lg-method p { margin: 0; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.6; }
+
+  /* Tonight's market */
+  .lg-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); gap: var(--cds-gap-lg); }
+  .lg-tile { display: grid; gap: var(--cds-gap-xs); align-content: start; border-top: 2px solid var(--color-fg); padding-top: var(--cds-pad-md); min-width: 0; }
+  .lg-tileval { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); line-height: 1.1; font-variant-numeric: tabular-nums; min-height: 1.1em; }
+  .lg-tilespark { position: relative; min-height: 36px; }
+  .lg-tilespark svg text { fill: var(--color-fg-muted); font-size: var(--cds-font-size-caption); font-family: var(--font-anthropic-sans); }
+  .lg-board { display: grid; min-height: 12rem; }
+  .lg-brow { display: grid; grid-template-columns: minmax(8rem, 1.3fr) minmax(6rem, 1fr) minmax(6rem, 1fr) 3rem; align-items: center; gap: var(--cds-gap-md); padding-block: var(--cds-pad-xs); border-bottom: 1px solid var(--color-border-line); font-size: var(--cds-font-size-body); font-variant-numeric: tabular-nums; }
+  .lg-brow.is-head { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); text-transform: uppercase; letter-spacing: .08em; border-bottom-color: var(--color-fg); }
+  .lg-brow.is-idea { background: color-mix(in srgb, var(--color-panel) 60%, transparent); }
+  .lg-bname { display: grid; min-width: 0; }
+  .lg-bname small { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+  .lg-track { position: relative; height: 1rem; }
+  .lg-track::before { content: ""; position: absolute; left: 50%; top: -2px; bottom: -2px; width: 1px; background: var(--cds-chart-axis); }
+  .lg-track .lg-zband { position: absolute; top: 45%; height: 10%; left: 16.7%; right: 16.7%; background: var(--cds-chart-grid); }
+  .lg-track .lg-dot { position: absolute; top: 50%; width: .7rem; height: .7rem; margin: -.35rem 0 0 -.35rem; border-radius: 50%; background: var(--cds-chart-muted); }
+  .lg-track .lg-dot.is-hot { background: var(--color-fg); }
+  .lg-track .lg-barfill { top: 25%; bottom: 25%; }
+  .lg-rsi { text-align: right; color: var(--color-fg-muted); }
+  .lg-rsi.is-hot { color: var(--color-fg); font-weight: var(--cds-font-weight-medium); }
+  .lg-gamma { position: relative; min-height: 220px; }
+  .lg-gamma svg text, .lg-hbars svg text { fill: var(--color-fg-muted); font-size: var(--cds-font-size-caption); font-family: var(--font-anthropic-sans); }
+  .lg-gamma svg text.lg-strong, .lg-hbars svg text.lg-strong { fill: var(--color-fg); }
+  .lg-hbars { position: relative; min-height: 120px; }
+  .lg-list { list-style: none; margin: 0; padding: 0; display: grid; font-size: var(--cds-font-size-body); font-variant-numeric: tabular-nums; min-height: 6rem; }
+  .lg-list li { display: flex; justify-content: space-between; gap: var(--cds-gap-md); padding-block: var(--cds-pad-xs); border-bottom: 1px solid var(--color-border-line); }
+  .lg-list li span:last-child { color: var(--color-fg-muted); text-align: right; }
+  .lg-list li.is-soon span:last-child { color: var(--color-warn); }
+  .lg-empty { margin: 0; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+
+  [data-dash-source-state=empty] { color: transparent; }
+  [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
+  @media (prefers-reduced-motion: no-preference) {
+    .lg-barfill { animation: lg-grow var(--cds-dur-slow) var(--cds-ease-out) both; }
+    @keyframes lg-grow { from { clip-path: inset(0 50% 0 50%); } to { clip-path: inset(0); } }
+  }
+</style>
+
+<div class="lg">
+  <header class="lg-head" id="top">
+    <p class="lg-eyebrow">Factor rotation · nightly ideas, scored open to close</p>
+    <h1 class="lg-title">Factor Rotation Ledger</h1>
+    <p class="lg-lede">Through <b data-draw="latest-date" data-source="summary" data-field="latest_date" data-row="0">—</b>, <b data-draw="ideas" data-source="summary" data-field="ideas" data-row="0">—</b> ideas have a mark and <b data-draw="hits" data-source="summary" data-field="hits" data-row="0">—</b> of them are ahead from the open. The average idea is <b data-draw="mean" data-source="summary" data-field="mean_bps" data-row="0">—</b>.</p>
+    <p class="lg-note" data-intraday hidden>Some results are intraday marks: IBKR last prices against the open, taken at <b data-draw="mark-time" data-source="ledger">—</b>. They become final when tonight's bars are scored.</p>
+    <nav class="lg-nav" aria-label="Sections">
+      <button type="button" data-go="next" data-next hidden>Next session</button>
+      <button type="button" data-go="market">Tonight's market</button>
+      <button type="button" data-go="last">Last session</button>
+      <button type="button" data-go="record">Track record</button>
+      <button type="button" data-go="ledger">Every idea</button>
+    </nav>
+  </header>
+
+  <section class="lg-sec" id="next" data-next hidden>
+    <div class="lg-sechead">
+      <p class="lg-label">Next session · waiting for the open</p>
+      <h2 data-draw="next-date" data-source="ledger">—</h2>
+      <p>Recorded the night before and locked. Before the open, each one is checked against its own stand-down rules; both the full book and the book after the check are scored.</p>
+    </div>
+    <div class="lg-cards" data-draw="next-cards" data-source="ledger"></div>
+  </section>
+
+  <section class="lg-sec" id="market">
+    <div class="lg-sechead">
+      <p class="lg-label">Tonight's market · close of <span data-draw="mkt-asof" data-source="mkt_meta" data-field="as_of" data-row="0">—</span></p>
+      <h2>What the ideas were built from</h2>
+      <p>The handful of numbers behind each night's call, from the brief and IBKR data. Flow figures are model estimates of trading that has to happen, not anyone's actual positions.</p>
+    </div>
+
+    <div class="lg-tiles" aria-label="Market regime">
+      <div class="lg-tile">
+        <p class="lg-label">Breadth</p>
+        <div class="lg-tileval dash-skeleton" data-draw="regime-val" data-metric="pct_above_50" data-source="mkt_regime_now" data-field="pct_above_50" data-row="0">—</div>
+        <p class="lg-figsub">Share of our ETFs and stocks above their 50-day average</p>
+        <div class="lg-tilespark" data-draw="regime-spark" data-metric="pct_above_50" data-source="mkt_regime"></div>
+      </div>
+      <div class="lg-tile">
+        <p class="lg-label">Sector correlation</p>
+        <div class="lg-tileval dash-skeleton" data-draw="regime-val" data-metric="sector_corr_20d" data-source="mkt_regime_now" data-field="sector_corr_20d" data-row="0">—</div>
+        <p class="lg-figsub">Average 20-day correlation between sectors; low means rotation, high means one macro trade</p>
+        <div class="lg-tilespark" data-draw="regime-spark" data-metric="sector_corr_20d" data-source="mkt_regime"></div>
+      </div>
+      <div class="lg-tile">
+        <p class="lg-label">VIX / VIX3M</p>
+        <div class="lg-tileval dash-skeleton" data-draw="regime-val" data-metric="vix_ratio" data-source="mkt_regime_now" data-field="vix_ratio" data-row="0">—</div>
+        <p class="lg-figsub">Near-term against 3-month implied vol; above 1 means near-term fear</p>
+        <div class="lg-tilespark" data-draw="regime-spark" data-metric="vix_ratio" data-source="mkt_regime"></div>
+      </div>
+      <div class="lg-tile">
+        <p class="lg-label">10-year yield</p>
+        <div class="lg-tileval dash-skeleton" data-draw="regime-val" data-metric="ten_year" data-source="mkt_regime_now" data-field="ten_year" data-row="0">—</div>
+        <p class="lg-figsub">The rate most of the market discounts against</p>
+        <div class="lg-tilespark" data-draw="regime-spark" data-metric="ten_year" data-source="mkt_regime"></div>
+      </div>
+    </div>
+
+    <div class="lg-panel">
+      <h3>Factor rotation board</h3>
+      <p>Each pair is long the first fund against the second. The dot is how far the spread sits from its 50-day average in standard deviations; past ±2 is stretched. The bar is its 20-day move. Pairs tonight's ideas use are shaded.</p>
+      <div class="lg-board dash-skeleton" data-draw="factor-board" data-source="mkt_factor"></div>
+    </div>
+
+    <div class="lg-grid2">
+      <div class="lg-panel">
+        <h3>SPY dealer gamma</h3>
+        <p>Dealers are <b data-draw="gamma-word" data-under="SPY" data-source="mkt_gsum">—</b> gamma, <b data-draw="gamma-total" data-under="SPY" data-source="mkt_gsum">—</b> per 1% move. Bars above the line damp moves near that strike; below, dealers chase them.</p>
+        <div class="lg-gamma dash-skeleton" data-draw="gamma-chart" data-under="SPY" data-source="mkt_gamma mkt_gsum"></div>
+        <p>Share of gamma by expiry</p>
+        <div class="lg-hbars" data-draw="expiry-bars" data-under="SPY" data-source="mkt_expiry"></div>
+      </div>
+      <div class="lg-panel">
+        <h3>QQQ dealer gamma</h3>
+        <p>Dealers are <b data-draw="gamma-word" data-under="QQQ" data-source="mkt_gsum">—</b> gamma, <b data-draw="gamma-total" data-under="QQQ" data-source="mkt_gsum">—</b> per 1% move. Bars above the line damp moves near that strike; below, dealers chase them.</p>
+        <div class="lg-gamma dash-skeleton" data-draw="gamma-chart" data-under="QQQ" data-source="mkt_gamma mkt_gsum"></div>
+        <p>Share of gamma by expiry</p>
+        <div class="lg-hbars" data-draw="expiry-bars" data-under="QQQ" data-source="mkt_expiry"></div>
+      </div>
+    </div>
+
+    <div class="lg-grid2">
+      <div class="lg-panel">
+        <h3>Coming up</h3>
+        <p>Dates that force trading, in sessions from tonight; 1 is the next session.</p>
+        <ul class="lg-list" data-draw="calendar-list" data-source="mkt_calendar"></ul>
+      </div>
+      <div class="lg-panel">
+        <h3>Leveraged ETF rebalancing</h3>
+        <p>What leveraged and inverse funds must trade at the close for each 1% their index moves, in the direction of the move.</p>
+        <div class="lg-hbars" data-draw="leveraged-bars" data-source="mkt_leveraged"></div>
+      </div>
+      <div class="lg-panel">
+        <h3>Vol-control funds</h3>
+        <p>Equity exposure of a 10% vol-target fund on SPY: <b data-draw="volctl-exposure" data-source="mkt_volctl" data-field="exposure" data-row="0">—</b> of its capital. Bars are how it would change after tomorrow's move; a cut is selling at the close.</p>
+        <div class="lg-hbars" data-draw="volctl-bars" data-source="mkt_volctl"></div>
+      </div>
+      <div class="lg-panel">
+        <h3>Trend followers</h3>
+        <p>A plain 20/60/120/250-day trend score from −1 to +1, and how far the nearest signal flip sits from the close, in ATRs. A flip within about 1 ATR can trigger trend-fund trading tomorrow.</p>
+        <ul class="lg-list" data-draw="trend-list" data-source="mkt_trend"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="lg-sec" id="last">
+    <div class="lg-sechead">
+      <p class="lg-label">Last session</p>
+      <h2 data-draw="last-date" data-source="last_session" data-field="trade_date" data-row="0">—</h2>
+      <p class="lg-subline">Book <b data-draw="last-book" data-source="last_session" data-field="mean_bps" data-row="0">—</b> against SPY <b data-draw="last-spy" data-source="last_session" data-field="spy_bps" data-row="0">—</b> · <b data-draw="last-hits" data-source="last_session" data-field="hits" data-row="0">—</b> of <b data-draw="last-ideas" data-source="last_session" data-field="ideas" data-row="0">—</b> ideas ahead</p>
+      <p>Bars share one scale, centered on zero. Open a row for the path through the day, the legs, the pre-open check and the thesis.</p>
+    </div>
+    <div class="lg-rows dash-skeleton" data-draw="last-rows" data-source="ledger"></div>
+  </section>
+
+  <section class="lg-sec" id="record">
+    <div class="lg-sechead">
+      <p class="lg-label">Track record</p>
+      <h2>Is the judgment worth anything?</h2>
+      <p>The book holds every idea of a session in equal weight, and the book after the check leaves out ideas stood down before the open. A hit rate only means something once its range is narrow, and higher confidence should earn more.</p>
+    </div>
+    <div class="lg-figs" aria-label="Headline figures">
+      <div class="lg-fig">
+        <p class="lg-label">Hit rate</p>
+        <div class="lg-figval dash-skeleton" data-draw="hit-rate" data-source="summary" data-field="hit_rate" data-row="0">—</div>
+        <p class="lg-figsub">95% range <b data-draw="hit-lo" data-source="summary" data-field="hit_lo" data-row="0">—</b> to <b data-draw="hit-hi" data-source="summary" data-field="hit_hi" data-row="0">—</b></p>
+      </div>
+      <div class="lg-fig">
+        <p class="lg-label">Average idea</p>
+        <div class="lg-figval dash-skeleton" data-draw="mean-fig" data-source="summary" data-field="mean_bps" data-row="0">—</div>
+        <p class="lg-figsub">Mean open-to-close return per idea</p>
+      </div>
+      <div class="lg-fig">
+        <p class="lg-label">Book, cumulative</p>
+        <div class="lg-figval dash-skeleton" data-draw="book" data-source="summary" data-field="book_bps" data-row="0">—</div>
+        <p class="lg-figsub">After the pre-open check <b data-draw="book-after" data-source="summary" data-field="book_after_bps" data-row="0">—</b></p>
+      </div>
+      <div class="lg-fig">
+        <p class="lg-label">Ideas marked</p>
+        <div class="lg-figval dash-skeleton" data-draw="ideas-fig" data-source="summary" data-field="ideas" data-row="0">—</div>
+        <p class="lg-figsub">Over <b data-draw="sessions" data-source="summary" data-field="sessions" data-row="0">—</b> sessions</p>
+      </div>
+    </div>
+    <div class="lg-grid2">
+      <div class="lg-panel">
+        <h3>Book by session</h3>
+        <p>Average idea and SPY, open to close, with the running total of the book.</p>
+        <ul class="lg-legend">
+          <li><span class="lg-sw" data-swatch="0"></span>Average idea</li>
+          <li><span class="lg-sw"></span>SPY</li>
+          <li><span class="lg-sw is-line" data-swatch="1"></span>Book, cumulative</li>
+        </ul>
+        <div class="lg-chart dash-skeleton" data-draw="record-chart" data-source="by_day"></div>
+      </div>
+      <div class="lg-panel">
+        <h3>Calibration by confidence</h3>
+        <p>Average open-to-close return at each confidence level, 1 lowest to 5 highest. The bars should step up from 1 to 5.</p>
+        <div class="lg-chart is-calib dash-skeleton" data-draw="calib-chart" data-source="by_conf"></div>
+      </div>
+      <div class="lg-panel">
+        <h3>What the ideas rested on</h3>
+        <p>Average open-to-close return of ideas tagged with each input when they were recorded. An idea can carry several. Inputs that keep losing are the ones to weigh less.</p>
+        <div class="lg-chart is-calib dash-skeleton" data-draw="driver-chart" data-source="by_driver"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lg-sec" id="ledger">
+    <div class="lg-sechead">
+      <p class="lg-label">Every idea</p>
+      <h2>The ledger</h2>
+      <p>Newest first. Ideas are written once, the night before, and never edited after the outcome is known.</p>
+    </div>
+    <div class="lg-tablewrap">
+      <table class="lg-table" data-source="ledger" data-row-key="id">
+        <thead>
+          <tr>
+            <th data-field="trade_date">Session</th>
+            <th data-field="long">Long</th>
+            <th data-field="short">Short</th>
+            <th data-field="factor" class="lg-hide-narrow">Factor</th>
+            <th data-field="confidence" class="num">Conf.</th>
+            <th data-field="status" class="lg-hide-narrow">Status</th>
+            <th data-field="oc_bps" class="num">Open → close</th>
+          </tr>
+        </thead>
+        <tbody data-draw="ledger-rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer class="lg-method" id="method">
+    <p class="lg-label">How ideas are scored</p>
+    <p>Each idea enters at the session's open and exits at its close. A pair is dollar-neutral, so its return is the long leg's minus the short leg's; an outright long or short is that one leg. Returns are in basis points, where 100 bp is 1%.</p>
+    <p>Final scores come from the nightly scoring run on daily bars. Until then, a session's ideas carry intraday marks from IBKR. The path through the day uses 15-minute bars from the 09:30 bar's open, so its end can differ slightly from the official score. The hit rate's range is a 95% Wilson interval, which treats ideas as independent; ideas on the same day often move together, so the true range is wider. Ideas are research, not advice, and carry no position sizing.</p>
+  </footer>
+</div>
+
+<script>
+  dash.calc('summary', {
+    inputs: ['ledger'],
+    title: 'Track record summary',
+    description: 'Ideas with a mark, hits with a 95% range, the average idea, and the cumulative equal-weight book before and after the pre-open check.',
+    fn: (ledger) => {
+      const marked = ledger.filter((r) => r.oc_bps != null);
+      const n = marked.length;
+      const hits = marked.filter((r) => r.hit).length;
+      const days = [...new Set(marked.map((r) => r.trade_date))].sort();
+      const dayMean = (d, keep) => { const rs = marked.filter((r) => r.trade_date === d && (!keep || r.check !== 'Stood down')); return rs.length ? rs.reduce((s, r) => s + r.oc_bps, 0) / rs.length : 0; };
+      const z = 1.96;
+      const p = n ? hits / n : 0;
+      const mid = (p + z * z / (2 * n)) / (1 + z * z / n);
+      const half = z * Math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / (1 + z * z / n);
+      return [{
+        ideas: n,
+        hits,
+        hit_rate: n ? hits / n : null,
+        hit_lo: n ? Math.max(0, mid - half) : null,
+        hit_hi: n ? Math.min(1, mid + half) : null,
+        mean_bps: n ? Math.round(marked.reduce((s, r) => s + r.oc_bps, 0) / n * 10) / 10 : null,
+        book_bps: Math.round(days.reduce((s, d) => s + dayMean(d), 0) * 10) / 10,
+        book_after_bps: Math.round(days.reduce((s, d) => s + dayMean(d, true), 0) * 10) / 10,
+        stood_down: marked.filter((r) => r.check === 'Stood down').length,
+        sessions: days.length,
+        latest_date: days.length ? days[days.length - 1] : null,
+        intraday: marked.filter((r) => r.status === 'Intraday').length,
+      }];
+    },
+  });
+
+  dash.calc('last_session', {
+    inputs: ['ledger'],
+    title: 'Last session',
+    description: 'The most recent session with a mark: its average idea, SPY and how many ideas were ahead.',
+    fn: (ledger) => {
+      const marked = ledger.filter((r) => r.oc_bps != null);
+      const last = marked.reduce((m, r) => (r.trade_date > m ? r.trade_date : m), '');
+      const rs = marked.filter((r) => r.trade_date === last);
+      if (!rs.length) return [];
+      return [{ trade_date: last, ideas: rs.length, hits: rs.filter((r) => r.hit).length, mean_bps: Math.round(rs.reduce((s, r) => s + r.oc_bps, 0) / rs.length * 10) / 10, spy_bps: rs[0].spy_bps, final: rs.every((r) => r.status === 'Final') }];
+    },
+  });
+
+  dash.calc('by_day', {
+    inputs: ['ledger'],
+    title: 'Book by session',
+    description: 'Each session’s average idea, SPY open to close, and the running total of the book.',
+    fn: (ledger) => {
+      const marked = ledger.filter((r) => r.oc_bps != null);
+      const days = [...new Set(marked.map((r) => r.trade_date))].sort();
+      let cum = 0;
+      return days.map((d) => {
+        const rs = marked.filter((r) => r.trade_date === d);
+        const mean = rs.reduce((s, r) => s + r.oc_bps, 0) / rs.length;
+        cum += mean;
+        return { trade_date: d, ideas: rs.length, mean_bps: Math.round(mean * 10) / 10, cum_bps: Math.round(cum * 10) / 10, spy_bps: rs[0].spy_bps, final: rs.every((r) => r.status === 'Final') };
+      });
+    },
+  });
+
+  dash.calc('by_conf', {
+    inputs: ['ledger'],
+    title: 'Calibration by confidence',
+    description: 'Ideas, average return and hit rate at each confidence level.',
+    fn: (ledger) => [1, 2, 3, 4, 5].map((c) => {
+      const rs = ledger.filter((r) => Number(r.confidence) === c && r.oc_bps != null);
+      const hits = rs.filter((r) => r.hit).length;
+      return { confidence: c, ideas: rs.length, mean_bps: rs.length ? Math.round(rs.reduce((s, r) => s + r.oc_bps, 0) / rs.length * 10) / 10 : null, hit_rate: rs.length ? hits / rs.length : null };
+    }),
+  });
+
+  const fmtBp = (v) => (v == null || Number.isNaN(v)) ? '—' : `${v > 0 ? '+' : v < 0 ? '−' : ''}${d3.format(',.0f')(Math.abs(v))} bp`;
+  const tone = (v) => (v == null || v === 0) ? '' : (v > 0 ? 'lg-pos' : 'lg-neg');
+  const day = (s, f) => s ? d3.utcFormat(f || '%b %-d')(new Date(`${s}T00:00:00Z`)) : '—';
+  const pct = (v) => v == null ? '—' : d3.format('.0%')(v);
+  const human = (s) => { const t = String(s || '').replace(/_/g, ' '); return t.charAt(0).toUpperCase() + t.slice(1); };
+  const h = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+  const failed = () => h('div', 'lg-failed', 'Failed to load');
+  const legsOf = (r) => r.long && r.short ? `Long ${r.long} / short ${r.short}` : r.long ? `Long ${r.long}` : `Short ${r.short}`;
+  const lastMarked = (rows) => rows.filter((r) => r.oc_bps != null).reduce((m, r) => (r.trade_date > m ? r.trade_date : m), '');
+  // Ideas recorded for a session after the last one with a mark.
+  const upcoming = (rows) => { const last = lastMarked(rows); return rows.filter((r) => r.oc_bps == null && r.trade_date > last); };
+  const pips = (n) => { const c = h('span', 'lg-conf'); c.setAttribute('aria-label', `Confidence ${n} of 5`); for (let i = 1; i <= 5; i += 1) c.append(h('span', `lg-pip${i <= n ? ' on' : ''}`)); return c; };
+  const chipOf = (r) => { const [t, cls] = { Final: ['Final', 'is-final'], Intraday: ['Intraday mark', 'is-intraday'] }[r.status] || ['Not yet marked', '']; return h('span', `lg-chip ${cls}`, t); };
+  const checkChip = (r) => { const [t, cls] = { Stands: ['Stands', 'is-final'], 'Stood down': ['Stood down', 'is-down'] }[r.check] || ['Check pending', '']; return h('span', `lg-chip ${cls}`, t); };
+  const checkText = (r) => r.check === 'Not checked' || !r.check ? 'Not checked before the open.' : `${r.check}. ${r.check_reason}`;
+  const block = (label, text) => { const b = h('div'); b.append(h('p', 'lg-label', label), h('p', null, text)); return b; };
+
+  // Shows the placeholder for a source that isn't ready and returns its data once it is.
+  const ready = (el, id, isBlock) => {
+    const d = dash.data(id);
+    el.classList.toggle('dash-skeleton', d.status === 'loading');
+    if (d.status === 'ok') return d;
+    if (isBlock) el.replaceChildren(d.status === 'error' ? failed() : '');
+    else el.textContent = '—';
+    return null;
+  };
+
+  const figure = (name, id, get, toneOf) => dash.draw(name, (el) => {
+    const d = ready(el, id);
+    el.classList.remove('lg-pos', 'lg-neg');
+    if (!d) return;
+    const r = d.data[0];
+    el.textContent = r ? get(r) : '—';
+    if (r && toneOf && tone(toneOf(r))) el.classList.add(tone(toneOf(r)));
+  });
+  figure('latest-date', 'summary', (r) => day(r.latest_date, '%B %-d, %Y'));
+  figure('ideas', 'summary', (r) => d3.format(',')(r.ideas));
+  figure('hits', 'summary', (r) => d3.format(',')(r.hits));
+  figure('mean', 'summary', (r) => fmtBp(r.mean_bps), (r) => r.mean_bps);
+  figure('hit-rate', 'summary', (r) => pct(r.hit_rate));
+  figure('hit-lo', 'summary', (r) => pct(r.hit_lo));
+  figure('hit-hi', 'summary', (r) => pct(r.hit_hi));
+  figure('mean-fig', 'summary', (r) => fmtBp(r.mean_bps), (r) => r.mean_bps);
+  figure('book', 'summary', (r) => fmtBp(r.book_bps), (r) => r.book_bps);
+  figure('book-after', 'summary', (r) => fmtBp(r.book_after_bps), (r) => r.book_after_bps);
+  figure('ideas-fig', 'summary', (r) => d3.format(',')(r.ideas));
+  figure('sessions', 'summary', (r) => d3.format(',')(r.sessions));
+  figure('last-date', 'last_session', (r) => day(r.trade_date, '%A, %B %-d, %Y'));
+  figure('last-book', 'last_session', (r) => fmtBp(r.mean_bps), (r) => r.mean_bps);
+  figure('last-spy', 'last_session', (r) => fmtBp(r.spy_bps));
+  figure('last-hits', 'last_session', (r) => d3.format(',')(r.hits));
+  figure('last-ideas', 'last_session', (r) => d3.format(',')(r.ideas));
+
+  dash.onData(() => {
+    const s = dash.data('summary');
+    const l = dash.data('ledger');
+    const intraday = s.status === 'ok' && ((s.data[0] || {}).intraday || 0) > 0;
+    const next = l.status === 'ok' && upcoming(l.data).length > 0;
+    document.querySelectorAll('[data-intraday]').forEach((e) => { e.hidden = !intraday; });
+    document.querySelectorAll('[data-next]').forEach((e) => { e.hidden = !next; });
+    document.querySelectorAll('[data-swatch]').forEach((e) => { e.style.background = dash.colors[Number(e.dataset.swatch)]; });
+  });
+
+  document.querySelectorAll('[data-go]').forEach((b) => b.addEventListener('click', () => {
+    const el = document.getElementById(b.dataset.go);
+    if (el) { el.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); dash.setLink(el.id); }
+  }));
+
+  dash.draw('mark-time', (el) => {
+    const d = ready(el, 'ledger');
+    if (!d) return;
+    const t = d.data.filter((r) => r.status === 'Intraday').map((r) => r.marked_at).sort().pop();
+    el.textContent = t ? `${new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit' }).format(new Date(t))} ET` : '—';
+  });
+
+  dash.draw('next-date', (el) => {
+    const d = ready(el, 'ledger');
+    if (!d) return;
+    const rows = upcoming(d.data);
+    el.textContent = rows.length ? day(rows.reduce((m, r) => (r.trade_date < m ? r.trade_date : m), rows[0].trade_date), '%A, %B %-d, %Y') : '—';
+  });
+
+  dash.draw('next-cards', (el) => {
+    const d = ready(el, 'ledger', true);
+    if (!d) return;
+    const rows = upcoming(d.data).sort((a, b) => a.trade_date.localeCompare(b.trade_date) || a.id.localeCompare(b.id));
+    el.replaceChildren(...rows.map((r) => {
+      const card = h('article', 'lg-card');
+      const conf = h('div', 'lg-cardtop');
+      conf.append(h('p', 'lg-kicker', human(r.factor)), pips(r.confidence));
+      const thesis = h('details');
+      thesis.append(h('summary', 'lg-label', 'Thesis'), h('p', null, r.thesis));
+      const chips = h('div', 'lg-chips');
+      chips.append(checkChip(r));
+      card.append(conf, h('h3', 'lg-legs', legsOf(r)), chips, block('Wrong if', r.invalidation), block('Stand down before the open if', r.stand_down_if || '—'));
+      if (r.check === 'Stands' || r.check === 'Stood down') card.append(block('Pre-open check', r.check_reason));
+      card.append(thesis);
+      return card;
+    }));
+  });
+
+  dash.draw('last-rows', (el) => {
+    const d = ready(el, 'ledger', true);
+    if (!d) return;
+    const last = lastMarked(d.data);
+    const rows = d.data.filter((r) => r.trade_date === last && r.oc_bps != null).sort((a, b) => b.oc_bps - a.oc_bps);
+    const mx = Math.max(1, ...rows.map((r) => Math.abs(r.oc_bps)));
+    el.replaceChildren(...rows.map((r) => {
+      const row = h('details', 'lg-row');
+      const sum = h('summary');
+      const who = h('div', 'lg-who');
+      who.append(h('span', 'lg-kicker', human(r.factor)), h('span', 'lg-legs', legsOf(r)));
+      const bar = h('div', 'lg-bar');
+      const fill = h('div', `lg-barfill ${r.oc_bps >= 0 ? 'lg-up' : 'lg-down'}`);
+      const w = Math.abs(r.oc_bps) / mx * 50;
+      fill.style.left = r.oc_bps >= 0 ? '50%' : `${50 - w}%`;
+      fill.style.width = `${Math.max(w, 0.5)}%`;
+      bar.append(fill);
+      const chips = h('div', 'lg-chips');
+      chips.append(chipOf(r));
+      if (r.check === 'Stood down') chips.append(checkChip(r));
+      sum.append(who, pips(r.confidence), bar, h('span', `lg-val ${tone(r.oc_bps)}`, fmtBp(r.oc_bps)), chips);
+      const legs = [];
+      if (r.long) legs.push(`${r.long} ${fmtBp(r.long_bps)}`);
+      if (r.short) legs.push(`${r.short} ${fmtBp(r.short_bps)}`);
+      if (r.long !== 'SPY' && r.short !== 'SPY') legs.push(`SPY ${fmtBp(r.spy_bps)}`);
+      const detail = h('div', 'lg-detail');
+      if (Array.isArray(r.path) && r.path.length > 1) {
+        const pathBox = h('div');
+        const spark = h('div', 'lg-spark');
+        pathBox.append(h('p', 'lg-label', 'Through the day, bp from the open'), spark);
+        detail.append(pathBox);
+        requestAnimationFrame(() => sparkline(spark, r.path));
+      }
+      detail.append(block('Legs, open to close', legs.join(' · ')), block('Pre-open check', checkText(r)), block('Wrong if', r.invalidation), block('Thesis', r.thesis));
+      row.append(sum, detail);
+      return row;
+    }));
+  });
+
+  // The idea's return from the open through the session, drawn into a row's detail.
+  const sparkline = (el, path) => {
+    el.replaceChildren();
+    const W = Math.max(200, el.clientWidth || 280);
+    const H = 64;
+    const pts = path.map(([t, v]) => ({ t, v, m: Number(t.slice(0, 2)) * 60 + Number(t.slice(3, 5)) }));
+    const x = d3.scaleLinear([570, 960], [2, W - 44]);
+    const y = d3.scaleLinear(d3.extent([0, ...pts.map((p) => p.v)]), [H - 6, 6]).nice();
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img').attr('aria-label', 'Return through the day');
+    svg.append('line').attr('x1', 2).attr('x2', W - 44).attr('y1', y(0)).attr('y2', y(0)).style('stroke', 'var(--cds-chart-axis)');
+    const end = pts[pts.length - 1];
+    const color = end.v >= 0 ? 'var(--color-ok)' : 'var(--color-bad)';
+    svg.append('path').datum(pts).attr('d', d3.line((p) => x(p.m), (p) => y(p.v)))
+      .style('fill', 'none').style('stroke', color).style('stroke-width', 2).style('stroke-linejoin', 'round').style('stroke-linecap', 'round');
+    svg.append('circle').attr('cx', x(end.m)).attr('cy', y(end.v)).attr('r', 3).style('fill', color);
+    svg.append('text').attr('class', 'lg-strong').attr('x', x(end.m) + 6).attr('y', y(end.v)).attr('dy', '0.32em').text(fmtBp(end.v));
+    const tip = tooltip(el);
+    svg.append('rect').attr('width', W).attr('height', H).style('fill', 'transparent')
+      .on('pointermove', (event) => {
+        const [mx] = d3.pointer(event);
+        const p = pts[d3.leastIndex(pts, (q) => Math.abs(x(q.m) - mx))];
+        tip.show(event, [[`${p.t} ET`, 'lg-tipdate'], [fmtBp(p.v)]]);
+      })
+      .on('pointerleave', () => tip.hide());
+  };
+
+  // A tooltip that stays inside its chart's box.
+  const tooltip = (el) => {
+    const tip = h('div', 'lg-tip');
+    tip.hidden = true;
+    el.append(tip);
+    return {
+      show(event, lines) {
+        tip.replaceChildren(...lines.map(([text, cls]) => h('div', cls, text)));
+        tip.hidden = false;
+        const [px, py] = d3.pointer(event, el);
+        tip.style.left = `${Math.max(0, Math.min(el.clientWidth - tip.offsetWidth, px + 12))}px`;
+        tip.style.top = `${Math.max(0, py - tip.offsetHeight - 8)}px`;
+      },
+      hide() { tip.hidden = true; },
+    };
+  };
+
+  dash.draw('record-chart', (el) => {
+    const d = ready(el, 'by_day', true);
+    if (!d) return;
+    el.replaceChildren();
+    const rows = d.data;
+    const W = Math.max(280, el.clientWidth || 560);
+    const H = 240;
+    const m = { t: 28, r: 16, b: 28, l: 0 };
+    const vals = [0, ...rows.flatMap((r) => [r.mean_bps, r.cum_bps, r.spy_bps].filter((v) => v != null))];
+    const y = d3.scaleLinear(d3.extent(vals), [H - m.b, m.t]).nice(4);
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img').attr('aria-label', 'Book by session');
+    const ticks = svg.append('g');
+    ticks.selectAll('text').data(y.ticks(4)).join('text').attr('x', 0).attr('y', (v) => y(v)).attr('dy', '0.32em').text((v) => d3.format(',')(v));
+    let widest = 0;
+    ticks.selectAll('text').each(function () { widest = Math.max(widest, this.getComputedTextLength()); });
+    m.l = Math.ceil(widest) + 10;
+    svg.insert('g', ':first-child').selectAll('line').data(y.ticks(4)).join('line')
+      .attr('x1', m.l).attr('x2', W - m.r).attr('y1', (v) => y(v)).attr('y2', (v) => y(v))
+      .style('stroke', (v) => v === 0 ? 'var(--cds-chart-axis)' : 'var(--cds-chart-grid)');
+    svg.append('text').attr('x', 0).attr('y', 10).text('bp');
+    const x = d3.scaleBand(rows.map((r) => r.trade_date), [m.l, W - m.r]).paddingInner(0.3).paddingOuter(0.2);
+    const bw = Math.min(28, x.bandwidth() / 2 - 2);
+    const cx = (r) => x(r.trade_date) + x.bandwidth() / 2;
+    const bar = (v) => ({ y: Math.min(y(v), y(0)), h: Math.max(1, Math.abs(y(v) - y(0))) });
+    const g = svg.append('g');
+    g.selectAll('rect.book').data(rows).join('rect').attr('class', 'book').attr('rx', 2)
+      .attr('x', (r) => cx(r) - bw - 1).attr('width', bw).attr('y', (r) => bar(r.mean_bps).y).attr('height', (r) => bar(r.mean_bps).h)
+      .style('fill', dash.colors[0]);
+    g.selectAll('rect.spy').data(rows.filter((r) => r.spy_bps != null)).join('rect').attr('class', 'spy').attr('rx', 2)
+      .attr('x', (r) => cx(r) + 1).attr('width', bw).attr('y', (r) => bar(r.spy_bps).y).attr('height', (r) => bar(r.spy_bps).h)
+      .style('fill', 'var(--cds-chart-muted)');
+    svg.append('path').datum(rows).attr('d', d3.line((r) => cx(r), (r) => y(r.cum_bps)))
+      .style('fill', 'none').style('stroke', dash.colors[1]).style('stroke-width', 2).style('stroke-linecap', 'round').style('stroke-linejoin', 'round');
+    svg.append('g').selectAll('circle').data(rows).join('circle').attr('cx', cx).attr('cy', (r) => y(r.cum_bps)).attr('r', 3.5).style('fill', dash.colors[1]);
+    const last = rows[rows.length - 1];
+    if (last) {
+      const label = svg.append('text').attr('class', 'lg-strong').attr('y', y(last.cum_bps) - 10).text(`Book ${fmtBp(last.cum_bps)}`);
+      const lw = label.node().getComputedTextLength();
+      label.attr('x', Math.max(m.l, Math.min(W - m.r - lw, cx(last) - lw / 2)));
+    }
+    const every = Math.max(1, Math.ceil(rows.length / Math.max(1, Math.floor((W - m.l) / 64))));
+    svg.append('g').selectAll('text').data(rows.filter((_, i) => i % every === 0)).join('text')
+      .attr('x', cx).attr('y', H - 8).attr('text-anchor', 'middle').text((r) => day(r.trade_date));
+    const tip = tooltip(el);
+    svg.append('g').selectAll('rect').data(rows).join('rect')
+      .attr('x', (r) => x(r.trade_date)).attr('width', x.bandwidth()).attr('y', m.t).attr('height', H - m.t - m.b)
+      .style('fill', 'transparent')
+      .on('pointermove', (event, r) => tip.show(event, [
+        [day(r.trade_date, '%a, %b %-d'), 'lg-tipdate'],
+        [`Average idea ${fmtBp(r.mean_bps)} (${r.ideas})`],
+        [`SPY ${fmtBp(r.spy_bps)}`],
+        [`Book, cumulative ${fmtBp(r.cum_bps)}`],
+        [r.final ? 'Final' : 'Intraday mark', 'lg-tipdate'],
+      ]))
+      .on('pointerleave', () => tip.hide());
+  });
+
+  dash.draw('calib-chart', (el) => {
+    const d = ready(el, 'by_conf', true);
+    if (!d) return;
+    el.replaceChildren();
+    const rows = d.data;
+    const W = Math.max(280, el.clientWidth || 560);
+    const rowH = 36;
+    const H = rows.length * rowH + 8;
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img').attr('aria-label', 'Calibration by confidence');
+    const labels = svg.append('g').selectAll('text').data(rows).join('text')
+      .attr('x', 0).attr('y', (_, i) => i * rowH + rowH / 2).attr('dy', '0.32em').text((r) => `Confidence ${r.confidence}`);
+    let widest = 0;
+    labels.each(function () { widest = Math.max(widest, this.getComputedTextLength()); });
+    const left = Math.ceil(widest) + 14;
+    const right = 132;
+    const mx = Math.max(10, d3.max(rows, (r) => Math.abs(r.mean_bps || 0)));
+    const x = d3.scaleLinear([-mx, mx], [left, W - right]);
+    svg.append('line').attr('x1', x(0)).attr('x2', x(0)).attr('y1', 0).attr('y2', H).style('stroke', 'var(--cds-chart-reference)');
+    const g = svg.append('g').selectAll('g').data(rows).join('g').attr('transform', (_, i) => `translate(0,${i * rowH})`);
+    g.filter((r) => r.ideas > 0).append('rect').attr('rx', 2)
+      .attr('x', (r) => Math.min(x(0), x(r.mean_bps))).attr('width', (r) => Math.max(1, Math.abs(x(r.mean_bps) - x(0))))
+      .attr('y', rowH / 2 - 9).attr('height', 18)
+      .style('fill', (r) => r.mean_bps >= 0 ? 'var(--color-ok)' : 'var(--color-bad)');
+    g.append('text').attr('class', (r) => r.ideas > 0 ? 'lg-strong' : null)
+      .attr('x', W - right + 10).attr('y', rowH / 2).attr('dy', '0.32em')
+      .text((r) => r.ideas > 0 ? `${fmtBp(r.mean_bps)} · ${r.ideas} idea${r.ideas === 1 ? '' : 's'}` : 'No ideas yet');
+    const tip = tooltip(el);
+    g.append('rect').attr('x', 0).attr('width', W).attr('height', rowH).style('fill', 'transparent')
+      .on('pointermove', (event, r) => tip.show(event, r.ideas > 0 ? [
+        [`Confidence ${r.confidence}`, 'lg-tipdate'],
+        [`Average ${fmtBp(r.mean_bps)}`],
+        [`Hit rate ${pct(r.hit_rate)} of ${r.ideas}`],
+      ] : [[`Confidence ${r.confidence}`, 'lg-tipdate'], ['No ideas yet']]))
+      .on('pointerleave', () => tip.hide());
+  });
+
+  dash.draw('ledger-rows', (tb) => {
+    const d = dash.data('ledger');
+    if (d.status !== 'ok') { tb.replaceChildren(); return; }
+    const rows = [...d.data].sort((a, b) => b.trade_date.localeCompare(a.trade_date) || a.id.localeCompare(b.id));
+    tb.replaceChildren(...rows.map((r) => {
+      const tr = h('tr');
+      tr.dataset.key = r.id;
+      tr.append(
+        h('td', null, day(r.trade_date)),
+        h('td', null, r.long || '—'),
+        h('td', null, r.short || '—'),
+        h('td', 'lg-hide-narrow', human(r.factor)),
+        h('td', 'num', String(r.confidence)),
+        h('td', 'lg-hide-narrow', r.status),
+        h('td', `num ${tone(r.oc_bps)}`, fmtBp(r.oc_bps)),
+      );
+      return tr;
+    }));
+  });
+
+  // ---- Tonight's market -------------------------------------------------------------------------
+
+  dash.calc('mkt_meta', { inputs: ['market'], title: 'Brief details', description: 'The session, build time and option snapshot behind tonight’s market rows.',
+    fn: (market) => market.filter((r) => r.section === 'meta') });
+  dash.calc('mkt_factor', { inputs: ['market'], title: 'Factor pairs', description: 'Each factor pair’s returns, z-scores and RSI from the brief, most stretched first.',
+    fn: (market) => market.filter((r) => r.section === 'factor').sort((a, b) => Math.abs(b.z_50d) - Math.abs(a.z_50d)) });
+  dash.calc('mkt_regime', { inputs: ['market'], title: 'Regime, last 60 sessions', description: 'Breadth, sector correlation, VIX against VIX3M and the 10-year yield by session.',
+    fn: (market) => market.filter((r) => r.section === 'regime').sort((a, b) => a.date.localeCompare(b.date))
+      .map((r) => ({ ...r, vix_ratio: r.vix && r.vix3m ? Math.round(r.vix / r.vix3m * 1000) / 1000 : null })) });
+  dash.calc('mkt_regime_now', { inputs: ['mkt_regime'], title: 'Regime tonight', description: 'The latest session’s regime figures.',
+    fn: (regime) => regime.slice(-1) });
+  dash.calc('mkt_gamma', { inputs: ['market'], title: 'Dealer gamma by strike', description: 'Net dealer gamma at each strike within 6% of spot for SPY and QQQ, in dollars per 1% move.',
+    fn: (market) => market.filter((r) => r.section === 'gamma') });
+  dash.calc('mkt_gsum', { inputs: ['market'], title: 'Dealer gamma summary', description: 'Spot, total gamma, gamma flip and call and put walls for SPY and QQQ.',
+    fn: (market) => market.filter((r) => r.section === 'gamma_sum') });
+  dash.calc('mkt_expiry', { inputs: ['market'], title: 'Gamma by expiry', description: 'Each upcoming expiry’s share of SPY and QQQ dealer gamma.',
+    fn: (market) => market.filter((r) => r.section === 'expiry') });
+  dash.calc('mkt_calendar', { inputs: ['market'], title: 'Coming up', description: 'Option and VIX expiries and period ends, in sessions from tonight.',
+    fn: (market) => market.filter((r) => r.section === 'calendar').sort((a, b) => a.date.localeCompare(b.date)) });
+  dash.calc('mkt_leveraged', { inputs: ['market'], title: 'Leveraged ETF rebalancing', description: 'Close-of-day rebalance per 1% index move for leveraged and inverse funds, by index.',
+    fn: (market) => market.filter((r) => r.section === 'leveraged') });
+  dash.calc('mkt_volctl', { inputs: ['market'], title: 'Vol-control exposure', description: 'Exposure of a 10% vol-target fund on SPY and its change after a move tomorrow.',
+    fn: (market) => market.filter((r) => r.section === 'volctl') });
+  dash.calc('mkt_trend', { inputs: ['market'], title: 'Trend followers', description: 'Trend score and nearest signal flip for the main index, bond, gold, oil and dollar funds.',
+    fn: (market) => market.filter((r) => r.section === 'trend') });
+  dash.calc('by_driver', {
+    inputs: ['ledger'],
+    title: 'Results by input',
+    description: 'Ideas, average return and hit rate for each input an idea was tagged with when recorded.',
+    fn: (ledger) => {
+      const tagged = ledger.filter((r) => r.oc_bps != null && r.drivers);
+      const names = [...new Set(tagged.flatMap((r) => r.drivers.split(',')))].sort();
+      return names.map((driver) => {
+        const rs = tagged.filter((r) => r.drivers.split(',').includes(driver));
+        return { driver, ideas: rs.length, mean_bps: Math.round(rs.reduce((s, r) => s + r.oc_bps, 0) / rs.length * 10) / 10, hit_rate: rs.filter((r) => r.hit).length / rs.length };
+      }).sort((a, b) => b.mean_bps - a.mean_bps);
+    },
+  });
+
+  const fmtUsd = (v) => { if (v == null) return '—'; const a = Math.abs(v); const s = a >= 1e9 ? `$${d3.format('.1f')(a / 1e9)}B` : a >= 1e6 ? `$${d3.format('.0f')(a / 1e6)}M` : `$${d3.format(',.0f')(a)}`; return `${v < 0 ? '−' : ''}${s}`; };
+  const signed = (v, f) => v == null ? '—' : `${v > 0 ? '+' : v < 0 ? '−' : ''}${d3.format(f)(Math.abs(v))}`;
+  const expiryDay = (e) => e ? day(`${e.slice(0, 4)}-${e.slice(4, 6)}-${e.slice(6, 8)}`, '%b %-d') : '—';
+  const regimeFmt = { pct_above_50: (v) => d3.format('.0%')(v), sector_corr_20d: (v) => d3.format('.2f')(v), vix_ratio: (v) => d3.format('.2f')(v), ten_year: (v) => `${d3.format('.2f')(v)}%` };
+  const under = (el, id) => { const d = ready(el, id, true); return d ? d.data.filter((r) => r.underlying === el.dataset.under) : null; };
+
+  figure('mkt-asof', 'mkt_meta', (r) => day(r.as_of, '%A, %B %-d'));
+  figure('volctl-exposure', 'mkt_volctl', (r) => d3.format('.0%')(r.exposure));
+
+  dash.draw('regime-val', (el) => {
+    const d = ready(el, 'mkt_regime_now');
+    if (!d) return;
+    const r = d.data[0];
+    const v = r ? r[el.dataset.metric] : null;
+    el.textContent = v == null ? '—' : (regimeFmt[el.dataset.metric] || String)(v);
+  });
+
+  dash.draw('regime-spark', (el) => {
+    const d = ready(el, 'mkt_regime', true);
+    if (!d) return;
+    el.replaceChildren();
+    const key = el.dataset.metric;
+    const f = regimeFmt[key] || String;
+    const pts = d.data.filter((r) => r[key] != null).map((r) => ({ t: new Date(`${r.date}T00:00:00Z`), date: r.date, v: r[key] }));
+    if (pts.length < 2) return;
+    const W = Math.max(160, el.clientWidth || 220);
+    const H = 36;
+    const x = d3.scaleUtc(d3.extent(pts, (p) => p.t), [2, W - 4]);
+    const y = d3.scaleLinear(d3.extent(pts, (p) => p.v), [H - 4, 4]);
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img').attr('aria-label', 'Last 60 sessions');
+    svg.append('path').datum(pts).attr('d', d3.line((p) => x(p.t), (p) => y(p.v)))
+      .style('fill', 'none').style('stroke', dash.colors[0]).style('stroke-width', 2).style('stroke-linejoin', 'round').style('stroke-linecap', 'round');
+    const end = pts[pts.length - 1];
+    svg.append('circle').attr('cx', x(end.t)).attr('cy', y(end.v)).attr('r', 3).style('fill', dash.colors[0]);
+    const tip = tooltip(el);
+    svg.append('rect').attr('width', W).attr('height', H).style('fill', 'transparent')
+      .on('pointermove', (event) => { const [mx] = d3.pointer(event); const p = pts[d3.leastIndex(pts, (q) => Math.abs(x(q.t) - mx))]; tip.show(event, [[day(p.date, '%b %-d'), 'lg-tipdate'], [f(p.v)]]); })
+      .on('pointerleave', () => tip.hide());
+  });
+
+  dash.draw('factor-board', (el) => {
+    const d = ready(el, 'mkt_factor', true);
+    if (!d) return;
+    const rows = d.data;
+    const mx = Math.max(0.01, ...rows.map((r) => Math.abs(r.ret_20d || 0)));
+    const head = h('div', 'lg-brow is-head');
+    head.append(h('span', null, 'Pair'), h('span', null, 'Stretch, −3 to +3'), h('span', null, '20-day move'), h('span', 'lg-rsi', 'RSI'));
+    el.replaceChildren(head, ...rows.map((r) => {
+      const row = h('div', `lg-brow${r.in_idea ? ' is-idea' : ''}`);
+      const name = h('span', 'lg-bname');
+      name.append(h('span', null, human(r.pair)), h('small', null, `${r.long} / ${r.short}${r.in_idea === 'long' ? ' · in tonight’s idea' : r.in_idea === 'short' ? ' · tonight’s idea is the reverse' : ''}`));
+      const zt = h('span', 'lg-track');
+      zt.append(h('span', 'lg-zband'));
+      const z = Math.max(-3, Math.min(3, r.z_50d || 0));
+      const dot = h('span', `lg-dot${Math.abs(r.z_50d) >= 2 ? ' is-hot' : ''}`);
+      dot.style.left = `${(z + 3) / 6 * 100}%`;
+      zt.append(dot);
+      zt.setAttribute('aria-label', `z-score ${d3.format('.1f')(r.z_50d)}`);
+      const bt = h('span', 'lg-track');
+      const fill = h('span', `lg-barfill ${r.ret_20d >= 0 ? 'lg-up' : 'lg-down'}`);
+      const w = Math.abs(r.ret_20d || 0) / mx * 50;
+      fill.style.left = r.ret_20d >= 0 ? '50%' : `${50 - w}%`;
+      fill.style.width = `${Math.max(w, 0.5)}%`;
+      bt.append(fill);
+      bt.setAttribute('aria-label', `20-day ${signed(r.ret_20d * 100, '.1f')}%`);
+      const rsi = h('span', `lg-rsi${r.rsi14 >= 70 || r.rsi14 <= 30 ? ' is-hot' : ''}`, r.rsi14 == null ? '—' : d3.format('.0f')(r.rsi14));
+      row.append(name, zt, bt, rsi);
+      const tip = tooltip(el);
+      row.addEventListener('pointermove', (event) => tip.show(event, [[human(r.pair), 'lg-tipdate'], [`z vs 50-day ${signed(r.z_50d, '.2f')}`], [`20-day ${signed(r.ret_20d * 100, '.1f')}% · 5-day ${signed(r.ret_5d * 100, '.1f')}%`], [`RSI ${d3.format('.0f')(r.rsi14)}`]]));
+      row.addEventListener('pointerleave', () => tip.hide());
+      return row;
+    }));
+  });
+
+  dash.draw('gamma-word', (el) => {
+    const rows = under(el, 'mkt_gsum');
+    if (!rows) { el.textContent = '—'; return; }
+    el.textContent = rows.length ? (rows[0].gex_total < 0 ? 'short' : 'long') : '—';
+  });
+  dash.draw('gamma-total', (el) => {
+    const rows = under(el, 'mkt_gsum');
+    if (!rows) { el.textContent = '—'; return; }
+    el.textContent = rows.length ? fmtUsd(rows[0].gex_total) : '—';
+  });
+
+  dash.draw('gamma-chart', (el) => {
+    const g = dash.data('mkt_gamma');
+    const s = dash.data('mkt_gsum');
+    el.classList.toggle('dash-skeleton', g.status === 'loading' || s.status === 'loading');
+    if (g.status !== 'ok' || s.status !== 'ok') { el.replaceChildren(g.status === 'error' || s.status === 'error' ? failed() : ''); return; }
+    const u = el.dataset.under;
+    const rows = g.data.filter((r) => r.underlying === u).sort((a, b) => a.strike - b.strike);
+    const sum = s.data.find((r) => r.underlying === u);
+    if (!rows.length || !sum) { el.replaceChildren(h('p', 'lg-empty', 'No option snapshot for this session yet.')); return; }
+    el.replaceChildren();
+    const W = Math.max(280, el.clientWidth || 480);
+    const H = 220;
+    const m = { t: 30, r: 8, b: 24, l: 0 };
+    const y = d3.scaleLinear(d3.extent([0, ...rows.map((r) => r.gex_net)]), [H - m.b, m.t]).nice(4);
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img').attr('aria-label', `${u} dealer gamma by strike`);
+    const ticks = svg.append('g');
+    ticks.selectAll('text').data(y.ticks(4)).join('text').attr('x', 0).attr('y', (v) => y(v)).attr('dy', '0.32em').text((v) => fmtUsd(v));
+    let widest = 0;
+    ticks.selectAll('text').each(function () { widest = Math.max(widest, this.getComputedTextLength()); });
+    m.l = Math.ceil(widest) + 8;
+    const lo = rows[0].strike;
+    const hi = rows[rows.length - 1].strike;
+    const x = d3.scaleLinear([lo, hi], [m.l + 4, W - m.r - 4]);
+    const gaps = rows.slice(1).map((r, i) => r.strike - rows[i].strike).filter((v) => v > 0);
+    const bw = Math.max(1.5, Math.min(10, (gaps.length ? d3.min(gaps) : 1) / (hi - lo || 1) * (W - m.l - m.r) * 0.8));
+    svg.insert('g', ':first-child').selectAll('line').data(y.ticks(4)).join('line')
+      .attr('x1', m.l).attr('x2', W - m.r).attr('y1', (v) => y(v)).attr('y2', (v) => y(v))
+      .style('stroke', (v) => v === 0 ? 'var(--cds-chart-axis)' : 'var(--cds-chart-grid)');
+    svg.append('g').selectAll('rect').data(rows).join('rect').attr('rx', 1)
+      .attr('x', (r) => x(r.strike) - bw / 2).attr('width', bw)
+      .attr('y', (r) => Math.min(y(r.gex_net), y(0))).attr('height', (r) => Math.max(1, Math.abs(y(r.gex_net) - y(0))))
+      .style('fill', (r) => r.gex_net >= 0 ? dash.colors[0] : 'var(--cds-chart-status-critical)');
+    const marks = [
+      { v: sum.spot, label: `Spot ${d3.format(',.0f')(sum.spot)}`, dash: null, strong: true },
+      { v: sum.gamma_flip, label: `Flip ${d3.format(',.0f')(sum.gamma_flip)}`, dash: '4 3' },
+      { v: sum.call_wall, label: `Call wall ${d3.format(',.0f')(sum.call_wall)}`, dash: '1 3' },
+      { v: sum.put_wall, label: `Put wall ${d3.format(',.0f')(sum.put_wall)}`, dash: '1 3' },
+    ].filter((k) => k.v != null && k.v >= lo && k.v <= hi).sort((a, b) => a.v - b.v);
+    let lastEnd = -Infinity;
+    let row = 0;
+    marks.forEach((k) => {
+      const px = x(k.v);
+      svg.append('line').attr('x1', px).attr('x2', px).attr('y1', m.t - 4).attr('y2', H - m.b)
+        .style('stroke', k.strong ? 'var(--color-fg)' : 'var(--cds-chart-reference)').style('stroke-dasharray', k.dash);
+      const t = svg.append('text').attr('class', k.strong ? 'lg-strong' : null).attr('text-anchor', 'middle').text(k.label);
+      const tw = t.node().getComputedTextLength();
+      const cx = Math.max(m.l + tw / 2, Math.min(W - m.r - tw / 2, px));
+      row = cx - tw / 2 < lastEnd + 6 ? (row + 1) % 2 : 0;
+      t.attr('x', cx).attr('y', row ? 22 : 10);
+      lastEnd = Math.max(lastEnd, cx + tw / 2);
+    });
+    const xt = x.ticks(Math.max(2, Math.floor((W - m.l) / 70)));
+    svg.append('g').selectAll('text').data(xt).join('text').attr('x', (v) => x(v)).attr('y', H - 6).attr('text-anchor', 'middle').text((v) => d3.format(',')(v));
+    const tip = tooltip(el);
+    svg.append('rect').attr('x', m.l).attr('width', W - m.l - m.r).attr('y', m.t).attr('height', H - m.t - m.b).style('fill', 'transparent')
+      .on('pointermove', (event) => {
+        const [px] = d3.pointer(event);
+        const r = rows[d3.leastIndex(rows, (q) => Math.abs(x(q.strike) - px))];
+        tip.show(event, [[`${u} ${d3.format(',.0f')(r.strike)} strike`, 'lg-tipdate'], [`Net ${fmtUsd(r.gex_net)} per 1%`], [`Calls ${fmtUsd(r.gex_c)} · puts ${fmtUsd(r.gex_p)}`]]);
+      })
+      .on('pointerleave', () => tip.hide());
+  });
+
+  // Horizontal bars from one row each: label on the left, value text on the right, shared scale.
+  const hbars = (el, items, { diverging = false, fmt = String, color = () => dash.colors[0], tipLines = null } = {}) => {
+    el.replaceChildren();
+    if (!items.length) { el.append(h('p', 'lg-empty', 'Nothing to show for this session.')); return; }
+    const W = Math.max(260, el.clientWidth || 420);
+    const rowH = 28;
+    const H = items.length * rowH + 4;
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img');
+    const labels = svg.append('g').selectAll('text').data(items).join('text').attr('x', 0).attr('y', (_, i) => i * rowH + rowH / 2).attr('dy', '0.32em').text((it) => it.label);
+    let widest = 0;
+    labels.each(function () { widest = Math.max(widest, this.getComputedTextLength()); });
+    const vals = svg.append('g').selectAll('text').data(items).join('text').attr('class', 'lg-strong').attr('text-anchor', 'end').attr('x', W).attr('y', (_, i) => i * rowH + rowH / 2).attr('dy', '0.32em').text((it) => fmt(it));
+    let widestVal = 0;
+    vals.each(function () { widestVal = Math.max(widestVal, this.getComputedTextLength()); });
+    const left = Math.ceil(widest) + 12;
+    const right = Math.ceil(widestVal) + 12;
+    const mx = Math.max(1e-9, d3.max(items, (it) => Math.abs(it.value || 0)));
+    const x = d3.scaleLinear(diverging ? [-mx, mx] : [0, mx], [left, W - right]);
+    svg.append('line').attr('x1', x(0)).attr('x2', x(0)).attr('y1', 0).attr('y2', H).style('stroke', 'var(--cds-chart-axis)');
+    svg.append('g').selectAll('rect').data(items).join('rect').attr('rx', 2)
+      .attr('x', (it) => Math.min(x(0), x(it.value || 0))).attr('width', (it) => Math.max(1, Math.abs(x(it.value || 0) - x(0))))
+      .attr('y', (_, i) => i * rowH + rowH / 2 - 8).attr('height', 16).style('fill', (it) => color(it));
+    if (tipLines) {
+      const tip = tooltip(el);
+      svg.append('g').selectAll('rect').data(items).join('rect').attr('x', 0).attr('width', W).attr('y', (_, i) => i * rowH).attr('height', rowH).style('fill', 'transparent')
+        .on('pointermove', (event, it) => tip.show(event, tipLines(it))).on('pointerleave', () => tip.hide());
+    }
+  };
+
+  dash.draw('expiry-bars', (el) => {
+    const rows = under(el, 'mkt_expiry');
+    if (!rows) return;
+    hbars(el, rows.map((r) => ({ label: `${expiryDay(r.expiry)} · ${d3.format('.0f')(Math.max(r.dte, 0))}d`, value: r.gross_gex_share, r })), {
+      fmt: (it) => d3.format('.0%')(it.value),
+      color: (it) => it.value >= 0.3 ? dash.colors[0] : 'var(--cds-chart-muted)',
+      tipLines: (it) => [[`Expires ${expiryDay(it.r.expiry)}`, 'lg-tipdate'], [`${d3.format('.0%')(it.value)} of gamma`], [`Net ${fmtUsd(it.r.gex)} per 1%`]],
+    });
+  });
+
+  dash.draw('calendar-list', (el) => {
+    const d = dash.data('mkt_calendar');
+    if (d.status !== 'ok') { el.replaceChildren(); return; }
+    const names = { monthly_opex: 'Monthly option expiry', quarterly_opex: 'Quarterly expiry and index rebalances', vix_expiry: 'VIX expiry', month_end: 'Month end', quarter_end: 'Quarter end' };
+    el.replaceChildren(...d.data.map((r) => {
+      const li = h('li', r.sessions_away != null && r.sessions_away <= 3 ? 'is-soon' : null);
+      li.append(h('span', null, names[r.event] || human(r.event)), h('span', null, `${day(r.date, '%a, %b %-d')} · ${r.sessions_away == null ? '—' : `${r.sessions_away} session${r.sessions_away === 1 ? '' : 's'}`}`));
+      return li;
+    }));
+  });
+
+  dash.draw('leveraged-bars', (el) => {
+    const d = ready(el, 'mkt_leveraged', true);
+    if (!d) return;
+    hbars(el, d.data.map((r) => ({ label: r.exposure, value: r.rebalance_per_1pct, r })), {
+      fmt: (it) => fmtUsd(it.value),
+      tipLines: (it) => [[it.r.exposure, 'lg-tipdate'], [`${fmtUsd(it.value)} per 1% move`], [`Today ${fmtUsd(it.r.rebalance_today)}`], [`${d3.format('.0%')(it.r.per_1pct_vs_reference_adv || 0)} of ${it.r.reference}’s daily volume`]],
+    });
+  });
+
+  dash.draw('volctl-bars', (el) => {
+    const d = ready(el, 'mkt_volctl', true);
+    if (!d) return;
+    const r = d.data[0];
+    if (!r) { el.replaceChildren(); return; }
+    const items = [['SPY −3%', r.if_down_3], ['SPY −2%', r.if_down_2], ['SPY −1%', r.if_down_1], ['SPY +1%', r.if_up_1], ['SPY +2%', r.if_up_2]].map(([label, value]) => ({ label, value }));
+    hbars(el, items, { diverging: true, fmt: (it) => `${signed((it.value || 0) * 100, '.0f')}%`, color: (it) => (it.value || 0) < -0.1 ? 'var(--cds-chart-status-critical)' : 'var(--cds-chart-muted)' });
+  });
+
+  dash.draw('trend-list', (el) => {
+    const d = dash.data('mkt_trend');
+    if (d.status !== 'ok') { el.replaceChildren(); return; }
+    el.replaceChildren(...[...d.data].sort((a, b) => Math.abs(a.flip_distance_atr) - Math.abs(b.flip_distance_atr)).map((r) => {
+      const li = h('li', Math.abs(r.flip_distance_atr) < 1 ? 'is-soon' : null);
+      li.append(h('span', null, `${r.symbol} ${signed(r.score, '.2f')}`), h('span', null, `${r.flip_days}-day flips at ${d3.format(',.2f')(r.flip_price)} · ${signed(r.flip_distance_atr, '.1f')} ATR`));
+      return li;
+    }));
+  });
+
+  dash.draw('driver-chart', (el) => {
+    const d = ready(el, 'by_driver', true);
+    if (!d) return;
+    if (!d.data.length) { el.replaceChildren(h('p', 'lg-empty', 'Ideas are tagged with their inputs from now on; results show here as they are scored.')); return; }
+    hbars(el, d.data.map((r) => ({ label: human(r.driver), value: r.mean_bps, r })), {
+      diverging: true,
+      fmt: (it) => `${fmtBp(it.value)} · ${it.r.ideas}`,
+      color: (it) => it.value >= 0 ? 'var(--color-ok)' : 'var(--color-bad)',
+      tipLines: (it) => [[human(it.r.driver), 'lg-tipdate'], [`Average ${fmtBp(it.value)}`], [`Hit rate ${pct(it.r.hit_rate)} of ${it.r.ideas}`]],
+    });
+  });
+
+  const named = document.getElementById(location.hash.slice(1));
+  if (named) named.scrollIntoView();
+</script>

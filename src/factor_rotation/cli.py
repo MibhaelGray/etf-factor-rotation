@@ -10,13 +10,13 @@ from . import journal
 from .analytics.compute import compute_exposures, latest_snapshot
 from .config import NY
 from .ib import bars, options
-from .universe import CONSTITUENTS, ETFS, bar_universe
+from .universe import ETFS, INDEXES, OPTION_INDEXES, OPTION_STOCKS, bar_universe, option_universe
 
 
 def _universe(group: str, symbols: str | None) -> list[str]:
     if symbols:
         return [s.strip().upper() for s in symbols.split(",")]
-    return {"etfs": ETFS, "stocks": CONSTITUENTS, "all": ETFS + CONSTITUENTS}[group]
+    return {"etfs": list(OPTION_INDEXES) + ETFS, "stocks": OPTION_STOCKS, "all": option_universe()}[group]
 
 
 def _today() -> date:
@@ -26,6 +26,9 @@ def _today() -> date:
 def main(argv: list[str] | None = None) -> None:
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s", stream=sys.stderr)
     logging.getLogger("ib_async").setLevel(logging.ERROR)
+    # ib_async logs every API error itself; session.py already logs the ones that matter, so this keeps
+    # thousands of "no security definition" lines for unlisted built options out of the job logs.
+    logging.getLogger("ib_async.wrapper").setLevel(logging.CRITICAL)
     p = argparse.ArgumentParser(prog="fr")
     sub = p.add_subparsers(dest="cmd", required=True)
 
@@ -57,9 +60,19 @@ def main(argv: list[str] | None = None) -> None:
     c = sub.add_parser("intraday", help="store today's 15-minute bars for the session's idea legs")
     c.add_argument("--date", default=None)
 
+    c = sub.add_parser("market", help="write tonight's market rows for the dashboard from the brief")
+    c.add_argument("--as-of", default=None)
+    c.add_argument("--out", type=Path, default=Path("market.json"))
+
     c = sub.add_parser("ledger", help="write every idea and its result as JSON rows for the dashboard")
     c.add_argument("--marks", type=Path, help="intraday marks JSON for ideas not yet scored")
     c.add_argument("--out", type=Path, default=Path("ledger.json"))
+
+    c = sub.add_parser("dashboard", help="build a local copy of the dashboard (dashboard/local.html) and open it")
+    c.add_argument("--as-of", default=None, help="brief date for tonight's market rows (default: the latest brief)")
+    c.add_argument("--marks", type=Path, help="intraday marks JSON for ideas not yet scored")
+    c.add_argument("--out", type=Path, default=None)
+    c.add_argument("--no-open", action="store_true", help="build without opening it in the browser")
 
     a = p.parse_args(argv)
     if a.cmd == "options":
@@ -71,7 +84,7 @@ def main(argv: list[str] | None = None) -> None:
         print(json.dumps(stats))
     elif a.cmd == "bars":
         symbols = [s.strip().upper() for s in a.symbols.split(",")] if a.symbols else bar_universe()
-        print(json.dumps(asyncio.run(bars.collect(symbols, a.duration))))
+        print(json.dumps(asyncio.run(bars.collect(symbols, a.duration, None if a.symbols else INDEXES))))
     elif a.cmd == "exposures":
         day = a.date or _today().isoformat()
         snapshot = a.snapshot or latest_snapshot(day)
@@ -100,6 +113,25 @@ def main(argv: list[str] | None = None) -> None:
             logging.info("no_ideas date=%s", day)
             return
         print(journal.write_intraday(day, asyncio.run(bars.collect_intraday(symbols, day))))
+    elif a.cmd == "market":
+        from . import market
+        as_of = date.fromisoformat(a.as_of) if a.as_of else _today()
+        rows = market.build(as_of)
+        a.out.write_text(json.dumps(rows, separators=(",", ":"), default=journal._json_default) + "\n")
+        counts = {}
+        for r in rows:
+            counts[r["section"]] = counts.get(r["section"], 0) + 1
+        print(f"{a.out}  " + " ".join(f"{k}={v}" for k, v in counts.items()))
+    elif a.cmd == "dashboard":
+        import webbrowser
+
+        from . import localdash
+        out = a.out or localdash.DEFAULT_OUT
+        info = localdash.build(out, date.fromisoformat(a.as_of) if a.as_of else None,
+                               json.loads(a.marks.read_text()) if a.marks else None)
+        print(f"{info['out']}  ideas={info['ideas']} market_rows={info['market_rows']} ({info['market']})")
+        if not a.no_open:
+            webbrowser.open(out.resolve().as_uri())
     elif a.cmd == "ledger":
         rows = journal.ledger(json.loads(a.marks.read_text()) if a.marks else None)
         a.out.write_text(json.dumps(rows, indent=1) + "\n")

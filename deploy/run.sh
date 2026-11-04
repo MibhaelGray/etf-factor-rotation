@@ -23,12 +23,17 @@ case "$1" in
   bars)         exec uv run fr bars ;;
   nightly)
     uv run fr trading-day || exit 0
-    git pull --rebase --quiet
+    # The repo may be a working checkout with edits in progress: stash them around the pull, and commit only
+    # the files this job writes, whatever else is staged.
+    git pull --rebase --autostash --quiet
     uv run fr intraday || echo "intraday bars failed; scoring anyway" >&2
     uv run fr score
     uv run fr brief
-    git add journal
-    git diff --cached --quiet || git commit --quiet -m "Journal $(TZ=America/New_York date +%F): scores and brief"
+    written=()
+    for d in journal/scores journal/briefs journal/intraday; do [ -d "$d" ] && written+=("$d"); done
+    git add -- "${written[@]}"
+    git diff --cached --quiet -- "${written[@]}" ||
+      git commit --quiet -m "Journal $(TZ=America/New_York date +%F): scores and brief" -- "${written[@]}"
     git push --quiet
     ;;
   *) echo "unknown job $1" >&2; exit 2 ;;

@@ -15,7 +15,7 @@ Structured data (the brief, the collector's pulls, the market numbers below) com
   - `regime`: sector correlation and dispersion, breadth above the 50/200-day averages, SPY realized vol.
   - `factor_pairs`: 1/5/20/60-day returns, z-scores vs 50/200 days, RSI, above the 50-day, spread vol.
   - `etf_technicals` and `constituent_technicals`: distance from the 20/50/200-day averages, RSI, ATR14 and ATR %, realized vol, volume z-score, 52-week high distance, relative strength vs SPY, beta.
-  - `options`: GEX, gamma flip, call/put walls, vanna/charm, ATM IV and skew, put/call, 0DTE share, unusual volume. When this is empty (no snapshot yet), take snapshots of the key ETFs from the IBKR connector instead (`get_price_snapshot`, `get_option_data`).
+  - `options`: GEX, gamma flip, call/put walls, vanna/charm, ATM IV and skew, put/call, 0DTE share, unusual volume. SPX is included and holds most of the index's dealer gamma, so read index positioning from SPX first and SPY second; SPX levels are in index points (SPY is about a tenth). SPX is not an idea leg. When this is empty (no snapshot yet), take snapshots of the key ETFs from the IBKR connector instead (`get_price_snapshot`, `get_option_data`).
   - `forced_flows`: trading that has to happen whatever anyone thinks, each a model estimate from IBKR data, not observed positions.
     - `calendar`: the next monthly and quarterly option expiry, VIX expiry, month end and quarter end, in sessions from tonight (1 = the next session).
     - `options_expiry`: for the index ETFs and largest names, each upcoming expiry's share of dealer gamma and delta-weighted open interest. A large share in the next expiry means that much hedging disappears when it expires, and pinning near big strikes is likelier before it.
@@ -48,7 +48,8 @@ Save `journal/research/<as_of>-dossier.md` with sections for the tape, technical
 ## 4. Draft the ideas
 
 - 1-3 ideas, each a pair (`long` and `short`), an outright `long`, or an outright `short`. Every leg must be in `universe.idea_universe()`.
-- Each idea needs `factor`, `confidence` 1-5 (calibrated: 3 means a real but modest edge, and 4-5 should be rare), `thesis`, `invalidation` (concrete levels, sized with ATR), `key_signals`, and `stand_down_if`.
+- Each idea needs `factor`, `confidence` 1-5 (calibrated: 3 means a real but modest edge, and 4-5 should be rare), `thesis`, `invalidation` (concrete levels, sized with ATR), `key_signals`, `stand_down_if` and `drivers`.
+- `drivers` lists what the idea actually rests on, from `journal.DRIVERS`: `stretched_pair`, `trend`, `catalyst`, `earnings`, `macro`, `positioning`, `options`, `forced_flow`, `base_rate`. Tag only the inputs that would change the call if they were different, usually one to three. The dashboard averages results by driver, so honest tags are how we learn which inputs are worth anything.
 - `stand_down_if` lists the overnight conditions that would cancel the idea before the open, written so the morning check can test each one against a number or a headline: the invalidation level already crossed pre-market; a leg gapping more than about one ATR in the idea's direction, so the move happened before the open; an overnight event that hits the thesis's specific mechanism. Not general nervousness, and not "futures are down" unless the thesis depends on the market's direction.
 - Say how research and technicals agree or conflict. An idea with only one of the two behind it gets lower confidence.
 - Scoring is next open to close, so favor theses that should play out within the session, and flag after-close event risk in `macro_context`.
@@ -60,12 +61,14 @@ Write the draft to the scratchpad in the format shown in the README, show it to 
 
 ## 6. Refresh the dashboard
 
-The [Factor Rotation Ledger](https://claude.ai/artifact/TVknCZmSXjToEPbmMGPSKv) reads one attached file, `ledger.json`, in its `datasets/ledger` document. It can't read the journal, so rebuild that file whenever the journal changes: after a pull with new scores, after recording, and when asked how today's ideas are doing.
+The [Factor Rotation Ledger](https://claude.ai/artifact/TVknCZmSXjToEPbmMGPSKv) reads two attached files: `ledger.json` (every idea and its result) in its `datasets/ledger` document, and `market.json` (tonight's market: factor board, regime, dealer gamma, forced flows) in `datasets/market`. It can't read the journal, so rebuild them whenever the journal changes: after a pull with new scores or a new brief, after recording, and when asked how today's ideas are doing.
 
 1. `uv run fr ledger --out <scratchpad>/ledger.json`. During a session with unscored ideas, first write `<scratchpad>/marks.json` as `{"at": <unix seconds>, "prices": {SYMBOL: {"open": …, "last": …}}}` from IBKR `get_price_snapshot` (`open`, `last`) for every leg plus SPY, and pass `--marks <scratchpad>/marks.json`. Ideas with a score file are always taken from it.
-2. Upload the file with the Artifact tool (`asset: true`, `url` the dashboard, `file_path` the new ledger.json).
-3. Read `datasets/ledger` with ArtifactData, then `update` it pinned to its version: `source.url` the new `/_blob/<id>`, `updated: {at, by}` and `edit: {via: "claude", at}`.
-4. Delete the previous asset (its id is the old `source.url` after `/_blob/`), then read `data/users/me` doc `check` for the dashboard's own check.
+2. After a new brief: `uv run fr market --as-of <as_of> --out <scratchpad>/market.json`.
+3. Upload each new file with the Artifact tool (`asset: true`, `url` the dashboard, `file_path` the file).
+4. Read the dataset document with ArtifactData, then `update` it pinned to its version: `source.url` the new `/_blob/<id>`, `updated: {at, by}` and `edit: {via: "claude", at}`.
+5. Delete the previous asset (its id is the old `source.url` after `/_blob/`), then read `data/users/me` doc `check` for the dashboard's own check.
+6. The page itself is `dashboard/page.html` in the repo. Change it there and publish its text to the `files/index.html` document, so the local copy and the published page stay the same. `uv run fr dashboard` builds the local copy (`dashboard/local.html`) from the journal and opens it.
 
 ## 7. Pre-open check (the morning, 08:30-09:25 ET)
 

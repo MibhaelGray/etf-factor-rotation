@@ -10,7 +10,7 @@ import asyncio
 import logging
 
 import pandas as pd
-from ib_async import IB, Stock
+from ib_async import IB, Contract, Index, Stock
 
 from .. import storage
 from ..config import NY
@@ -23,12 +23,12 @@ def bars_path(symbol: str) -> str:
     return f"bars_daily/symbol={symbol.replace(' ', '_')}.parquet"
 
 
-async def _pull(ib: IB, symbol: str, duration: str, sem: asyncio.Semaphore) -> int:
+async def _pull(ib: IB, symbol: str, duration: str, sem: asyncio.Semaphore, contract: Contract | None = None) -> int:
+    """Daily bars for a stock or ETF (dividend-adjusted), or for an index when `contract` is given."""
     async with sem:
-        contract = Stock(symbol, "SMART", "USD")
         bars = await ib.reqHistoricalDataAsync(
-            contract, endDateTime="", durationStr=duration, barSizeSetting="1 day",
-            whatToShow="ADJUSTED_LAST", useRTH=True, formatDate=1, timeout=120,
+            contract or Stock(symbol, "SMART", "USD"), endDateTime="", durationStr=duration, barSizeSetting="1 day",
+            whatToShow="TRADES" if contract else "ADJUSTED_LAST", useRTH=True, formatDate=1, timeout=120,
         )
     if not bars:
         log.warning("no_bars symbol=%s", symbol)
@@ -43,15 +43,19 @@ async def _pull(ib: IB, symbol: str, duration: str, sem: asyncio.Semaphore) -> i
     return len(df)
 
 
-async def collect(symbols: list[str], duration: str = "5 Y") -> dict:
+async def collect(symbols: list[str], duration: str = "5 Y", indexes: dict[str, str] | None = None) -> dict:
     sem = asyncio.Semaphore(8)
+    indexes = indexes or {}
     async with connect(client_id_offset=1) as ib:
-        results = await asyncio.gather(*[_pull(ib, s, duration, sem) for s in symbols], return_exceptions=True)
-    failed = [s for s, r in zip(symbols, results) if isinstance(r, Exception) or r == 0]
-    for s, r in zip(symbols, results):
+        pulls = [_pull(ib, s, duration, sem) for s in symbols]
+        pulls += [_pull(ib, s, duration, sem, Index(s, exchange, "USD")) for s, exchange in indexes.items()]
+        results = await asyncio.gather(*pulls, return_exceptions=True)
+    names = symbols + list(indexes)
+    failed = [s for s, r in zip(names, results) if isinstance(r, Exception) or r == 0]
+    for s, r in zip(names, results):
         if isinstance(r, Exception):
             log.error("bars_failed symbol=%s error=%r", s, r)
-    stats = {"symbols": len(symbols), "failed": failed}
+    stats = {"symbols": len(names), "failed": failed}
     log.info("bars_done %s", stats)
     return stats
 

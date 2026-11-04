@@ -18,7 +18,7 @@ from ..universe import LEVERAGED
 
 TREND_ASSETS = ["SPY", "QQQ", "IWM", "EFA", "EEM", "TLT", "IEF", "GLD", "USO", "UUP"]
 TREND_LOOKBACKS = [20, 60, 120, 250]
-EXPIRY_UNDERLYINGS = ["SPY", "QQQ", "IWM", "DIA", "SMH", "XLK", "NVDA", "TSLA", "AAPL", "MSFT", "AMZN", "META",
+EXPIRY_UNDERLYINGS = ["SPX", "SPY", "QQQ", "IWM", "DIA", "SMH", "XLK", "NVDA", "TSLA", "AAPL", "MSFT", "AMZN", "META",
                       "GOOGL", "AVGO"]
 VOL_TARGET = 0.10
 VOL_CAP = 2.0

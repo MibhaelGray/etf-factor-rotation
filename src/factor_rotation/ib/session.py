@@ -7,7 +7,7 @@ from ..config import settings
 
 log = logging.getLogger(__name__)
 
-BENIGN_ERRORS = {2104, 2106, 2107, 2108, 2158, 10167, 300}
+BENIGN_ERRORS = {2104, 2106, 2107, 2108, 2119, 2158, 10167, 300, 200}  # 200: a built option that isn't listed
 COMPETING_SESSION = 10197
 
 
@@ -32,9 +32,17 @@ async def connect(client_id_offset: int = 0):
         ib.disconnect()
 
 
+ONCE_ERRORS = {10089, 10090, 10091}  # market data subscription notices: one per run is enough
+_seen: set[int] = set()
+
+
 def _log_error(req_id, code, message, contract):
     if code in BENIGN_ERRORS:
         return
+    if code in ONCE_ERRORS:
+        if code in _seen:
+            return
+        _seen.add(code)
     if code == COMPETING_SESSION:
         log.error("competing_live_session req_id=%s: market data blocked by another login on this user", req_id)
         return

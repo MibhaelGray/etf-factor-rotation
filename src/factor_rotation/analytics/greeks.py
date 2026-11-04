@@ -12,6 +12,7 @@ import pandas as pd
 from scipy.special import ndtr
 
 from ..config import NY, settings
+from ..universe import AM_SETTLED_CLASSES
 
 MIN_T = 15 / (365.25 * 24 * 60)
 
@@ -76,8 +77,21 @@ def _mid(df: pd.DataFrame) -> pd.Series:
     return ((df["bid"] + df["ask"]) / 2).where(ok)
 
 
+def _am_settled(df: pd.DataFrame) -> pd.Series:
+    if "trading_class" not in df.columns:
+        return pd.Series(False, index=df.index)
+    return df["trading_class"].isin(AM_SETTLED_CLASSES)
+
+
+def series_key(df: pd.DataFrame) -> pd.Series:
+    """Expiry plus settlement: SPX's AM monthly and SPXW's PM option share a date but are different contracts."""
+    return df["expiry"].astype(str) + np.where(_am_settled(df), "AM", "")
+
+
 def _years_to_expiry(df: pd.DataFrame) -> pd.Series:
-    expiry_close = pd.to_datetime(df["expiry"], format="%Y%m%d").dt.tz_localize(NY) + pd.Timedelta(hours=16)
+    # AM-settled index options stop at the open on their settlement date; everything else at the close.
+    hours = pd.to_timedelta(np.where(_am_settled(df), 9.5, 16.0), unit="h")
+    expiry_close = pd.to_datetime(df["expiry"], format="%Y%m%d").dt.tz_localize(NY) + hours
     ts = pd.to_datetime(df["ts"])
     if ts.dt.tz is None:
         ts = ts.dt.tz_localize(NY)
@@ -104,8 +118,9 @@ def enrich(raw: pd.DataFrame) -> pd.DataFrame:
     df["S"] = df["ib_und_price"].where(df["ib_und_price"] > 0, df["spot_at_start"])
     df["T"] = _years_to_expiry(df)
     df["mid"] = _mid(df)
-    forwards = df.groupby("expiry").apply(lambda g: _implied_forward(g, r), include_groups=False)
-    df["F"] = df["expiry"].map(forwards)
+    df["series"] = series_key(df)
+    forwards = df.groupby("series").apply(lambda g: _implied_forward(g, r), include_groups=False)
+    df["F"] = df["series"].map(forwards)
     df["b"] = np.log(df["F"] / df["S"]) / df["T"]
     is_call = (df["right"] == "C").to_numpy()
     own_iv = implied_vol(
@@ -114,8 +129,8 @@ def enrich(raw: pd.DataFrame) -> pd.DataFrame:
     )
     df["own_iv"] = own_iv
     otm = np.where(df["strike"] >= df["F"], df["right"] == "C", df["right"] == "P")
-    surface = df[otm & df["own_iv"].notna()].groupby(["expiry", "strike"])["own_iv"].first()
-    keys = pd.MultiIndex.from_frame(df[["expiry", "strike"]])
+    surface = df[otm & df["own_iv"].notna()].groupby(["series", "strike"])["own_iv"].first()
+    keys = pd.MultiIndex.from_frame(df[["series", "strike"]])
     df["iv"] = surface.reindex(keys).to_numpy()
     df["iv"] = df["iv"].fillna(df["own_iv"]).fillna(df["ib_iv"])
     sigma = df["iv"].to_numpy(float)

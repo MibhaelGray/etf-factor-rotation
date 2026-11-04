@@ -93,13 +93,28 @@ LEVERAGED = [
     LeveragedFund("MSTU", 2, "MSTR", "MSTR"),
 ]
 
+# Cboe indexes pulled as daily bars beside the ETFs: VIX and its 3-month version, and the 10-year
+# yield (TNX is the yield times 10).
+INDEXES = {"VIX": "CBOE", "VIX3M": "CBOE", "TNX": "CBOE"}
+
 # Daily bars only: the aggregate bond ETF for the pension rebalance estimate and the leveraged funds' own prices.
 # None of these are idea legs or option underlyings.
 BARS_ONLY = ["AGG"] + [f.symbol for f in LEVERAGED]
 
 
+# Single-stock option chains only for the largest names, the ones that move the index; the list is
+# roughly in market-cap order.
+OPTION_STOCKS = CONSTITUENTS[:30]
+
+# Index option underlyings: exchange, and the trading classes we pull. SPXW holds the dailies and weeklies
+# (settled at the close); SPX holds the traditional monthlies, settled on the morning's opening prints. Most
+# index dealer gamma sits here rather than in SPY. Not idea legs: an index can't be bought.
+OPTION_INDEXES = {"SPX": ("CBOE", ("SPXW", "SPX"))}
+AM_SETTLED_CLASSES = {"SPX"}
+
+
 def option_universe() -> list[str]:
-    return ETFS + CONSTITUENTS
+    return list(OPTION_INDEXES) + ETFS + OPTION_STOCKS
 
 
 def idea_universe() -> list[str]:

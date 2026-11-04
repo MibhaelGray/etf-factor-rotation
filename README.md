@@ -4,32 +4,35 @@ Collects option chains and daily bars for the largest ETFs and their top constit
 
 ## Pieces
 
-Data collection runs on the collector: a second Mac that stays on, plugged in and logged in, with the IB Gateway in Docker. The main Mac only reads the brief, runs the research and records the ideas.
+Data collection runs on the collector: a Mac that stays on, plugged in and logged in, with the IB Gateway in Docker. It can be a second Mac or the main one; the nightly job stashes any edits in progress around its `git pull` and commits only the files it writes. The main Mac reads the brief, runs the research and records the ideas.
 
 Every collected dataset comes from IBKR, so the pipeline has one data source. Web research feeds the nightly dossier as context, not as stored data.
 
 | Command | Runs on | When (ET, trading days) | Writes |
 |---|---|---|---|
 | `fr options --group all` | collector | 10:00, 15:30 | `options_raw/`, `options_underlying/`, `exposures/`, `exposures_by_strike/` |
-| `fr options --group etfs` | collector | 11:00–14:00 hourly | same, ETFs only |
-| `fr bars` | collector | 16:30 | `bars_daily/` |
+| `fr options --group etfs` | collector | 11:00–14:00 hourly | same, SPX and the ETFs only |
+| `fr bars` | collector | 16:30 | `bars_daily/`: the ETFs and stocks, the leveraged funds, AGG, and VIX, VIX3M and the 10-year yield |
 | `deploy/run.sh nightly` | collector | 19:00 | runs `fr intraday`, `fr score` and `fr brief`, commits `journal/`, pushes |
 | `fr intraday` | collector | in the nightly job | `journal/intraday/`: the session's 15-minute bars (04:00–16:00) for the idea legs and SPY |
 | `fr record` | Mac | ~19:30 | `journal/ideas/`, committed and pushed |
 | `fr check` | Mac | 08:30–09:25 | `journal/checks/`: the pre-open stands / stand-down decision per idea; refused after the open |
 | `fr scorecard` | anywhere | any time | prints the scorecard |
 | `fr ledger` | Mac | after `git pull` | every idea and its result as JSON rows for the [Factor Rotation Ledger](https://claude.ai/artifact/TVknCZmSXjToEPbmMGPSKv) dashboard |
+| `fr market` | Mac | after `git pull` | tonight's market rows for the dashboard: factor board, regime, dealer gamma, forced flows |
+| `fr dashboard` | anywhere | any time | `dashboard/local.html`, a local copy of the dashboard built from the journal, and opens it |
+
+The dashboard page lives in `dashboard/page.html`, the same file published to claude.ai. `fr dashboard` wraps it with `dashboard/shim.js` (a stand-in for the claude.ai runtime) and `dashboard/tokens.css`, and embeds the ledger and tonight's market rows, so it opens from disk with no server. Tonight's market rows need the option data in `data/`, so on a machine without it that section shows as failed. Charts load d3 from a CDN.
 
 Market data lives on the collector's disk under `FR_DATA_ROOT` (default `data/` in the repo). The journal (briefs, ideas, scores) travels through GitHub: the collector pushes scores and briefs, and the main Mac pulls them, records the ideas and pushes those back.
 
 ## Options data
 
-For each underlying, the collector takes:
-- every expiry within 8 days
-- the monthly expiries out to 120 days for ETFs or 75 days for stocks
-- the weekly expiries out to 35 days, while there's room under the cap of 12 expiries
+Option chains are pulled for the S&P 500 index (SPX), the 46 ETFs and the 30 largest stocks (`universe.option_universe()`). SPX carries most of the index's dealer gamma (far more open interest than SPY), so it's pulled in every run, including the hourly ETF runs. Two of its classes are kept: SPXW (the dailies and weeklies, settled at the close) and SPX (the traditional monthlies, settled on the morning's opening prints, so their greeks run to 09:30). SPX isn't an idea leg: an index can't be bought. For each underlying, the collector takes:
+- the 5 nearest expiries within 8 days, where most dealer gamma sits
+- the next 3 monthly expiries, out to 120 days for ETFs or 75 days for stocks
 
-Strikes are kept within ±2.5 standard deviations of spot, using the underlying's IV, with a floor of 3% and a cap of 15% for ETFs or 20% for stocks. Each contract stores:
+Strikes are kept within ±2 standard deviations of spot, using the underlying's IV, with a floor of 3% and a cap of 10% for ETFs and SPX or 15% for stocks. Within 3% of spot every strike is kept; beyond that only round strikes (every $5 on SPY, every 50 points on SPX). That keeps SPY near 850 contracts, SPX near 2,200 (SPXW's 8 expiries plus SPX's 3 monthlies) and a full run near 17,000, while the strikes and expiries that drive gamma, walls and skew stay in. Contract ids are cached per underlying and trading class until expiry, along with the built strikes IBKR doesn't list, so each strike is looked up once. Each contract stores:
 - bid, ask and sizes
 - last price, volume and open interest
 - IBKR's model greeks
@@ -71,7 +74,8 @@ Draft format:
 {"as_of": "2026-11-02", "macro_context": "...", "ideas": [
   {"long": "MTUM", "short": "USMV", "factor": "momentum", "confidence": 4,
    "thesis": "...", "invalidation": "...", "key_signals": ["..."],
-   "stand_down_if": ["MTUM gaps more than 1 ATR above USMV pre-market", "..."]}]}
+   "stand_down_if": ["MTUM gaps more than 1 ATR above USMV pre-market", "..."],
+   "drivers": ["stretched_pair", "positioning"]}]}
 ```
 
 Each idea is dollar-neutral, entered at the next open and exited at the close. Close-to-close is recorded alongside.
@@ -80,7 +84,7 @@ Before the open, `fr check` records whether each idea stands or is stood down un
 
 ## Collector setup (macOS)
 
-1. **IBKR login:** create a second username in Client Portal (Settings → Users & Access Rights) and subscribe it to US options (OPRA) and US equity market data. Its own subscriptions mean your own TWS or phone sessions never cut off the collector. Expect an IB Key approval on your phone about once a week, when the gateway's session expires.
+1. **IBKR login:** the account must be on IBKR Pro (Lite accounts can't use the API). Create a second username in Client Portal (Settings → Users & Access Rights) and subscribe it to US options (OPRA) and US equity market data. Its own subscriptions mean your own TWS or phone sessions never cut off the collector. Expect an IB Key approval on your phone about once a week, when the gateway's session expires.
 2. **Software:** install Docker Desktop (Settings → General → Start Docker Desktop when you sign in), `uv` and git. Clone this repo, set `git config user.name` and `user.email` in it, and give the Mac an SSH key with write access to the GitHub repo and no passphrase, so the nightly job can push unattended.
 3. **Settings:** copy `.env.example` to `.env` and fill in the login.
 4. **Start the gateway:** `docker compose -f deploy/docker-compose.yml up -d`. It restarts with Docker Desktop.
@@ -95,6 +99,13 @@ Before the open, `fr check` records whether each idea stands or is stood down un
 Logs: `~/Library/Logs/factor-rotation/<job>.log`. To run a job now: `launchctl kickstart gui/$(id -u)/com.factor-rotation.nightly`.
 
 A Linux box works too: `deploy/systemd/` holds the same schedule as systemd timers, with the repo at `/opt/factor-rotation`.
+
+## Moving the collector to another Mac
+
+1. Set up the new Mac with steps 1–6 above, but don't start the gateway yet.
+2. On the old one: `python3 deploy/launchd/install.py --uninstall`, then `docker compose -f deploy/docker-compose.yml down`. One gateway per username, so stop this one first.
+3. Copy the market data across (Remote Login on, on the new Mac): `rsync -az data/ newmac.local:<repo path>/data/`. Past option chains can't be re-downloaded, so check the file counts match before deleting anything.
+4. On the new Mac: start the gateway, install the schedules and kickstart `bars` to check it connects.
 
 ## Backup
 

@@ -82,6 +82,19 @@ def _records(df: pd.DataFrame) -> list[dict]:
 
 LEVERAGED_ASSETS = JOURNAL / "reference" / "leveraged_assets.json"
 
+# What an idea rests on, tagged when it's recorded so the dashboard can show which inputs earn their keep.
+DRIVERS = {
+    "stretched_pair": "a factor pair at an extreme (z-score, RSI, 20-day move)",
+    "trend": "a pair or leg trending, expected to continue",
+    "catalyst": "a scheduled event in the window: a release, a vote, a policy decision",
+    "earnings": "earnings reported before the open or the night before",
+    "macro": "a cross-asset move: rates, oil, the dollar, credit",
+    "positioning": "crowding or de-grossing: prime book, CTA, retail, short interest",
+    "options": "dealer gamma, walls, expiry or skew",
+    "forced_flow": "leveraged ETF, rebalancing or vol-control flows",
+    "base_rate": "a historical study of what usually happens next",
+}
+
 
 def build_brief(as_of: date) -> dict:
     all_bars = load(bar_universe())
@@ -123,12 +136,15 @@ def record_ideas(draft_path: Path) -> Path:
         raise ValueError("record 1-3 ideas")
     universe = set(idea_universe())
     for i, idea in enumerate(ideas, 1):
-        for field in ("factor", "thesis", "confidence", "invalidation", "key_signals", "stand_down_if"):
+        for field in ("factor", "thesis", "confidence", "invalidation", "key_signals", "stand_down_if", "drivers"):
             if field not in idea:
                 raise ValueError(f"idea {i} missing {field}")
         rules = idea["stand_down_if"]
         if not isinstance(rules, list) or not rules or not all(isinstance(r, str) and r.strip() for r in rules):
             raise ValueError(f"idea {i} stand_down_if must list the overnight conditions that cancel it")
+        drivers = idea["drivers"]
+        if not isinstance(drivers, list) or not drivers or any(d not in DRIVERS for d in drivers):
+            raise ValueError(f"idea {i} drivers must list what the idea rests on, from: {', '.join(DRIVERS)}")
         legs = _legs(idea)
         if not legs:
             raise ValueError(f"idea {i} needs a long leg, a short leg, or both")
@@ -321,6 +337,7 @@ def ledger(marks: dict | None = None) -> list[dict]:
                 "factor": idea["factor"], "confidence": idea["confidence"],
                 "thesis": idea["thesis"], "invalidation": idea["invalidation"],
                 "stand_down_if": " · ".join(idea.get("stand_down_if", [])),
+                "drivers": ",".join(idea.get("drivers", [])),
                 "check": {"stands": "Stands", "stand_down": "Stood down"}.get(check.get("decision"), "Not checked"),
                 "check_reason": check.get("reason", ""),
                 "status": "Open", "oc_bps": None, "long_bps": None, "short_bps": None, "spy_bps": None,
