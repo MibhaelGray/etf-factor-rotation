@@ -27,6 +27,9 @@ case "$1" in
     # the files this job writes, whatever else is staged.
     git pull --rebase --autostash --quiet
     uv run fr intraday || echo "intraday bars failed; scoring anyway" >&2
+    # Basket members outside the standard universe: their daily bars, in case the 16:30 pull ran before
+    # the ideas that hold them reached this checkout.
+    uv run fr bars --pending || echo "basket bars failed; scoring anyway" >&2
     uv run fr score
     uv run fr brief
     written=()

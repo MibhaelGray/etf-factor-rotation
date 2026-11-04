@@ -47,7 +47,13 @@ Save `journal/research/<as_of>-dossier.md` with sections for the tape, technical
 
 ## 4. Draft the ideas
 
-- 1-3 ideas, each a pair (`long` and `short`), an outright `long`, or an outright `short`. Every leg must be in `universe.idea_universe()`.
+- 1-3 ideas, each a pair (`long` and `short`), an outright `long`, or an outright `short`. A side is one symbol from `universe.idea_universe()`, or a themed basket (below).
+- **Themed baskets.** Use a basket when the story hits a group of companies no ETF captures cleanly (a datacenter moratorium threat hits the Texas builders and power names, not all of XLI), or when the nearest ETF is diluted by names the story doesn't touch. Otherwise an ETF is simpler and cheaper.
+  - A basket side is a list of 3-10 tickers held in equal weight, with `long_label` or `short_label` naming the theme. Members can come from outside the standard universe.
+  - Find members with the IBKR connector (`get_company_themes`, `get_theme_details`, the screener tools) and the research pass. The dossier says why each name belongs and what share of its business the theme is.
+  - Check every member with IBKR before recording: `search_contracts` resolves it to a US-listed stock; `get_price_snapshot` `avg_90d_usd_volume` is at least about $20M; and for a short basket, the name isn't hard to borrow. Drop names that fail rather than keep a thin one.
+  - Hedge a basket against the ETF nearest its exposure (builders against XLI or SMH, regional banks against KRE or XLF), so the score measures the theme rather than the market. An unhedged basket needs a directional thesis.
+  - Members outside the universe have no technicals in the brief: take ATR and the recent move from `get_price_history` and size the invalidation on the basket's average.
 - Each idea needs `factor`, `confidence` 1-5 (calibrated: 3 means a real but modest edge, and 4-5 should be rare), `thesis`, `invalidation` (concrete levels, sized with ATR), `key_signals`, `stand_down_if` and `drivers`.
 - `drivers` lists what the idea actually rests on, from `journal.DRIVERS`: `stretched_pair`, `trend`, `catalyst`, `earnings`, `macro`, `positioning`, `options`, `forced_flow`, `base_rate`. Tag only the inputs that would change the call if they were different, usually one to three. The dashboard averages results by driver, so honest tags are how we learn which inputs are worth anything.
 - `stand_down_if` lists the overnight conditions that would cancel the idea before the open, written so the morning check can test each one against a number or a headline: the invalidation level already crossed pre-market; a leg gapping more than about one ATR in the idea's direction, so the move happened before the open; an overnight event that hits the thesis's specific mechanism. Not general nervousness, and not "futures are down" unless the thesis depends on the market's direction.
@@ -63,7 +69,7 @@ Write the draft to the scratchpad in the format shown in the README, show it to 
 
 The [Factor Rotation Ledger](https://claude.ai/artifact/TVknCZmSXjToEPbmMGPSKv) reads two attached files: `ledger.json` (every idea and its result) in its `datasets/ledger` document, and `market.json` (tonight's market: factor board, regime, dealer gamma, forced flows) in `datasets/market`. It can't read the journal, so rebuild them whenever the journal changes: after a pull with new scores or a new brief, after recording, and when asked how today's ideas are doing.
 
-1. `uv run fr ledger --out <scratchpad>/ledger.json`. During a session with unscored ideas, first write `<scratchpad>/marks.json` as `{"at": <unix seconds>, "prices": {SYMBOL: {"open": …, "last": …}}}` from IBKR `get_price_snapshot` (`open`, `last`) for every leg plus SPY, and pass `--marks <scratchpad>/marks.json`. Ideas with a score file are always taken from it.
+1. `uv run fr ledger --out <scratchpad>/ledger.json`. During a session with unscored ideas, first write `<scratchpad>/marks.json` as `{"at": <unix seconds>, "prices": {SYMBOL: {"open": …, "last": …}}}` from IBKR `get_price_snapshot` (`open`, `last`) for every leg plus SPY, every basket member included, and pass `--marks <scratchpad>/marks.json`. Ideas with a score file are always taken from it.
 2. After a new brief: `uv run fr market --as-of <as_of> --out <scratchpad>/market.json`.
 3. Upload each new file with the Artifact tool (`asset: true`, `url` the dashboard, `file_path` the file).
 4. Read the dataset document with ArtifactData, then `update` it pinned to its version: `source.url` the new `/_blob/<id>`, `updated: {at, by}` and `edit: {via: "claude", at}`.
@@ -100,7 +106,7 @@ The nightly ideas can't react to what happens after the dossier is written: on 2
    {"trade_date": "2026-11-05", "summary": "one line on the overnight session",
     "premarket": {"ES": "-0.4%", "QQQ": "-1.1% (0.6 ATR)"},
     "macro_context": "...",
-    "ideas": [{"long": "IWM", "short": "QQQ", "factor": "size", "confidence": 2,
+    "ideas": [{"long": ["VST", "TLN", "NRG"], "long_label": "Texas power", "short": "XLU", "factor": "power_policy", "confidence": 2,
                "overnight": "what happened since last night, with numbers and times",
                "thesis": "...", "invalidation": "...", "key_signals": ["..."], "drivers": ["catalyst"]}]}
    ```

@@ -331,7 +331,7 @@
 
   <footer class="lg-method" id="method">
     <p class="lg-label">How ideas are scored</p>
-    <p>Each idea enters at the session's open and exits at its close. A pair is dollar-neutral, so its return is the long leg's minus the short leg's; an outright long or short is that one leg. Returns are in basis points, where 100 bp is 1%.</p>
+    <p>Each idea enters at the session's open and exits at its close. A pair is dollar-neutral, so its return is the long leg's minus the short leg's; an outright long or short is that one leg. A basket leg holds its 3 to 10 stocks in equal weight, so its return is their average. Returns are in basis points, where 100 bp is 1%.</p>
     <p>Final scores come from the nightly scoring run on daily bars. Until then, a session's ideas carry intraday marks from IBKR. The path through the day uses 15-minute bars from the 09:30 bar's open, so its end can differ slightly from the official score. The hit rate's range is a 95% Wilson interval, which treats ideas as independent; ideas on the same day often move together, so the true range is wider. Ideas are research, not advice, and carry no position sizing.</p>
   </footer>
 </div>
@@ -434,6 +434,8 @@
   const chipOf = (r) => { const [t, cls] = { Final: ['Final', 'is-final'], Intraday: ['Intraday mark', 'is-intraday'] }[r.status] || ['Not yet marked', '']; return h('span', `lg-chip ${cls}`, t); };
   const checkChip = (r) => { const [t, cls] = { Stands: ['Stands', 'is-final'], 'Stood down': ['Stood down', 'is-down'], 'No check': ['Morning idea', 'is-morning'] }[r.check] || ['Check pending', '']; return h('span', `lg-chip ${cls}`, t); };
   const checkText = (r) => !isNightly(r) ? r.check_reason : r.check === 'Not checked' || !r.check ? 'Not checked before the open.' : `${r.check}. ${r.check_reason}`;
+  // A basket side is shown by its theme name; its members, held in equal weight, are listed here.
+  const basketText = (r) => [r.long_members && `Long ${r.long}: ${r.long_members}`, r.short_members && `Short ${r.short}: ${r.short_members}`].filter(Boolean).join(' · ');
   const block = (label, text) => { const b = h('div'); b.append(h('p', 'lg-label', label), h('p', null, text)); return b; };
 
   // Shows the placeholder for a source that isn't ready and returns its data once it is.
@@ -515,7 +517,9 @@
       thesis.append(h('summary', 'lg-label', 'Thesis'), h('p', null, r.thesis));
       const chips = h('div', 'lg-chips');
       chips.append(checkChip(r));
-      card.append(conf, h('h3', 'lg-legs', legsOf(r)), chips, block('Wrong if', r.invalidation));
+      card.append(conf, h('h3', 'lg-legs', legsOf(r)), chips);
+      if (basketText(r)) card.append(block('Baskets, equal weight', basketText(r)));
+      card.append(block('Wrong if', r.invalidation));
       if (isNightly(r)) card.append(block('Stand down before the open if', r.stand_down_if || '—'));
       else card.append(block('Reacts to', r.overnight || '—'));
       if (r.check === 'Stands' || r.check === 'Stood down') card.append(block('Pre-open check', r.check_reason));
@@ -558,6 +562,7 @@
         requestAnimationFrame(() => sparkline(spark, r.path));
       }
       detail.append(block('Legs, open to close', legs.join(' · ')));
+      if (basketText(r)) detail.append(block('Baskets, equal weight', basketText(r)));
       if (isNightly(r)) detail.append(block('Pre-open check', checkText(r)));
       else detail.append(block('Morning idea, reacts to', r.overnight || '—'));
       detail.append(block('Wrong if', r.invalidation), block('Thesis', r.thesis));

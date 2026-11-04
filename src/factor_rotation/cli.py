@@ -39,6 +39,8 @@ def main(argv: list[str] | None = None) -> None:
     c = sub.add_parser("bars", help="pull daily adjusted bars")
     c.add_argument("--duration", default="5 Y")
     c.add_argument("--symbols")
+    c.add_argument("--pending", action="store_true",
+                   help="only the legs of unscored ideas outside the standard universe (basket members)")
 
     c = sub.add_parser("exposures", help="recompute exposures for a stored snapshot")
     c.add_argument("--date", default=None)
@@ -86,7 +88,14 @@ def main(argv: list[str] | None = None) -> None:
         compute_exposures(stats["date"], stats["snapshot_id"])
         print(json.dumps(stats))
     elif a.cmd == "bars":
-        symbols = [s.strip().upper() for s in a.symbols.split(",")] if a.symbols else bar_universe()
+        extra = [s for s in journal.pending_legs() if s not in set(bar_universe())]
+        if a.pending:
+            if not extra:
+                print(json.dumps({"symbols": 0, "failed": []}))
+                return
+            print(json.dumps(asyncio.run(bars.collect(extra, "2 Y"))))
+            return
+        symbols = [s.strip().upper() for s in a.symbols.split(",")] if a.symbols else bar_universe() + extra
         print(json.dumps(asyncio.run(bars.collect(symbols, a.duration, None if a.symbols else INDEXES))))
     elif a.cmd == "exposures":
         day = a.date or _today().isoformat()

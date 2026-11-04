@@ -14,13 +14,15 @@ Files are write-once: recording over an existing ideas or score file is refused,
 so the record can't be edited after the outcome is known.
 
 Every idea is an outright long, an outright short, or a dollar-neutral pair,
-entered at the next session's open and exited at its close. Close-to-close
+entered at the next session's open and exited at its close. Either side can be
+one fund or stock, or a named basket of 3-10 stocks held in equal weight. Close-to-close
 (from the as_of close) is recorded alongside for comparison.
 """
 
 import hashlib
 import json
 import os
+import re
 from datetime import date, datetime, time
 from pathlib import Path
 
@@ -69,6 +71,12 @@ BOOKS = {
     "nightly": ("ideas", "scores"),
     "morning": ("morning/ideas", "morning/scores"),
 }
+
+
+# A side of an idea is one symbol, or a named basket held in equal weight. Basket members can come from
+# outside the standard universe; their bars are pulled before scoring (pending_legs).
+BASKET_SIZE = (3, 10)
+SYMBOL = re.compile(r"^[A-Z][A-Z0-9.]{0,6}$")
 
 
 def _write_once(path: Path, payload: dict, indent: int | None = 2) -> Path:
@@ -179,14 +187,26 @@ def _validate(ideas: list[dict], extra: tuple[str, ...] = ()) -> None:
         drivers = idea["drivers"]
         if not isinstance(drivers, list) or not drivers or any(d not in DRIVERS for d in drivers):
             raise ValueError(f"idea {i} drivers must list what the idea rests on, from: {', '.join(DRIVERS)}")
-        legs = _legs(idea)
-        if not legs:
+        if not _legs(idea):
             raise ValueError(f"idea {i} needs a long leg, a short leg, or both")
-        if any(s not in universe for s in legs):
-            raise ValueError(f"idea {i} legs must be in the universe")
+        for side in ("long", "short"):
+            v = idea.get(side)
+            if isinstance(v, list):
+                lo, hi = BASKET_SIZE
+                if not lo <= len(v) <= hi:
+                    raise ValueError(f"idea {i} {side} basket must hold {lo}-{hi} names")
+                if any(not isinstance(m, str) or not SYMBOL.match(m) for m in v) or len(set(v)) != len(v):
+                    raise ValueError(f"idea {i} {side} basket must list distinct ticker symbols")
+                if not str(idea.get(f"{side}_label", "")).strip():
+                    raise ValueError(f"idea {i} {side} basket needs a {side}_label naming its theme")
+            elif v and v not in universe:
+                raise ValueError(f"idea {i} {side} leg {v} is not in the universe; use a basket for other names")
+        if set(_side(idea, "long")) & set(_side(idea, "short")):
+            raise ValueError(f"idea {i} has a name on both sides")
         if idea["confidence"] not in (1, 2, 3, 4, 5):
             raise ValueError(f"idea {i} confidence must be 1-5")
-        idea["kind"] = "pair" if len(legs) == 2 else ("long" if idea.get("long") else "short")
+        idea["kind"] = "pair" if idea.get("long") and idea.get("short") else ("long" if idea.get("long") else "short")
+        idea["basket"] = any(isinstance(idea.get(side), list) for side in ("long", "short"))
 
 
 def record_morning(draft_path: Path, now: datetime | None = None) -> Path:
@@ -302,8 +322,7 @@ def _spread_path(trade_date: str, idea: dict) -> list[list] | None:
     if not path.exists():
         return None
     bars = json.loads(path.read_text())["bars"]
-    legs = {idea.get("long"): 1, idea.get("short"): -1}
-    legs.pop(None, None)
+    legs = _weights(idea)
     if any(s not in bars for s in legs):
         return None
     session = {s: [(t, o, c) for t, o, c in zip(bars[s]["time"], bars[s]["open"], bars[s]["close"]) if "09:30" <= t < "16:00"]
@@ -316,8 +335,45 @@ def _spread_path(trade_date: str, idea: dict) -> list[list] | None:
     return [[t, round(sum(sign * (closes[s][t] / opens[s] - 1) for s, sign in legs.items()) * 1e4, 1)] for t in times]
 
 
+def _side(idea: dict, side: str) -> list[str]:
+    v = idea.get(side)
+    return list(v) if isinstance(v, list) else ([v] if v else [])
+
+
 def _legs(idea: dict) -> list[str]:
-    return [idea[k] for k in ("long", "short") if idea.get(k)]
+    return [*_side(idea, "long"), *_side(idea, "short")]
+
+
+def _weights(idea: dict) -> dict[str, float]:
+    """Each symbol's weight: +1 split evenly over the long side, -1 over the short side."""
+    w = {}
+    for side, sign in (("long", 1), ("short", -1)):
+        members = _side(idea, side)
+        for s in members:
+            w[s] = sign / len(members)
+    return w
+
+
+def _label(idea: dict, side: str) -> str:
+    v = idea.get(side)
+    if isinstance(v, list):
+        return idea.get(f"{side}_label") or ", ".join(v)
+    return v or ""
+
+
+def _side_return(rets: dict[str, float], idea: dict, side: str) -> float | None:
+    members = _side(idea, side)
+    return sum(rets[s] for s in members) / len(members) if members else None
+
+
+def pending_legs() -> list[str]:
+    """Every leg of an idea not yet scored, in either book: the bars scoring will need."""
+    legs = set()
+    for book in BOOKS:
+        for score_path, entry in _entries(book):
+            if not score_path.exists():
+                legs |= {s for i in entry["ideas"] for s in _legs(i)}
+    return sorted(legs)
 
 
 def _bar(bars: pd.DataFrame, symbol: str, day: date) -> pd.Series | None:
@@ -338,17 +394,21 @@ def score() -> list[Path]:
             continue
         results = []
         for idea in entry["ideas"]:
-            base = {"id": idea["id"], "long": idea.get("long"), "short": idea.get("short")}
+            base = {"id": idea["id"], "long": _label(idea, "long") or None, "short": _label(idea, "short") or None}
+            if idea.get("basket"):
+                base |= {"long_members": _side(idea, "long"), "short_members": _side(idea, "short")}
             today = {s: _bar(bars, s, trade_date) for s in _legs(idea)}
             prior = {s: _bar(bars, s, as_of) for s in _legs(idea)}
-            if any(b is None for b in [*today.values(), *prior.values()]):
-                results.append({**base, "missing_bars": True})
+            missing = sorted(s for s in today if today[s] is None or prior[s] is None)
+            if missing:
+                results.append({**base, "missing_bars": True, "missing": missing})
                 continue
             oc = {s: today[s]["close"] / today[s]["open"] - 1 for s in today}
             cc = {s: today[s]["close"] / prior[s]["close"] - 1 for s in today}
-            sign = {idea.get("long"): 1, idea.get("short"): -1}
-            oc_ret = sum(sign[s] * oc[s] for s in oc)
-            cc_ret = sum(sign[s] * cc[s] for s in cc)
+            w = _weights(idea)
+            oc_ret = sum(w[s] * oc[s] for s in oc)
+            cc_ret = sum(w[s] * cc[s] for s in cc)
+            long_oc, short_oc = _side_return(oc, idea, "long"), _side_return(oc, idea, "short")
             results.append({
                 **base,
                 "kind": idea.get("kind", "pair"),
@@ -356,10 +416,14 @@ def score() -> list[Path]:
                 "confidence": idea["confidence"],
                 "open_to_close_bps": round(oc_ret * 1e4, 1),
                 "close_to_close_bps": round(cc_ret * 1e4, 1),
-                "long_oc_bps": round(oc[idea["long"]] * 1e4, 1) if idea.get("long") else None,
-                "short_oc_bps": round(oc[idea["short"]] * 1e4, 1) if idea.get("short") else None,
+                "long_oc_bps": round(long_oc * 1e4, 1) if long_oc is not None else None,
+                "short_oc_bps": round(short_oc * 1e4, 1) if short_oc is not None else None,
                 "hit": bool(oc_ret > 0),
             })
+        # Score files are write-once, so a leg whose bars haven't arrived (often a basket member pulled late)
+        # is retried for a few days before the idea is written off as missing.
+        if any(r.get("missing_bars") for r in results) and (datetime.now(NY).date() - trade_date).days < 5:
+            continue
         spy = _bar(bars, "SPY", trade_date)
         payload = {
             "trade_date": trade_date.isoformat(),
@@ -400,7 +464,9 @@ def ledger(marks: dict | None = None) -> list[dict]:
                 check = {"decision": "morning", "reason": "Recorded the morning of the session, so there is no pre-open check."}
             row = {
                 "id": idea["id"], "book": book.capitalize(), "trade_date": entry["trade_date"], "as_of": entry["as_of"],
-                "kind": idea.get("kind"), "long": idea.get("long") or "", "short": idea.get("short") or "",
+                "kind": idea.get("kind"), "long": _label(idea, "long"), "short": _label(idea, "short"),
+                "long_members": ", ".join(_side(idea, "long")) if isinstance(idea.get("long"), list) else "",
+                "short_members": ", ".join(_side(idea, "short")) if isinstance(idea.get("short"), list) else "",
                 "factor": idea["factor"], "confidence": idea["confidence"],
                 "thesis": idea["thesis"], "invalidation": idea["invalidation"],
                 "stand_down_if": " · ".join(idea.get("stand_down_if", [])),
@@ -419,8 +485,11 @@ def ledger(marks: dict | None = None) -> list[dict]:
                            short_bps=r["short_oc_bps"], spy_bps=scored["spy_open_to_close_bps"],
                            marked_at=scored["scored_at"])
             elif not scored and all(s in prices for s in legs):
-                bps = {s: round((prices[s]["last"] / prices[s]["open"] - 1) * 1e4, 1) for s in legs}
-                long_bps, short_bps = bps.get(idea.get("long")), bps.get(idea.get("short"))
+                bps = {s: (prices[s]["last"] / prices[s]["open"] - 1) * 1e4 for s in legs}
+                long_bps, short_bps = _side_return(bps, idea, "long"), _side_return(bps, idea, "short")
+                long_bps = round(long_bps, 1) if long_bps is not None else None
+                short_bps = round(short_bps, 1) if short_bps is not None else None
+                bps["SPY"] = round(bps["SPY"], 1)
                 row.update(status="Intraday", oc_bps=round((long_bps or 0) - (short_bps or 0), 1),
                            long_bps=long_bps, short_bps=short_bps, spy_bps=bps["SPY"],
                            marked_at=datetime.fromtimestamp(marks["at"], NY).isoformat())
