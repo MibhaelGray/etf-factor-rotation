@@ -40,7 +40,7 @@ def main(argv: list[str] | None = None) -> None:
     c.add_argument("--duration", default="5 Y")
     c.add_argument("--symbols")
     c.add_argument("--pending", action="store_true",
-                   help="only the legs of unscored ideas outside the standard universe (basket members)")
+                   help="only names outside the standard universe: legs of unscored ideas and the basket watchlist")
 
     c = sub.add_parser("exposures", help="recompute exposures for a stored snapshot")
     c.add_argument("--date", default=None)
@@ -88,7 +88,9 @@ def main(argv: list[str] | None = None) -> None:
         compute_exposures(stats["date"], stats["snapshot_id"])
         print(json.dumps(stats))
     elif a.cmd == "bars":
-        extra = [s for s in journal.pending_legs() if s not in set(bar_universe())]
+        from .market import basket_library
+        watch = [m["symbol"] for b in basket_library()["baskets"] for m in b["members"]]
+        extra = sorted({s for s in [*journal.pending_legs(), *watch] if s not in set(bar_universe())})
         if a.pending:
             if not extra:
                 print(json.dumps({"symbols": 0, "failed": []}))

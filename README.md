@@ -89,6 +89,8 @@ Either side can instead be a themed basket of 3–10 stocks in equal weight, nam
 
 Basket members can come from outside the standard universe. `fr bars` adds the legs of every unscored idea to its pull, and the nightly job runs `fr bars --pending` before scoring in case the ideas arrived after the 16:30 pull. If a leg's bars are still missing, scoring waits up to five days before recording the idea as missing.
 
+`journal/reference/baskets.json` holds a watchlist of themed baskets, each with its hedge ETF, the story behind it, a reason for every member and a snapshot of the day's moves from IBKR. `fr bars` pulls daily bars for every member, `fr market` adds the baskets' spread against their hedge to the market rows, and the dashboard shows them on its Baskets page (`#baskets`). The watchlist isn't scored; only an idea that uses a basket is.
+
 Before the open, `fr check` records whether each idea stands or is stood down under its own `stand_down_if` rules. The ideas never change; the scorecard reports the full book and the book after the check side by side.
 
 After the check, `fr morning` can record 1–2 new ideas for the session from what happened overnight, before the open. They are the morning book: the same fields as a nightly idea, with `overnight` (what the idea reacts to) in place of `stand_down_if`, ids like `2026-11-05-m1`, and scores in `journal/morning/scores/`. The scorecard and dashboard keep the two books apart, so the record shows whether reacting to the overnight session helps. Push the morning file before 19:00 so the collector's intraday pull and scoring include its legs.

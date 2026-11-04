@@ -11,6 +11,10 @@ One JSON array; each row has a `section` saying what it is:
   leveraged   leveraged ETF rebalance per 1% move, by index
   volctl      one row: vol-control exposure and how a move tomorrow would change it
   trend       one row per asset: trend score and the nearest flip level
+  basket      one row per themed basket in journal/reference/baskets.json: today's snapshot against its
+              hedge, and from daily bars, when every member has them, the basket-vs-hedge spread's 5- and
+              20-day moves and z-score
+  basket_member  one row per member: why it belongs, liquidity, today's move, 5- and 20-day moves
 """
 
 import json
@@ -154,10 +158,67 @@ def _flows(brief: dict) -> list[dict]:
     return rows
 
 
+BASKETS = journal.JOURNAL / "reference" / "baskets.json"
+
+
+def basket_library() -> dict:
+    return json.loads(BASKETS.read_text()) if BASKETS.exists() else {"baskets": []}
+
+
+def _baskets() -> list[dict]:
+    """The basket watchlist. Daily-bar stats need every member's bars; until the collector has pulled
+    a name, its basket shows only the snapshot and says how many names are waiting."""
+    lib = basket_library()
+    rows = []
+    for b in lib["baskets"]:
+        symbols = [m["symbol"] for m in b["members"]]
+        bars = load([*symbols, b["hedge"]])
+        closes = (bars.pivot_table(index="date", columns="symbol", values="close").sort_index()
+                  if not bars.empty else pd.DataFrame())
+        have = [s for s in symbols if s in closes.columns]
+        rets = closes.pct_change() if not closes.empty else closes
+        member_rows = []
+        for m in b["members"]:
+            s = m["symbol"]
+            c = closes[s].dropna() if s in closes.columns else pd.Series(dtype=float)
+            member_rows.append({
+                "section": "basket_member", "basket": b["id"], "symbol": s, "why": m.get("why", ""),
+                "avg_usd_volume_90d": m.get("avg_usd_volume_90d"), "change_pct": _num(m.get("change_pct"), 2),
+                "ret_5d": _num(c.iloc[-1] / c.iloc[-6] - 1) if len(c) > 5 else None,
+                "ret_20d": _num(c.iloc[-1] / c.iloc[-21] - 1) if len(c) > 20 else None,
+                "bars_through": c.index[-1].date().isoformat() if len(c) else None,
+            })
+        moves = [m["change_pct"] for m in b["members"] if m.get("change_pct") is not None]
+        basket_today = sum(moves) / len(moves) if len(moves) == len(symbols) else None
+        hedge_today = b.get("hedge_change_pct")
+        row = {
+            "section": "basket", "id": b["id"], "name": b["name"], "hedge": b["hedge"], "story": b.get("story", ""),
+            "watch": b.get("watch", ""), "caution": b.get("caution", ""), "source": b.get("source", ""),
+            "members": ", ".join(symbols), "n_members": len(symbols), "missing_bars": len(symbols) - len(have),
+            "snapshot_at": lib.get("snapshot_at"),
+            "today_pct": _num(basket_today, 2), "hedge_today_pct": _num(hedge_today, 2),
+            "spread_today_pct": _num(basket_today - hedge_today, 2) if basket_today is not None and hedge_today is not None else None,
+            "ret_5d": None, "ret_20d": None, "z_50d": None, "bars_through": None,
+        }
+        if not have or b["hedge"] not in closes.columns or len(have) < len(symbols):
+            rows += [row, *member_rows]
+            continue
+        # Equal weight, rebalanced daily: the basket's daily return is its members' average.
+        spread = (rets[symbols].mean(axis=1, skipna=False) - rets[b["hedge"]]).dropna()
+        idx = (1 + spread).cumprod()
+        if len(idx) > 50:
+            w = idx.iloc[-50:]
+            row.update(ret_5d=_num(idx.iloc[-1] / idx.iloc[-6] - 1), ret_20d=_num(idx.iloc[-1] / idx.iloc[-21] - 1),
+                       z_50d=_num((idx.iloc[-1] - w.mean()) / w.std(), 2), bars_through=idx.index[-1].date().isoformat())
+        rows += [row, *member_rows]
+    return rows
+
+
 def build(as_of: date) -> list[dict]:
     brief = _brief(as_of)
     snapshot = latest_snapshot(as_of.isoformat())
     meta = {"section": "meta", "as_of": brief["as_of"], "built_at": brief["built_at"],
             "bars_through": brief.get("bars_through"), "options_snapshot": snapshot,
             "next_session": journal.next_trading_day(as_of).isoformat()}
-    return [meta, *_factors(brief, _idea_legs(as_of)), *_regime(as_of), *_gamma(as_of, brief), *_flows(brief)]
+    return [meta, *_factors(brief, _idea_legs(as_of)), *_regime(as_of), *_gamma(as_of, brief), *_flows(brief),
+            *_baskets()]

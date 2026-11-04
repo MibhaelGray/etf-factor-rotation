@@ -1,0 +1,87 @@
+{
+  "note": "Themed baskets: equal-weight groups of stocks for ideas no single ETF captures. A watchlist, not recorded ideas. Members come from IBKR's theme data (search_investment_topics / get_theme_details) and the dossier; every member is checked with IBKR (search_contracts for a US listing, get_price_snapshot avg_90d_usd_volume of at least about $20M; names in the standard universe skip the volume check). The snapshot is IBKR's change from the prior close at the time shown, delayed about 15 minutes.",
+  "updated": "2026-11-04",
+  "snapshot_at": "2026-11-04T14:20:00-05:00",
+  "baskets": [
+    {
+      "id": "texas_power",
+      "name": "Texas power",
+      "hedge": "XLU",
+      "story": "Generators and utilities whose growth case leans on ERCOT data-center load. A Texas data-center moratorium, which the governor's race put on the table, hits them directly; regulated utilities elsewhere (XLU) far less.",
+      "watch": "Texas count and any statement from the governor-elect or PUCT on large-load interconnection; ERCOT large-load queue updates.",
+      "source": "IBKR theme Data Center Power; dossier 2026-11-03",
+      "members": [
+        {"symbol": "VST", "why": "Texas-based ERCOT generator; 1.2 GW Comanche Peak colocation deal with AWS and a stated 10-15 GW ERCOT data-center load target", "avg_usd_volume_90d": null, "change_pct": -14.62},
+        {"symbol": "NRG", "why": "Houston-based; the largest ERCOT retail supplier with Texas generation", "avg_usd_volume_90d": 245301999, "change_pct": -11.17},
+        {"symbol": "CEG", "why": "Mostly PJM nuclear, but its Freestone Texas site hosts a CyrusOne data center under a recent PUCT approval: a partial Texas name", "avg_usd_volume_90d": null, "change_pct": -6.10},
+        {"symbol": "CNP", "why": "Houston electric utility whose load forecast leans on data-center interconnections", "avg_usd_volume_90d": 270429645, "change_pct": -2.70}
+      ],
+      "hedge_change_pct": 0.58
+    },
+    {
+      "id": "texas_ai_hosts",
+      "name": "Texas AI hosts",
+      "hedge": "SMH",
+      "story": "Former bitcoin miners converting Texas sites into AI data centers. They carry the moratorium risk on new capacity; the chip makers in SMH sell to data centers everywhere.",
+      "watch": "The same Texas policy headlines; bitcoin, which still drives part of their revenue; hyperscaler lease announcements.",
+      "source": "IBKR themes Data Centers, Data Center Power; dossier 2026-11-03",
+      "members": [
+        {"symbol": "IREN", "why": "Childress, Texas campus being converted to AI cloud", "avg_usd_volume_90d": 996204819, "change_pct": -11.04},
+        {"symbol": "CORZ", "why": "Denton, Texas among its AI hosting sites (CoreWeave tenant)", "avg_usd_volume_90d": 162980661, "change_pct": -9.62},
+        {"symbol": "CIFR", "why": "West Texas sites (Odessa, Barber Lake) aimed at HPC leases", "avg_usd_volume_90d": 259633190, "change_pct": -20.81},
+        {"symbol": "RIOT", "why": "Rockdale and Corsicana, Texas; Corsicana marketed for AI/HPC", "avg_usd_volume_90d": 297102750, "change_pct": 12.38},
+        {"symbol": "GLXY", "why": "Helios campus in West Texas, leased for AI compute", "avg_usd_volume_90d": 91294283, "change_pct": -13.96}
+      ],
+      "hedge_change_pct": -2.77,
+      "caution": "RIOT's +12% today runs against the rest of the group and is likely its own news; check before reading the basket."
+    },
+    {
+      "id": "dc_power_equipment",
+      "name": "Data-center power equipment",
+      "hedge": "XLI",
+      "story": "Suppliers of power, cooling and grid gear for AI data centers, national rather than Texas-specific. They fall when the market doubts the pace of the build-out, against industrials as a whole.",
+      "watch": "Hyperscaler capex guidance (earnings), order and backlog updates, any federal or state limits on data-center grid hookups.",
+      "source": "IBKR theme Data Center Power",
+      "members": [
+        {"symbol": "VRT", "why": "IBKR's top-ranked Data Center Power name: UPS, power distribution and cooling", "avg_usd_volume_90d": 1124371253, "change_pct": -13.38},
+        {"symbol": "ETN", "why": "Grid-to-chip power management; data-center orders up sharply", "avg_usd_volume_90d": null, "change_pct": -9.66},
+        {"symbol": "GEV", "why": "Gas turbines and grid equipment; $2.4B of data-center electrification orders in Q1", "avg_usd_volume_90d": null, "change_pct": -10.44},
+        {"symbol": "BE", "why": "Fuel cells for on-site data-center power (Oracle's 2.45 GW deployment)", "avg_usd_volume_90d": 2938389434, "change_pct": -7.74},
+        {"symbol": "MPWR", "why": "Power ICs for AI servers; about a third of revenue from AI and servers", "avg_usd_volume_90d": 922576678, "change_pct": -5.12}
+      ],
+      "hedge_change_pct": -1.07
+    },
+    {
+      "id": "utility_solar",
+      "name": "Utility-scale solar",
+      "hedge": "XLU",
+      "story": "US utility-scale solar equipment makers, which gain if a Democratic Congress protects or extends clean-energy credits. Against XLU, the bet is on the policy, not on power demand.",
+      "watch": "Senate control calls; statements on the clean-energy tax credits; tariff news on imported modules.",
+      "source": "IBKR theme Utility-scale Solar; dossier 2026-11-03",
+      "members": [
+        {"symbol": "FSLR", "why": "Largest US module maker; pure play on US utility-scale demand", "avg_usd_volume_90d": 443986525, "change_pct": 5.15},
+        {"symbol": "NXT", "why": "Nextpower: solar trackers and balance-of-system for utility-scale plants", "avg_usd_volume_90d": 239986999, "change_pct": 12.14},
+        {"symbol": "SHLS", "why": "Electrical balance-of-system for utility-scale solar and storage", "avg_usd_volume_90d": 40219377, "change_pct": 5.08}
+      ],
+      "hedge_change_pct": 0.58,
+      "dropped": [{"symbol": "CSIQ", "reason": "average dollar volume $19.5M, under the $20M bar"}]
+    },
+    {
+      "id": "managed_care",
+      "name": "Managed care",
+      "hedge": "XLV",
+      "story": "Health insurers, whose margins hang on Medicare Advantage rates and ACA and Medicaid funding, all set in Washington. A Democratic sweep changes those odds; the names split between Medicare Advantage-heavy (HUM, UNH) and ACA/Medicaid-heavy (CNC, ELV), so the basket is a test of the policy read, not a one-way bet.",
+      "watch": "Medicare Advantage rate notices, ACA subsidy extension talk, company earnings (several report in early November).",
+      "source": "dossier 2026-11-03",
+      "members": [
+        {"symbol": "UNH", "why": "Largest insurer; heavy Medicare Advantage exposure", "avg_usd_volume_90d": null, "change_pct": 1.81},
+        {"symbol": "HUM", "why": "The most Medicare Advantage-dependent large insurer", "avg_usd_volume_90d": 523520020, "change_pct": 1.42},
+        {"symbol": "ELV", "why": "Commercial, Medicaid and ACA mix", "avg_usd_volume_90d": 507951268, "change_pct": 4.67},
+        {"symbol": "CVS", "why": "Aetna insurance plus pharmacy and PBM", "avg_usd_volume_90d": 650571656, "change_pct": -11.69},
+        {"symbol": "CNC", "why": "The largest ACA marketplace and Medicaid insurer", "avg_usd_volume_90d": 335946395, "change_pct": 11.81}
+      ],
+      "hedge_change_pct": 2.90,
+      "caution": "CVS (-12%) and CNC (+12%) moved far apart today, likely on their own news; check before reading the basket."
+    }
+  ]
+}

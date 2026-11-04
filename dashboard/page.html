@@ -129,6 +129,31 @@
   .lg-list li.is-soon span:last-child { color: var(--color-warn); }
   .lg-empty { margin: 0; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
 
+  /* Two views: the ledger (every section) and the basket watchlist. */
+  .lg-views { display: inline-flex; border: 1px solid var(--color-border-line); border-radius: 999px; padding: 2px; justify-self: start; }
+  .lg-views button { font: inherit; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); background: transparent; border: 0; border-radius: 999px; padding: var(--cds-pad-xs) var(--cds-pad-md); cursor: pointer; }
+  .lg-views button[aria-pressed=true] { background: var(--color-fg); color: var(--color-bg); }
+  .lg-views button:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 2px; }
+  .lg[data-view=baskets] > section:not(#baskets), .lg[data-view=baskets] > footer:not(#bk-method), .lg[data-view=baskets] .lg-lede, .lg[data-view=baskets] .lg-note, .lg[data-view=baskets] .lg-nav { display: none !important; }
+  .lg:not([data-view=baskets]) #baskets, .lg:not([data-view=baskets]) #bk-method { display: none; }
+  .lg-bks { display: grid; gap: var(--cds-gap-lg); }
+  .lg-bk { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); display: grid; gap: var(--cds-gap-md); min-width: 0; }
+  .lg-bktop { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: var(--cds-gap-sm); }
+  .lg-bktop h3 { margin: 0; font-size: 1.15rem; }
+  .lg-bkspread { font-size: 1.6rem; font-variant-numeric: tabular-nums; line-height: 1.1; }
+  .lg-bkfigs { display: flex; flex-wrap: wrap; gap: var(--cds-gap-lg); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .lg-bkfigs b { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .lg-bkfigs b:not(.lg-pos):not(.lg-neg) { color: var(--color-fg); }
+  .lg-bk p { margin: 0; }
+  .lg-bkcaution { color: var(--color-warn); font-size: var(--cds-font-size-caption); }
+  .lg-bkmem { width: 100%; border-collapse: collapse; font-size: var(--cds-font-size-caption); font-variant-numeric: tabular-nums; }
+  .lg-bkmem th { text-align: left; font-weight: 500; color: var(--color-fg-muted); border-bottom: 1px solid var(--color-fg); padding: var(--cds-pad-xs) var(--cds-pad-sm) var(--cds-pad-xs) 0; }
+  .lg-bkmem td { border-bottom: 1px solid var(--color-border-line); padding: var(--cds-pad-xs) var(--cds-pad-sm) var(--cds-pad-xs) 0; vertical-align: top; }
+  .lg-bkmem .num { text-align: right; white-space: nowrap; }
+  .lg-bkmem td.why { color: var(--color-fg-muted); min-width: 12rem; }
+  .lg-bkmem .sym { font-weight: 600; white-space: nowrap; }
+  @media (max-width: 640px) { .lg-bkmem .lg-hide-narrow { display: none; } .lg-bkmem td.why { min-width: 0; } }
+
   [data-dash-source-state=empty] { color: transparent; }
   [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
   @media (prefers-reduced-motion: no-preference) {
@@ -143,6 +168,10 @@
     <h1 class="lg-title">Factor Rotation Ledger</h1>
     <p class="lg-lede">Through <b data-draw="latest-date" data-source="summary" data-field="latest_date" data-row="0">—</b>, <b data-draw="ideas" data-source="summary" data-field="ideas" data-row="0">—</b> ideas have a mark and <b data-draw="hits" data-source="summary" data-field="hits" data-row="0">—</b> of them are ahead from the open. The average idea is <b data-draw="mean" data-source="summary" data-field="mean_bps" data-row="0">—</b>.</p>
     <p class="lg-note" data-intraday hidden>Some results are intraday marks: IBKR last prices against the open, taken at <b data-draw="mark-time" data-source="ledger">—</b>. They become final when tonight's bars are scored.</p>
+    <div class="lg-views" role="group" aria-label="View">
+      <button type="button" data-view-to="ledger" aria-pressed="true">Ledger</button>
+      <button type="button" data-view-to="baskets" aria-pressed="false">Baskets</button>
+    </div>
     <nav class="lg-nav" aria-label="Sections">
       <button type="button" data-go="next" data-next hidden>Next session</button>
       <button type="button" data-go="market">Tonight's market</button>
@@ -328,6 +357,20 @@
       </table>
     </div>
   </section>
+
+  <section class="lg-sec" id="baskets">
+    <div class="lg-sechead">
+      <p class="lg-label">Themed baskets · watchlist · snapshot <span data-draw="bk-time" data-source="mkt_basket">—</span></p>
+      <h2>Groups of stocks no single ETF captures</h2>
+      <p>Each basket holds its stocks in equal weight against the ETF nearest its exposure, so the spread shows the theme rather than the market. These are a watchlist built from IBKR's theme data, not recorded ideas; an idea that uses one is scored like any other.</p>
+    </div>
+    <div class="lg-bks dash-skeleton" data-draw="basket-cards" data-source="mkt_basket"></div>
+  </section>
+
+  <footer class="lg-method" id="bk-method">
+    <p class="lg-label">How the baskets are built</p>
+    <p>Members come from IBKR's theme lists and the night's research. Each one is checked with IBKR before it goes in: a US listing, and at least about $20M a day of average trading over 90 days (names in our standard universe skip that check). Today's moves are IBKR's change from the prior close at the snapshot time, about 15 minutes delayed. The 5- and 20-day spread and its z-score against its 50-day average come from daily bars, rebalanced to equal weight each day, and appear once the collector has bars for every member.</p>
+  </footer>
 
   <footer class="lg-method" id="method">
     <p class="lg-label">How ideas are scored</p>
@@ -730,6 +773,10 @@
 
   // ---- Tonight's market -------------------------------------------------------------------------
 
+  dash.calc('mkt_basket', { inputs: ['market'], title: 'Themed baskets', description: 'Each themed basket against its hedge: today’s snapshot and, when every member has bars, its 5- and 20-day spread and z-score.',
+    fn: (market) => market.filter((r) => r.section === 'basket').sort((a, b) => Math.abs(b.spread_today_pct ?? 0) - Math.abs(a.spread_today_pct ?? 0)) });
+  dash.calc('mkt_basket_member', { inputs: ['market'], title: 'Basket members', description: 'Each basket member: why it belongs, liquidity, today’s move and its 5- and 20-day moves.',
+    fn: (market) => market.filter((r) => r.section === 'basket_member') });
   dash.calc('mkt_meta', { inputs: ['market'], title: 'Brief details', description: 'The session, build time and option snapshot behind tonight’s market rows.',
     fn: (market) => market.filter((r) => r.section === 'meta') });
   dash.calc('mkt_factor', { inputs: ['market'], title: 'Factor pairs', description: 'Each factor pair’s returns, z-scores and RSI from the brief, most stretched first.',
@@ -840,6 +887,73 @@
       return row;
     }));
   });
+
+  dash.draw('bk-time', (el) => {
+    const d = ready(el, 'mkt_basket');
+    if (!d) return;
+    const t = (d.data[0] || {}).snapshot_at;
+    el.textContent = t ? `${new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }).format(new Date(t))} ET` : '—';
+  });
+
+  dash.draw('basket-cards', (el) => {
+    const d = ready(el, 'mkt_basket', true);
+    if (!d) return;
+    const mem = dash.data('mkt_basket_member');
+    const members = mem.status === 'ok' ? mem.data : [];
+    const pc = (v, f = '.1f') => v == null ? '—' : `${signed(v, f)}%`;
+    const usd = (v) => v == null ? 'in universe' : `$${d3.format(',.0f')(v / 1e6)}M`;
+    if (!d.data.length) { el.replaceChildren(h('p', 'lg-empty', 'No baskets in journal/reference/baskets.json yet.')); return; }
+    el.replaceChildren(...d.data.map((b) => {
+      const card = h('article', 'lg-bk');
+      const top = h('div', 'lg-bktop');
+      const title = h('div');
+      title.append(h('p', 'lg-kicker', `Equal weight, ${b.n_members} names · against ${b.hedge}`), h('h3', null, b.name));
+      const spread = h('div');
+      spread.append(h('div', `lg-bkspread ${tone(b.spread_today_pct)}`, b.spread_today_pct == null ? '—' : `${signed(b.spread_today_pct, '.1f')} pts`), h('p', 'lg-figsub', 'Basket minus hedge, today'));
+      top.append(title, spread);
+      const figs = h('div', 'lg-bkfigs');
+      const fig = (label, text, v) => { const s = h('span'); s.append(`${label} `, h('b', tone(v), text)); return s; };
+      figs.append(
+        fig('Basket today', pc(b.today_pct), b.today_pct), fig(`${b.hedge} today`, pc(b.hedge_today_pct), b.hedge_today_pct),
+        fig('Spread 5-day', b.ret_5d == null ? '—' : pc(b.ret_5d * 100), b.ret_5d), fig('20-day', b.ret_20d == null ? '—' : pc(b.ret_20d * 100), b.ret_20d),
+        fig('z vs 50-day', b.z_50d == null ? '—' : signed(b.z_50d, '.2f'), null),
+      );
+      card.append(top, figs, h('p', null, b.story));
+      if (b.missing_bars) card.append(h('p', 'lg-figsub', `Spread history waits for daily bars on ${b.missing_bars} of ${b.n_members} names; the collector pulls them at 16:30.`));
+      if (b.caution) card.append(h('p', 'lg-bkcaution', b.caution));
+      const table = h('table', 'lg-bkmem');
+      const head = h('tr');
+      [['Name'], ['Why it’s in'], ['Today', 'num'], ['20-day', 'num lg-hide-narrow'], ['Avg $ volume', 'num lg-hide-narrow']].forEach(([t, c]) => head.append(h('th', c || null, t)));
+      const thead = h('thead'); thead.append(head);
+      const tbody = h('tbody');
+      members.filter((m) => m.basket === b.id).forEach((m) => {
+        const tr = h('tr');
+        tr.append(h('td', 'sym', m.symbol), h('td', 'why', m.why), h('td', `num ${tone(m.change_pct)}`, pc(m.change_pct)),
+          h('td', 'num lg-hide-narrow', m.ret_20d == null ? '—' : pc(m.ret_20d * 100)), h('td', 'num lg-hide-narrow', usd(m.avg_usd_volume_90d)));
+        tbody.append(tr);
+      });
+      table.append(thead, tbody);
+      const wrap = h('div', 'lg-tablewrap'); wrap.append(table);
+      card.append(wrap, block('What would move it', b.watch || '—'));
+      return card;
+    }));
+  });
+
+  // The Ledger / Baskets switch. The view is kept in the page link so a shared link opens the same view.
+  const lgRoot = document.querySelector('.lg');
+  const setView = (v) => {
+    lgRoot.dataset.view = v;
+    document.querySelectorAll('[data-view-to]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.viewTo === v)));
+  };
+  document.querySelectorAll('[data-view-to]').forEach((b) => b.addEventListener('click', () => {
+    setView(b.dataset.viewTo);
+    try { dash.setLink(b.dataset.viewTo === 'baskets' ? 'baskets' : 'top'); } catch (e) { /* the link is a convenience */ }
+    window.scrollTo({ top: 0 });
+    window.dispatchEvent(new Event('resize'));
+  }));
+  const viewFromLink = () => setView(/baskets/.test(location.hash) ? 'baskets' : 'ledger');
+  window.addEventListener('hashchange', viewFromLink);
+  if (/baskets/.test(location.hash)) setView('baskets');
 
   dash.draw('gamma-word', (el) => {
     const rows = under(el, 'mkt_gsum');
