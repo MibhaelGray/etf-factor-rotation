@@ -1,0 +1,46 @@
+{
+  "trade_date": "2026-11-03",
+  "scored_at": "2026-11-03T21:52:12.086587-05:00",
+  "spy_open_to_close_bps": 21.7,
+  "results": [
+    {
+      "id": "2026-11-02-1",
+      "long": "RSP",
+      "short": null,
+      "kind": "long",
+      "factor": "election_day_drift",
+      "confidence": 3,
+      "open_to_close_bps": -15.5,
+      "close_to_close_bps": -32.7,
+      "long_oc_bps": -15.5,
+      "short_oc_bps": null,
+      "hit": false
+    },
+    {
+      "id": "2026-11-02-2",
+      "long": "SPY",
+      "short": "ITB",
+      "kind": "pair",
+      "factor": "homebuilder_fade",
+      "confidence": 2,
+      "open_to_close_bps": 329.5,
+      "close_to_close_bps": 385.7,
+      "long_oc_bps": 21.7,
+      "short_oc_bps": -307.8,
+      "hit": true
+    },
+    {
+      "id": "2026-11-02-3",
+      "long": "XLV",
+      "short": "SMH",
+      "kind": "pair",
+      "factor": "blue_wave_ai_supply",
+      "confidence": 2,
+      "open_to_close_bps": 60.0,
+      "close_to_close_bps": -232.3,
+      "long_oc_bps": 18.5,
+      "short_oc_bps": -41.5,
+      "hit": true
+    }
+  ]
+}
