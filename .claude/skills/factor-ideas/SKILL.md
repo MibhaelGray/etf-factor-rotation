@@ -1,6 +1,6 @@
 ---
 name: factor-ideas
-description: Nightly factor rotation research and the morning pre-open check. Run a deep research pass on the market, read the brief's technicals and options positioning, and draft 1-3 factor ideas for the next open; before the open, check each recorded idea against its stand-down rules. Use when asked for tonight's ideas, the nightly research, what factors look good for tomorrow's open, or the pre-open check.
+description: Nightly factor rotation research and the morning pre-open check. Run a deep research pass on the market, read the brief's technicals and options positioning, and draft 1-3 factor ideas for the next open; before the open, check each recorded idea against its stand-down rules and record any morning ideas from the overnight session. Use when asked for tonight's ideas, the nightly research, what factors look good for tomorrow's open, the pre-open check, or the morning book.
 ---
 
 # Nightly factor ideas
@@ -77,7 +77,7 @@ The ideas recorded last night never change. The check only decides, for each one
 1. `git pull`, read `journal/ideas/<today>.json`.
 2. From the IBKR connector (`ibkr-markets.md`): ES/NQ/RTY overnight change, 10y yield, VIX, oil and the dollar; for every leg, the pre-market `last` against `prior_close`, as a percentage and in ATRs (ATR14 from last night's brief), and the pre-market path if it matters. Note the quote times: index and futures quotes are about 15 minutes delayed.
 3. Search the overnight news for each idea's mechanism: earnings, macro releases, policy and geopolitical headlines since last night's dossier.
-4. Test each `stand_down_if` condition and nothing else. A condition that is met means stand down; when none is, the idea stands, however the morning feels. No new ideas, no edits to old ones.
+4. Test each `stand_down_if` condition and nothing else. A condition that is met means stand down; when none is, the idea stands, however the morning feels. No edits to old ones; a new idea goes in the morning book (step 8), never into the check.
 5. Write a draft to the scratchpad and show it to the user:
    ```json
    {"trade_date": "2026-11-04", "summary": "one line on the overnight session",
@@ -86,3 +86,23 @@ The ideas recorded last night never change. The check only decides, for each one
    ```
    On their OK, `uv run fr check <draft>` before 09:30. It refuses after the open; a missed check leaves every idea standing.
 6. Refresh the dashboard (step 6) so the cards show each decision.
+
+## 8. Morning book (after the check, before 09:30 ET)
+
+The nightly ideas can't react to what happens after the dossier is written: on 2026-11-04 QQQ's 2% overnight drop had fully reversed before the bell. The morning book is a second, separately scored set of ideas recorded before the open from the overnight session, so the record shows whether reacting adds anything or just chases moves.
+
+1. Using the check's numbers and news (step 7), ask what changed since last night's dossier: earnings, policy or geopolitical headlines, a gap that broke, filled or extended, a sector moving on its own news. If nothing material changed, record nothing. An empty morning book is normal.
+2. Draft 1-2 ideas with the same fields as the nightly ones, except `stand_down_if` (there is no later check). Instead, `overnight` says what happened since last night that the idea reacts to, with the numbers and their times.
+3. Measure how much is already priced: each leg's pre-market move against `prior_close`, in ATRs. An idea that only follows a gap already beyond about one ATR needs a reason the move continues from the open, not just the gap. Scoring is open to close, so the gap itself earns nothing.
+4. Legs come from `universe.idea_universe()`, drivers from `journal.DRIVERS` (usually `catalyst` plus what the idea rests on), confidence calibrated as in step 4. When time allows, have a subagent argue against each idea before recording.
+5. Write the draft to the scratchpad and show it to the user:
+   ```json
+   {"trade_date": "2026-11-05", "summary": "one line on the overnight session",
+    "premarket": {"ES": "-0.4%", "QQQ": "-1.1% (0.6 ATR)"},
+    "macro_context": "...",
+    "ideas": [{"long": "IWM", "short": "QQQ", "factor": "size", "confidence": 2,
+               "overnight": "what happened since last night, with numbers and times",
+               "thesis": "...", "invalidation": "...", "key_signals": ["..."], "drivers": ["catalyst"]}]}
+   ```
+   On their OK, `uv run fr morning <draft>` before 09:30; it refuses after the open. Commit and push `journal/` when the user approves, before 19:00, so the collector's intraday pull and scoring include the morning legs.
+6. Refresh the dashboard (step 6). Morning ideas show with a "Morning idea" chip, and the track record keeps their running total apart from the nightly book.

@@ -57,6 +57,9 @@ def main(argv: list[str] | None = None) -> None:
     c = sub.add_parser("check", help="record the pre-open check from a draft JSON (before 09:30)")
     c.add_argument("draft", type=Path)
 
+    c = sub.add_parser("morning", help="record the morning book: 1-2 new ideas from the overnight session (before 09:30)")
+    c.add_argument("draft", type=Path)
+
     c = sub.add_parser("intraday", help="store today's 15-minute bars for the session's idea legs")
     c.add_argument("--date", default=None)
 
@@ -106,6 +109,8 @@ def main(argv: list[str] | None = None) -> None:
         print(journal.scorecard_report())
     elif a.cmd == "check":
         print(journal.record_check(a.draft))
+    elif a.cmd == "morning":
+        print(journal.record_morning(a.draft))
     elif a.cmd == "intraday":
         day = date.fromisoformat(a.date) if a.date else _today()
         symbols = journal.intraday_symbols(day)

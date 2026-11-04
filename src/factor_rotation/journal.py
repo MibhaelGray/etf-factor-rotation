@@ -3,8 +3,12 @@
 Each night:
   brief   -> journal/briefs/<as_of>.json     every input the ideas were built from
   record  -> journal/ideas/<trade_date>.json the 2-3 ideas, reasoning, and the brief's hash
+Before the open:
+  check   -> journal/checks/<trade_date>.json  stands / stand down for each of last night's ideas
+  morning -> journal/morning/ideas/<trade_date>.json  0-2 new ideas from the overnight session, a separate book
 Next evening:
   score   -> journal/scores/<trade_date>.json realized spread returns per idea
+             journal/morning/scores/<trade_date>.json the same for the morning book
 
 Files are write-once: recording over an existing ideas or score file is refused,
 so the record can't be edited after the outcome is known.
@@ -52,6 +56,19 @@ def is_trading_day(day: date) -> bool:
 def next_trading_day(as_of: date) -> date:
     days = _calendar().valid_days(as_of + pd.Timedelta(days=1), as_of + pd.Timedelta(days=10))
     return days[0].date()
+
+
+def previous_trading_day(day: date) -> date:
+    days = _calendar().valid_days(day - pd.Timedelta(days=10), day - pd.Timedelta(days=1))
+    return days[-1].date()
+
+
+# Each book: where its ideas and scores live. The nightly book is recorded the night before and checked
+# before the open; the morning book is recorded before the open from the overnight session and has no check.
+BOOKS = {
+    "nightly": ("ideas", "scores"),
+    "morning": ("morning/ideas", "morning/scores"),
+}
 
 
 def _write_once(path: Path, payload: dict, indent: int | None = 2) -> Path:
@@ -134,25 +151,11 @@ def record_ideas(draft_path: Path) -> Path:
     ideas = draft["ideas"]
     if not 1 <= len(ideas) <= 3:
         raise ValueError("record 1-3 ideas")
-    universe = set(idea_universe())
+    _validate(ideas, ("stand_down_if",))
     for i, idea in enumerate(ideas, 1):
-        for field in ("factor", "thesis", "confidence", "invalidation", "key_signals", "stand_down_if", "drivers"):
-            if field not in idea:
-                raise ValueError(f"idea {i} missing {field}")
         rules = idea["stand_down_if"]
         if not isinstance(rules, list) or not rules or not all(isinstance(r, str) and r.strip() for r in rules):
             raise ValueError(f"idea {i} stand_down_if must list the overnight conditions that cancel it")
-        drivers = idea["drivers"]
-        if not isinstance(drivers, list) or not drivers or any(d not in DRIVERS for d in drivers):
-            raise ValueError(f"idea {i} drivers must list what the idea rests on, from: {', '.join(DRIVERS)}")
-        legs = _legs(idea)
-        if not legs:
-            raise ValueError(f"idea {i} needs a long leg, a short leg, or both")
-        if any(s not in universe for s in legs):
-            raise ValueError(f"idea {i} legs must be in the universe")
-        if idea["confidence"] not in (1, 2, 3, 4, 5):
-            raise ValueError(f"idea {i} confidence must be 1-5")
-        idea["kind"] = "pair" if len(legs) == 2 else ("long" if idea.get("long") else "short")
         idea["id"] = f"{as_of}-{i}"
     trade_date = next_trading_day(as_of)
     payload = {
@@ -164,6 +167,63 @@ def record_ideas(draft_path: Path) -> Path:
         "ideas": ideas,
     }
     return _write_once(JOURNAL / "ideas" / f"{trade_date}.json", payload)
+
+
+def _validate(ideas: list[dict], extra: tuple[str, ...] = ()) -> None:
+    """Checks shared by both books; sets each idea's kind."""
+    universe = set(idea_universe())
+    for i, idea in enumerate(ideas, 1):
+        for field in ("factor", "thesis", "confidence", "invalidation", "key_signals", "drivers", *extra):
+            if field not in idea:
+                raise ValueError(f"idea {i} missing {field}")
+        drivers = idea["drivers"]
+        if not isinstance(drivers, list) or not drivers or any(d not in DRIVERS for d in drivers):
+            raise ValueError(f"idea {i} drivers must list what the idea rests on, from: {', '.join(DRIVERS)}")
+        legs = _legs(idea)
+        if not legs:
+            raise ValueError(f"idea {i} needs a long leg, a short leg, or both")
+        if any(s not in universe for s in legs):
+            raise ValueError(f"idea {i} legs must be in the universe")
+        if idea["confidence"] not in (1, 2, 3, 4, 5):
+            raise ValueError(f"idea {i} confidence must be 1-5")
+        idea["kind"] = "pair" if len(legs) == 2 else ("long" if idea.get("long") else "short")
+
+
+def record_morning(draft_path: Path, now: datetime | None = None) -> Path:
+    """Record the morning book: 1-2 new ideas for today's session, built from what happened overnight,
+    before the 09:30 open. It is scored apart from the nightly book, so the record shows whether
+    reacting to the overnight session adds anything. Last night's ideas are untouched."""
+    draft = json.loads(draft_path.read_text())
+    trade_date = date.fromisoformat(draft["trade_date"])
+    now = now or datetime.now(NY)
+    if not is_trading_day(trade_date):
+        raise ValueError(f"{trade_date} is not a trading day")
+    if now.date() != trade_date:
+        raise ValueError(f"morning ideas are recorded on the morning of the session, not for {trade_date}")
+    if now >= datetime.combine(trade_date, time(9, 30), NY):
+        raise ValueError(f"morning ideas must be recorded before the {trade_date} open")
+    ideas = draft["ideas"]
+    if not 1 <= len(ideas) <= 2:
+        raise ValueError("record 1-2 morning ideas")
+    _validate(ideas, ("overnight",))
+    for i, idea in enumerate(ideas, 1):
+        if not str(idea["overnight"]).strip():
+            raise ValueError(f"idea {i} overnight must say what happened since last night that this reacts to")
+        idea["id"] = f"{trade_date}-m{i}"
+    as_of = previous_trading_day(trade_date)
+    brief_path = JOURNAL / "briefs" / f"{as_of}.json"
+    payload = {
+        "book": "morning",
+        "as_of": as_of.isoformat(),
+        "trade_date": trade_date.isoformat(),
+        "recorded_at": now.isoformat(),
+        "brief_sha256": hashlib.sha256(brief_path.read_bytes()).hexdigest() if brief_path.exists() else None,
+        "summary": draft.get("summary", ""),
+        "premarket": draft.get("premarket", {}),
+        "macro_context": draft.get("macro_context", ""),
+        "ideas": ideas,
+    }
+    return _write_once(JOURNAL / BOOKS["morning"][0] / f"{trade_date}.json", payload)
 
 
 def record_check(draft_path: Path) -> Path:
@@ -206,11 +266,19 @@ def _checks() -> dict[str, dict]:
     return out
 
 
+def _entries(book: str) -> list[tuple[Path, dict]]:
+    """(score path, ideas entry) for each recorded session of a book, oldest first."""
+    ideas_dir, scores_dir = BOOKS[book]
+    return [(JOURNAL / scores_dir / p.name, json.loads(p.read_text())) for p in sorted((JOURNAL / ideas_dir).glob("*.json"))]
+
+
 def intraday_symbols(trade_date: date) -> list[str]:
-    path = JOURNAL / "ideas" / f"{trade_date}.json"
-    if not path.exists():
-        return []
-    return sorted({s for i in json.loads(path.read_text())["ideas"] for s in _legs(i)} | {"SPY"})
+    legs = set()
+    for ideas_dir, _ in BOOKS.values():
+        path = JOURNAL / ideas_dir / f"{trade_date}.json"
+        if path.exists():
+            legs |= {s for i in json.loads(path.read_text())["ideas"] for s in _legs(i)}
+    return sorted(legs | {"SPY"}) if legs else []
 
 
 def write_intraday(trade_date: date, bars: dict[str, pd.DataFrame]) -> Path:
@@ -259,11 +327,9 @@ def _bar(bars: pd.DataFrame, symbol: str, day: date) -> pd.Series | None:
 
 def score() -> list[Path]:
     written = []
-    for ideas_path in sorted((JOURNAL / "ideas").glob("*.json")):
-        score_path = JOURNAL / "scores" / ideas_path.name
+    for score_path, entry in [e for book in BOOKS for e in _entries(book)]:
         if score_path.exists():
             continue
-        entry = json.loads(ideas_path.read_text())
         trade_date = date.fromisoformat(entry["trade_date"])
         as_of = date.fromisoformat(entry["as_of"])
         legs = {s for i in entry["ideas"] for s in _legs(i)} | {"SPY"}
@@ -308,14 +374,15 @@ def score() -> list[Path]:
 def scorecard() -> pd.DataFrame:
     checks = _checks()
     rows = []
-    for path in sorted((JOURNAL / "scores").glob("*.json")):
-        entry = json.loads(path.read_text())
-        for r in entry["results"]:
-            if r.get("missing_bars"):
-                continue
-            check = checks.get(r["id"], {}).get("decision")
-            rows.append({"trade_date": entry["trade_date"], **r, "check": check})
-    return pd.DataFrame(rows)
+    for book, (_, scores_dir) in BOOKS.items():
+        for path in sorted((JOURNAL / scores_dir).glob("*.json")):
+            entry = json.loads(path.read_text())
+            for r in entry["results"]:
+                if r.get("missing_bars"):
+                    continue
+                check = checks.get(r["id"], {}).get("decision")
+                rows.append({"trade_date": entry["trade_date"], "book": book, **r, "check": check})
+    return pd.DataFrame(rows).sort_values(["trade_date", "book", "id"], kind="stable") if rows else pd.DataFrame(rows)
 
 
 def ledger(marks: dict | None = None) -> list[dict]:
@@ -323,22 +390,24 @@ def ledger(marks: dict | None = None) -> list[dict]:
     intraday mark from `marks` ({"at": unix seconds, "prices": {symbol: {"open", "last"}}})."""
     checks = _checks()
     rows = []
-    for ideas_path in sorted((JOURNAL / "ideas").glob("*.json")):
-        entry = json.loads(ideas_path.read_text())
-        score_path = JOURNAL / "scores" / ideas_path.name
+    for book, score_path, entry in [(b, *e) for b in BOOKS for e in _entries(b)]:
         scored = json.loads(score_path.read_text()) if score_path.exists() else None
         results = {r["id"]: r for r in (scored or {}).get("results", [])}
         prices = (marks or {}).get("prices", {})
         for idea in entry["ideas"]:
             check = checks.get(idea["id"], {})
+            if book == "morning":
+                check = {"decision": "morning", "reason": "Recorded the morning of the session, so there is no pre-open check."}
             row = {
-                "id": idea["id"], "trade_date": entry["trade_date"], "as_of": entry["as_of"],
+                "id": idea["id"], "book": book.capitalize(), "trade_date": entry["trade_date"], "as_of": entry["as_of"],
                 "kind": idea.get("kind"), "long": idea.get("long") or "", "short": idea.get("short") or "",
                 "factor": idea["factor"], "confidence": idea["confidence"],
                 "thesis": idea["thesis"], "invalidation": idea["invalidation"],
                 "stand_down_if": " · ".join(idea.get("stand_down_if", [])),
                 "drivers": ",".join(idea.get("drivers", [])),
-                "check": {"stands": "Stands", "stand_down": "Stood down"}.get(check.get("decision"), "Not checked"),
+                "check": {"stands": "Stands", "stand_down": "Stood down", "morning": "No check"}.get(
+                    check.get("decision"), "Not checked"),
+                "overnight": idea.get("overnight", ""),
                 "check_reason": check.get("reason", ""),
                 "status": "Open", "oc_bps": None, "long_bps": None, "short_bps": None, "spy_bps": None,
                 "marked_at": None, "path": _spread_path(entry["trade_date"], idea),
@@ -357,7 +426,7 @@ def ledger(marks: dict | None = None) -> list[dict]:
                            marked_at=datetime.fromtimestamp(marks["at"], NY).isoformat())
             row["hit"] = None if row["oc_bps"] is None else row["oc_bps"] > 0
             rows.append(row)
-    return rows
+    return sorted(rows, key=lambda r: (r["trade_date"], r["book"] != "Nightly", r["id"]))
 
 
 def scorecard_report() -> str:
@@ -374,17 +443,21 @@ def scorecard_report() -> str:
             "mean_cc_bps": g["close_to_close_bps"].mean(),
         })
 
-    overall = block(df).to_frame("all").T
     by_conf = df.groupby("confidence").apply(block, include_groups=False)
     by_factor = df.groupby("factor").apply(block, include_groups=False).sort_values("total_oc_bps", ascending=False)
-    recent = df.tail(10)[["trade_date", "long", "short", "confidence", "open_to_close_bps", "hit"]].fillna("-")
+    recent = df.tail(10)[["trade_date", "book", "long", "short", "confidence", "open_to_close_bps", "hit"]].fillna("-")
     known = {p.name for p in FACTOR_PAIRS}
     unlisted = sorted(set(df["factor"]) - known)
-    kept = df[df["check"] != "stand_down"]
-    stood_down = df[df["check"] == "stand_down"]
+    nightly = df[df["book"] == "nightly"]
+    morning = df[df["book"] == "morning"]
+    kept = nightly[nightly["check"] != "stand_down"]
+    stood_down = nightly[nightly["check"] == "stand_down"]
+    overall = block(nightly).to_frame("nightly").T
     overall = pd.concat([overall, block(kept).to_frame("after_check").T])
     if not stood_down.empty:
         overall = pd.concat([overall, block(stood_down).to_frame("stood_down").T])
+    if not morning.empty:
+        overall = pd.concat([overall, block(morning).to_frame("morning").T, block(df).to_frame("both_books").T])
     parts = [
         "OVERALL", overall.round(2).to_string(),
         "\nBY CONFIDENCE", by_conf.round(2).to_string(),

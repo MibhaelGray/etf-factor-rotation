@@ -30,7 +30,7 @@ case "$1" in
     uv run fr score
     uv run fr brief
     written=()
-    for d in journal/scores journal/briefs journal/intraday; do [ -d "$d" ] && written+=("$d"); done
+    for d in journal/scores journal/morning/scores journal/briefs journal/intraday; do [ -d "$d" ] && written+=("$d"); done
     git add -- "${written[@]}"
     git diff --cached --quiet -- "${written[@]}" ||
       git commit --quiet -m "Journal $(TZ=America/New_York date +%F): scores and brief" -- "${written[@]}"

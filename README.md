@@ -17,6 +17,7 @@ Every collected dataset comes from IBKR, so the pipeline has one data source. We
 | `fr intraday` | collector | in the nightly job | `journal/intraday/`: the session's 15-minute bars (04:00–16:00) for the idea legs and SPY |
 | `fr record` | Mac | ~19:30 | `journal/ideas/`, committed and pushed |
 | `fr check` | Mac | 08:30–09:25 | `journal/checks/`: the pre-open stands / stand-down decision per idea; refused after the open |
+| `fr morning` | Mac | after the check, before 09:30 | `journal/morning/ideas/`: the morning book, 1–2 new ideas from the overnight session, scored apart from the nightly book; refused after the open |
 | `fr scorecard` | anywhere | any time | prints the scorecard |
 | `fr ledger` | Mac | after `git pull` | every idea and its result as JSON rows for the [Factor Rotation Ledger](https://claude.ai/artifact/TVknCZmSXjToEPbmMGPSKv) dashboard |
 | `fr market` | Mac | after `git pull` | tonight's market rows for the dashboard: factor board, regime, dealer gamma, forced flows |
@@ -81,6 +82,8 @@ Draft format:
 Each idea is dollar-neutral, entered at the next open and exited at the close. Close-to-close is recorded alongside.
 
 Before the open, `fr check` records whether each idea stands or is stood down under its own `stand_down_if` rules. The ideas never change; the scorecard reports the full book and the book after the check side by side.
+
+After the check, `fr morning` can record 1–2 new ideas for the session from what happened overnight, before the open. They are the morning book: the same fields as a nightly idea, with `overnight` (what the idea reacts to) in place of `stand_down_if`, ids like `2026-11-05-m1`, and scores in `journal/morning/scores/`. The scorecard and dashboard keep the two books apart, so the record shows whether reacting to the overnight session helps. Push the morning file before 19:00 so the collector's intraday pull and scoring include its legs.
 
 ## Collector setup (macOS)
 

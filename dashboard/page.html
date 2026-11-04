@@ -57,6 +57,7 @@
   .lg-chip.is-final { color: var(--color-ok); border-color: currentColor; }
   .lg-chip.is-intraday { color: var(--color-warn); border-color: currentColor; }
   .lg-chip.is-down { color: var(--color-bad); border-color: currentColor; }
+  .lg-chip.is-morning { color: var(--color-fg); border-color: currentColor; }
   .lg-chips { display: flex; flex-wrap: wrap; gap: var(--cds-gap-xs); justify-self: start; }
   .lg-spark { position: relative; min-height: 64px; }
   .lg-spark svg text { fill: var(--color-fg-muted); font-size: var(--cds-font-size-caption); font-family: var(--font-anthropic-sans); }
@@ -155,7 +156,7 @@
     <div class="lg-sechead">
       <p class="lg-label">Next session · waiting for the open</p>
       <h2 data-draw="next-date" data-source="ledger">—</h2>
-      <p>Recorded the night before and locked. Before the open, each one is checked against its own stand-down rules; both the full book and the book after the check are scored.</p>
+      <p>Nightly ideas are recorded the night before and locked; before the open, each one is checked against its own stand-down rules. Morning ideas are recorded before the open from the overnight session and scored as a separate book.</p>
     </div>
     <div class="lg-cards" data-draw="next-cards" data-source="ledger"></div>
   </section>
@@ -255,7 +256,7 @@
     <div class="lg-sechead">
       <p class="lg-label">Track record</p>
       <h2>Is the judgment worth anything?</h2>
-      <p>The book holds every idea of a session in equal weight, and the book after the check leaves out ideas stood down before the open. A hit rate only means something once its range is narrow, and higher confidence should earn more.</p>
+      <p>The headline figures are the nightly book: every idea recorded the night before, in equal weight. The book after the check leaves out ideas stood down before the open, and the morning book holds the ideas recorded before the open from the overnight session. A hit rate only means something once its range is narrow, and higher confidence should earn more.</p>
     </div>
     <div class="lg-figs" aria-label="Headline figures">
       <div class="lg-fig">
@@ -266,23 +267,23 @@
       <div class="lg-fig">
         <p class="lg-label">Average idea</p>
         <div class="lg-figval dash-skeleton" data-draw="mean-fig" data-source="summary" data-field="mean_bps" data-row="0">—</div>
-        <p class="lg-figsub">Mean open-to-close return per idea</p>
+        <p class="lg-figsub">Mean open-to-close return per nightly idea</p>
       </div>
       <div class="lg-fig">
         <p class="lg-label">Book, cumulative</p>
         <div class="lg-figval dash-skeleton" data-draw="book" data-source="summary" data-field="book_bps" data-row="0">—</div>
-        <p class="lg-figsub">After the pre-open check <b data-draw="book-after" data-source="summary" data-field="book_after_bps" data-row="0">—</b></p>
+        <p class="lg-figsub">After the pre-open check <b data-draw="book-after" data-source="summary" data-field="book_after_bps" data-row="0">—</b> · Morning book <b data-draw="book-morning" data-source="summary" data-field="morning_bps" data-row="0">—</b></p>
       </div>
       <div class="lg-fig">
         <p class="lg-label">Ideas marked</p>
         <div class="lg-figval dash-skeleton" data-draw="ideas-fig" data-source="summary" data-field="ideas" data-row="0">—</div>
-        <p class="lg-figsub">Over <b data-draw="sessions" data-source="summary" data-field="sessions" data-row="0">—</b> sessions</p>
+        <p class="lg-figsub">Nightly, over <b data-draw="sessions" data-source="summary" data-field="sessions" data-row="0">—</b> sessions · <b data-draw="morning-ideas" data-source="summary" data-field="morning_ideas" data-row="0">—</b> morning</p>
       </div>
     </div>
     <div class="lg-grid2">
       <div class="lg-panel">
         <h3>Book by session</h3>
-        <p>Average idea and SPY, open to close, with the running total of the book.</p>
+        <p>Average nightly idea and SPY, open to close, with the running total of the nightly book.</p>
         <ul class="lg-legend">
           <li><span class="lg-sw" data-swatch="0"></span>Average idea</li>
           <li><span class="lg-sw"></span>SPY</li>
@@ -292,12 +293,12 @@
       </div>
       <div class="lg-panel">
         <h3>Calibration by confidence</h3>
-        <p>Average open-to-close return at each confidence level, 1 lowest to 5 highest. The bars should step up from 1 to 5.</p>
+        <p>Average open-to-close return at each confidence level, 1 lowest to 5 highest, both books. The bars should step up from 1 to 5.</p>
         <div class="lg-chart is-calib dash-skeleton" data-draw="calib-chart" data-source="by_conf"></div>
       </div>
       <div class="lg-panel">
         <h3>What the ideas rested on</h3>
-        <p>Average open-to-close return of ideas tagged with each input when they were recorded. An idea can carry several. Inputs that keep losing are the ones to weigh less.</p>
+        <p>Average open-to-close return of ideas tagged with each input when they were recorded. An idea can carry several; both books. Inputs that keep losing are the ones to weigh less.</p>
         <div class="lg-chart is-calib dash-skeleton" data-draw="driver-chart" data-source="by_driver"></div>
       </div>
     </div>
@@ -307,7 +308,7 @@
     <div class="lg-sechead">
       <p class="lg-label">Every idea</p>
       <h2>The ledger</h2>
-      <p>Newest first. Ideas are written once, the night before, and never edited after the outcome is known.</p>
+      <p>Newest first. Ideas are written once, the night before or, for the morning book, before the open, and never edited after the outcome is known.</p>
     </div>
     <div class="lg-tablewrap">
       <table class="lg-table" data-source="ledger" data-row-key="id">
@@ -316,6 +317,7 @@
             <th data-field="trade_date">Session</th>
             <th data-field="long">Long</th>
             <th data-field="short">Short</th>
+            <th data-field="book" class="lg-hide-narrow">Book</th>
             <th data-field="factor" class="lg-hide-narrow">Factor</th>
             <th data-field="confidence" class="num">Conf.</th>
             <th data-field="status" class="lg-hide-narrow">Status</th>
@@ -335,12 +337,19 @@
 </div>
 
 <script>
+  // Rows from before the morning book have no book field; they are nightly ideas.
+  const isNightly = (r) => r.book !== 'Morning';
+
   dash.calc('summary', {
     inputs: ['ledger'],
     title: 'Track record summary',
-    description: 'Ideas with a mark, hits with a 95% range, the average idea, and the cumulative equal-weight book before and after the pre-open check.',
+    description: 'Nightly ideas with a mark, hits with a 95% range, the average idea, the cumulative equal-weight book before and after the pre-open check, and the morning book.',
     fn: (ledger) => {
-      const marked = ledger.filter((r) => r.oc_bps != null);
+      const all = ledger.filter((r) => r.oc_bps != null);
+      const marked = all.filter(isNightly);
+      const morning = all.filter((r) => !isNightly(r));
+      const mDays = [...new Set(morning.map((r) => r.trade_date))];
+      const mDayMean = (d) => { const rs = morning.filter((r) => r.trade_date === d); return rs.reduce((s, r) => s + r.oc_bps, 0) / rs.length; };
       const n = marked.length;
       const hits = marked.filter((r) => r.hit).length;
       const days = [...new Set(marked.map((r) => r.trade_date))].sort();
@@ -359,9 +368,11 @@
         book_bps: Math.round(days.reduce((s, d) => s + dayMean(d), 0) * 10) / 10,
         book_after_bps: Math.round(days.reduce((s, d) => s + dayMean(d, true), 0) * 10) / 10,
         stood_down: marked.filter((r) => r.check === 'Stood down').length,
+        morning_ideas: morning.length,
+        morning_bps: mDays.length ? Math.round(mDays.reduce((s, d) => s + mDayMean(d), 0) * 10) / 10 : null,
         sessions: days.length,
-        latest_date: days.length ? days[days.length - 1] : null,
-        intraday: marked.filter((r) => r.status === 'Intraday').length,
+        latest_date: [...days, ...mDays].sort().pop() || null,
+        intraday: all.filter((r) => r.status === 'Intraday').length,
       }];
     },
   });
@@ -369,22 +380,23 @@
   dash.calc('last_session', {
     inputs: ['ledger'],
     title: 'Last session',
-    description: 'The most recent session with a mark: its average idea, SPY and how many ideas were ahead.',
+    description: 'The most recent session with a mark: its average nightly idea, SPY and how many ideas were ahead, morning ideas included.',
     fn: (ledger) => {
       const marked = ledger.filter((r) => r.oc_bps != null);
       const last = marked.reduce((m, r) => (r.trade_date > m ? r.trade_date : m), '');
       const rs = marked.filter((r) => r.trade_date === last);
       if (!rs.length) return [];
-      return [{ trade_date: last, ideas: rs.length, hits: rs.filter((r) => r.hit).length, mean_bps: Math.round(rs.reduce((s, r) => s + r.oc_bps, 0) / rs.length * 10) / 10, spy_bps: rs[0].spy_bps, final: rs.every((r) => r.status === 'Final') }];
+      const book = rs.filter(isNightly).length ? rs.filter(isNightly) : rs;
+      return [{ trade_date: last, ideas: rs.length, hits: rs.filter((r) => r.hit).length, mean_bps: Math.round(book.reduce((s, r) => s + r.oc_bps, 0) / book.length * 10) / 10, spy_bps: rs[0].spy_bps, final: rs.every((r) => r.status === 'Final') }];
     },
   });
 
   dash.calc('by_day', {
     inputs: ['ledger'],
     title: 'Book by session',
-    description: 'Each session’s average idea, SPY open to close, and the running total of the book.',
+    description: 'Each session’s average nightly idea, SPY open to close, and the running total of the nightly book.',
     fn: (ledger) => {
-      const marked = ledger.filter((r) => r.oc_bps != null);
+      const marked = ledger.filter((r) => r.oc_bps != null && isNightly(r));
       const days = [...new Set(marked.map((r) => r.trade_date))].sort();
       let cum = 0;
       return days.map((d) => {
@@ -420,8 +432,8 @@
   const upcoming = (rows) => { const last = lastMarked(rows); return rows.filter((r) => r.oc_bps == null && r.trade_date > last); };
   const pips = (n) => { const c = h('span', 'lg-conf'); c.setAttribute('aria-label', `Confidence ${n} of 5`); for (let i = 1; i <= 5; i += 1) c.append(h('span', `lg-pip${i <= n ? ' on' : ''}`)); return c; };
   const chipOf = (r) => { const [t, cls] = { Final: ['Final', 'is-final'], Intraday: ['Intraday mark', 'is-intraday'] }[r.status] || ['Not yet marked', '']; return h('span', `lg-chip ${cls}`, t); };
-  const checkChip = (r) => { const [t, cls] = { Stands: ['Stands', 'is-final'], 'Stood down': ['Stood down', 'is-down'] }[r.check] || ['Check pending', '']; return h('span', `lg-chip ${cls}`, t); };
-  const checkText = (r) => r.check === 'Not checked' || !r.check ? 'Not checked before the open.' : `${r.check}. ${r.check_reason}`;
+  const checkChip = (r) => { const [t, cls] = { Stands: ['Stands', 'is-final'], 'Stood down': ['Stood down', 'is-down'], 'No check': ['Morning idea', 'is-morning'] }[r.check] || ['Check pending', '']; return h('span', `lg-chip ${cls}`, t); };
+  const checkText = (r) => !isNightly(r) ? r.check_reason : r.check === 'Not checked' || !r.check ? 'Not checked before the open.' : `${r.check}. ${r.check_reason}`;
   const block = (label, text) => { const b = h('div'); b.append(h('p', 'lg-label', label), h('p', null, text)); return b; };
 
   // Shows the placeholder for a source that isn't ready and returns its data once it is.
@@ -452,6 +464,8 @@
   figure('mean-fig', 'summary', (r) => fmtBp(r.mean_bps), (r) => r.mean_bps);
   figure('book', 'summary', (r) => fmtBp(r.book_bps), (r) => r.book_bps);
   figure('book-after', 'summary', (r) => fmtBp(r.book_after_bps), (r) => r.book_after_bps);
+  figure('book-morning', 'summary', (r) => r.morning_ideas ? fmtBp(r.morning_bps) : 'none yet', (r) => r.morning_bps);
+  figure('morning-ideas', 'summary', (r) => d3.format(',')(r.morning_ideas || 0));
   figure('ideas-fig', 'summary', (r) => d3.format(',')(r.ideas));
   figure('sessions', 'summary', (r) => d3.format(',')(r.sessions));
   figure('last-date', 'last_session', (r) => day(r.trade_date, '%A, %B %-d, %Y'));
@@ -501,7 +515,9 @@
       thesis.append(h('summary', 'lg-label', 'Thesis'), h('p', null, r.thesis));
       const chips = h('div', 'lg-chips');
       chips.append(checkChip(r));
-      card.append(conf, h('h3', 'lg-legs', legsOf(r)), chips, block('Wrong if', r.invalidation), block('Stand down before the open if', r.stand_down_if || '—'));
+      card.append(conf, h('h3', 'lg-legs', legsOf(r)), chips, block('Wrong if', r.invalidation));
+      if (isNightly(r)) card.append(block('Stand down before the open if', r.stand_down_if || '—'));
+      else card.append(block('Reacts to', r.overnight || '—'));
       if (r.check === 'Stands' || r.check === 'Stood down') card.append(block('Pre-open check', r.check_reason));
       card.append(thesis);
       return card;
@@ -527,7 +543,7 @@
       bar.append(fill);
       const chips = h('div', 'lg-chips');
       chips.append(chipOf(r));
-      if (r.check === 'Stood down') chips.append(checkChip(r));
+      if (r.check === 'Stood down' || !isNightly(r)) chips.append(checkChip(r));
       sum.append(who, pips(r.confidence), bar, h('span', `lg-val ${tone(r.oc_bps)}`, fmtBp(r.oc_bps)), chips);
       const legs = [];
       if (r.long) legs.push(`${r.long} ${fmtBp(r.long_bps)}`);
@@ -541,7 +557,10 @@
         detail.append(pathBox);
         requestAnimationFrame(() => sparkline(spark, r.path));
       }
-      detail.append(block('Legs, open to close', legs.join(' · ')), block('Pre-open check', checkText(r)), block('Wrong if', r.invalidation), block('Thesis', r.thesis));
+      detail.append(block('Legs, open to close', legs.join(' · ')));
+      if (isNightly(r)) detail.append(block('Pre-open check', checkText(r)));
+      else detail.append(block('Morning idea, reacts to', r.overnight || '—'));
+      detail.append(block('Wrong if', r.invalidation), block('Thesis', r.thesis));
       row.append(sum, detail);
       return row;
     }));
@@ -694,6 +713,7 @@
         h('td', null, day(r.trade_date)),
         h('td', null, r.long || '—'),
         h('td', null, r.short || '—'),
+        h('td', 'lg-hide-narrow', r.book || 'Nightly'),
         h('td', 'lg-hide-narrow', human(r.factor)),
         h('td', 'num', String(r.confidence)),
         h('td', 'lg-hide-narrow', r.status),
