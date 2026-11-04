@@ -137,6 +137,12 @@
   .lg[data-view=baskets] > section:not(#baskets), .lg[data-view=baskets] > footer:not(#bk-method), .lg[data-view=baskets] .lg-lede, .lg[data-view=baskets] .lg-note, .lg[data-view=baskets] .lg-nav { display: none !important; }
   .lg:not([data-view=baskets]) #baskets, .lg:not([data-view=baskets]) #bk-method { display: none; }
   .lg-bks { display: grid; gap: var(--cds-gap-lg); }
+  .lg-bk { scroll-margin-top: var(--cds-pad-lg); }
+  .lg-bkover td.bar { width: 22%; min-width: 6rem; }
+  .lg-bkbar { display: block; height: 0.6rem; border-radius: 2px; background: currentColor; min-width: 2px; }
+  .lg-bkjump { font: inherit; font-weight: 600; color: var(--color-fg); background: none; border: 0; padding: 0; cursor: pointer; text-align: left; text-decoration: underline; text-decoration-color: var(--color-border-line); text-underline-offset: 3px; }
+  .lg-bkjump:hover { text-decoration-color: currentColor; }
+  .lg-bkjump:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 2px; }
   .lg-bk { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); display: grid; gap: var(--cds-gap-md); min-width: 0; }
   .lg-bktop { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: var(--cds-gap-sm); }
   .lg-bktop h3 { margin: 0; font-size: 1.15rem; }
@@ -364,12 +370,13 @@
       <h2>Groups of stocks no single ETF captures</h2>
       <p>Each basket holds its stocks in equal weight against the ETF nearest its exposure, so the spread shows the theme rather than the market. These are a watchlist built from IBKR's theme data, not recorded ideas; an idea that uses one is scored like any other.</p>
     </div>
+    <div class="lg-tablewrap dash-skeleton" data-draw="basket-overview" data-source="mkt_basket"></div>
     <div class="lg-bks dash-skeleton" data-draw="basket-cards" data-source="mkt_basket"></div>
   </section>
 
   <footer class="lg-method" id="bk-method">
     <p class="lg-label">How the baskets are built</p>
-    <p>Members come from IBKR's theme lists and the night's research. Each one is checked with IBKR before it goes in: a US listing, and at least about $20M a day of average trading over 90 days (names in our standard universe skip that check). Today's moves are IBKR's change from the prior close at the snapshot time, about 15 minutes delayed. The 5- and 20-day spread and its z-score against its 50-day average come from daily bars, rebalanced to equal weight each day, and appear once the collector has bars for every member.</p>
+    <p>Members come from IBKR's theme lists and the night's research. Each one is checked with IBKR before it goes in: a US listing, and at least about $20M a day of average trading over 90 days (names in our standard universe skip that check). Today's moves are IBKR's change from the prior close at the snapshot time; a snapshot taken after 16:00 includes after-hours trades. The 5- and 20-day spread and its z-score against its 50-day average come from daily bars, rebalanced to equal weight each day, and appear once the collector has bars for every member.</p>
   </footer>
 
   <footer class="lg-method" id="method">
@@ -895,6 +902,37 @@
     el.textContent = t ? `${new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }).format(new Date(t))} ET` : '—';
   });
 
+  // One line per basket, best to worst spread; a name jumps to its card.
+  dash.draw('basket-overview', (el) => {
+    const d = ready(el, 'mkt_basket', true);
+    if (!d) return;
+    if (!d.data.length) { el.replaceChildren(); return; }
+    const rows = [...d.data].sort((a, b) => (b.spread_today_pct ?? -1e9) - (a.spread_today_pct ?? -1e9));
+    const max = Math.max(1, ...rows.map((b) => Math.abs(b.spread_today_pct ?? 0)));
+    const pc = (v) => v == null ? '—' : `${signed(v, '.1f')}%`;
+    const table = h('table', 'lg-bkmem lg-bkover');
+    const head = h('tr');
+    [['Basket'], ['Names', 'num lg-hide-narrow'], ['Basket today', 'num'], ['Hedge', 'lg-hide-narrow'], ['Hedge today', 'num lg-hide-narrow'], ['Spread', 'num'], ['', 'bar lg-hide-narrow']].forEach(([t, c]) => head.append(h('th', c || null, t)));
+    const thead = h('thead'); thead.append(head);
+    const tbody = h('tbody');
+    rows.forEach((b) => {
+      const tr = h('tr');
+      const go = h('button', 'lg-bkjump', b.name);
+      go.type = 'button';
+      go.addEventListener('click', () => document.getElementById(`bk-${b.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+      const name = h('td'); name.append(go);
+      const barCell = h('td', 'bar lg-hide-narrow');
+      const bar = h('span', `lg-bkbar ${tone(b.spread_today_pct)}`);
+      bar.style.width = `${Math.abs(b.spread_today_pct ?? 0) / max * 100}%`;
+      barCell.append(bar);
+      tr.append(name, h('td', 'num lg-hide-narrow', String(b.n_members)), h('td', `num ${tone(b.today_pct)}`, pc(b.today_pct)), h('td', 'lg-hide-narrow', b.hedge),
+        h('td', `num lg-hide-narrow ${tone(b.hedge_today_pct)}`, pc(b.hedge_today_pct)), h('td', `num ${tone(b.spread_today_pct)}`, b.spread_today_pct == null ? '—' : `${signed(b.spread_today_pct, '.1f')} pts`), barCell);
+      tbody.append(tr);
+    });
+    table.append(thead, tbody);
+    el.replaceChildren(table);
+  });
+
   dash.draw('basket-cards', (el) => {
     const d = ready(el, 'mkt_basket', true);
     if (!d) return;
@@ -905,6 +943,7 @@
     if (!d.data.length) { el.replaceChildren(h('p', 'lg-empty', 'No baskets in journal/reference/baskets.json yet.')); return; }
     el.replaceChildren(...d.data.map((b) => {
       const card = h('article', 'lg-bk');
+      card.id = `bk-${b.id}`;
       const top = h('div', 'lg-bktop');
       const title = h('div');
       title.append(h('p', 'lg-kicker', `Equal weight, ${b.n_members} names · against ${b.hedge}`), h('h3', null, b.name));

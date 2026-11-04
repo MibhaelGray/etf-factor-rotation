@@ -1,7 +1,7 @@
 {
-  "note": "Themed baskets: equal-weight groups of stocks for ideas no single ETF captures. A watchlist, not recorded ideas. Members come from IBKR's theme data (search_investment_topics / get_theme_details) and the dossier; every member is checked with IBKR (search_contracts for a US listing, get_price_snapshot avg_90d_usd_volume of at least about $20M; names in the standard universe skip the volume check). The snapshot is IBKR's change from the prior close at the time shown, delayed about 15 minutes.",
+  "note": "Themed baskets: equal-weight groups of stocks for ideas no single ETF captures. A watchlist, not recorded ideas. Members come from IBKR's theme data (search_investment_topics / get_theme_details) and the dossier; every member is checked with IBKR (search_contracts for a US listing, get_price_snapshot avg_90d_usd_volume of at least about $20M; names in the standard universe skip the volume check). The snapshot is IBKR's change from the prior close at the time shown; after 16:00 it includes after-hours trades.",
   "updated": "2026-11-04",
-  "snapshot_at": "2026-11-04T14:20:00-05:00",
+  "snapshot_at": "2026-11-04T17:15:00-05:00",
   "baskets": [
     {
       "id": "texas_power",
@@ -11,12 +11,32 @@
       "watch": "Texas count and any statement from the governor-elect or PUCT on large-load interconnection; ERCOT large-load queue updates.",
       "source": "IBKR theme Data Center Power; dossier 2026-11-03",
       "members": [
-        {"symbol": "VST", "why": "Texas-based ERCOT generator; 1.2 GW Comanche Peak colocation deal with AWS and a stated 10-15 GW ERCOT data-center load target", "avg_usd_volume_90d": null, "change_pct": -14.62},
-        {"symbol": "NRG", "why": "Houston-based; the largest ERCOT retail supplier with Texas generation", "avg_usd_volume_90d": 245301999, "change_pct": -11.17},
-        {"symbol": "CEG", "why": "Mostly PJM nuclear, but its Freestone Texas site hosts a CyrusOne data center under a recent PUCT approval: a partial Texas name", "avg_usd_volume_90d": null, "change_pct": -6.10},
-        {"symbol": "CNP", "why": "Houston electric utility whose load forecast leans on data-center interconnections", "avg_usd_volume_90d": 270429645, "change_pct": -2.70}
+        {
+          "symbol": "VST",
+          "why": "Texas-based ERCOT generator; 1.2 GW Comanche Peak colocation deal with AWS and a stated 10-15 GW ERCOT data-center load target",
+          "avg_usd_volume_90d": 674583856,
+          "change_pct": -13.03
+        },
+        {
+          "symbol": "NRG",
+          "why": "Houston-based; the largest ERCOT retail supplier with Texas generation",
+          "avg_usd_volume_90d": 240956184,
+          "change_pct": -13.55
+        },
+        {
+          "symbol": "CEG",
+          "why": "Mostly PJM nuclear, but its Freestone Texas site hosts a CyrusOne data center under a recent PUCT approval: a partial Texas name",
+          "avg_usd_volume_90d": 802228620,
+          "change_pct": -6.3
+        },
+        {
+          "symbol": "CNP",
+          "why": "Houston electric utility whose load forecast leans on data-center interconnections",
+          "avg_usd_volume_90d": 269268974,
+          "change_pct": -3.39
+        }
       ],
-      "hedge_change_pct": 0.58
+      "hedge_change_pct": 0.44
     },
     {
       "id": "texas_ai_hosts",
@@ -26,14 +46,39 @@
       "watch": "The same Texas policy headlines; bitcoin, which still drives part of their revenue; hyperscaler lease announcements.",
       "source": "IBKR themes Data Centers, Data Center Power; dossier 2026-11-03",
       "members": [
-        {"symbol": "IREN", "why": "Childress, Texas campus being converted to AI cloud", "avg_usd_volume_90d": 996204819, "change_pct": -11.04},
-        {"symbol": "CORZ", "why": "Denton, Texas among its AI hosting sites (CoreWeave tenant)", "avg_usd_volume_90d": 162980661, "change_pct": -9.62},
-        {"symbol": "CIFR", "why": "West Texas sites (Odessa, Barber Lake) aimed at HPC leases", "avg_usd_volume_90d": 259633190, "change_pct": -20.81},
-        {"symbol": "RIOT", "why": "Rockdale and Corsicana, Texas; Corsicana marketed for AI/HPC", "avg_usd_volume_90d": 297102750, "change_pct": 12.38},
-        {"symbol": "GLXY", "why": "Helios campus in West Texas, leased for AI compute", "avg_usd_volume_90d": 91294283, "change_pct": -13.96}
+        {
+          "symbol": "IREN",
+          "why": "Childress, Texas campus being converted to AI cloud",
+          "avg_usd_volume_90d": 1013601739,
+          "change_pct": -9.53
+        },
+        {
+          "symbol": "CORZ",
+          "why": "Denton, Texas among its AI hosting sites (CoreWeave tenant)",
+          "avg_usd_volume_90d": 162790641,
+          "change_pct": -9.55
+        },
+        {
+          "symbol": "CIFR",
+          "why": "West Texas sites (Odessa, Barber Lake) aimed at HPC leases",
+          "avg_usd_volume_90d": 267421541,
+          "change_pct": -18.72
+        },
+        {
+          "symbol": "RIOT",
+          "why": "Rockdale and Corsicana, Texas; Corsicana marketed for AI/HPC",
+          "avg_usd_volume_90d": 294179815,
+          "change_pct": 10.56
+        },
+        {
+          "symbol": "GLXY",
+          "why": "Helios campus in West Texas, leased for AI compute",
+          "avg_usd_volume_90d": 89402831,
+          "change_pct": -15.69
+        }
       ],
-      "hedge_change_pct": -2.77,
-      "caution": "RIOT's +12% today runs against the rest of the group and is likely its own news; check before reading the basket."
+      "hedge_change_pct": -2.49,
+      "caution": "RIOT's +11% runs against the rest of the group, which fell 10-19%, and is likely its own news; check before reading the basket."
     },
     {
       "id": "dc_power_equipment",
@@ -43,13 +88,38 @@
       "watch": "Hyperscaler capex guidance (earnings), order and backlog updates, any federal or state limits on data-center grid hookups.",
       "source": "IBKR theme Data Center Power",
       "members": [
-        {"symbol": "VRT", "why": "IBKR's top-ranked Data Center Power name: UPS, power distribution and cooling", "avg_usd_volume_90d": 1124371253, "change_pct": -13.38},
-        {"symbol": "ETN", "why": "Grid-to-chip power management; data-center orders up sharply", "avg_usd_volume_90d": null, "change_pct": -9.66},
-        {"symbol": "GEV", "why": "Gas turbines and grid equipment; $2.4B of data-center electrification orders in Q1", "avg_usd_volume_90d": null, "change_pct": -10.44},
-        {"symbol": "BE", "why": "Fuel cells for on-site data-center power (Oracle's 2.45 GW deployment)", "avg_usd_volume_90d": 2938389434, "change_pct": -7.74},
-        {"symbol": "MPWR", "why": "Power ICs for AI servers; about a third of revenue from AI and servers", "avg_usd_volume_90d": 922576678, "change_pct": -5.12}
+        {
+          "symbol": "VRT",
+          "why": "IBKR's top-ranked Data Center Power name: UPS, power distribution and cooling",
+          "avg_usd_volume_90d": 1144119325,
+          "change_pct": -11.76
+        },
+        {
+          "symbol": "ETN",
+          "why": "Grid-to-chip power management; data-center orders up sharply",
+          "avg_usd_volume_90d": 764943252,
+          "change_pct": -9.23
+        },
+        {
+          "symbol": "GEV",
+          "why": "Gas turbines and grid equipment; $2.4B of data-center electrification orders in Q1",
+          "avg_usd_volume_90d": 2041807151,
+          "change_pct": -8.84
+        },
+        {
+          "symbol": "BE",
+          "why": "Fuel cells for on-site data-center power (Oracle's 2.45 GW deployment)",
+          "avg_usd_volume_90d": 3016557886,
+          "change_pct": -5.14
+        },
+        {
+          "symbol": "MPWR",
+          "why": "Power ICs for AI servers; about a third of revenue from AI and servers",
+          "avg_usd_volume_90d": 925893933,
+          "change_pct": -5.05
+        }
       ],
-      "hedge_change_pct": -1.07
+      "hedge_change_pct": -0.91
     },
     {
       "id": "utility_solar",
@@ -59,12 +129,32 @@
       "watch": "Senate control calls; statements on the clean-energy tax credits; tariff news on imported modules.",
       "source": "IBKR theme Utility-scale Solar; dossier 2026-11-03",
       "members": [
-        {"symbol": "FSLR", "why": "Largest US module maker; pure play on US utility-scale demand", "avg_usd_volume_90d": 443986525, "change_pct": 5.15},
-        {"symbol": "NXT", "why": "Nextpower: solar trackers and balance-of-system for utility-scale plants", "avg_usd_volume_90d": 239986999, "change_pct": 12.14},
-        {"symbol": "SHLS", "why": "Electrical balance-of-system for utility-scale solar and storage", "avg_usd_volume_90d": 40219377, "change_pct": 5.08}
+        {
+          "symbol": "FSLR",
+          "why": "Largest US module maker; pure play on US utility-scale demand",
+          "avg_usd_volume_90d": 448240781,
+          "change_pct": 5.91
+        },
+        {
+          "symbol": "NXT",
+          "why": "Nextpower: solar trackers and balance-of-system for utility-scale plants",
+          "avg_usd_volume_90d": 240644616,
+          "change_pct": 12.42
+        },
+        {
+          "symbol": "SHLS",
+          "why": "Electrical balance-of-system for utility-scale solar and storage",
+          "avg_usd_volume_90d": 40467786,
+          "change_pct": 8.26
+        }
       ],
-      "hedge_change_pct": 0.58,
-      "dropped": [{"symbol": "CSIQ", "reason": "average dollar volume $19.5M, under the $20M bar"}]
+      "hedge_change_pct": 0.44,
+      "dropped": [
+        {
+          "symbol": "CSIQ",
+          "reason": "average dollar volume $19.5M, under the $20M bar"
+        }
+      ]
     },
     {
       "id": "managed_care",
@@ -74,14 +164,391 @@
       "watch": "Medicare Advantage rate notices, ACA subsidy extension talk, company earnings (several report in early November).",
       "source": "dossier 2026-11-03",
       "members": [
-        {"symbol": "UNH", "why": "Largest insurer; heavy Medicare Advantage exposure", "avg_usd_volume_90d": null, "change_pct": 1.81},
-        {"symbol": "HUM", "why": "The most Medicare Advantage-dependent large insurer", "avg_usd_volume_90d": 523520020, "change_pct": 1.42},
-        {"symbol": "ELV", "why": "Commercial, Medicaid and ACA mix", "avg_usd_volume_90d": 507951268, "change_pct": 4.67},
-        {"symbol": "CVS", "why": "Aetna insurance plus pharmacy and PBM", "avg_usd_volume_90d": 650571656, "change_pct": -11.69},
-        {"symbol": "CNC", "why": "The largest ACA marketplace and Medicaid insurer", "avg_usd_volume_90d": 335946395, "change_pct": 11.81}
+        {
+          "symbol": "UNH",
+          "why": "Largest insurer; heavy Medicare Advantage exposure",
+          "avg_usd_volume_90d": 2072055828,
+          "change_pct": 1.13
+        },
+        {
+          "symbol": "HUM",
+          "why": "The most Medicare Advantage-dependent large insurer",
+          "avg_usd_volume_90d": 516233785,
+          "change_pct": -0.15
+        },
+        {
+          "symbol": "ELV",
+          "why": "Commercial, Medicaid and ACA mix",
+          "avg_usd_volume_90d": 506122844,
+          "change_pct": 4.94
+        },
+        {
+          "symbol": "CVS",
+          "why": "Aetna insurance plus pharmacy and PBM",
+          "avg_usd_volume_90d": 647179420,
+          "change_pct": -12.09
+        },
+        {
+          "symbol": "CNC",
+          "why": "The largest ACA marketplace and Medicaid insurer",
+          "avg_usd_volume_90d": 339678623,
+          "change_pct": 12.63
+        }
       ],
-      "hedge_change_pct": 2.90,
-      "caution": "CVS (-12%) and CNC (+12%) moved far apart today, likely on their own news; check before reading the basket."
+      "hedge_change_pct": 3.15,
+      "caution": "CVS (-12%) and CNC (+13%) moved far apart, likely on their own news; check before reading the basket."
+    },
+    {
+      "id": "memory_storage",
+      "name": "Memory and storage",
+      "hedge": "SMH",
+      "story": "Memory and storage makers whose prices ride AI data-center demand for DRAM, HBM, NAND and hard drives. Memory prices swing far harder than logic chips, so against SMH the spread isolates the memory cycle from chips as a whole.",
+      "watch": "DRAM and NAND contract price reports, hyperscaler capex guidance, Micron's next earnings, HBM supply news from SK Hynix and Samsung.",
+      "source": "IBKR theme Memory Chips",
+      "members": [
+        {
+          "symbol": "MU",
+          "why": "DRAM about three quarters of sales and NAND the rest; HBM for AI accelerators. IBKR's top Memory Chips name",
+          "change_pct": -6.4,
+          "avg_usd_volume_90d": 21462901122
+        },
+        {
+          "symbol": "SNDK",
+          "why": "Sandisk: pure-play NAND flash and SSDs, spun out of Western Digital",
+          "change_pct": -7.33,
+          "avg_usd_volume_90d": 10991775551
+        },
+        {
+          "symbol": "WDC",
+          "why": "Western Digital: hard drives for cloud storage since the Sandisk spin-off",
+          "change_pct": -6.0,
+          "avg_usd_volume_90d": 2630306773
+        },
+        {
+          "symbol": "STX",
+          "why": "Seagate: high-capacity hard drives for data centers",
+          "change_pct": -7.61,
+          "avg_usd_volume_90d": 2586810491
+        },
+        {
+          "symbol": "RMBS",
+          "why": "Rambus: memory interface chips, about half of revenue; mid-40% share of DDR5 clock drivers",
+          "change_pct": -5.94,
+          "avg_usd_volume_90d": 179424120
+        }
+      ],
+      "hedge_change_pct": -2.49
+    },
+    {
+      "id": "neoclouds",
+      "name": "Neoclouds",
+      "hedge": "SMH",
+      "story": "GPU cloud providers that rent AI compute to model labs and hyperscalers, built largely on debt and long leases. Against SMH, which sells them the chips, the spread reads the market's view of their financing and contract risk rather than AI demand itself.",
+      "watch": "Debt raises and what they cost, new or renewed capacity contracts, GPU rental prices; for IREN and APLD, the same data-center siting politics as the Texas baskets.",
+      "source": "IBKR theme Cloud Infrastructure (neocloud customers named by EQIX, SMCI, VRT, ANET)",
+      "members": [
+        {
+          "symbol": "CRWV",
+          "why": "CoreWeave: the largest listed neocloud, NVIDIA capacity leased to model labs and hyperscalers",
+          "change_pct": -8.54,
+          "avg_usd_volume_90d": 1925616306
+        },
+        {
+          "symbol": "NBIS",
+          "why": "Nebius: AI cloud in Europe and the US, with a large Microsoft capacity contract",
+          "change_pct": -5.57,
+          "avg_usd_volume_90d": 2900045476
+        },
+        {
+          "symbol": "APLD",
+          "why": "Applied Digital: North Dakota AI campuses leased to CoreWeave",
+          "change_pct": -5.39,
+          "avg_usd_volume_90d": 339106476
+        },
+        {
+          "symbol": "IREN",
+          "why": "Converting its bitcoin sites to AI cloud; also in the Texas AI hosts basket",
+          "change_pct": -9.53,
+          "avg_usd_volume_90d": 1013601739
+        }
+      ],
+      "hedge_change_pct": -2.49
+    },
+    {
+      "id": "ai_networking",
+      "name": "AI networking and optics",
+      "hedge": "SMH",
+      "story": "Switches, optical transceivers, lasers and connectivity chips that link GPUs inside and between AI data centers. Against SMH, the spread shows whether networking is gaining or losing share of AI spending.",
+      "watch": "Hyperscaler capex, earnings in the group (several report in early November), 800G and 1.6T optics orders, NVIDIA's own networking sales.",
+      "source": "IBKR theme Cloud Infrastructure; member checks with IBKR",
+      "members": [
+        {
+          "symbol": "ANET",
+          "why": "Arista: data-center switching for cloud titans and neoclouds",
+          "change_pct": 5.68,
+          "avg_usd_volume_90d": 1032085620
+        },
+        {
+          "symbol": "CIEN",
+          "why": "Ciena: optical transport between data centers",
+          "change_pct": -8.47,
+          "avg_usd_volume_90d": 745943554
+        },
+        {
+          "symbol": "COHR",
+          "why": "Coherent: optical transceivers and lasers for AI clusters",
+          "change_pct": 1.21,
+          "avg_usd_volume_90d": 1519472355
+        },
+        {
+          "symbol": "LITE",
+          "why": "Lumentum: lasers and optical components for data-center links",
+          "change_pct": -7.54,
+          "avg_usd_volume_90d": 3235703310
+        },
+        {
+          "symbol": "CRDO",
+          "why": "Credo: active electrical cables and SerDes chips for AI racks",
+          "change_pct": -8.89,
+          "avg_usd_volume_90d": 1068189382
+        },
+        {
+          "symbol": "ALAB",
+          "why": "Astera Labs: PCIe and CXL connectivity chips for AI servers",
+          "change_pct": -4.26,
+          "avg_usd_volume_90d": 882298977
+        }
+      ],
+      "caution": "ANET (+5.7%) and COHR (+1.2%) rose while the other four fell 4-9%, likely on their own news in earnings season; check before reading the basket.",
+      "hedge_change_pct": -2.49
+    },
+    {
+      "id": "nuclear_new",
+      "name": "Nuclear fuel and new reactors",
+      "hedge": "XLU",
+      "story": "Uranium, enrichment and small-reactor names whose case rests on data-center demand and federal support for new nuclear. Unlike the operators in Texas power, most sell no power today, so they trade on policy and contracts. New nuclear has had support from both parties, so the election is a weaker read here.",
+      "watch": "NRC licensing steps, DOE fuel and reactor awards, hyperscaler nuclear deals, uranium prices.",
+      "source": "IBKR theme Nuclear Energy",
+      "members": [
+        {
+          "symbol": "OKLO",
+          "why": "Aurora microreactors and fuel recycling; pre-revenue",
+          "change_pct": -5.11,
+          "avg_usd_volume_90d": 218843830
+        },
+        {
+          "symbol": "SMR",
+          "why": "NuScale: the only NRC-certified small modular reactor design",
+          "change_pct": -4.1,
+          "avg_usd_volume_90d": 173613865
+        },
+        {
+          "symbol": "LEU",
+          "why": "Centrus: the main US uranium enricher, building HALEU capacity",
+          "change_pct": -3.78,
+          "avg_usd_volume_90d": 69505221
+        },
+        {
+          "symbol": "BWXT",
+          "why": "Naval reactors and nuclear components; supplier to commercial small reactors",
+          "change_pct": -7.81,
+          "avg_usd_volume_90d": 138443850
+        },
+        {
+          "symbol": "CCJ",
+          "why": "Cameco: uranium mining and conversion, 49% of Westinghouse",
+          "change_pct": -1.23,
+          "avg_usd_volume_90d": 224037581
+        }
+      ],
+      "hedge_change_pct": 0.44
+    },
+    {
+      "id": "quantum",
+      "name": "Quantum computing",
+      "hedge": "QQQ",
+      "story": "Pure-play quantum computer makers, mostly pre-profit and heavily traded by retail. They move as one speculative high-beta group; against QQQ the spread is that appetite for speculation.",
+      "watch": "Retail flows and options volume, equity raises, government funding news, technical milestones.",
+      "source": "IBKR theme Quantum Computing",
+      "members": [
+        {
+          "symbol": "IONQ",
+          "why": "Trapped-ion systems; the largest pure play",
+          "change_pct": -0.17,
+          "avg_usd_volume_90d": 654212543
+        },
+        {
+          "symbol": "RGTI",
+          "why": "Rigetti: superconducting systems sold through the major clouds",
+          "change_pct": 1.8,
+          "avg_usd_volume_90d": 179816521
+        },
+        {
+          "symbol": "QBTS",
+          "why": "D-Wave: annealing and gate-model systems",
+          "change_pct": 0.77,
+          "avg_usd_volume_90d": 157776904
+        },
+        {
+          "symbol": "QUBT",
+          "why": "Photonic systems; the smallest and thinnest of the four",
+          "change_pct": 0.08,
+          "avg_usd_volume_90d": 45426088
+        }
+      ],
+      "hedge_change_pct": 1.26
+    },
+    {
+      "id": "crypto_equities",
+      "name": "Crypto stocks",
+      "hedge": "IBIT",
+      "story": "An exchange, a retail broker, a stablecoin issuer and a bitcoin treasury company. Against IBIT, the spread strips out bitcoin's own move and leaves trading volumes, regulation and MSTR's premium to its holdings.",
+      "watch": "Crypto market-structure and stablecoin rules under the new Congress, SEC posture, exchange volumes, MSTR's premium to its bitcoin.",
+      "source": "IBKR theme Cryptocurrency Trading",
+      "members": [
+        {
+          "symbol": "COIN",
+          "why": "Coinbase: the largest US crypto exchange; trading is over half of revenue",
+          "change_pct": 4.5,
+          "avg_usd_volume_90d": 1408373964
+        },
+        {
+          "symbol": "HOOD",
+          "why": "Robinhood: retail broker with about 18% of revenue from crypto",
+          "change_pct": 2.36,
+          "avg_usd_volume_90d": 1797336629
+        },
+        {
+          "symbol": "MSTR",
+          "why": "Strategy: holds bitcoin as its main asset",
+          "change_pct": 6.1,
+          "avg_usd_volume_90d": 3259336710
+        },
+        {
+          "symbol": "CRCL",
+          "why": "Circle: issues USDC and earns interest on the reserves, so it is also rate-sensitive",
+          "change_pct": 1.29,
+          "avg_usd_volume_90d": 977912847
+        }
+      ],
+      "hedge_change_pct": 3.34
+    },
+    {
+      "id": "space",
+      "name": "Space",
+      "hedge": "XLI",
+      "story": "Launch, satellite and lunar companies that live on NASA and defense contracts plus private funding. Against XLI, the spread is the speculative and government-contract premium on top of industrials.",
+      "watch": "NASA and Space Force budget lines in the new Congress, launch results, contract awards, equity raises.",
+      "source": "IBKR theme Space Exploration",
+      "members": [
+        {
+          "symbol": "RKLB",
+          "why": "Rocket Lab: Electron launches, spacecraft and the coming Neutron rocket",
+          "change_pct": -3.34,
+          "avg_usd_volume_90d": 1018761727
+        },
+        {
+          "symbol": "ASTS",
+          "why": "AST SpaceMobile: satellites that connect directly to ordinary phones",
+          "change_pct": -3.34,
+          "avg_usd_volume_90d": 460618236
+        },
+        {
+          "symbol": "LUNR",
+          "why": "Intuitive Machines: NASA lunar landers and services",
+          "change_pct": -4.58,
+          "avg_usd_volume_90d": 80950956
+        },
+        {
+          "symbol": "PL",
+          "why": "Planet Labs: daily Earth imaging satellites for government and business",
+          "change_pct": -5.77,
+          "avg_usd_volume_90d": 118554065
+        },
+        {
+          "symbol": "RDW",
+          "why": "Redwire: space infrastructure and components for NASA missions",
+          "change_pct": -8.5,
+          "avg_usd_volume_90d": 99783000
+        }
+      ],
+      "hedge_change_pct": -0.91
+    },
+    {
+      "id": "glp1",
+      "name": "GLP-1 and obesity",
+      "hedge": "XLV",
+      "story": "Makers and sellers of obesity drugs. Their pricing depends on Medicare coverage and drug-price negotiation set in Washington, so a Democratic sweep matters here too. Against XLV, the spread is the obesity franchise against health care as a whole.",
+      "watch": "Medicare coverage of obesity drugs, drug-price negotiation lists, trial readouts, prescription data, compounding rules for HIMS.",
+      "source": "IBKR theme Obesity Treatments",
+      "members": [
+        {
+          "symbol": "LLY",
+          "why": "Eli Lilly: Zepbound and Mounjaro, about two thirds of revenue",
+          "change_pct": 0.59,
+          "avg_usd_volume_90d": 3525001946
+        },
+        {
+          "symbol": "NVO",
+          "why": "Novo Nordisk (US ADR): Wegovy and Ozempic",
+          "change_pct": 3.38,
+          "avg_usd_volume_90d": 497404744
+        },
+        {
+          "symbol": "VKTX",
+          "why": "Viking: VK2735 in Phase III, injectable and oral",
+          "change_pct": 7.21,
+          "avg_usd_volume_90d": 137014452
+        },
+        {
+          "symbol": "HIMS",
+          "why": "Hims & Hers: telehealth seller of branded and compounded weight-loss drugs",
+          "change_pct": 4.67,
+          "avg_usd_volume_90d": 285757588
+        }
+      ],
+      "hedge_change_pct": 3.15
+    },
+    {
+      "id": "defense_primes",
+      "name": "Defense primes",
+      "hedge": "XLI",
+      "story": "The large US defense contractors, paid almost entirely from the federal budget. A Democratic Congress changes the odds on defense spending growth; against XLI the spread is that budget read.",
+      "watch": "Defense appropriations and any continuing resolution, the next budget request, large program awards, Ukraine and Middle East aid votes.",
+      "source": "IBKR theme Space Exploration (LMT, NOC); member checks with IBKR",
+      "members": [
+        {
+          "symbol": "LMT",
+          "why": "Lockheed Martin: F-35, missiles and the Orion spacecraft",
+          "change_pct": -6.89,
+          "avg_usd_volume_90d": 741733528
+        },
+        {
+          "symbol": "NOC",
+          "why": "Northrop Grumman: B-21 bomber, Sentinel ICBM and space systems",
+          "change_pct": -4.5,
+          "avg_usd_volume_90d": 458620809
+        },
+        {
+          "symbol": "GD",
+          "why": "General Dynamics: submarines, combat vehicles and Gulfstream jets",
+          "change_pct": -2.57,
+          "avg_usd_volume_90d": 425627416
+        },
+        {
+          "symbol": "RTX",
+          "why": "RTX: Raytheon missiles and Pratt & Whitney engines",
+          "change_pct": -2.63,
+          "avg_usd_volume_90d": 906629217
+        },
+        {
+          "symbol": "LHX",
+          "why": "L3Harris: defense electronics, communications and rocket motors",
+          "change_pct": -6.5,
+          "avg_usd_volume_90d": 427312391
+        }
+      ],
+      "hedge_change_pct": -0.91
     }
   ]
 }
