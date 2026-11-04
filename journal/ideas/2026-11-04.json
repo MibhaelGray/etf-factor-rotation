@@ -1,0 +1,37 @@
+{
+  "as_of": "2026-11-03",
+  "trade_date": "2026-11-04",
+  "recorded_at": "2026-11-03T22:12:27.303338-05:00",
+  "brief_sha256": "5a75847a778f5d46c6f6582d3790a95af5c951f30c2eb4a95d0ab84f8579d498",
+  "macro_context": "Nightly pass during the election count; full evidence in journal/research/2026-11-03-dossier.md. Futures fell after the close as the count pointed to a Democratic sweep (Kalshi Senate D above 90% from about 75% before polls closed, House 99%) and Hinojosa, who has pledged a data-center moratorium, led Abbott for Texas governor (Texas is about 27% of US data-center capacity). IBKR at 21:44 ET: ES -1.1%, NQ -2.0%, RTY -0.7%; after hours QQQ -2.0%, SMH -2.7%, IWM -0.8%, XLV +0.2%, TLT +0.6%, even though AMD (+3.4%), ANET (+5.9%) and SMCI (+3.9%) all beat and guided up. A general index-gap base rate has no edge (n=53); the edge, such as it is, sits only in tech-led gaps after a tech up day, and only while the tech gap holds. One idea tonight: a second draft idea, long XLV / short SMH, was dropped after review because it was the same bet with more market beta (its result tracked a plain SMH short at 0.89 correlation, and XLV added nothing in the history). The main risk is a post-election relief rally that fills the tech gap (vol crush from VIX1D 22.3, open buyback windows, hedge funds already underweight AI, UBS's 'combustible setup'), as after 2016's overnight plunge; Texas early counts also tend to lean Democratic before Election Day votes are added, so the moratorium scare may fade. In-window: ADP 08:15, Treasury refunding 08:30, ISM services 10:00. After the close (after our exit): APP, QCOM, ARM earnings; election counts continue. My read: index 50/50 from the open; small caps beat the Nasdaq-100 about 60/40 if the tech gap holds.",
+  "ideas": [
+    {
+      "long": "IWM",
+      "short": "QQQ",
+      "factor": "size_ai_policy",
+      "confidence": 2,
+      "thesis": "The overnight drop is a policy repricing of megacap AI (a Democratic Senate, a Texas data-center moratorium threat), not an earnings one: AMD, ANET and SMCI beat and traded up while QQQ fell 2.0% and SMH 2.7% after hours, and the Russell held up better (RTY -0.7% vs NQ -2.0%). Small caps carry little AI exposure and gain from the lower yields a sweep brings. In our history, when a tech-led gap-down held, IWM kept beating QQQ from the open: 63% of 30 tech-led gap-downs, and 13 of 17 (10 of 13 declustered) when SMH gapped down 2% or more the day after a 1.5%+ gain, as tonight (median +67 bp, spread sd 76 bp, the steadiest form of the 'AI keeps lagging' view). Leveraged Nasdaq-100 funds trade $2.4B per 1% at the close versus $0.1B for the Russell, a small extra push if the day stays down. The edge exists only while the tech gap holds: when SMH's gap was a smaller -1% to -2%, the pair won 51% (n=35), so the stand-downs drop the idea if tech recovers much before the open.",
+      "invalidation": "QQQ trades back above 685.28, Tuesday's close (gap fully filled), or the pair is down more than 0.9% from the open (about one day's spread standard deviation).",
+      "key_signals": [
+        "After hours: IWM -0.84% vs QQQ -2.02%, SMH -2.68%; RTY -0.7% vs NQ -2.0%",
+        "Tech-led gap-downs (n=30): IWM-QQQ hit 63%; failed-bounce analog (n=17): hit 76%, median +67 bp; declustered 77%; 2026 alone 67%",
+        "AMD/ANET/SMCI beat and traded up: the drop is policy, not earnings",
+        "Counter-evidence: IWM/QQQ already +10.2% in 20 days (z50 +1.04) while QQQ/RSP is at z50 -1.92, RSI 32; IWM's 20-day trend flips down below 277.7 (after hours 277.45); a sweep is read as negative for the financials and industrials heavy in small caps; partial tech gap fills erase the edge (51%, n=35)",
+        "House-rule override: QQQ is already 1.1 ATR down after hours; the per-leg 1-ATR stand-down is replaced by a pair-gap test because the history's days were mostly beyond 1 ATR too"
+      ],
+      "stand_down_if": [
+        "QQQ pre-market last (09:15-09:25) above 677.00, a gap smaller than -1.2% from Tuesday's 685.28 close: outside the base rate",
+        "SMH pre-market last above 508.00, a gap smaller than -2% from Tuesday's 518.52 close: outside the analog",
+        "Pre-market, IWM's change from Tuesday's close beats QQQ's by more than 1.75 points: beyond most of the history, the move happened before the open",
+        "IWM pre-market last below 274.00, more than 1.5 ATR ($3.8) under Tuesday's close of 279.79: a broad small-cap selloff, not a megacap one",
+        "Before 09:25 the AP or a major network projects Republican control of the Senate"
+      ],
+      "drivers": [
+        "base_rate",
+        "catalyst"
+      ],
+      "kind": "pair",
+      "id": "2026-11-03-1"
+    }
+  ]
+}
