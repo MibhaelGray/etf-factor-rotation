@@ -115,6 +115,9 @@ def _implied_forward(group: pd.DataFrame, r: float) -> float:
 def enrich(raw: pd.DataFrame) -> pd.DataFrame:
     r = settings().risk_free_rate
     df = raw.copy()
+    # IBKR can return no model greeks for a whole chain after the close, leaving these columns all None.
+    for col in ("ib_und_price", "ib_iv"):
+        df[col] = pd.to_numeric(df[col], errors="coerce")
     df["S"] = df["ib_und_price"].where(df["ib_und_price"] > 0, df["spot_at_start"])
     df["T"] = _years_to_expiry(df)
     df["mid"] = _mid(df)
