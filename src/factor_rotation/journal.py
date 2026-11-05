@@ -36,7 +36,7 @@ from .analytics.compute import latest_snapshot
 from .analytics.technicals import factor_pair_technicals, regime, symbol_technicals
 from .config import NY
 from .ib.bars import load
-from .universe import CONSTITUENTS, ETFS, FACTOR_PAIRS, bar_universe, idea_universe
+from .universe import CONSTITUENTS, ETFS, FACTOR_PAIRS, INDEXES, OPTION_INDEXES, bar_universe, idea_universe
 
 JOURNAL = Path(os.environ.get("FR_JOURNAL_DIR", "journal"))
 EXPOSURE_FIELDS = [
@@ -73,10 +73,12 @@ BOOKS = {
 }
 
 
-# A side of an idea is one symbol, or a named basket held in equal weight. Basket members can come from
-# outside the standard universe; their bars are pulled before scoring (pending_legs).
+# A side of an idea is one symbol, or a named basket held in equal weight. Any US-listed stock or ETF can
+# be a leg or a member, inside the standard universe or not; bars for names outside it are pulled before
+# scoring (pending_legs). Indexes can't be bought, so they can't be legs.
 BASKET_SIZE = (3, 10)
 SYMBOL = re.compile(r"^[A-Z][A-Z0-9.]{0,6}$")
+NOT_TRADABLE = {*INDEXES, *OPTION_INDEXES, "NDX", "RUT", "DJI", "SOX", "VIX1D", "VIX9D", "VIX6M", "FVX", "TYX"}
 
 
 def _write_once(path: Path, payload: dict, indent: int | None = 2) -> Path:
@@ -178,8 +180,9 @@ def record_ideas(draft_path: Path) -> Path:
 
 
 def _validate(ideas: list[dict], extra: tuple[str, ...] = ()) -> None:
-    """Checks shared by both books; sets each idea's kind."""
-    universe = set(idea_universe())
+    """Checks shared by both books; sets each idea's kind. A leg is any ticker symbol: one outside the
+    standard universe is checked with IBKR before recording (a US listing and about $20M a day of
+    volume), and its bars are pulled with the pending legs before scoring."""
     for i, idea in enumerate(ideas, 1):
         for field in ("factor", "thesis", "confidence", "invalidation", "key_signals", "drivers", *extra):
             if field not in idea:
@@ -199,8 +202,10 @@ def _validate(ideas: list[dict], extra: tuple[str, ...] = ()) -> None:
                     raise ValueError(f"idea {i} {side} basket must list distinct ticker symbols")
                 if not str(idea.get(f"{side}_label", "")).strip():
                     raise ValueError(f"idea {i} {side} basket needs a {side}_label naming its theme")
-            elif v and v not in universe:
-                raise ValueError(f"idea {i} {side} leg {v} is not in the universe; use a basket for other names")
+            elif v and (not isinstance(v, str) or not SYMBOL.match(v)):
+                raise ValueError(f"idea {i} {side} leg must be a ticker symbol or a basket list")
+            if bad := sorted(set(_side(idea, side)) & NOT_TRADABLE):
+                raise ValueError(f"idea {i} {side} side holds an index ({', '.join(bad)}), which can't be traded")
         if set(_side(idea, "long")) & set(_side(idea, "short")):
             raise ValueError(f"idea {i} has a name on both sides")
         if idea["confidence"] not in (1, 2, 3, 4, 5):

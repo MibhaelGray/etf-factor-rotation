@@ -79,7 +79,7 @@ Draft format:
    "drivers": ["stretched_pair", "positioning"]}]}
 ```
 
-Each idea is dollar-neutral, entered at the next open and exited at the close. Close-to-close is recorded alongside.
+Each idea is entered at the next open and exited at the close; close-to-close is recorded alongside. A pair is dollar-neutral; an outright `long` or `short` (leave the other side out) carries the market's move. A leg can be any US-listed stock or ETF, not only the standard universe: names outside it are checked with IBKR before recording (a US listing and about $20M a day of volume) and have their bars pulled before scoring, as basket members do. Indexes such as SPX or VIX can't be legs.
 
 Either side can instead be a themed basket of 3–10 stocks in equal weight, named by `long_label` or `short_label`:
 
@@ -87,7 +87,7 @@ Either side can instead be a themed basket of 3–10 stocks in equal weight, nam
 {"long": ["VST", "TLN", "NRG", "CEG"], "long_label": "Texas power", "short": "XLU", "factor": "power_policy", "...": "..."}
 ```
 
-Basket members can come from outside the standard universe. `fr bars` adds the legs of every unscored idea to its pull, and the nightly job runs `fr bars --pending` before scoring in case the ideas arrived after the 16:30 pull. If a leg's bars are still missing, scoring waits up to five days before recording the idea as missing.
+Single legs and basket members can come from outside the standard universe. `fr bars` adds the legs of every unscored idea to its pull, and the nightly job runs `fr bars --pending` before scoring in case the ideas arrived after the 16:30 pull. If a leg's bars are still missing, scoring waits up to five days before recording the idea as missing.
 
 `journal/reference/baskets.json` holds a watchlist of themed baskets, each with its hedge ETF, the story behind it, a reason for every member and a snapshot of the day's moves from IBKR. `fr bars` pulls daily bars for every member, `fr market` adds the baskets' spread against their hedge to the market rows, and the dashboard shows them on its Baskets page (`#baskets`). The watchlist isn't scored; only an idea that uses a basket is.
 
