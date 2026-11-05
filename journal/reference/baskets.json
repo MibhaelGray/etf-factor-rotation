@@ -1,6 +1,6 @@
 {
   "note": "Themed baskets: equal-weight groups of stocks for ideas no single ETF captures. A watchlist, not recorded ideas. Members come from IBKR's theme data (search_investment_topics / get_theme_details) and the dossier; every member is checked with IBKR (search_contracts for a US listing, get_price_snapshot avg_90d_usd_volume of at least about $20M; names in the standard universe skip the volume check). The snapshot is IBKR's change from the prior close at the time shown; after 16:00 it includes after-hours trades.",
-  "updated": "2026-11-04",
+  "updated": "2026-11-05",
   "snapshot_at": "2026-11-05T16:00:00-05:00",
   "baskets": [
     {
@@ -603,6 +603,360 @@
       ],
       "hedge_change_pct": -2.5,
       "caution": "ILMN (-4.7%) and RVTY (-2.5%) fell while the other five rose, possibly on their own news in earnings season; check before reading the basket."
+    },
+    {
+      "id": "cybersecurity",
+      "name": "Cybersecurity",
+      "hedge": "IGV",
+      "story": "Security software vendors, where budgets tend to hold up better than other IT spending and AI adds new attack surfaces. Against IGV, the spread shows security against software broadly.",
+      "watch": "Earnings and billings guidance across the group, large breaches, platform consolidation deals, and whether AI agents are read as a threat to software or a new thing to secure.",
+      "source": "IBKR theme Cybersecurity",
+      "members": [
+        {
+          "symbol": "PANW",
+          "why": "Palo Alto Networks: pure-play security platform; bought CyberArk for identity",
+          "avg_usd_volume_90d": 1021285679,
+          "change_pct": -9.59
+        },
+        {
+          "symbol": "CRWD",
+          "why": "CrowdStrike: endpoint and cloud security on its Falcon platform",
+          "avg_usd_volume_90d": 1499120030,
+          "change_pct": -9.88
+        },
+        {
+          "symbol": "FTNT",
+          "why": "Fortinet: firewalls and secure networking, with custom chips",
+          "avg_usd_volume_90d": 317242989,
+          "change_pct": -5.32
+        },
+        {
+          "symbol": "ZS",
+          "why": "Zscaler: cloud zero-trust access",
+          "avg_usd_volume_90d": 311296932,
+          "change_pct": -9.16
+        },
+        {
+          "symbol": "OKTA",
+          "why": "Okta: identity and access management; joined the S&P 500 on Nov 4",
+          "avg_usd_volume_90d": 398982283,
+          "change_pct": -10.41
+        },
+        {
+          "symbol": "S",
+          "why": "SentinelOne: AI-driven endpoint and cloud detection",
+          "avg_usd_volume_90d": 142987636,
+          "change_pct": -8.81
+        },
+        {
+          "symbol": "RBRK",
+          "why": "Rubrik: data security and ransomware recovery",
+          "avg_usd_volume_90d": 193966430,
+          "change_pct": -11.14
+        },
+        {
+          "symbol": "CHKP",
+          "why": "Check Point: network and cloud security, a slower, more profitable grower",
+          "avg_usd_volume_90d": 85352283,
+          "change_pct": 0.52
+        }
+      ],
+      "hedge_change_pct": -4.39,
+      "caution": "PANW and CRWD are also large IGV holdings, so the spread understates the group's move. CHKP rose while the others fell 5-11% today; check for its own news."
+    },
+    {
+      "id": "adtech_apps",
+      "name": "Ad tech and mobile apps",
+      "hedge": "XLC",
+      "story": "Companies that sell or place digital ads, led by the mobile app ad platforms AppLovin and Unity. They ride ad budgets and AI targeting, not AI hardware capex. Against XLC, whose biggest holdings are Meta and Alphabet.",
+      "watch": "Earnings (AppLovin's result set today's tone), Meta and Alphabet ad commentary, consumer spending, app-store and privacy rule changes.",
+      "source": "IBKR theme Advertising; Unity added for its mobile ad network",
+      "members": [
+        {
+          "symbol": "APP",
+          "why": "AppLovin: mobile ad platform and auction, expanding beyond games",
+          "avg_usd_volume_90d": 1008258792,
+          "change_pct": 31.04
+        },
+        {
+          "symbol": "U",
+          "why": "Unity: game engine plus a mobile ad network competing with AppLovin",
+          "avg_usd_volume_90d": 284490487,
+          "change_pct": 14.93
+        },
+        {
+          "symbol": "TTD",
+          "why": "The Trade Desk: independent programmatic ad buying, strong in connected TV",
+          "avg_usd_volume_90d": 168310422,
+          "change_pct": -3.17
+        },
+        {
+          "symbol": "RDDT",
+          "why": "Reddit: ads are over 94% of revenue",
+          "avg_usd_volume_90d": 482881025,
+          "change_pct": -7.93
+        },
+        {
+          "symbol": "PINS",
+          "why": "Pinterest: shopping-led ad platform",
+          "avg_usd_volume_90d": 175285751,
+          "change_pct": -6.74
+        },
+        {
+          "symbol": "ROKU",
+          "why": "Roku: connected TV ads, nearly half of revenue",
+          "avg_usd_volume_90d": 152434802,
+          "change_pct": -1.47
+        }
+      ],
+      "hedge_change_pct": -0.59,
+      "caution": "APP rose 31% and U rose 15% on earnings today while the other four fell, so today's basket average says little about the group."
+    },
+    {
+      "id": "hyperscalers",
+      "name": "Hyperscalers",
+      "hedge": "QQQ",
+      "story": "The companies paying for the AI buildout. When money leaves chip suppliers it can move here, because lower capex helps their free cash flow, or it can leave too if AI demand itself is doubted. Against QQQ, which they dominate.",
+      "watch": "Capex guidance, free cash flow (reported negative at several of them), debt issuance for data centers, and whether they hold up when SMH sells off.",
+      "source": "Dossier 2026-11-05; Reuters on rotation from chips into hyperscalers",
+      "members": [
+        {
+          "symbol": "MSFT",
+          "why": "Microsoft: Azure and OpenAI exposure",
+          "avg_usd_volume_90d": 6179167871,
+          "change_pct": -3.58
+        },
+        {
+          "symbol": "GOOGL",
+          "why": "Alphabet: Google Cloud, TPUs and search",
+          "avg_usd_volume_90d": 5173660854,
+          "change_pct": -2.2
+        },
+        {
+          "symbol": "AMZN",
+          "why": "Amazon: AWS and custom chips",
+          "avg_usd_volume_90d": 5314802579,
+          "change_pct": -2.19
+        },
+        {
+          "symbol": "META",
+          "why": "Meta: AI capex without a cloud business to sell it through",
+          "avg_usd_volume_90d": 8630188884,
+          "change_pct": -3.96
+        },
+        {
+          "symbol": "ORCL",
+          "why": "Oracle: debt-funded AI cloud buildout, the group's most levered name",
+          "avg_usd_volume_90d": 2781245499,
+          "change_pct": -6.93
+        }
+      ],
+      "hedge_change_pct": -6.49,
+      "caution": "All five are in or near QQQ's largest holdings, except ORCL, which isn't in it, so the spread is narrow and ORCL often drives it."
+    },
+    {
+      "id": "semicap",
+      "name": "Chip equipment",
+      "hedge": "SMH",
+      "story": "Makers of the tools that build chips. Their orders follow fab spending, including memory, so they often lead when capex expectations change. Against SMH to separate tools from chip designers.",
+      "watch": "Memory capex, TSMC capex guidance, China export rules, and earnings from AMAT and others in the group.",
+      "source": "IBKR theme search; dossier 2026-11-05",
+      "members": [
+        {
+          "symbol": "AMAT",
+          "why": "Applied Materials: broadest tool maker",
+          "avg_usd_volume_90d": 1702688505,
+          "change_pct": -13.58
+        },
+        {
+          "symbol": "LRCX",
+          "why": "Lam Research: etch and deposition, with heavy memory exposure; announced a $25B buyback tonight",
+          "avg_usd_volume_90d": 1239404502,
+          "change_pct": -16.36
+        },
+        {
+          "symbol": "KLAC",
+          "why": "KLA: inspection and process control",
+          "avg_usd_volume_90d": 1036912659,
+          "change_pct": -13.35
+        },
+        {
+          "symbol": "ASML",
+          "why": "ASML: lithography, the only maker of EUV tools",
+          "avg_usd_volume_90d": 1582897173,
+          "change_pct": -9.33
+        },
+        {
+          "symbol": "TER",
+          "why": "Teradyne: chip testing, tied to AI accelerators; also a robotics business",
+          "avg_usd_volume_90d": 521915174,
+          "change_pct": -15.24
+        }
+      ],
+      "hedge_change_pct": -11.21,
+      "caution": "AMAT, LRCX, KLAC and ASML are also large SMH holdings, so the spread understates the group's move."
+    },
+    {
+      "id": "robotics",
+      "name": "Robotics and automation",
+      "hedge": "XLI",
+      "story": "Warehouse robots, factory automation, machine vision and lidar: the listed names closest to physical AI. Against XLI, the spread shows whether the theme is trading on its own.",
+      "watch": "Earnings and order commentary, factory capex and PMIs, humanoid robot news, NVIDIA's physical AI announcements.",
+      "source": "IBKR theme Robotics",
+      "members": [
+        {
+          "symbol": "SYM",
+          "why": "Symbotic: warehouse robots, over 90% of revenue, with Walmart as its main customer",
+          "avg_usd_volume_90d": 37669807,
+          "change_pct": -6.58
+        },
+        {
+          "symbol": "ROK",
+          "why": "Rockwell Automation: factory automation and mobile robots",
+          "avg_usd_volume_90d": 172652337,
+          "change_pct": -14.15
+        },
+        {
+          "symbol": "CGNX",
+          "why": "Cognex: machine vision for factories and logistics",
+          "avg_usd_volume_90d": 60326874,
+          "change_pct": -10.5
+        },
+        {
+          "symbol": "OUST",
+          "why": "Ouster: lidar sensors; robotics is its second-largest market",
+          "avg_usd_volume_90d": 64177049,
+          "change_pct": -9.0
+        }
+      ],
+      "hedge_change_pct": -4.12,
+      "caution": "ROK fell 14% today after reporting before the open, more than the group. HSAI was left out: about $18M a day in volume. SYM, at about $38M a day, is the next thinnest."
+    },
+    {
+      "id": "copper_miners",
+      "name": "Copper miners",
+      "hedge": "XLB",
+      "story": "Copper producers, tied to electrification, data-center demand and China. They trade with the metal and swing harder than broad materials.",
+      "watch": "Copper price, China stimulus and demand data, US tariff news, mine disruptions such as Grasberg.",
+      "source": "IBKR theme Copper Mining",
+      "members": [
+        {
+          "symbol": "FCX",
+          "why": "Freeport-McMoRan: the largest US copper producer; each $0.10 per pound moves annual EBITDA about $400M",
+          "avg_usd_volume_90d": 503712776,
+          "change_pct": -7.51
+        },
+        {
+          "symbol": "SCCO",
+          "why": "Southern Copper: copper about 70% of revenue",
+          "avg_usd_volume_90d": 111905015,
+          "change_pct": -6.48
+        },
+        {
+          "symbol": "TECK",
+          "why": "Teck Resources: copper and zinc after selling its coal business",
+          "avg_usd_volume_90d": 119014380,
+          "change_pct": -7.06
+        },
+        {
+          "symbol": "HBM",
+          "why": "Hudbay Minerals: copper and gold mines in the Americas",
+          "avg_usd_volume_90d": 72668075,
+          "change_pct": -7.38
+        }
+      ],
+      "hedge_change_pct": -2.91,
+      "caution": "FCX is also a large XLB holding, and these names can trade with gold as well as copper."
+    },
+    {
+      "id": "travel",
+      "name": "Airlines, cruises and bookings",
+      "hedge": "XLY",
+      "story": "Travel demand with a large oil exposure. Fuel is a top cost for airlines and cruise lines, so this group is a read on the Iran and Hormuz story as well as the consumer. Against XLY, which is dominated by Amazon and Tesla.",
+      "watch": "Oil and Hormuz headlines, airline capacity and fares, consumer confidence, jobs data.",
+      "source": "Dossier 2026-11-05; member checks with IBKR",
+      "members": [
+        {
+          "symbol": "DAL",
+          "why": "Delta: premium-heavy airline",
+          "avg_usd_volume_90d": 277378405,
+          "change_pct": -4.35
+        },
+        {
+          "symbol": "UAL",
+          "why": "United: long-haul and international airline",
+          "avg_usd_volume_90d": 269008877,
+          "change_pct": -4.55
+        },
+        {
+          "symbol": "RCL",
+          "why": "Royal Caribbean: largest cruise operator by value",
+          "avg_usd_volume_90d": 408397027,
+          "change_pct": -3.13
+        },
+        {
+          "symbol": "CCL",
+          "why": "Carnival: higher debt, more leverage to fuel",
+          "avg_usd_volume_90d": 405061664,
+          "change_pct": -5.52
+        },
+        {
+          "symbol": "NCLH",
+          "why": "Norwegian: smallest and most levered of the cruise three",
+          "avg_usd_volume_90d": 221271505,
+          "change_pct": -4.52
+        },
+        {
+          "symbol": "BKNG",
+          "why": "Booking: online travel, no fuel bill",
+          "avg_usd_volume_90d": 749003983,
+          "change_pct": -1.32
+        },
+        {
+          "symbol": "ABNB",
+          "why": "Airbnb: online lodging, no fuel bill; up about 7% after hours on earnings",
+          "avg_usd_volume_90d": 393135540,
+          "change_pct": -3.54
+        }
+      ],
+      "hedge_change_pct": -3.83,
+      "caution": "BKNG and ABNB have no fuel exposure, so they soften the oil read."
+    },
+    {
+      "id": "drones_defense_tech",
+      "name": "Drones and defense tech",
+      "hedge": "XLI",
+      "story": "Smaller defense names built on unmanned systems, closer to the Iran war and drone warfare than the primes are. They carry far more retail and momentum money than LMT or NOC.",
+      "watch": "Pentagon drone programs and budget talk under a Democratic Congress, Iran news, contract awards, share sales.",
+      "source": "IBKR theme Robotics (AVAV); member checks with IBKR",
+      "members": [
+        {
+          "symbol": "AVAV",
+          "why": "AeroVironment: unmanned aircraft and loitering munitions",
+          "avg_usd_volume_90d": 135193116,
+          "change_pct": -9.85
+        },
+        {
+          "symbol": "KTOS",
+          "why": "Kratos: target and combat drones, hypersonics",
+          "avg_usd_volume_90d": 115379852,
+          "change_pct": -7.15
+        },
+        {
+          "symbol": "RCAT",
+          "why": "Red Cat: small military drones",
+          "avg_usd_volume_90d": 43737864,
+          "change_pct": -14.88
+        },
+        {
+          "symbol": "ONDS",
+          "why": "Ondas: drone and autonomous systems",
+          "avg_usd_volume_90d": 388294339,
+          "change_pct": -14.23
+        }
+      ],
+      "hedge_change_pct": -4.12,
+      "caution": "RCAT and ONDS fell 14-15% today and are thin, speculative names; RCAT is the thinnest, at about $44M a day."
     }
   ]
 }
