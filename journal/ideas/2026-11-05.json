@@ -1,0 +1,39 @@
+{
+  "as_of": "2026-11-04",
+  "trade_date": "2026-11-05",
+  "recorded_at": "2026-11-04T20:11:37.336504-05:00",
+  "brief_sha256": "a1e914e24a5e6894a1036a721f2ea1beedebdb692c91d57e76bfeaecf846d7a4",
+  "macro_context": "Nightly pass after the post-election rotation; full evidence in journal/research/2026-11-04-dossier.md. The overnight blue-wave drop reversed before the open and the S&P closed +1.58% (Dow +3.0%, equal weight at a record), but as a rotation: financials, staples, health care, discretionary and homebuilders up 3-7%, megacap platforms AAPL/MSFT/AMZN +5-7%, while AI suppliers (SOX -3.1%, MU -7%), Texas power (VST -13.8%), neoclouds (CRWV -9.9%), defense (LMT -6.9%) and energy (WTI -8.3% on Vance blaming the Iran war) fell. Hinojosa won the Texas governorship, but Republicans kept the Texas Senate, so a statutory data-center moratorium is not imminent. Factor spreads are at extremes: MTUM/USMV -21.6% over 20 days (z50 -2.58, RSI 28), SPHB/SPLV -23.0% (z50 -2.15); SPLV, XLV, XLP and XLF sit at 52-week highs with RSIs in the 70s. Hedge funds have de-grossed at a record pace (GS and MS prime books) and are underweight AI; CTAs are short; VIX fell to 16.6 and is back in contango. SPX dealer gamma turned positive in our snapshot and the vendor's (flip 7,669), which bears on the index, not the spread. One idea tonight, at confidence 1 because the base rate's analogs are all down days and today was an up-day rotation; bounces in the policy-hit baskets themselves show no edge in our history (coin flips). The scheduled option pulls failed today; our snapshot was taken by hand after the close (19:22-19:40 ET): SPX net gamma +$13.3B with the flip at 7,669, SPY sitting on its 766.5 flip, QQQ still negative (-$4.3B). In-window: BoE 07:00 (hike priced), jobless claims 08:30, Fed's Hammack 08:50 and Barkin 09:10, pre-market earnings CI, COP, SO, DUK, CORZ. After-hours movers into the open: APP +20%, COHR +7%, QCOM -6%, ARM -2%. After our exit: NET, IREN, LITE, MCHP, ABNB earnings; Friday's October payrolls at 08:30 (+59-65k) is the main risk to anyone carrying beyond the close.",
+  "ideas": [
+    {
+      "long": "SPHB",
+      "short": "SPLV",
+      "factor": "high_beta_rebound",
+      "confidence": 1,
+      "thesis": "High beta against low vol is washed out after a policy shock that the market traded as a rotation. SPHB/SPLV fell 2.8% today and 10.4% in five days (20-day -23.0%, z50 -2.15, RSI 34), while SPLV closed at a 52-week high with RSI 74. In our bars, a day of -2.5% or worse with the five-day spread at -8% or worse was followed by an open-to-close gain 10 of 11 times (mean about +185 bp; declustered 7 of 7), and the edge is not market beta: SPY's next open-to-close averaged about zero on those days. Positioning backs a bounce: hedge funds cut net leverage at the fastest pace in months (GS prime book, October -4.2 pp) and gross exposure the most since 2016 (MS), CTAs are short, and VIX fell 20% to 16.6, back in contango. The big caveat, and why confidence is 1: every one of those 11 cases came on a down day for SPY (-0.5% to -4.9%); today SPY rose 1.65%. On the five days in our history when SPY rose while the spread fell 2% or more, the next session lost 4 times (mean -77 bp), including Jul 24 and Jul 28 2026 in this cycle's momentum crash. Today's selloff was a policy repricing (Texas governor, Democratic Congress, defense budget), which can extend a factor trend rather than reverse it. Research and technicals agree the high-beta side is washed out; the analog that matches today's up-day rotation argues against the bounce.",
+      "invalidation": "The SPHB/SPLV spread is down more than 1.5% from the open (about 0.75 of its 203 bp daily standard deviation), SPHB trades below 132.00 (-3.1% from Wednesday's 136.18 close, about 0.9 ATR), or SPY trades below 760.00.",
+      "key_signals": [
+        "SPHB/SPLV: 1-day -2.8%, 5-day -10.4%, 20-day -23.0%, z50 -2.15, RSI 34; SPLV RSI 74 at a 52-week high",
+        "Base rate (2021-2026 bars): after a -2.5% day with the 5-day spread at -8% or worse, next open-to-close up 10 of 11 (mean about +185 bp, SPY's mean about 0); all 11 on SPY down days",
+        "Counter-analog: SPY up while the spread fell 2%+, n=5, next session 1 up, mean -77 bp (Jul 24 and Jul 28 2026 -120 and -209 bp)",
+        "Positioning: GS PB October net leverage -4.2 pp to 73.4%; MS gross cut 7.8%, the largest since 2016; GS CTA pivot 7,713 vs S&P 7,688.62",
+        "VIX 16.61 (-20%), VIX/VIX3M 0.885; the spread moves about 0.96 points per point of SPY open-to-close, so an index down day hurts it directly"
+      ],
+      "stand_down_if": [
+        "The SPHB/SPLV pre-market ratio (09:15-09:25 last trades) is more than 2% above Wednesday's close ratio of 1.7346 (136.18/78.51), about one daily standard deviation: the bounce happened before the open. If SPHB has no pre-market prints, use SMH up more than 2% from its close as the proxy",
+        "SPHB pre-market last below 132.00, beyond the invalidation before the open",
+        "SMH pre-market more than 2% below Wednesday's close while SPY is flat or up: the rotation is continuing",
+        "SPY pre-market below 760.00 (0.9% below Wednesday's 766.81 close and below the 766.5 gamma flip, where index hedging turns from damping to amplifying)",
+        "A headline from AP, Reuters or an official statement, overnight, announcing a concrete data-center moratorium, executive order or federal restriction (not campaign restatements)"
+      ],
+      "drivers": [
+        "stretched_pair",
+        "base_rate",
+        "positioning"
+      ],
+      "kind": "pair",
+      "basket": false,
+      "id": "2026-11-04-1"
+    }
+  ]
+}
