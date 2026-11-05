@@ -6,11 +6,11 @@ import sys
 from datetime import date, datetime
 from pathlib import Path
 
-from . import journal
+from . import bars, journal
 from .analytics.compute import compute_exposures, latest_snapshot
 from .config import NY
-from .ib import bars, options
-from .universe import ETFS, INDEXES, OPTION_INDEXES, OPTION_STOCKS, bar_universe, option_universe
+from .ib import options
+from .universe import ETFS, OPTION_INDEXES, OPTION_STOCKS, bar_universe, option_universe
 
 
 def _universe(group: str, symbols: str | None) -> list[str]:
@@ -37,7 +37,7 @@ def main(argv: list[str] | None = None) -> None:
     c.add_argument("--symbols", help="comma-separated override, e.g. SPY,QQQ")
 
     c = sub.add_parser("bars", help="pull daily adjusted bars")
-    c.add_argument("--duration", default="5 Y")
+    c.add_argument("--duration", default="5y")
     c.add_argument("--symbols")
     c.add_argument("--pending", action="store_true",
                    help="only names outside the standard universe: legs of unscored ideas and the basket watchlist")
@@ -69,6 +69,8 @@ def main(argv: list[str] | None = None) -> None:
     c.add_argument("--as-of", default=None)
     c.add_argument("--out", type=Path, default=Path("market.json"))
 
+    sub.add_parser("earnings", help="refresh the earnings dates for the radar, from Yahoo Finance")
+
     c = sub.add_parser("ledger", help="write every idea and its result as JSON rows for the dashboard")
     c.add_argument("--marks", type=Path, help="intraday marks JSON for ideas not yet scored")
     c.add_argument("--out", type=Path, default=Path("ledger.json"))
@@ -95,10 +97,10 @@ def main(argv: list[str] | None = None) -> None:
             if not extra:
                 print(json.dumps({"symbols": 0, "failed": []}))
                 return
-            print(json.dumps(asyncio.run(bars.collect(extra, "2 Y"))))
+            print(json.dumps(bars.collect(extra, "2y")))
             return
         symbols = [s.strip().upper() for s in a.symbols.split(",")] if a.symbols else bar_universe() + extra
-        print(json.dumps(asyncio.run(bars.collect(symbols, a.duration, None if a.symbols else INDEXES))))
+        print(json.dumps(bars.collect(symbols + ([] if a.symbols else list(bars.INDEXES)), a.duration)))
     elif a.cmd == "exposures":
         day = a.date or _today().isoformat()
         snapshot = a.snapshot or latest_snapshot(day)
@@ -128,7 +130,10 @@ def main(argv: list[str] | None = None) -> None:
         if not symbols:
             logging.info("no_ideas date=%s", day)
             return
-        print(journal.write_intraday(day, asyncio.run(bars.collect_intraday(symbols, day))))
+        print(journal.write_intraday(day, bars.collect_intraday(symbols, day)))
+    elif a.cmd == "earnings":
+        from . import earnings
+        print(json.dumps(earnings.pull()))
     elif a.cmd == "market":
         from . import market
         as_of = date.fromisoformat(a.as_of) if a.as_of else _today()

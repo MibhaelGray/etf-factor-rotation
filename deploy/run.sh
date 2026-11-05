@@ -31,9 +31,10 @@ case "$1" in
     # the ideas that hold them reached this checkout.
     uv run fr bars --pending || echo "basket bars failed; scoring anyway" >&2
     uv run fr score
+    uv run fr earnings || echo "earnings dates failed; keeping the last pull" >&2
     uv run fr brief
     written=()
-    for d in journal/scores journal/morning/scores journal/briefs journal/intraday; do [ -d "$d" ] && written+=("$d"); done
+    for d in journal/scores journal/morning/scores journal/briefs journal/intraday journal/reference/earnings.json; do [ -e "$d" ] && written+=("$d"); done
     git add -- "${written[@]}"
     git diff --cached --quiet -- "${written[@]}" ||
       git commit --quiet -m "Journal $(TZ=America/New_York date +%F): scores and brief" -- "${written[@]}"

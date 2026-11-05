@@ -15,6 +15,8 @@ One JSON array; each row has a `section` saying what it is:
               hedge, and from daily bars, when every member has them, the basket-vs-hedge spread's 5- and
               20-day moves and z-score
   basket_member  one row per member: why it belongs, liquidity, today's move, 5- and 20-day moves
+  earnings    one row per report in the next 10 sessions or the last 5: dates from Yahoo Finance, the price
+              reaction from our daily bars
 """
 
 import json
@@ -23,9 +25,9 @@ from datetime import date
 import numpy as np
 import pandas as pd
 
-from . import journal, storage
+from . import earnings, journal, storage
 from .analytics.compute import latest_snapshot
-from .ib.bars import load
+from .bars import load
 from .universe import INDEXES, SECTORS, idea_universe
 
 GAMMA_UNDERLYINGS = ["SPY", "QQQ"]
@@ -214,6 +216,62 @@ def _baskets() -> list[dict]:
     return rows
 
 
+def _reaction(symbol: str, hedge: str, report: date, session: str) -> dict:
+    """The first session that traded on the report: its gap and move, alone and against the hedge."""
+    bars = load([symbol, hedge])
+    if bars.empty or symbol not in set(bars["symbol"]):
+        return {}
+    px = {s: g.assign(date=pd.to_datetime(g["date"])).set_index("date").sort_index() for s, g in bars.groupby("symbol")}
+    d = px[symbol]
+    after = d.index[d.index > pd.Timestamp(report)] if session == "after_close" else d.index[d.index >= pd.Timestamp(report)]
+    if not len(after) or d.index.get_loc(after[0]) == 0:
+        return {}
+    t = after[0]
+    prev = d["close"].iloc[d.index.get_loc(t) - 1]
+    day = d.at[t, "close"] / prev - 1
+    out = {"reaction_date": t.date().isoformat(), "gap_pct": _num((d.at[t, "open"] / prev - 1) * 100, 2), "day_pct": _num(day * 100, 2)}
+    if hedge in px and t in px[hedge].index:
+        c = px[hedge]["close"]
+        out["vs_hedge_pct"] = _num((day - (c.at[t] / c.iloc[c.index.get_loc(t) - 1] - 1)) * 100, 2)
+    return out
+
+
+def _earnings(as_of: date) -> list[dict]:
+    lib = earnings.load()
+    member_of: dict[str, list[dict]] = {}
+    for b in basket_library()["baskets"]:
+        for m in b["members"]:
+            member_of.setdefault(m["symbol"], []).append(b)
+    sessions = [d.date() for d in journal._calendar().valid_days(as_of - pd.Timedelta(days=12), as_of + pd.Timedelta(days=25))]
+    i = sessions.index(as_of)
+    window_end, recent_start = sessions[min(i + 10, len(sessions) - 1)], sessions[max(i - 4, 0)]
+    next_session = sessions[i + 1]
+    path = journal.JOURNAL / "ideas" / f"{next_session}.json"
+    legs = set()
+    if path.exists():
+        for idea in json.loads(path.read_text())["ideas"]:
+            for side in ("long", "short"):
+                v = idea.get(side) or []
+                legs.update(v if isinstance(v, list) else [v])
+    rows = []
+    for symbol, reports in lib.get("names", {}).items():
+        groups = member_of.get(symbol, [])
+        hedge = groups[0]["hedge"] if groups else "SPY"
+        for r in reports:
+            d = date.fromisoformat(r["date"])
+            # A report tonight hasn't traded yet, so it stays upcoming until a session has reacted to it.
+            done = d < as_of or (d == as_of and r["session"] != "after_close")
+            if not recent_start <= d <= window_end:
+                continue
+            row = {"section": "earnings", "kind": "recent" if done else "upcoming", "symbol": symbol, "date": r["date"],
+                   "when": r["session"], "baskets": ", ".join(b["name"] for b in groups), "hedge": hedge,
+                   "eps_estimate": r.get("eps_estimate"), "eps_reported": r.get("eps_reported"),
+                   "surprise_pct": r.get("surprise_pct"), "idea_leg": symbol in legs,
+                   "sessions_away": sum(1 for s in sessions if as_of < s <= d), "pulled_at": lib.get("pulled_at")}
+            rows.append(row | _reaction(symbol, hedge, d, r["session"]) if done else row)
+    return sorted(rows, key=lambda r: (r["date"], r["symbol"]))
+
+
 def build(as_of: date) -> list[dict]:
     brief = _brief(as_of)
     snapshot = latest_snapshot(as_of.isoformat())
@@ -221,4 +279,4 @@ def build(as_of: date) -> list[dict]:
             "bars_through": brief.get("bars_through"), "options_snapshot": snapshot,
             "next_session": journal.next_trading_day(as_of).isoformat()}
     return [meta, *_factors(brief, _idea_legs(as_of)), *_regime(as_of), *_gamma(as_of, brief), *_flows(brief),
-            *_baskets()]
+            *_baskets(), *_earnings(as_of)]

@@ -35,7 +35,7 @@ from .analytics import flows
 from .analytics.compute import latest_snapshot
 from .analytics.technicals import factor_pair_technicals, regime, symbol_technicals
 from .config import NY
-from .ib.bars import load
+from .bars import load
 from .universe import CONSTITUENTS, ETFS, FACTOR_PAIRS, INDEXES, OPTION_INDEXES, bar_universe, idea_universe
 
 JOURNAL = Path(os.environ.get("FR_JOURNAL_DIR", "journal"))

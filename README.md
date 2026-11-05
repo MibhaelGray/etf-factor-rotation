@@ -1,20 +1,23 @@
 # ETF Factor Rotation
 
-Collects option chains and daily bars for the largest ETFs and their top constituents from IBKR, turns them into positioning, volatility and technical signals, and keeps a write-once journal of nightly factor pair ideas with a running scorecard.
+Collects daily bars from Yahoo Finance and option chains from IBKR for the largest ETFs and their top constituents, turns them into positioning, volatility and technical signals, and keeps a write-once journal of nightly factor pair ideas with a running scorecard.
 
 ## Pieces
 
-Data collection runs on the collector: a Mac that stays on, plugged in and logged in, with the IB Gateway in Docker. It can be a second Mac or the main one; the nightly job stashes any edits in progress around its `git pull` and commits only the files it writes. The main Mac reads the brief, runs the research and records the ideas.
+Data collection runs on the collector: a Mac that stays on, plugged in and logged in, with the IB Gateway running for option pulls. It can be a second Mac or the main one; the nightly job stashes any edits in progress around its `git pull` and commits only the files it writes. The main Mac reads the brief, runs the research and records the ideas.
 
-Every collected dataset comes from IBKR, so the pipeline has one data source. Web research feeds the nightly dossier as context, not as stored data.
+Bars and earnings dates come from Yahoo Finance through `yfinance`, with no login. Option chains, and the borrow figures that arrive with them, come from IBKR and are the only thing that needs the gateway; without it, those sections of the brief and dashboard are empty and everything else runs. Option data doesn't inform the ideas. The IBKR connector, which doesn't need the gateway, supplies the night's market numbers, pre-market quotes and live marks. Web research feeds the nightly dossier as context, not as stored data.
+
+Yahoo is unofficial and can miss a split on its first day. `fr bars` repairs that for ETFs (QUAL and MTUM on 2026-11-05) and lists any other move of 40% or more in the last five sessions as `suspect`, so read its output.
 
 | Command | Runs on | When (ET, trading days) | Writes |
 |---|---|---|---|
 | `fr options --group all` | collector | 10:00, 15:30 | `options_raw/`, `options_underlying/`, `exposures/`, `exposures_by_strike/` |
 | `fr options --group etfs` | collector | 11:00–14:00 hourly | same, SPX and the ETFs only |
-| `fr bars` | collector | 16:30 | `bars_daily/`: the ETFs and stocks, the leveraged funds, AGG, and VIX, VIX3M and the 10-year yield |
+| `fr bars` | collector | 16:30 | `bars_daily/`, from Yahoo: the ETFs and stocks, the leveraged funds, AGG, and VIX, VIX3M and the 10-year yield |
 | `deploy/run.sh nightly` | collector | 19:00 | runs `fr intraday`, `fr score` and `fr brief`, commits `journal/`, pushes |
-| `fr intraday` | collector | in the nightly job | `journal/intraday/`: the session's 15-minute bars (04:00–16:00) for the idea legs and SPY |
+| `fr intraday` | collector | in the nightly job | `journal/intraday/`, from Yahoo: the session's 15-minute bars (04:00–16:00) for the idea legs and SPY. Thin ETFs can have gaps before the open |
+| `fr earnings` | collector | in the nightly job | `journal/reference/earnings.json`: earnings dates for every basket member and the largest stocks, from Yahoo Finance |
 | `fr record` | Mac | ~19:30 | `journal/ideas/`, committed and pushed |
 | `fr check` | Mac | 08:30–09:25 | `journal/checks/`: the pre-open stands / stand-down decision per idea; refused after the open |
 | `fr morning` | Mac | after the check, before 09:30 | `journal/morning/ideas/`: the morning book, 1–2 new ideas from the overnight session, scored apart from the nightly book; refused after the open |
@@ -47,7 +50,7 @@ GEX assumes dealers are long calls and short puts. Open interest updates once a 
 
 ## Forced flows
 
-The brief's `forced_flows` section estimates trading that has to happen regardless of anyone's view, from the same IBKR data:
+The brief's `forced_flows` section estimates trading that has to happen regardless of anyone's view, from the same stored data:
 - **Calendar:** monthly and quarterly option expiries, VIX expiry, month and quarter ends, in sessions from tonight.
 - **Dealer gamma by expiry:** each upcoming expiry's share of gamma and delta-weighted open interest, for the index ETFs and largest names (`expiry_profile` in `exposures/`).
 - **Leveraged ETFs:** the close-of-day hedge of 18 leveraged and inverse funds, grouped by index: net assets × L(L−1) × the index return. Net assets come from IBKR into `journal/reference/leveraged_assets.json` (refreshed weekly) and are scaled by each fund's close.
@@ -79,7 +82,7 @@ Draft format:
    "drivers": ["stretched_pair", "positioning"]}]}
 ```
 
-Each idea is entered at the next open and exited at the close; close-to-close is recorded alongside. A pair is dollar-neutral; an outright `long` or `short` (leave the other side out) carries the market's move. A leg can be any US-listed stock or ETF, not only the standard universe: names outside it are checked with IBKR before recording (a US listing and about $20M a day of volume) and have their bars pulled before scoring, as basket members do. Indexes such as SPX or VIX can't be legs.
+Each idea is entered at the next open and exited at the close; close-to-close is recorded alongside. A pair is dollar-neutral; an outright `long` or `short` (leave the other side out) carries the market's move. A leg can be any US-listed stock or ETF, not only the standard universe: names outside it are checked with the IBKR connector before recording (a US listing and about $20M a day of volume) and have their bars pulled before scoring, as basket members do. Indexes such as SPX or VIX can't be legs.
 
 Either side can instead be a themed basket of 3–10 stocks in equal weight, named by `long_label` or `short_label`:
 
@@ -90,6 +93,8 @@ Either side can instead be a themed basket of 3–10 stocks in equal weight, nam
 Single legs and basket members can come from outside the standard universe. `fr bars` adds the legs of every unscored idea to its pull, and the nightly job runs `fr bars --pending` before scoring in case the ideas arrived after the 16:30 pull. If a leg's bars are still missing, scoring waits up to five days before recording the idea as missing.
 
 `journal/reference/baskets.json` holds a watchlist of themed baskets, each with its hedge ETF, the story behind it, a reason for every member and a snapshot of the day's moves from IBKR. `fr bars` pulls daily bars for every member, `fr market` adds the baskets' spread against their hedge to the market rows, and the dashboard shows them on its Baskets page (`#baskets`). The watchlist isn't scored; only an idea that uses a basket is.
+
+The dashboard's Earnings page (`#earnings`) lists who reports in the next ten sessions and how reports from the last five traded. Reactions come from our daily bars: the gap and the day on the first session that traded on the report, alone and against the name's basket hedge. Some Yahoo dates are estimates until the company confirms them.
 
 Before the open, `fr check` records whether each idea stands or is stood down under its own `stand_down_if` rules. The ideas never change; the scorecard reports the full book and the book after the check side by side.
 
@@ -107,7 +112,7 @@ After the check, `fr morning` can record 1–2 new ideas for the session from wh
    ```
    Leave the lid open, or closed with an external display attached; a closed lid without one sleeps regardless. Each job also runs under `caffeinate`, so the Mac stays awake until it finishes.
 6. **Install the schedules:** `python3 deploy/launchd/install.py`. It converts the New York schedule to the Mac's time zone (rerun it if that changes) and installs one launchd agent per job. `--dry-run` shows the plists without installing, `--uninstall` removes them.
-7. **First run:** `uv run fr bars` (backfills 5 years of bars), then `uv run fr options --symbols SPY,QQQ` to check permissions and timing.
+7. **First run:** `uv run fr bars` (backfills 5 years of bars, no gateway needed), then `uv run fr options --symbols SPY,QQQ` to check permissions and timing.
 
 Logs: `~/Library/Logs/factor-rotation/<job>.log`. To run a job now: `launchctl kickstart gui/$(id -u)/com.factor-rotation.nightly`.
 

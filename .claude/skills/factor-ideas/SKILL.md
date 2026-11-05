@@ -7,7 +7,7 @@ description: Nightly factor rotation research and the morning pre-open check. Ru
 
 The goal is an informed, written-down view of which factors should outperform from the next open to the close, built from research context plus technicals. Ideas are journaled write-once and scored, so the track record shows what the judgment is worth. They are research, not personal advice: no position sizing.
 
-Structured data (the brief, the collector's pulls, the market numbers below) comes only from IBKR. The research agents in step 2 can read anything, but what they find stays in the dossier as sourced context; it never becomes a new collected dataset. If an idea needs a number IBKR can't supply, say so in the dossier instead of building a feed for it.
+Bars and earnings dates come from Yahoo Finance, and the night's market numbers from the IBKR connector. The research agents in step 2 can read anything, but what they find stays in the dossier as sourced context; it never becomes a new collected dataset. If an idea needs a number we don't collect, say so in the dossier instead of building a feed for it.
 
 ## 1. Load the data
 
@@ -26,6 +26,7 @@ Option data doesn't inform what we trade: leave GEX, flips, walls, flow and skew
     - `borrow`: names whose shortable shares at IBKR dropped most in five sessions, are thin against volume, or are hard to borrow. That's where squeezes and forced covering start.
     Use these as setups for the ideas (a vol-control unwind after a large down day, a quarter-end rebalance into stocks), and say in the thesis which forced flow it depends on. Prime broker and vendor positioning notes from the research pass are context next to these, not a replacement.
 - Take the market numbers yourself from the IBKR connector, using the contracts in `ibkr-markets.md` next to this file: 10y and 5y yields, VIX1D/VIX9D/VIX/VIX3M, ES/NQ/RTY, WTI and Brent, the dollar index, gold and the 2-year note. These are the numbers the dossier and ideas use; web sources explain why they moved, and where an article's figure disagrees with IBKR's, IBKR's wins.
+- `uv run fr earnings` refreshes the earnings radar: dates from Yahoo Finance, in `journal/reference/earnings.json`. `uv run fr market` turns it into `earnings` rows: who reports in the next ten sessions, and how the last five sessions' reports traded. Check every leg and basket member against it. A leg reporting inside the scoring window needs a reason to hold through it, or it's a different idea. Note clusters of reports in a basket, and use recent reactions as a read on the group: a beat that sold off says something a beat that rallied doesn't.
 - Read the last few sessions' ideas and scores in `journal/` so tonight builds on what has been working and what hasn't. `journal/intraday/<date>.json` holds each session's 15-minute bars for the idea legs (pre-market through the close), pulled by the collector Mac at 19:00: use them to see when an idea worked or failed, not just whether.
 - If the pull brought new scores, refresh the dashboard now (step 6).
 
