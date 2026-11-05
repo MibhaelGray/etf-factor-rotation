@@ -1,0 +1,20 @@
+{
+  "trade_date": "2026-11-04",
+  "scored_at": "2026-11-04T19:21:48.390612-05:00",
+  "spy_open_to_close_bps": 49.5,
+  "results": [
+    {
+      "id": "2026-11-03-1",
+      "long": "IWM",
+      "short": "QQQ",
+      "kind": "pair",
+      "factor": "size_ai_policy",
+      "confidence": 2,
+      "open_to_close_bps": -56.4,
+      "close_to_close_bps": 53.9,
+      "long_oc_bps": -5.3,
+      "short_oc_bps": 51.1,
+      "hit": false
+    }
+  ]
+}
