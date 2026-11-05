@@ -549,6 +549,60 @@
         }
       ],
       "hedge_change_pct": -0.91
+    },
+    {
+      "id": "life_science_tools",
+      "name": "Life science tools",
+      "hedge": "XLV",
+      "story": "Makers of lab instruments, reagents and bioprocessing supplies sold to drug makers, biotechs and academic labs. Demand hangs on NIH and university funding, biotech financing and China, and a Democratic Congress is usually read as kinder to NIH budgets. Against XLV, the spread separates the tools business from insurers and drug makers.",
+      "watch": "NIH budget and grant flow in appropriations, biotech funding and IPOs, China demand and tariffs, earnings in the group (several report in early November).",
+      "source": "IBKR theme Life Science Tools",
+      "members": [
+        {
+          "symbol": "TMO",
+          "why": "Thermo Fisher: the largest tools maker, from instruments to reagents and drug manufacturing services",
+          "change_pct": 1.14,
+          "avg_usd_volume_90d": 1481931784
+        },
+        {
+          "symbol": "DHR",
+          "why": "Danaher: bioprocessing, Beckman Coulter, SCIEX and Abcam",
+          "change_pct": 2.1,
+          "avg_usd_volume_90d": 929234541
+        },
+        {
+          "symbol": "A",
+          "why": "Agilent: chromatography, mass spectrometry and lab consumables",
+          "change_pct": 1.0,
+          "avg_usd_volume_90d": 401756548
+        },
+        {
+          "symbol": "WAT",
+          "why": "Waters: liquid chromatography and mass spectrometry, now with BD's biosciences business",
+          "change_pct": 1.64,
+          "avg_usd_volume_90d": 382490726
+        },
+        {
+          "symbol": "ILMN",
+          "why": "Illumina: genomic sequencers and their consumables; IBKR's top Life Science Tools name",
+          "change_pct": -4.73,
+          "avg_usd_volume_90d": 634399425
+        },
+        {
+          "symbol": "TECH",
+          "why": "Bio-Techne: research proteins, antibodies and analytical instruments",
+          "change_pct": 0.11,
+          "avg_usd_volume_90d": 205507715
+        },
+        {
+          "symbol": "RVTY",
+          "why": "Revvity: life-science instruments, reagents and lab software",
+          "change_pct": -2.48,
+          "avg_usd_volume_90d": 298837043
+        }
+      ],
+      "hedge_change_pct": 3.15,
+      "caution": "ILMN (-4.7%) and RVTY (-2.5%) fell while the other five rose, possibly on their own news in earnings season; check before reading the basket."
     }
   ]
 }
