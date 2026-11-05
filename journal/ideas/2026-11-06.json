@@ -1,0 +1,40 @@
+{
+  "as_of": "2026-11-05",
+  "trade_date": "2026-11-06",
+  "recorded_at": "2026-11-05T17:04:02.672073-05:00",
+  "brief_sha256": "2478af1d924aa84359c9a815a8eaa497f5f2a33ab537de24db0c09688ff4d651",
+  "macro_context": "Full evidence in journal/research/2026-11-05-dossier.md. The S&P fell 4.36% to 7,353.73, the worst day for the majors since April 2025, led by AI hardware (SMH -11.2%, MU -17.5%, AMD -17.3%), with no single trigger: data-center limits after the election, Qualcomm's outlook, builder financing and a momentum unwind. All 11 sectors fell, while XLU, XLP and XLC lost under 1% and credit moved little (HYG -0.3%). VIX 27.8-28.2, inverted against VIX3M at 25.5. Forced selling is not finished: Barclays expects about $135B of vol-control futures selling over 24-48 hours, and the S&P closed below GS's 7,544 CTA trigger. October payrolls at 08:30 (+59-65k, unemployment 4.2%) land before the open, so the idea is scored after them. Pre-market earnings include VST, OKLO, WULF. Weekend risk after the exit: Iran and Hormuz. Evidence favors a modest one-session bounce, not a bottom: five-day base rates are coin flips, and the case for standing aside is respectable.",
+  "ideas": [
+    {
+      "long": "SPHB",
+      "short": "SPLV",
+      "factor": "high_beta_rebound",
+      "confidence": 2,
+      "thesis": "After an index crash day, high beta has tended to beat low vol from the next open to the close, and the realistic edge is about +40-90 bp, not the headline. On the 11 days since 2021 when SPY fell 3% or more, SPHB/SPLV rose next open to close 9 times, mean +133 bp, but +81 bp without April 2025; SPY itself averaged +6 bp. On the 39 days SPY fell 2% or more it rose 67% of the time, mean +55 bp. The cases closest to today are better than that but small: SPY down 3% or more after an up day, 7 of 8, +105 bp; SPY down 2% or more with SMH down 5% or more, 10 of 13, +88 bp. One gap in the analogs: none of the 11 came with SPY above its 200-day, as it is now (733.00, 0.8% above); SPY down 2% or more near or above the 200-day was 8 of 11, +44 bp. This fits tonight better than Wednesday's idea in the same pair, whose down-day analogs didn't match an up day. The spread is stretched (1-day -7.0%, 5-day -14.8%, 20-day -23.8%, z50 -2.92, RSI 28) and AAII bears are 48%. The bet is for the session only: close to close the record is 7 of 11, and five days out it is a coin flip. Research and technicals agree high beta is washed out but conflict on timing. Forced selling is unfinished (Barclays about $135B over 24-48 hours; S&P below GS's 7,544 CTA trigger; vol-control funds also sell on a +2% day). Leveraged funds add to whatever the session does at the close (about 38% of SMH's volume per 1%). This regime has also punished the trade: on days the spread fell 2.5% or more since July, the next session rose 9 of 19, mean -11 bp, and with VIX at 25-32 the record is 9 of 17, +5 bp. Retail isn't capitulating cleanly (Vanda's partial-day -$338M single-stock outflow came with buying in TQQQ and SOXL), gross leverage is still about 310%, and builder financing was a cited trigger, so a credit leg can't be ruled out. Confidence stays at 2.",
+      "invalidation": "The SPHB/SPLV spread is down more than 2.0% from the open (about 0.9 of its 217 bp open-to-close standard deviation over the last 20 sessions), SPHB trades below 120.00 (-4.1% from Thursday's 125.13 close, about 1.1 ATR), or SPY trades below 715.00 (-2.5%, about 1.7 ATR).",
+      "key_signals": [
+        "SPHB/SPLV: 1-day -7.0%, 5-day -14.8%, 20-day -23.8%, z50 -2.92, RSI 28; open-to-close sd 217 bp over 20 sessions",
+        "Base rate (2021-2026 bars): after SPY -3% or worse, next open-to-close up 9 of 11, mean +133 bp, +81 bp without April 2025, SPY's mean +6 bp; none with SPY above its 200-day",
+        "Closest analogs: SPY -3% or worse after an up day, 7 of 8, +105 bp; SPY -2% or worse with SMH -5% or worse, 10 of 13, +88 bp; SPY -2% or worse near or above the 200-day, 8 of 11, +44 bp",
+        "Regime against: spread down 2.5% or more since July, next session 9 of 19, mean -11 bp; VIX 25-32, 9 of 17, +5 bp",
+        "Forced flows against: Barclays about $135B vol-control futures selling over 24-48 hours; S&P below GS's 7,544 CTA trigger; VIX/VIX3M about 1.10; leveraged funds about 38% of SMH volume per 1% at the close",
+        "Sentiment: AAII bears 48.4%; retail sold single stocks but bought TQQQ and SOXL"
+      ],
+      "stand_down_if": [
+        "SMH pre-market last (09:15-09:25) is more than 3.5% above Thursday's 447.73 close, above 463.40: the bounce happened before the open. SMH is the test because SPHB and SPLV barely print pre-market; +3.5% in SMH maps to about +190 bp in the spread",
+        "SPY pre-market last below 715.00, beyond the invalidation before the open",
+        "An AP, Reuters, Bloomberg or official headline, overnight, naming a specific fund or credit vehicle and a dollar amount in a failure, liquidation or halted redemption. Coverage of vol-control or CTA selling doesn't count",
+        "A headline from the same sources announcing a concrete federal data-center restriction, chip export rule or executive order (not campaign restatements or local measures)",
+        "The 10-year yield is above 4.92% in the check after payrolls (more than about 8 bp above Thursday's 4.837%): a rate shock hits high beta through a different mechanism than the positioning unwind"
+      ],
+      "drivers": [
+        "base_rate",
+        "stretched_pair",
+        "positioning"
+      ],
+      "kind": "pair",
+      "basket": false,
+      "id": "2026-11-05-1"
+    }
+  ]
+}
