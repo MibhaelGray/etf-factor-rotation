@@ -24,9 +24,10 @@ Yahoo is unofficial and can miss a split on its first day. `fr bars` repairs tha
 | `fr scorecard` | anywhere | any time | prints the scorecard |
 | `fr ledger` | Mac | after `git pull` | every idea and its result as JSON rows for the [Factor Rotation Ledger](https://claude.ai/artifact/TVknCZmSXjToEPbmMGPSKv) dashboard |
 | `fr market` | Mac | after `git pull` | tonight's market rows for the dashboard: factor board, regime, dealer gamma, forced flows |
+| `fr serve` | Mac | any time | serves the dashboard at http://localhost:8765 with a Refresh button: a fresh bar pull, marks for today's ideas and a rebuilt page, in about 15 seconds. Earnings dates refresh too when they're over 12 hours old, which adds about 30 seconds |
 | `fr dashboard` | anywhere | any time | `dashboard/local.html`, a local copy of the dashboard built from the journal, and opens it |
 
-The dashboard page lives in `dashboard/page.html`, the same file published to claude.ai. `fr dashboard` wraps it with `dashboard/shim.js` (a stand-in for the claude.ai runtime) and `dashboard/tokens.css`, and embeds the ledger and tonight's market rows, so it opens from disk with no server. Tonight's market rows need the option data in `data/`, so on a machine without it that section shows as failed. Charts load d3 from a CDN.
+The dashboard page lives in `dashboard/page.html`, the same file published to claude.ai. The Refresh button only appears under `fr serve`; the claude.ai page can't run a pull. A refresh during the session stores a partial bar for the day, so `fr score` skips a session until the bars have been pulled after 4:15 PM ET. `fr dashboard` wraps it with `dashboard/shim.js` (a stand-in for the claude.ai runtime) and `dashboard/tokens.css`, and embeds the ledger and tonight's market rows, so it opens from disk with no server. Tonight's market rows need the option data in `data/`, so on a machine without it that section shows as failed. Charts load d3 from a CDN.
 
 Market data lives on the collector's disk under `FR_DATA_ROOT` (default `data/` in the repo). The journal (briefs, ideas, scores) travels through GitHub: the collector pushes scores and briefs, and the main Mac pulls them, records the ideas and pushes those back.
 

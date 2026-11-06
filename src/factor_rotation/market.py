@@ -20,14 +20,15 @@ One JSON array; each row has a `section` saying what it is:
 """
 
 import json
-from datetime import date
+from datetime import date, datetime
 
 import numpy as np
 import pandas as pd
 
 from . import earnings, journal, storage
 from .analytics.compute import latest_snapshot
-from .bars import load
+from .bars import bars_path, load
+from .config import NY
 from .universe import INDEXES, SECTORS, idea_universe
 
 GAMMA_UNDERLYINGS = ["SPY", "QQQ"]
@@ -167,6 +168,11 @@ def basket_library() -> dict:
     return json.loads(BASKETS.read_text()) if BASKETS.exists() else {"baskets": []}
 
 
+def _day_move(closes: pd.Series, stored: float | None) -> float | None:
+    """The latest session's move in percent from daily bars, or the stored snapshot before bars exist."""
+    return (closes.iloc[-1] / closes.iloc[-2] - 1) * 100 if len(closes) > 1 else stored
+
+
 def _baskets() -> list[dict]:
     """The basket watchlist. Daily-bar stats need every member's bars; until the collector has pulled
     a name, its basket shows only the snapshot and says how many names are waiting."""
@@ -185,19 +191,21 @@ def _baskets() -> list[dict]:
             c = closes[s].dropna() if s in closes.columns else pd.Series(dtype=float)
             member_rows.append({
                 "section": "basket_member", "basket": b["id"], "symbol": s, "why": m.get("why", ""),
-                "avg_usd_volume_90d": m.get("avg_usd_volume_90d"), "change_pct": _num(m.get("change_pct"), 2),
+                "avg_usd_volume_90d": m.get("avg_usd_volume_90d"), "change_pct": _num(_day_move(c, m.get("change_pct")), 2),
                 "ret_5d": _num(c.iloc[-1] / c.iloc[-6] - 1) if len(c) > 5 else None,
                 "ret_20d": _num(c.iloc[-1] / c.iloc[-21] - 1) if len(c) > 20 else None,
                 "bars_through": c.index[-1].date().isoformat() if len(c) else None,
             })
-        moves = [m["change_pct"] for m in b["members"] if m.get("change_pct") is not None]
+        moves = [r["change_pct"] for r in member_rows if r["change_pct"] is not None]
         basket_today = sum(moves) / len(moves) if len(moves) == len(symbols) else None
-        hedge_today = b.get("hedge_change_pct")
+        hedge_close = closes[b["hedge"]].dropna() if b["hedge"] in closes.columns else pd.Series(dtype=float)
+        hedge_today = _day_move(hedge_close, b.get("hedge_change_pct"))
+        pulled = storage.modified(bars_path(b["hedge"]))
         row = {
             "section": "basket", "id": b["id"], "name": b["name"], "hedge": b["hedge"], "story": b.get("story", ""),
             "watch": b.get("watch", ""), "caution": b.get("caution", ""), "source": b.get("source", ""),
             "members": ", ".join(symbols), "n_members": len(symbols), "missing_bars": len(symbols) - len(have),
-            "snapshot_at": lib.get("snapshot_at"),
+            "snapshot_at": pulled.astimezone(NY).isoformat() if pulled else lib.get("snapshot_at"),
             "today_pct": _num(basket_today, 2), "hedge_today_pct": _num(hedge_today, 2),
             "spread_today_pct": _num(basket_today - hedge_today, 2) if basket_today is not None and hedge_today is not None else None,
             "ret_5d": None, "ret_20d": None, "z_50d": None, "bars_through": None,
@@ -267,9 +275,23 @@ def _earnings(as_of: date) -> list[dict]:
                    "when": r["session"], "baskets": ", ".join(b["name"] for b in groups), "hedge": hedge,
                    "eps_estimate": r.get("eps_estimate"), "eps_reported": r.get("eps_reported"),
                    "surprise_pct": r.get("surprise_pct"), "idea_leg": symbol in legs,
-                   "sessions_away": sum(1 for s in sessions if as_of < s <= d), "pulled_at": lib.get("pulled_at")}
+                   "sessions_away": sum(1 for s in sessions if as_of < s <= d), "tonight": d == as_of,
+                   "pulled_at": lib.get("pulled_at")}
             rows.append(row | _reaction(symbol, hedge, d, r["session"]) if done else row)
     return sorted(rows, key=lambda r: (r["date"], r["symbol"]))
+
+
+def _live_pairs(brief: dict, as_of: date) -> dict:
+    """The factor board from the latest bars, when a refresh has brought bars newer than the brief."""
+    bars = load(idea_universe())
+    if bars.empty or bars["date"].max().date() <= as_of:
+        return brief
+    return {"factor_pairs": journal._records(journal.factor_pair_technicals(bars))}
+
+
+def _latest_session() -> date:
+    today = datetime.now(NY).date()
+    return journal._calendar().valid_days(today - pd.Timedelta(days=10), today)[-1].date()
 
 
 def build(as_of: date) -> list[dict]:
@@ -278,5 +300,7 @@ def build(as_of: date) -> list[dict]:
     meta = {"section": "meta", "as_of": brief["as_of"], "built_at": brief["built_at"],
             "bars_through": brief.get("bars_through"), "options_snapshot": snapshot,
             "next_session": journal.next_trading_day(as_of).isoformat()}
-    return [meta, *_factors(brief, _idea_legs(as_of)), *_regime(as_of), *_gamma(as_of, brief), *_flows(brief),
-            *_baskets(), *_earnings(as_of)]
+    pairs = _live_pairs(brief, as_of)
+    meta["factor_live"] = pairs is not brief
+    return [meta, *_factors(pairs, _idea_legs(as_of)), *_regime(as_of), *_gamma(as_of, brief),
+            *_flows(brief), *_baskets(), *_earnings(_latest_session())]

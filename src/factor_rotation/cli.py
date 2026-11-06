@@ -69,6 +69,9 @@ def main(argv: list[str] | None = None) -> None:
     c.add_argument("--as-of", default=None)
     c.add_argument("--out", type=Path, default=Path("market.json"))
 
+    c = sub.add_parser("serve", help="serve the local dashboard with a working Refresh button")
+    c.add_argument("--port", type=int, default=8765)
+
     sub.add_parser("earnings", help="refresh the earnings dates for the radar, from Yahoo Finance")
 
     c = sub.add_parser("ledger", help="write every idea and its result as JSON rows for the dashboard")
@@ -131,6 +134,9 @@ def main(argv: list[str] | None = None) -> None:
             logging.info("no_ideas date=%s", day)
             return
         print(journal.write_intraday(day, bars.collect_intraday(symbols, day)))
+    elif a.cmd == "serve":
+        from . import serve
+        serve.run(a.port)
     elif a.cmd == "earnings":
         from . import earnings
         print(json.dumps(earnings.pull()))

@@ -134,6 +134,12 @@
   .lg-views button { font: inherit; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); background: transparent; border: 0; border-radius: 999px; padding: var(--cds-pad-xs) var(--cds-pad-md); cursor: pointer; }
   .lg-views button[aria-pressed=true] { background: var(--color-fg); color: var(--color-bg); }
   .lg-views button:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 2px; }
+  .lg-switchrow { display: flex; flex-wrap: wrap; align-items: center; gap: var(--cds-gap-sm); }
+  .lg-refresh { font: inherit; font-size: var(--cds-font-size-caption); color: var(--color-fg); background: transparent; border: 1px solid var(--color-border-line); border-radius: 999px; padding: var(--cds-pad-xs) var(--cds-pad-sm); cursor: pointer; }
+  .lg-refresh:hover:not(:disabled) { border-color: var(--color-fg-muted); }
+  .lg-refresh:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 2px; }
+  .lg-refresh:disabled { color: var(--color-fg-muted); cursor: progress; }
+  .lg-refreshnote { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
   .lg[data-view=baskets] > section:not(#baskets), .lg[data-view=baskets] > footer:not(#bk-method), .lg[data-view=baskets] .lg-lede, .lg[data-view=baskets] .lg-note, .lg[data-view=baskets] .lg-nav { display: none !important; }
   .lg:not([data-view=baskets]) #baskets, .lg:not([data-view=baskets]) #bk-method { display: none; }
   .lg[data-view=earnings] > section:not(#earnings), .lg[data-view=earnings] > footer:not(#er-method), .lg[data-view=earnings] .lg-lede, .lg[data-view=earnings] .lg-note, .lg[data-view=earnings] .lg-nav { display: none !important; }
@@ -178,11 +184,15 @@
     <p class="lg-eyebrow">Factor rotation · nightly ideas, scored open to close</p>
     <h1 class="lg-title">Factor Rotation Ledger</h1>
     <p class="lg-lede">Through <b data-draw="latest-date" data-source="summary" data-field="latest_date" data-row="0">—</b>, <b data-draw="ideas" data-source="summary" data-field="ideas" data-row="0">—</b> ideas have a mark and <b data-draw="hits" data-source="summary" data-field="hits" data-row="0">—</b> of them are ahead from the open. The average idea is <b data-draw="mean" data-source="summary" data-field="mean_bps" data-row="0">—</b>.</p>
-    <p class="lg-note" data-intraday hidden>Some results are intraday marks: IBKR last prices against the open, taken at <b data-draw="mark-time" data-source="ledger">—</b>. They become final when tonight's bars are scored.</p>
+    <p class="lg-note" data-intraday hidden>Some results are intraday marks: latest prices against the open, taken at <b data-draw="mark-time" data-source="ledger">—</b>. They become final when tonight's bars are scored.</p>
+    <div class="lg-switchrow">
     <div class="lg-views" role="group" aria-label="View">
       <button type="button" data-view-to="ledger" aria-pressed="true">Ledger</button>
       <button type="button" data-view-to="baskets" aria-pressed="false">Baskets</button>
       <button type="button" data-view-to="earnings" aria-pressed="false">Earnings</button>
+    </div>
+    <button type="button" class="lg-refresh" data-refresh hidden>Refresh data</button>
+    <span class="lg-refreshnote" data-refresh-note role="status" hidden></span>
     </div>
     <nav class="lg-nav" aria-label="Sections">
       <button type="button" data-go="next" data-next hidden>Next session</button>
@@ -855,7 +865,7 @@
   const regimeFmt = { pct_above_50: (v) => d3.format('.0%')(v), sector_corr_20d: (v) => d3.format('.2f')(v), vix_ratio: (v) => d3.format('.2f')(v), ten_year: (v) => `${d3.format('.2f')(v)}%` };
   const under = (el, id) => { const d = ready(el, id, true); return d ? d.data.filter((r) => r.underlying === el.dataset.under) : null; };
 
-  figure('mkt-asof', 'mkt_meta', (r) => day(r.as_of, '%A, %B %-d'));
+  figure('mkt-asof', 'mkt_meta', (r) => `${day(r.as_of, '%A, %B %-d')}${r.factor_live ? ', factor board updated since' : ''}`);
   figure('volctl-exposure', 'mkt_volctl', (r) => d3.format('.0%')(r.exposure));
 
   dash.draw('regime-val', (el) => {
@@ -1031,7 +1041,7 @@
     rows.forEach((r) => {
       if (r.date !== last) {
         last = r.date;
-        const label = r.sessions_away === 0 ? `Tonight, ${day(r.date, '%A, %B %-d')}` : r.sessions_away === 1 ? `Next session, ${day(r.date, '%A, %B %-d')}` : day(r.date, '%A, %B %-d');
+        const label = r.tonight ? `Tonight, ${day(r.date, '%A, %B %-d')}` : r.sessions_away === 1 ? `Next session, ${day(r.date, '%A, %B %-d')}` : day(r.date, '%A, %B %-d');
         const tr = h('tr', 'day'); const td = h('td', null, label); td.colSpan = 4; tr.append(td); tbody.append(tr);
       }
       const tr = h('tr');
@@ -1062,6 +1072,34 @@
     table.append(thead, tbody);
     el.replaceChildren(table);
   });
+
+  // Refresh pulls fresh data through the local server (`fr serve`), so the button only shows there.
+  const refreshBtn = document.querySelector('[data-refresh]');
+  const refreshNote = document.querySelector('[data-refresh-note]');
+  if (location.protocol === 'http:' && /^(localhost|127\.0\.0\.1)$/.test(location.hostname)) {
+    refreshBtn.hidden = false;
+    refreshBtn.addEventListener('click', async () => {
+      refreshBtn.disabled = true;
+      refreshBtn.textContent = 'Refreshing…';
+      refreshNote.hidden = true;
+      const fail = (text) => { refreshBtn.disabled = false; refreshBtn.textContent = 'Refresh data'; refreshNote.textContent = text; refreshNote.hidden = false; };
+      try {
+        const res = await fetch('/api/refresh', { method: 'POST' });
+        const body = await res.json();
+        if (!res.ok) return fail(`Refresh failed: ${body.error}`);
+        const warn = [...body.failed.map((s) => `${s} failed`), ...body.suspect.map((s) => `${s} looks wrong`)];
+        try { sessionStorage.setItem('lg-refresh-note', warn.join(', ')); sessionStorage.setItem('lg-scroll', String(window.scrollY)); } catch (e) { /* only a convenience */ }
+        location.reload();
+      } catch (e) { fail('Refresh failed: the local server isn’t running. Start it with uv run fr serve.'); }
+    });
+    try {
+      const warn = sessionStorage.getItem('lg-refresh-note');
+      const y = sessionStorage.getItem('lg-scroll');
+      sessionStorage.removeItem('lg-refresh-note'); sessionStorage.removeItem('lg-scroll');
+      if (warn) { refreshNote.textContent = warn; refreshNote.hidden = false; }
+      if (y) requestAnimationFrame(() => window.scrollTo(0, Number(y)));
+    } catch (e) { /* only a convenience */ }
+  }
 
   // The Ledger / Baskets / Earnings switch. The view is kept in the page link so a shared link opens the same view.
   const lgRoot = document.querySelector('.lg');

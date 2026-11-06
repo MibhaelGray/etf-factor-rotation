@@ -11,6 +11,7 @@ Layout:
 
 import os
 import posixpath
+from datetime import datetime
 
 import pandas as pd
 import pyarrow as pa
@@ -44,6 +45,12 @@ def read(path: str) -> pd.DataFrame:
 def exists(path: str) -> bool:
     filesystem, target = _resolve(path)
     return filesystem.get_file_info(target).type != fs.FileType.NotFound
+
+
+def modified(path: str) -> datetime | None:
+    filesystem, target = _resolve(path)
+    info = filesystem.get_file_info(target)
+    return info.mtime if info.type != fs.FileType.NotFound else None
 
 
 def list_files(prefix: str) -> list[str]:

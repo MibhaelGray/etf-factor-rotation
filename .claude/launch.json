@@ -4,7 +4,7 @@
     {
       "name": "dashboard",
       "runtimeExecutable": "uv",
-      "runtimeArgs": ["run", "python", "-m", "http.server", "8765", "--bind", "127.0.0.1", "--directory", "dashboard"],
+      "runtimeArgs": ["run", "fr", "serve"],
       "port": 8765,
       "autoPort": false
     }

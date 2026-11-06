@@ -35,7 +35,7 @@ from .analytics import flows
 from .analytics.compute import latest_snapshot
 from .analytics.technicals import factor_pair_technicals, regime, symbol_technicals
 from .config import NY
-from .bars import load
+from .bars import bars_path, load
 from .universe import CONSTITUENTS, ETFS, FACTOR_PAIRS, INDEXES, OPTION_INDEXES, bar_universe, idea_universe
 
 JOURNAL = Path(os.environ.get("FR_JOURNAL_DIR", "journal"))
@@ -386,6 +386,14 @@ def _bar(bars: pd.DataFrame, symbol: str, day: date) -> pd.Series | None:
     return row.iloc[0] if not row.empty else None
 
 
+def _bars_settled(trade_date: date) -> bool:
+    """Whether the stored bars were pulled after this session's close. A dashboard refresh during the session
+    stores a partial bar for the day, and scores are write-once."""
+    pulled = storage.modified(bars_path("SPY"))
+    close = datetime.combine(trade_date, time(16, 15), NY)
+    return pulled is not None and pulled.astimezone(NY) >= close
+
+
 def score() -> list[Path]:
     written = []
     for score_path, entry in [e for book in BOOKS for e in _entries(book)]:
@@ -395,7 +403,7 @@ def score() -> list[Path]:
         as_of = date.fromisoformat(entry["as_of"])
         legs = {s for i in entry["ideas"] for s in _legs(i)} | {"SPY"}
         bars = load(sorted(legs))
-        if bars.empty or _bar(bars, "SPY", trade_date) is None:
+        if bars.empty or _bar(bars, "SPY", trade_date) is None or not _bars_settled(trade_date):
             continue
         results = []
         for idea in entry["ideas"]:
