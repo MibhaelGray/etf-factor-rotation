@@ -1,0 +1,20 @@
+{
+  "trade_date": "2026-11-06",
+  "scored_at": "2026-11-06T19:30:35.698835-05:00",
+  "spy_open_to_close_bps": 7.3,
+  "results": [
+    {
+      "id": "2026-11-05-1",
+      "long": "SPHB",
+      "short": "SPLV",
+      "kind": "pair",
+      "factor": "high_beta_rebound",
+      "confidence": 2,
+      "open_to_close_bps": -95.7,
+      "close_to_close_bps": 359.7,
+      "long_oc_bps": -30.3,
+      "short_oc_bps": 65.5,
+      "hit": false
+    }
+  ]
+}
