@@ -1,8 +1,9 @@
 """Install the collector's schedule on a Mac as launchd agents.
 
 The schedule is written in New York time and converted to this Mac's time zone, since launchd only
-knows local time. Each job runs deploy/run.sh under caffeinate, so the Mac stays awake until it
-finishes, and logs to ~/Library/Logs/factor-rotation/<job>.log.
+knows local time. Each job starts deploy/run.sh with /bin/bash, and the script keeps the Mac awake until
+it finishes. Keep the repo outside ~/Documents, which launchd jobs can't read without Full Disk Access.
+Logs go to ~/Library/Logs/factor-rotation/<job>.log.
 
     python3 deploy/launchd/install.py              # install or reinstall
     python3 deploy/launchd/install.py --dry-run    # print the plists, change nothing
@@ -55,7 +56,7 @@ def calendar(times: list[str], tz: ZoneInfo, week: date) -> list[dict]:
 def plist(job: str, entries: list[dict], path_env: str) -> dict:
     return {
         "Label": LABEL.format(job),
-        "ProgramArguments": ["/usr/bin/caffeinate", "-i", str(REPO / "deploy" / "run.sh"), job],
+        "ProgramArguments": ["/bin/bash", str(REPO / "deploy" / "run.sh"), job],
         "WorkingDirectory": str(REPO),
         "EnvironmentVariables": {"PATH": path_env},
         "StartCalendarInterval": entries,

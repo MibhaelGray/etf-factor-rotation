@@ -123,6 +123,10 @@ DRIVERS = {
 }
 
 
+SLATE_MINIMUM = {"stock": 2, "basket": 1}
+SLATE_VERDICTS = ("recorded", "passed")
+
+
 def build_brief(as_of: date) -> dict:
     all_bars = load(bar_universe())
     all_bars = all_bars[all_bars["date"].dt.date <= as_of]
@@ -162,6 +166,7 @@ def record_ideas(draft_path: Path) -> Path:
     if not 1 <= len(ideas) <= 3:
         raise ValueError("record 1-3 ideas")
     _validate(ideas, ("stand_down_if",))
+    _validate_slate(draft.get("slate"))
     for i, idea in enumerate(ideas, 1):
         rules = idea["stand_down_if"]
         if not isinstance(rules, list) or not rules or not all(isinstance(r, str) and r.strip() for r in rules):
@@ -174,9 +179,25 @@ def record_ideas(draft_path: Path) -> Path:
         "recorded_at": datetime.now(NY).isoformat(),
         "brief_sha256": hashlib.sha256(brief_path.read_bytes()).hexdigest(),
         "macro_context": draft.get("macro_context", ""),
+        "slate": draft["slate"],
         "ideas": ideas,
     }
     return _write_once(JOURNAL / "ideas" / f"{trade_date}.json", payload)
+
+
+def _validate_slate(slate) -> None:
+    """Every night's ideas come with the stock and basket candidates considered, so the ETF table can't be the
+    only place the night looked. A verdict of "passed" is fine; skipping the look isn't."""
+    if not isinstance(slate, list):
+        raise ValueError(f"the draft needs a slate: at least {SLATE_MINIMUM} considered candidates")
+    for i, c in enumerate(slate, 1):
+        if c.get("kind") not in SLATE_MINIMUM or c.get("verdict") not in SLATE_VERDICTS or not str(c.get("name", "")).strip() \
+                or not str(c.get("reason", "")).strip():
+            raise ValueError(f"slate entry {i} needs name, reason, kind ({'/'.join(SLATE_MINIMUM)}) "
+                             f"and verdict ({'/'.join(SLATE_VERDICTS)})")
+    for kind, need in SLATE_MINIMUM.items():
+        if sum(c["kind"] == kind for c in slate) < need:
+            raise ValueError(f"the slate needs at least {need} {kind} candidate(s)")
 
 
 def _validate(ideas: list[dict], extra: tuple[str, ...] = ()) -> None:
@@ -462,6 +483,14 @@ def scorecard() -> pd.DataFrame:
     return pd.DataFrame(rows).sort_values(["trade_date", "book", "id"], kind="stable") if rows else pd.DataFrame(rows)
 
 
+def _trade_type(idea: dict) -> str:
+    """Basket if either side is one, else single stock if either side is, else ETF."""
+    sides = [idea.get("long"), idea.get("short")]
+    if any(isinstance(s, list) for s in sides):
+        return "Basket"
+    return "Single stock" if any(s and s not in ETFS for s in sides) else "ETF"
+
+
 def ledger(marks: dict | None = None) -> list[dict]:
     """One row per recorded idea for the dashboard: the final score where one exists, else an
     intraday mark from `marks` ({"at": unix seconds, "prices": {symbol: {"open", "last"}}})."""
@@ -480,6 +509,7 @@ def ledger(marks: dict | None = None) -> list[dict]:
                 "kind": idea.get("kind"), "long": _label(idea, "long"), "short": _label(idea, "short"),
                 "long_members": ", ".join(_side(idea, "long")) if isinstance(idea.get("long"), list) else "",
                 "short_members": ", ".join(_side(idea, "short")) if isinstance(idea.get("short"), list) else "",
+                "trade_type": _trade_type(idea),
                 "factor": idea["factor"], "confidence": idea["confidence"],
                 "thesis": idea["thesis"], "invalidation": idea["invalidation"],
                 "stand_down_if": " · ".join(idea.get("stand_down_if", [])),

@@ -599,6 +599,12 @@
           "why": "Revvity: life-science instruments, reagents and lab software",
           "change_pct": -5.39,
           "avg_usd_volume_90d": 298837043
+        },
+        {
+          "symbol": "TXG",
+          "why": "10x Genomics: single-cell and spatial biology instruments and reagents for research labs; smaller and more exposed to academic funding than the rest of the group",
+          "avg_usd_volume_90d": 245728148,
+          "change_pct": 1.26
         }
       ],
       "hedge_change_pct": -2.5,

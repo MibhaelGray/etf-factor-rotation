@@ -1,7 +1,8 @@
-"""The local dashboard with a Refresh button: serves dashboard/ on localhost and handles POST /api/refresh.
+"""The local dashboard: serves dashboard/ on localhost, with POST /api/refresh and the chart page's GET routes.
 
 A refresh pulls bars from Yahoo, marks today's unscored ideas, and rebuilds dashboard/local.html. It reads
-nothing from the request and only answers this page, so another website can't trigger it.
+nothing from the request and only answers this page, so another website can't trigger it. Charts change
+nothing and only serve names on the dashboard.
 """
 
 import json
@@ -10,8 +11,9 @@ import threading
 from datetime import datetime, timedelta
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
+from urllib.parse import parse_qs, urlsplit
 
-from . import bars, earnings, journal, localdash
+from . import bars, charts, earnings, journal, localdash
 from .config import NY
 from .market import basket_library
 from .universe import bar_universe
@@ -27,6 +29,16 @@ def _symbols() -> list[str]:
     names = {*bar_universe(), *journal.pending_legs(), *bars.INDEXES, *(b["hedge"] for b in lib),
              *(m["symbol"] for b in lib for m in b["members"])}
     return sorted(names)
+
+
+def _chart_names() -> list[dict]:
+    """Every stock and ETF on the dashboard, with the baskets it sits in as a label."""
+    labels: dict[str, list[str]] = {}
+    for b in basket_library()["baskets"]:
+        for m in b["members"]:
+            labels.setdefault(m["symbol"], []).append(b["name"])
+    names = {*_symbols(), *earnings.symbols()} - set(bars.INDEXES)
+    return [{"symbol": s, "label": ", ".join(labels.get(s, []))} for s in sorted(names)]
 
 
 def _marks() -> dict | None:
@@ -70,12 +82,27 @@ class Handler(SimpleHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
+    def _chart(self, query: str) -> None:
+        symbol = parse_qs(query).get("symbol", [""])[0]
+        if symbol not in {n["symbol"] for n in _chart_names()}:
+            return self._json(404, {"error": f"{symbol or 'That name'} isn't on the dashboard"})
+        try:
+            self._json(200, charts.chart(symbol))
+        except Exception as e:
+            log.exception("chart_failed symbol=%s", symbol)
+            self._json(502, {"error": str(e)})
+
     def do_GET(self):
-        if self.path in ("/", ""):
+        url = urlsplit(self.path)
+        if url.path in ("/", ""):
             self.send_response(302)
             self.send_header("Location", "/local.html")
             self.end_headers()
             return
+        if url.path == "/api/chart/names":
+            return self._json(200, {"names": _chart_names()})
+        if url.path == "/api/chart":
+            return self._chart(url.query)
         super().do_GET()
 
     def do_POST(self):

@@ -1,5 +1,5 @@
 {
- "pulled_at": "2026-11-06T19:45:59-05:00",
+ "pulled_at": "2026-11-07T16:26:18-05:00",
  "source": "Yahoo Finance via yfinance",
  "names": {
   "A": [
@@ -346,12 +346,12 @@
     "session": "after_close",
     "eps_estimate": 1.99,
     "eps_reported": 2.1,
-    "surprise_pct": 5.75
+    "surprise_pct": 5.78
    },
    {
     "date": "2027-01-28",
     "session": "after_close",
-    "eps_estimate": 2.91,
+    "eps_estimate": 2.92,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -705,7 +705,7 @@
    {
     "date": "2027-02-11",
     "session": "after_close",
-    "eps_estimate": 0.83,
+    "eps_estimate": 0.8,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -1145,7 +1145,7 @@
    {
     "date": "2027-02-09",
     "session": "after_close",
-    "eps_estimate": 1.65,
+    "eps_estimate": 1.64,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -1492,14 +1492,14 @@
    {
     "date": "2026-11-03",
     "session": "after_close",
-    "eps_estimate": 1.94,
+    "eps_estimate": 1.95,
     "eps_reported": 2.09,
-    "surprise_pct": 7.46
+    "surprise_pct": 7.44
    },
    {
     "date": "2027-02-02",
     "session": "after_close",
-    "eps_estimate": 2.94,
+    "eps_estimate": 2.93,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -1676,7 +1676,7 @@
    {
     "date": "2027-02-02",
     "session": "after_close",
-    "eps_estimate": 5.75,
+    "eps_estimate": 5.64,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -2207,7 +2207,7 @@
    {
     "date": "2027-02-09",
     "session": "after_close",
-    "eps_estimate": 1.25,
+    "eps_estimate": 1.29,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -2384,7 +2384,7 @@
    {
     "date": "2027-01-29",
     "session": "before_open",
-    "eps_estimate": 3.48,
+    "eps_estimate": 3.43,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -2696,7 +2696,7 @@
    {
     "date": "2027-02-10",
     "session": "after_close",
-    "eps_estimate": 4.38,
+    "eps_estimate": 4.7,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -4247,7 +4247,7 @@
    {
     "date": "2027-02-24",
     "session": "after_close",
-    "eps_estimate": 2.21,
+    "eps_estimate": 2.14,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -4608,13 +4608,6 @@
   ],
   "BRK B": [
    {
-    "date": "2021-02-27",
-    "session": "before_open",
-    "eps_estimate": 2.28,
-    "eps_reported": 2.15,
-    "surprise_pct": -5.74
-   },
-   {
     "date": "2021-05-01",
     "session": "before_open",
     "eps_estimate": 2.57,
@@ -4774,6 +4767,13 @@
     "eps_estimate": 5.13,
     "eps_reported": null,
     "surprise_pct": null
+   },
+   {
+    "date": "2026-11-07",
+    "session": "before_open",
+    "eps_estimate": 6.14,
+    "eps_reported": 5.94,
+    "surprise_pct": -3.21
    },
    {
     "date": "2026-11-07",
@@ -4948,9 +4948,9 @@
    {
     "date": "2026-11-02",
     "session": "after_close",
-    "eps_estimate": 1.19,
+    "eps_estimate": 1.2,
     "eps_reported": 1.26,
-    "surprise_pct": 5.69
+    "surprise_pct": 5.17
    },
    {
     "date": "2027-02-22",
@@ -5805,7 +5805,7 @@
    {
     "date": "2026-11-09",
     "session": "before_open",
-    "eps_estimate": 3.88,
+    "eps_estimate": 3.89,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -7349,7 +7349,7 @@
    {
     "date": "2027-02-03",
     "session": "after_close",
-    "eps_estimate": 2.21,
+    "eps_estimate": 2.4,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -7696,7 +7696,7 @@
    {
     "date": "2027-02-04",
     "session": "before_open",
-    "eps_estimate": 3.38,
+    "eps_estimate": 3.52,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -7789,7 +7789,7 @@
    {
     "date": "2027-03-01",
     "session": "before_open",
-    "eps_estimate": -0.03,
+    "eps_estimate": 0.16,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -8017,7 +8017,7 @@
    {
     "date": "2027-02-24",
     "session": "before_open",
-    "eps_estimate": 0.32,
+    "eps_estimate": 0.18,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -8918,7 +8918,7 @@
    {
     "date": "2027-02-09",
     "session": "before_open",
-    "eps_estimate": 1.24,
+    "eps_estimate": 1.15,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -9095,7 +9095,7 @@
    {
     "date": "2027-01-29",
     "session": "before_open",
-    "eps_estimate": 5.7,
+    "eps_estimate": 5.69,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -9980,7 +9980,7 @@
    {
     "date": "2027-02-09",
     "session": "before_open",
-    "eps_estimate": 1.49,
+    "eps_estimate": 1.47,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -10334,7 +10334,7 @@
    {
     "date": "2027-02-23",
     "session": "after_close",
-    "eps_estimate": 4.92,
+    "eps_estimate": 5.48,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -10688,7 +10688,7 @@
    {
     "date": "2027-02-02",
     "session": "before_open",
-    "eps_estimate": 4.13,
+    "eps_estimate": 4.14,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -11836,7 +11836,7 @@
    {
     "date": "2027-02-09",
     "session": "after_close",
-    "eps_estimate": 1.07,
+    "eps_estimate": 1.09,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -11950,7 +11950,7 @@
    {
     "date": "2027-02-09",
     "session": "before_open",
-    "eps_estimate": -0.12,
+    "eps_estimate": -0.11,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -13175,13 +13175,6 @@
   ],
   "HUM": [
    {
-    "date": "2020-11-03",
-    "session": "before_open",
-    "eps_estimate": 2.8,
-    "eps_reported": 3.08,
-    "surprise_pct": 9.87
-   },
-   {
     "date": "2021-02-03",
     "session": "before_open",
     "eps_estimate": -2.32,
@@ -13348,6 +13341,13 @@
     "eps_estimate": -1.0,
     "eps_reported": -0.7,
     "surprise_pct": 30.33
+   },
+   {
+    "date": "2027-02-10",
+    "session": "before_open",
+    "eps_estimate": -7.94,
+    "eps_reported": null,
+    "surprise_pct": null
    }
   ],
   "IBM": [
@@ -14209,7 +14209,7 @@
    {
     "date": "2027-02-24",
     "session": "after_close",
-    "eps_estimate": -0.78,
+    "eps_estimate": -0.83,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -15569,7 +15569,7 @@
    {
     "date": "2027-02-10",
     "session": "after_close",
-    "eps_estimate": 1.6,
+    "eps_estimate": 1.47,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -15923,7 +15923,7 @@
    {
     "date": "2027-02-04",
     "session": "before_open",
-    "eps_estimate": 2.7,
+    "eps_estimate": 4.49,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -16100,7 +16100,7 @@
    {
     "date": "2027-02-02",
     "session": "before_open",
-    "eps_estimate": 5.93,
+    "eps_estimate": 5.95,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -16277,7 +16277,7 @@
    {
     "date": "2027-02-03",
     "session": "before_open",
-    "eps_estimate": 11.12,
+    "eps_estimate": 11.23,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -17269,7 +17269,7 @@
    {
     "date": "2027-02-11",
     "session": "before_open",
-    "eps_estimate": 3.19,
+    "eps_estimate": 3.18,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -17977,7 +17977,7 @@
    {
     "date": "2027-02-02",
     "session": "before_open",
-    "eps_estimate": 27.91,
+    "eps_estimate": 23.43,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -18862,7 +18862,7 @@
    {
     "date": "2027-02-04",
     "session": "after_close",
-    "eps_estimate": 0.12,
+    "eps_estimate": 1.02,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -19747,7 +19747,7 @@
    {
     "date": "2027-02-18",
     "session": "after_close",
-    "eps_estimate": 1.94,
+    "eps_estimate": 1.89,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -21161,6 +21161,13 @@
     "eps_estimate": -0.26,
     "eps_reported": -0.22,
     "surprise_pct": 14.79
+   },
+   {
+    "date": "2027-03-16",
+    "session": "before_open",
+    "eps_estimate": -0.27,
+    "eps_reported": null,
+    "surprise_pct": null
    }
   ],
   "OKTA": [
@@ -21859,7 +21866,7 @@
    {
     "date": "2027-03-01",
     "session": "after_close",
-    "eps_estimate": -0.06,
+    "eps_estimate": -0.01,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -23098,7 +23105,7 @@
    {
     "date": "2027-02-11",
     "session": "after_close",
-    "eps_estimate": 0.84,
+    "eps_estimate": 0.78,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -24083,7 +24090,7 @@
    {
     "date": "2027-02-03",
     "session": "after_close",
-    "eps_estimate": 2.29,
+    "eps_estimate": 2.23,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -25673,7 +25680,7 @@
    {
     "date": "2027-02-04",
     "session": "before_open",
-    "eps_estimate": 3.12,
+    "eps_estimate": 3.0,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -25850,7 +25857,7 @@
    {
     "date": "2027-02-18",
     "session": "after_close",
-    "eps_estimate": 0.81,
+    "eps_estimate": 0.66,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -27422,7 +27429,7 @@
    {
     "date": "2027-01-22",
     "session": "before_open",
-    "eps_estimate": 0.75,
+    "eps_estimate": 0.74,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -27543,7 +27550,7 @@
    {
     "date": "2027-02-25",
     "session": "after_close",
-    "eps_estimate": -0.12,
+    "eps_estimate": -0.1,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -27773,7 +27780,7 @@
     "session": "before_open",
     "eps_estimate": 1.71,
     "eps_reported": 1.94,
-    "surprise_pct": 13.44
+    "surprise_pct": 13.68
    },
    {
     "date": "2027-02-25",
@@ -28444,13 +28451,6 @@
   ],
   "TECH": [
    {
-    "date": "2020-11-05",
-    "session": "before_open",
-    "eps_estimate": 0.28,
-    "eps_reported": 0.36,
-    "surprise_pct": 29.61
-   },
-   {
     "date": "2021-02-02",
     "session": "before_open",
     "eps_estimate": 0.34,
@@ -28610,6 +28610,13 @@
     "eps_estimate": 0.52,
     "eps_reported": 0.52,
     "surprise_pct": 0.13
+   },
+   {
+    "date": "2026-11-06",
+    "session": "after_close",
+    "eps_estimate": 0.45,
+    "eps_reported": 0.44,
+    "surprise_pct": -1.71
    },
    {
     "date": "2026-11-09",
@@ -30030,7 +30037,7 @@
    {
     "date": "2027-02-11",
     "session": "after_close",
-    "eps_estimate": null,
+    "eps_estimate": -0.04,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -30384,7 +30391,7 @@
    {
     "date": "2027-02-10",
     "session": "before_open",
-    "eps_estimate": 0.37,
+    "eps_estimate": 0.51,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -30738,7 +30745,7 @@
    {
     "date": "2027-02-03",
     "session": "before_open",
-    "eps_estimate": 1.0,
+    "eps_estimate": 1.01,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -31800,19 +31807,12 @@
    {
     "date": "2027-02-11",
     "session": "after_close",
-    "eps_estimate": 4.15,
+    "eps_estimate": 4.1,
     "eps_reported": null,
     "surprise_pct": null
    }
   ],
   "VST": [
-   {
-    "date": "2020-08-05",
-    "session": "before_open",
-    "eps_estimate": 0.51,
-    "eps_reported": 0.34,
-    "surprise_pct": -33.2
-   },
    {
     "date": "2020-11-04",
     "session": "before_open",
@@ -31980,6 +31980,13 @@
     "eps_estimate": 1.63,
     "eps_reported": 0.76,
     "surprise_pct": -53.4
+   },
+   {
+    "date": "2027-02-25",
+    "session": "before_open",
+    "eps_estimate": 3.08,
+    "eps_reported": null,
+    "surprise_pct": null
    }
   ],
   "VZ": [
@@ -33216,7 +33223,7 @@
    {
     "date": "2027-01-29",
     "session": "before_open",
-    "eps_estimate": 4.12,
+    "eps_estimate": 4.08,
     "eps_reported": null,
     "surprise_pct": null
    }
@@ -33399,10 +33406,5 @@
    }
   ]
  },
- "failed": [
-  "AMD",
-  "AMGN",
-  "AMT",
-  "AMZN"
- ]
+ "failed": []
 }

@@ -73,6 +73,8 @@ def main(argv: list[str] | None = None) -> None:
     c.add_argument("--port", type=int, default=8765)
 
     sub.add_parser("earnings", help="refresh the earnings dates for the radar, from Yahoo Finance")
+    sub.add_parser("gaps", help="rebuild the table of what stocks did after earnings gaps")
+    sub.add_parser("scan", help="list tonight's stock and basket candidates")
 
     c = sub.add_parser("ledger", help="write every idea and its result as JSON rows for the dashboard")
     c.add_argument("--marks", type=Path, help="intraday marks JSON for ideas not yet scored")
@@ -137,6 +139,18 @@ def main(argv: list[str] | None = None) -> None:
     elif a.cmd == "serve":
         from . import serve
         serve.run(a.port)
+    elif a.cmd == "gaps":
+        from .analytics import earnings_gaps
+        df = earnings_gaps.events()
+        rows = earnings_gaps.table(df)
+        earnings_gaps.PATH.write_text(json.dumps({"events": len(df), "from": str(df["session"].min().date()),
+                                                  "to": str(df["session"].max().date()), "rows": rows}, indent=1) + "\n")
+        print(f"{earnings_gaps.PATH}  events={len(df)}")
+    elif a.cmd == "scan":
+        from . import scan
+        path, payload = scan.write()
+        print(f"{path}  tonight={len(payload['reports']['tonight'])} traded={len(payload['reports']['traded_today'])} "
+              f"settled={payload['bars_settled']}")
     elif a.cmd == "earnings":
         from . import earnings
         print(json.dumps(earnings.pull()))

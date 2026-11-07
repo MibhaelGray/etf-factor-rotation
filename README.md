@@ -18,6 +18,8 @@ Yahoo is unofficial and can miss a split on its first day. `fr bars` repairs tha
 | `deploy/run.sh nightly` | collector | 19:00 | runs `fr intraday`, `fr score` and `fr brief`, commits `journal/`, pushes |
 | `fr intraday` | collector | in the nightly job | `journal/intraday/`, from Yahoo: the session's 15-minute bars (04:00–16:00) for the idea legs and SPY. Thin ETFs can have gaps before the open |
 | `fr earnings` | collector | in the nightly job | `journal/reference/earnings.json`: earnings dates for every basket member and the largest stocks, from Yahoo Finance |
+| `fr gaps` | collector | in the nightly job | `journal/reference/earnings_gaps.json`: what stocks did after earnings gaps, against SPY |
+| `fr scan` | collector | in the nightly job | `journal/scans/<as_of>.json`: tonight's stock and basket candidates |
 | `fr record` | Mac | ~19:30 | `journal/ideas/`, committed and pushed |
 | `fr check` | Mac | 08:30–09:25 | `journal/checks/`: the pre-open stands / stand-down decision per idea; refused after the open |
 | `fr morning` | Mac | after the check, before 09:30 | `journal/morning/ideas/`: the morning book, 1–2 new ideas from the overnight session, scored apart from the nightly book; refused after the open |
@@ -76,7 +78,11 @@ uv run fr scorecard
 Draft format:
 
 ```json
-{"as_of": "2026-11-02", "macro_context": "...", "ideas": [
+{"as_of": "2026-11-02", "macro_context": "...",
+ "slate": [{"kind": "stock", "name": "long APP / short IGV", "verdict": "passed", "reason": "..."},
+           {"kind": "stock", "name": "...", "verdict": "recorded", "reason": "..."},
+           {"kind": "basket", "name": "...", "verdict": "passed", "reason": "..."}],
+ "ideas": [
   {"long": "MTUM", "short": "USMV", "factor": "momentum", "confidence": 4,
    "thesis": "...", "invalidation": "...", "key_signals": ["..."],
    "stand_down_if": ["MTUM gaps more than 1 ATR above USMV pre-market", "..."],
@@ -94,6 +100,10 @@ Either side can instead be a themed basket of 3–10 stocks in equal weight, nam
 Single legs and basket members can come from outside the standard universe. `fr bars` adds the legs of every unscored idea to its pull, and the nightly job runs `fr bars --pending` before scoring in case the ideas arrived after the 16:30 pull. If a leg's bars are still missing, scoring waits up to five days before recording the idea as missing.
 
 `journal/reference/baskets.json` holds a watchlist of themed baskets, each with its hedge ETF, the story behind it, a reason for every member and a snapshot of the day's moves from IBKR. `fr bars` pulls daily bars for every member, `fr market` adds the baskets' spread against their hedge to the market rows, and the dashboard shows them on its Baskets page (`#baskets`). The watchlist isn't scored; only an idea that uses a basket is.
+
+`fr record` requires a `slate`: at least two stock candidates and one basket candidate, each with a verdict (`recorded` or `passed`) and a reason, so stocks and baskets get looked at every night. It's no quota on recorded ideas. The dashboard's track record shows results by trade type, and a pair with a stock leg counts as a single stock.
+
+The dashboard's Chart page (`#chart=NVDA`) only works under `fr serve`, because the claude.ai page can't pull live data. Type a ticker, or click one in Baskets or Earnings, to see its last 60 days of 15-minute bars from Yahoo with daily and 15-minute averages, RSI, ATR and the nightly brief's technicals. It covers the names on the dashboard, pulls when opened, and saves nothing. Indicators on 15-minute bars use the regular session only. Yahoo reports no pre-market or after-hours volume, and its highs and lows there can be bad prints, so those candles show only the open and close. The chart loads Lightweight Charts from a CDN.
 
 The dashboard's Earnings page (`#earnings`) lists who reports in the next ten sessions and how reports from the last five traded. Reactions come from our daily bars: the gap and the day on the first session that traded on the report, alone and against the name's basket hedge. Some Yahoo dates are estimates until the company confirms them.
 
