@@ -75,6 +75,7 @@ def main(argv: list[str] | None = None) -> None:
     sub.add_parser("earnings", help="refresh the earnings dates for the radar, from Yahoo Finance")
     sub.add_parser("gaps", help="rebuild the table of what stocks did after earnings gaps")
     sub.add_parser("scan", help="list tonight's stock and basket candidates")
+    sub.add_parser("screen", help="check every name, basket and factor pair against the setups; write the shortlist")
 
     c = sub.add_parser("ledger", help="write every idea and its result as JSON rows for the dashboard")
     c.add_argument("--marks", type=Path, help="intraday marks JSON for ideas not yet scored")
@@ -151,6 +152,11 @@ def main(argv: list[str] | None = None) -> None:
         path, payload = scan.write()
         print(f"{path}  tonight={len(payload['reports']['tonight'])} traded={len(payload['reports']['traded_today'])} "
               f"settled={payload['bars_settled']}")
+    elif a.cmd == "screen":
+        from . import screen
+        path, payload = screen.write()
+        print(path)
+        print(screen.summary(payload))
     elif a.cmd == "earnings":
         from . import earnings
         print(json.dumps(earnings.pull()))

@@ -9,14 +9,18 @@ Before the open:
 Next evening:
   score   -> journal/scores/<trade_date>.json realized spread returns per idea
              journal/morning/scores/<trade_date>.json the same for the morning book
+When every idea in a session has finished its time limit:
+          -> journal/outcomes/<trade_date>.json (and journal/morning/outcomes/) the result over the whole plan
 
 Files are write-once: recording over an existing ideas or score file is refused,
 so the record can't be edited after the outcome is known.
 
 Every idea is an outright long, an outright short, or a dollar-neutral pair,
-entered at the next session's open and exited at its close. Either side can be
-one fund or stock, or a named basket of 3-10 stocks held in equal weight. Close-to-close
-(from the as_of close) is recorded alongside for comparison.
+entered at the next session's open. Either side can be one fund or stock, or a named basket of 3-10
+stocks held in equal weight. Two results are kept: the score, open to close on the first session (how
+every idea has always been compared, with close-to-close alongside), and the outcome over the idea's own
+plan: its time limit of 1-5 sessions, its stop checked on each close, and its skip-at-open levels.
+Each new idea also carries its setup and the five steps of reasoning behind it (REASONING).
 """
 
 import hashlib
@@ -124,7 +128,43 @@ DRIVERS = {
 
 
 SLATE_MINIMUM = {"stock": 2, "basket": 1}
+SLATE_KINDS = (*SLATE_MINIMUM, "etf", "factor")
 SLATE_VERDICTS = ("recorded", "passed")
+
+# The setup an idea came from, tagged when it's recorded so results can be compared by setup. The screen
+# (`fr screen`) finds the first fifteen; "catalyst" and "other" cover ideas it didn't surface.
+SETUPS = {
+    "earnings_gap_held": "gapped at least 1.5 ATR on earnings, closed strong on heavy volume and held",
+    "earnings_gap_faded": "gapped on earnings and closed weak, or good news sold / bad news bought",
+    "breakout": "closed above its 52-week or 20-day high on heavy volume",
+    "breakdown": "closed below its 52-week or 20-day low on heavy volume",
+    "reclaim_200": "closed back above its 200-day after a month or more below, on heavy volume",
+    "lost_200": "closed below its 200-day after a month or more above, on heavy volume",
+    "relative_strength": "rose at least 1 ATR on a day SPY fell 1% or more",
+    "relative_weakness": "fell at least 1 ATR on a day SPY rose 1% or more",
+    "turn": "stretched (RSI or distance from the 20-day) and turned: a strong close against a losing streak",
+    "stretched": "stretched with no turn yet",
+    "basket_breakout": "a basket's spread against its hedge made a 20-day high on a big day",
+    "basket_breakdown": "a basket's spread against its hedge made a 20-day low on a big day",
+    "basket_big_move": "a basket's spread moved at least 2 of its daily standard deviations",
+    "basket_stretched": "a basket's spread at least 2 standard deviations from its 50-day average",
+    "factor_turn": "a stretched factor pair turned against the stretch",
+    "factor_stretched": "a factor pair at least 2 standard deviations from its 50-day average",
+    "catalyst": "built around a scheduled event",
+    "other": "none of the above",
+}
+
+# The five steps behind every new idea, kept with it so the reasoning can be checked against the outcome.
+REASONING = {
+    "what_changed": "what the screen or the tape showed, with numbers",
+    "story": "why it moved, with sources and dates",
+    "chart": "what the technicals said, for and against",
+    "coming": "events inside the time limit",
+    "case_against": "the strongest case against, and why it didn't win",
+}
+MAX_HORIZON = 5
+# Where each book's outcomes over the full time limit live. Scores stay open to close on the first session.
+OUTCOMES = {"nightly": "outcomes", "morning": "morning/outcomes"}
 
 
 def build_brief(as_of: date) -> dict:
@@ -191,9 +231,9 @@ def _validate_slate(slate) -> None:
     if not isinstance(slate, list):
         raise ValueError(f"the draft needs a slate: at least {SLATE_MINIMUM} considered candidates")
     for i, c in enumerate(slate, 1):
-        if c.get("kind") not in SLATE_MINIMUM or c.get("verdict") not in SLATE_VERDICTS or not str(c.get("name", "")).strip() \
+        if c.get("kind") not in SLATE_KINDS or c.get("verdict") not in SLATE_VERDICTS or not str(c.get("name", "")).strip() \
                 or not str(c.get("reason", "")).strip():
-            raise ValueError(f"slate entry {i} needs name, reason, kind ({'/'.join(SLATE_MINIMUM)}) "
+            raise ValueError(f"slate entry {i} needs name, reason, kind ({'/'.join(SLATE_KINDS)}) "
                              f"and verdict ({'/'.join(SLATE_VERDICTS)})")
     for kind, need in SLATE_MINIMUM.items():
         if sum(c["kind"] == kind for c in slate) < need:
@@ -231,8 +271,41 @@ def _validate(ideas: list[dict], extra: tuple[str, ...] = ()) -> None:
             raise ValueError(f"idea {i} has a name on both sides")
         if idea["confidence"] not in (1, 2, 3, 4, 5):
             raise ValueError(f"idea {i} confidence must be 1-5")
+        _validate_plan(idea, i)
         idea["kind"] = "pair" if idea.get("long") and idea.get("short") else ("long" if idea.get("long") else "short")
         idea["basket"] = any(isinstance(idea.get(side), list) for side in ("long", "short"))
+
+
+def _price_rules(rules, legs: list[str], what: str, i: int) -> None:
+    if not isinstance(rules, list):
+        raise ValueError(f"idea {i} {what} must be a list of {{symbol, below or above}} rules")
+    for r in rules:
+        sides = [k for k in ("below", "above") if k in r]
+        if not isinstance(r, dict) or r.get("symbol") not in legs or len(sides) != 1 \
+                or not isinstance(r[sides[0]], (int, float)) or r[sides[0]] <= 0:
+            raise ValueError(f"idea {i} {what} rule {r!r} needs a leg's symbol and one positive below or above price")
+
+
+def _validate_plan(idea: dict, i: int) -> None:
+    """The plan every new idea carries: its setup, time limit, stop, optional skip-at-open levels, and the
+    five steps of reasoning behind it."""
+    if idea.get("setup") not in SETUPS:
+        raise ValueError(f"idea {i} setup must be one of: {', '.join(SETUPS)}")
+    h = idea.get("horizon_days")
+    if not isinstance(h, int) or isinstance(h, bool) or not 1 <= h <= MAX_HORIZON:
+        raise ValueError(f"idea {i} horizon_days must be 1-{MAX_HORIZON} sessions, counting the first")
+    reasoning = idea.get("reasoning")
+    if not isinstance(reasoning, dict) or any(not str(reasoning.get(k, "")).strip() for k in REASONING):
+        raise ValueError(f"idea {i} reasoning needs each of: {', '.join(REASONING)}")
+    legs = _legs(idea)
+    stop = idea.get("stop")
+    if not isinstance(stop, dict) or not (stop.get("rules") or "spread_pct" in stop):
+        raise ValueError(f"idea {i} stop needs price rules, a spread_pct, or both")
+    _price_rules(stop.get("rules", []), legs, "stop", i)
+    if "spread_pct" in stop and (not isinstance(stop["spread_pct"], (int, float)) or stop["spread_pct"] >= 0):
+        raise ValueError(f"idea {i} stop spread_pct must be negative: the loss from entry, in percent, that ends the idea")
+    if "skip_if_open" in idea:
+        _price_rules(idea["skip_if_open"], legs, "skip_if_open", i)
 
 
 def record_morning(draft_path: Path, now: datetime | None = None) -> Path:
@@ -466,6 +539,107 @@ def score() -> list[Path]:
             "results": results,
         }
         written.append(_write_once(score_path, payload))
+    return written + write_outcomes()
+
+
+def sessions_from(start: date, n: int) -> list[date]:
+    """The first n trading sessions starting with `start`."""
+    return [d.date() for d in _calendar().valid_days(start, start + pd.Timedelta(days=n * 2 + 10))[:n]]
+
+
+def _rule_hit(rule: dict, price: float) -> bool:
+    return price < rule["below"] if "below" in rule else price > rule["above"]
+
+
+def rule_text(rule: dict) -> str:
+    side = "below" if "below" in rule else "above"
+    return f"{rule['symbol']} {side} {rule[side]:,.2f}"
+
+
+def stop_text(idea: dict) -> str:
+    stop = idea.get("stop") or {}
+    parts = [f"closes {rule_text(r)}" for r in stop.get("rules", [])]
+    if "spread_pct" in stop:
+        parts.append(f"the idea is down {abs(stop['spread_pct']):g}% from entry at a close")
+    return " or ".join(parts)
+
+
+def _outcome(idea: dict, trade_date: date, bars: pd.DataFrame) -> dict | None:
+    """The idea over its whole time limit. It enters at the first session's open unless a skip_if_open rule
+    is met there, and exits at the close of the session where a stop is hit (stops are checked on closes)
+    or of the last session. None until the first session has settled bars; status "open" while sessions
+    remain. Ideas recorded before time limits existed count as one session with no stop."""
+    horizon = idea.get("horizon_days", 1)
+    legs = _legs(idea)
+    names = [*legs, "SPY"]
+    px = {s: g.assign(day=g["date"].dt.date).set_index("day") for s, g in bars[bars["symbol"].isin(names)].groupby("symbol")}
+
+    def bar(s: str, d: date):
+        g = px.get(s)
+        return g.loc[d] if g is not None and d in g.index else None
+
+    first = {s: bar(s, trade_date) for s in names}
+    if any(v is None for v in first.values()) or not _bars_settled(trade_date):
+        return None
+    for rule in idea.get("skip_if_open", []):
+        o = first[rule["symbol"]]["open"]
+        if _rule_hit(rule, o):
+            return {"status": "skipped", "note": f"{rule['symbol']} opened at {o:,.2f}, past the skip level ({rule_text(rule)})",
+                    "horizon_days": horizon, "sessions": 0, "hit": None}
+    w = _weights(idea)
+    entry = {s: first[s]["open"] for s in names}
+    stop = idea.get("stop") or {}
+    path, status, note = [], "open", ""
+    for k, d in enumerate(sessions_from(trade_date, horizon), 1):
+        today = {s: bar(s, d) for s in names}
+        if any(v is None for v in today.values()) or not _bars_settled(d):
+            break
+        ret = sum(w[s] * (today[s]["close"] / entry[s] - 1) for s in legs)
+        path.append((d, ret, today["SPY"]["close"] / entry["SPY"] - 1))
+        hits = [f"{r['symbol']} closed at {today[r['symbol']]['close']:,.2f} ({rule_text(r)})"
+                for r in stop.get("rules", []) if _rule_hit(r, today[r["symbol"]]["close"])]
+        if "spread_pct" in stop and ret * 100 <= stop["spread_pct"]:
+            hits.append(f"down {abs(ret) * 100:.1f}% from entry, past the {abs(stop['spread_pct']):g}% stop")
+        if hits:
+            status, note = "stopped", f"Stopped on session {k}: " + "; ".join(hits)
+            break
+        if k == horizon:
+            status, note = "time", f"Held {k} session{'s' if k > 1 else ''} to the time limit"
+    if not path:
+        return None
+    d, ret, spy = path[-1]
+    rets = [p[1] for p in path]
+    return {"status": status, "note": note, "exit_date": d.isoformat(), "sessions": len(path), "horizon_days": horizon,
+            "bps": round(ret * 1e4, 1), "spy_bps": round(spy * 1e4, 1), "best_bps": round(max(rets) * 1e4, 1),
+            "worst_bps": round(min(rets) * 1e4, 1), "hit": bool(ret > 0)}
+
+
+def write_outcomes() -> list[Path]:
+    """Write each session's outcomes once every idea in it has finished: stopped, skipped at the open, or held
+    to its time limit. Write-once like scores. An idea whose bars never arrive is written off after two weeks."""
+    written = []
+    for book in BOOKS:
+        for score_path, entry in _entries(book):
+            path = JOURNAL / OUTCOMES[book] / score_path.name
+            if path.exists():
+                continue
+            trade_date = date.fromisoformat(entry["trade_date"])
+            bars = load(sorted({s for i in entry["ideas"] for s in _legs(i)} | {"SPY"}))
+            if bars.empty:
+                continue
+            late = (datetime.now(NY).date() - trade_date).days >= 14
+            results = []
+            for idea in entry["ideas"]:
+                o = _outcome(idea, trade_date, bars)
+                if o is None and late:
+                    results.append({"id": idea["id"], "missing_bars": True})
+                elif o is None or o["status"] == "open":
+                    break
+                else:
+                    results.append({"id": idea["id"], **o})
+            else:
+                written.append(_write_once(path, {"trade_date": trade_date.isoformat(),
+                                                  "scored_at": datetime.now(NY).isoformat(), "results": results}))
     return written
 
 
@@ -499,6 +673,13 @@ def ledger(marks: dict | None = None) -> list[dict]:
     for book, score_path, entry in [(b, *e) for b in BOOKS for e in _entries(b)]:
         scored = json.loads(score_path.read_text()) if score_path.exists() else None
         results = {r["id"]: r for r in (scored or {}).get("results", [])}
+        outcome_path = JOURNAL / OUTCOMES[book] / score_path.name
+        if outcome_path.exists():
+            outcomes = {r["id"]: r for r in json.loads(outcome_path.read_text())["results"]}
+        else:
+            live = load(sorted({s for i in entry["ideas"] for s in _legs(i)} | {"SPY"}))
+            trade_date = date.fromisoformat(entry["trade_date"])
+            outcomes = {i["id"]: _outcome(i, trade_date, live) for i in entry["ideas"]} if not live.empty else {}
         prices = (marks or {}).get("prices", {})
         for idea in entry["ideas"]:
             check = checks.get(idea["id"], {})
@@ -537,6 +718,17 @@ def ledger(marks: dict | None = None) -> list[dict]:
                            long_bps=long_bps, short_bps=short_bps, spy_bps=bps["SPY"],
                            marked_at=datetime.fromtimestamp(marks["at"], NY).isoformat())
             row["hit"] = None if row["oc_bps"] is None else row["oc_bps"] > 0
+            reasoning = idea.get("reasoning") or {}
+            o = outcomes.get(idea["id"]) or {}
+            row.update(
+                setup=idea.get("setup", ""), horizon_days=idea.get("horizon_days", 1), stop=stop_text(idea),
+                skip_if_open=" or ".join(f"opens {rule_text(r)}" for r in idea.get("skip_if_open", [])),
+                **{f"why_{k}": reasoning.get(k, "") for k in REASONING},
+                outcome_status={"open": "Open", "stopped": "Stopped", "time": "Time limit", "skipped": "Skipped"}.get(
+                    o.get("status"), "Missing bars" if o.get("missing_bars") else None),
+                outcome_bps=o.get("bps"), outcome_spy_bps=o.get("spy_bps"), outcome_note=o.get("note", ""),
+                exit_date=o.get("exit_date"), sessions_held=o.get("sessions"), best_bps=o.get("best_bps"),
+                worst_bps=o.get("worst_bps"), outcome_final=outcome_path.exists())
             rows.append(row)
     return sorted(rows, key=lambda r: (r["trade_date"], r["book"] != "Nightly", r["id"]))
 

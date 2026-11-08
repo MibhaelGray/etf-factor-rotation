@@ -20,6 +20,7 @@ Yahoo is unofficial and can miss a split on its first day. `fr bars` repairs tha
 | `fr earnings` | collector | in the nightly job | `journal/reference/earnings.json`: earnings dates for every basket member and the largest stocks, from Yahoo Finance |
 | `fr gaps` | collector | in the nightly job | `journal/reference/earnings_gaps.json`: what stocks did after earnings gaps, against SPY |
 | `fr scan` | collector | in the nightly job | `journal/scans/<as_of>.json`: tonight's stock and basket candidates |
+| `fr screen` | collector | in the nightly job | `journal/screens/<as_of>.json`: every stock, ETF, basket and factor pair checked against the setups in `journal.SETUPS`; the best 20 with what triggered each and a one-line chart verdict. Where a research pass looks |
 | `fr record` | Mac | ~19:30 | `journal/ideas/`, committed and pushed |
 | `fr check` | Mac | 08:30–09:25 | `journal/checks/`: the pre-open stands / stand-down decision per idea; refused after the open |
 | `fr morning` | Mac | after the check, before 09:30 | `journal/morning/ideas/`: the morning book, 1–2 new ideas from the overnight session, scored apart from the nightly book; refused after the open |
@@ -86,10 +87,18 @@ Draft format:
   {"long": "MTUM", "short": "USMV", "factor": "momentum", "confidence": 4,
    "thesis": "...", "invalidation": "...", "key_signals": ["..."],
    "stand_down_if": ["MTUM gaps more than 1 ATR above USMV pre-market", "..."],
-   "drivers": ["stretched_pair", "positioning"]}]}
+   "drivers": ["stretched_pair", "positioning"],
+   "setup": "factor_turn", "horizon_days": 3,
+   "stop": {"rules": [{"symbol": "MTUM", "below": 230.0}], "spread_pct": -3},
+   "skip_if_open": [{"symbol": "MTUM", "above": 245.0}],
+   "reasoning": {"what_changed": "...", "story": "...", "chart": "...", "coming": "...", "case_against": "..."}}]}
 ```
 
-Each idea is entered at the next open and exited at the close; close-to-close is recorded alongside. A pair is dollar-neutral; an outright `long` or `short` (leave the other side out) carries the market's move. A leg can be any US-listed stock or ETF, not only the standard universe: names outside it are checked with the IBKR connector before recording (a US listing and about $20M a day of volume) and have their bars pulled before scoring, as basket members do. Indexes such as SPX or VIX can't be legs.
+Each idea is entered at the next open. Two results are kept:
+- **The score** (`journal/scores/`): the first session, open to close, with close-to-close alongside. Every idea is compared this way.
+- **The outcome** (`journal/outcomes/`): the whole plan. The idea is skipped if a `skip_if_open` level is met at the open, exits at the close of the first session where a `stop` rule is met (stops are checked on closes), and otherwise exits at the close of its last session (`horizon_days`, 1–5). The file is written once every idea of the session has finished.
+
+`setup` names the screen setup the idea came from (`journal.SETUPS`), and `reasoning` holds the five steps behind it: what changed, the story, the chart, what's coming and the case against. `fr record` refuses a new idea without them; ideas recorded before November 9, 2026 count as one session with no stop. A pair is dollar-neutral; an outright `long` or `short` (leave the other side out) carries the market's move. A leg can be any US-listed stock or ETF, not only the standard universe: names outside it are checked with the IBKR connector before recording (a US listing and about $20M a day of volume) and have their bars pulled before scoring, as basket members do. Indexes such as SPX or VIX can't be legs.
 
 Either side can instead be a themed basket of 3–10 stocks in equal weight, named by `long_label` or `short_label`:
 

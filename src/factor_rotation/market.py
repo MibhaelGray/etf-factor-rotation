@@ -303,4 +303,16 @@ def build(as_of: date) -> list[dict]:
     pairs = _live_pairs(brief, as_of)
     meta["factor_live"] = pairs is not brief
     return [meta, *_factors(pairs, _idea_legs(as_of)), *_regime(as_of), *_gamma(as_of, brief),
-            *_flows(brief), *_baskets(), *_earnings(_latest_session())]
+            *_flows(brief), *_baskets(), *_earnings(_latest_session()), *_screen()]
+
+
+def _screen() -> list[dict]:
+    """The latest screen's shortlist (`fr screen`), one row per candidate."""
+    paths = sorted((journal.JOURNAL / "screens").glob("*.json"))
+    if not paths:
+        return []
+    s = json.loads(paths[-1].read_text())
+    return [{"section": "screen", "rank": i, "as_of": s["as_of"], "built_at": s["built_at"], "name": c["name"],
+             "kind": c["kind"], "setup": c["setup"], "direction": c["direction"], "score": c["score"], "why": c["why"],
+             "chart": c["chart"], "hedge": c.get("hedge"), "basket_id": c.get("basket_id")}
+            for i, c in enumerate(s["candidates"], 1)]

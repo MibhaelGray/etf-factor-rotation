@@ -38,8 +38,9 @@ case "$1" in
     uv run fr brief
     uv run fr gaps || echo "earnings gap table failed; keeping the last one" >&2
     uv run fr scan || echo "stock scan failed; run it by hand tonight" >&2
+    uv run fr screen || echo "screen failed; run it by hand tonight" >&2
     written=()
-    for d in journal/scores journal/morning/scores journal/briefs journal/intraday journal/scans journal/reference/earnings.json journal/reference/earnings_gaps.json; do [ -e "$d" ] && written+=("$d"); done
+    for d in journal/scores journal/morning/scores journal/outcomes journal/morning/outcomes journal/briefs journal/intraday journal/scans journal/screens journal/reference/earnings.json journal/reference/earnings_gaps.json; do [ -e "$d" ] && written+=("$d"); done
     git add -- "${written[@]}"
     git diff --cached --quiet -- "${written[@]}" ||
       git commit --quiet -m "Journal $(TZ=America/New_York date +%F): scores and brief" -- "${written[@]}"

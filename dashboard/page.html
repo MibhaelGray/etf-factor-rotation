@@ -261,6 +261,12 @@
       </div>
     </div>
 
+    <div class="fr-panel">
+      <div class="fr-phead"><h3>Screen shortlist</h3><span class="fr-sub" data-draw="screen-time" data-source="mkt_screen">—</span>
+        <p>Where the next research pass looks: every name, basket and factor pair checked against the setups, best first. The screen only points; the pass decides.</p></div>
+      <div class="fr-tablewrap" data-draw="screen-list" data-source="mkt_screen"></div>
+    </div>
+
     <div class="fr-grid2">
       <div class="fr-panel">
         <div class="fr-phead"><h3>Basket movers</h3><button type="button" class="fr-link" data-view-to="baskets">All 23 baskets</button>
@@ -294,7 +300,7 @@
         <table class="fr-table" data-source="ledger" data-row-key="id">
           <thead><tr>
             <th scope="col">Session</th><th scope="col">Idea</th><th scope="col" class="fr-hide-narrow">Book</th>
-            <th scope="col" class="fr-hide-narrow">Confidence</th><th scope="col">Status</th><th scope="col" class="fr-hide-narrow"></th><th scope="col" class="num">Result</th>
+            <th scope="col" class="fr-hide-narrow">Confidence</th><th scope="col">Status</th><th scope="col" class="fr-hide-narrow"></th><th scope="col" class="num">First session</th><th scope="col" class="num fr-hide-narrow">Whole trade</th>
           </tr></thead>
           <tbody data-draw="ledger-rows" data-source="ledger"></tbody>
         </table>
@@ -335,6 +341,10 @@
       <div class="fr-panel">
         <div class="fr-phead"><h3>ETFs, stocks and baskets</h3><p>Average result by what the idea trades. A pair with a stock leg counts as a stock.</p></div>
         <div class="fr-chart is-short" data-draw="type-chart" data-source="by_type"></div>
+      </div>
+      <div class="fr-panel">
+        <div class="fr-phead"><h3>Results by setup</h3><p>Average whole-trade result by the screen setup each idea came from, both books. Setups that keep losing get dropped or tightened.</p></div>
+        <div class="fr-chart is-short" data-draw="setup-chart" data-source="by_setup"></div>
       </div>
     </div>
 
@@ -471,6 +481,9 @@
   const chip = (text, cls) => h('span', `fr-chip${cls ? ` ${cls}` : ''}`, text);
   // One status per idea: where it stands now.
   const statusChip = (r) => {
+    if (r.outcome_status === 'Skipped') return chip('Skipped at open');
+    if (r.outcome_status === 'Stopped') return chip(`Stopped, session ${r.sessions_held}`, 'is-bad');
+    if (r.outcome_status === 'Open' && (r.horizon_days || 1) > 1) return chip(`Open · session ${r.sessions_held} of ${r.horizon_days}`, 'is-warn');
     if (r.oc_bps == null) {
       if (r.check === 'Stood down') return chip('Stood down', 'is-bad');
       if (r.check === 'Stands') return chip('Stands, waiting', 'is-fg');
@@ -667,12 +680,27 @@
     },
   });
 
+  dash.calc('by_setup', {
+    inputs: ['ledger'],
+    title: 'Results by setup',
+    description: 'Ideas, average whole-trade return and hit rate for each screen setup, for ideas recorded with one and finished.',
+    fn: (ledger) => {
+      const done = ledger.filter((r) => r.setup && r.outcome_bps != null && r.outcome_status !== 'Open' && r.outcome_status !== 'Skipped');
+      return [...new Set(done.map((r) => r.setup))].map((setup) => {
+        const rs = done.filter((r) => r.setup === setup);
+        return { setup, ideas: rs.length, mean_bps: Math.round(rs.reduce((s, r) => s + r.outcome_bps, 0) / rs.length * 10) / 10, hit_rate: rs.filter((r) => r.outcome_bps > 0).length / rs.length };
+      }).sort((a, b) => b.mean_bps - a.mean_bps);
+    },
+  });
+
   dash.calc('mkt_basket', { inputs: ['market'], title: 'Themed baskets', description: 'Each themed basket against its hedge: today’s move and, when every member has bars, its 5- and 20-day spread and z-score.',
     fn: (market) => market.filter((r) => r.section === 'basket').sort((a, b) => Math.abs(b.spread_today_pct ?? 0) - Math.abs(a.spread_today_pct ?? 0)) });
   dash.calc('mkt_basket_member', { inputs: ['market'], title: 'Basket members', description: 'Each basket member: why it belongs, liquidity, today’s move and its 5- and 20-day moves.',
     fn: (market) => market.filter((r) => r.section === 'basket_member') });
   dash.calc('mkt_earnings', { inputs: ['market'], title: 'Earnings radar', description: 'Reports in the next ten sessions and the last five, with dates from Yahoo Finance and price reactions from daily bars.',
     fn: (market) => market.filter((r) => r.section === 'earnings') });
+  dash.calc('mkt_screen', { inputs: ['market'], title: 'Screen shortlist', description: 'The latest screen’s candidates: setup, direction, score, what triggered it and a one-line chart verdict.',
+    fn: (market) => market.filter((r) => r.section === 'screen').sort((a, b) => a.rank - b.rank) });
   dash.calc('mkt_meta', { inputs: ['market'], title: 'Brief details', description: 'The session and build time behind tonight’s market rows.',
     fn: (market) => market.filter((r) => r.section === 'meta') });
   dash.calc('mkt_factor', { inputs: ['market'], title: 'Factor pairs', description: 'Each factor pair’s returns, z-scores and RSI from the brief, most stretched first.',
@@ -847,6 +875,25 @@
       nextHead.append(h('b', null, 'Next open'), h('span', 'fr-sub', 'Nothing recorded yet'));
       out.push(nextHead, h('p', 'fr-empty', 'No ideas are waiting for the next open. Tonight’s research adds them after 7:00 PM ET.'));
     }
+    // Multi-session ideas still inside their time limit.
+    const open = d.data.filter((r) => r.outcome_status === 'Open' && r.oc_bps != null && (r.horizon_days || 1) > 1);
+    if (open.length) {
+      const list = h('div', 'fr-sublist');
+      const head = h('div', 'fr-subhead');
+      head.append(h('b', null, 'Open trades'), h('span', 'fr-sub', 'Inside their time limit, through the last close'));
+      list.append(head);
+      const omx = Math.max(1, ...open.map((r) => Math.abs(r.outcome_bps || 0)));
+      open.forEach((r) => {
+        const row = h('button', 'fr-result');
+        row.type = 'button';
+        const who = h('div');
+        who.append(h('span', 'fr-legs', legsOf(r)), h('span', 'fr-kicker', ` session ${r.sessions_held} of ${r.horizon_days} · stop if ${r.stop || '—'}`));
+        row.append(who, zbar(r.outcome_bps, omx), h('span', `fr-amt ${tone(r.outcome_bps)}`, fmtBp(r.outcome_bps)));
+        row.addEventListener('click', () => goIdea(r.id));
+        list.append(row);
+      });
+      out.push(list);
+    }
     const lastDate = lastMarked(d.data);
     const rs = d.data.filter((r) => r.trade_date === lastDate && r.oc_bps != null).sort((a, b) => b.oc_bps - a.oc_bps);
     if (rs.length) {
@@ -953,6 +1000,46 @@
     el.textContent = `${items.length} item${items.length === 1 ? '' : 's'}${urgent ? `, ${urgent} for today` : ''}`;
   });
 
+  dash.draw('screen-time', (el) => {
+    const rows = okData('mkt_screen') || [];
+    el.textContent = rows.length ? `Built from the ${day(rows[0].as_of, '%a %b %-d')} close · ${rows.length} candidates` : '';
+  });
+  let screenAll = false;
+  const drawScreen = (el) => {
+    const d = ready(el, 'mkt_screen', true);
+    if (!d) return;
+    if (!d.data.length) { el.replaceChildren(h('p', 'fr-empty', 'No screen yet. Run uv run fr screen after the close.')); return; }
+    const rows = screenAll ? d.data : d.data.slice(0, 10);
+    const table = h('table', 'fr-table');
+    const head = h('tr');
+    [['Name'], ['Setup'], ['Side', 'fr-hide-narrow'], ['What triggered it'], ['Chart', 'fr-hide-narrow']].forEach(([t, c]) => { const th = h('th', c || null, t); th.scope = 'col'; head.append(th); });
+    const thead = h('thead'); thead.append(head);
+    const tbody = h('tbody');
+    rows.forEach((r) => {
+      const tr = h('tr');
+      const name = h('td');
+      if (r.kind === 'basket') { const b = h('button', 'fr-sym', r.name); b.type = 'button'; b.addEventListener('click', () => goBasket(r.basket_id)); name.append(b); }
+      else if (r.kind === 'factor') name.append(h('b', null, r.name));
+      else name.append(symBtn(r.name));
+      if (r.hedge && r.kind !== 'factor') name.append(h('small', 'fr-muted', ` vs ${r.hedge}`));
+      const setup = h('td'); setup.append(chip(human(r.setup), r.setup.startsWith('earnings') ? 'is-fg' : null));
+      tr.append(name, setup, h('td', `fr-hide-narrow ${r.direction === 'long' ? 'fr-pos' : 'fr-neg'}`, human(r.direction)),
+        h('td', 'why', r.why), h('td', 'why fr-hide-narrow', r.chart));
+      tbody.append(tr);
+    });
+    table.append(thead, tbody);
+    const out = [table];
+    if (d.data.length > 10) {
+      const more = h('button', 'fr-link', screenAll ? 'Show the top 10' : `Show all ${d.data.length}`);
+      more.type = 'button';
+      more.style.marginTop = 'var(--cds-pad-sm)';
+      more.addEventListener('click', () => { screenAll = !screenAll; drawScreen(el); });
+      out.push(more);
+    }
+    el.replaceChildren(...out);
+  };
+  dash.draw('screen-list', drawScreen);
+
   dash.draw('movers', (el) => {
     const d = ready(el, 'mkt_basket', true);
     if (!d) return;
@@ -1020,10 +1107,23 @@
       if (r.long !== 'SPY' && r.short !== 'SPY') legs.push(`SPY ${fmtBp(r.spy_bps)}`);
       box.append(block('Legs, open to close', legs.join(' · ')));
     }
+    if (r.outcome_status && r.outcome_status !== 'Missing bars') {
+      const done = r.outcome_status !== 'Open';
+      box.append(block(done ? 'Whole trade' : 'Whole trade so far', r.outcome_bps == null ? r.outcome_note
+        : `${fmtBp(r.outcome_bps)} against SPY ${fmtBp(r.outcome_spy_bps)} over ${r.sessions_held} session${r.sessions_held === 1 ? '' : 's'}`
+          + ` · best ${fmtBp(r.best_bps)}, worst ${fmtBp(r.worst_bps)}${r.outcome_note ? `. ${r.outcome_note}` : ''}`));
+    }
     if (basketText(r)) box.append(block('Baskets, equal weight', basketText(r)));
     box.append(block(isNightly(r) ? 'Pre-open check' : 'Morning idea, reacts to', checkText(r)));
+    if (r.setup) {
+      box.append(block('Plan', [`Setup: ${human(r.setup)}`, `time limit ${r.horizon_days} session${r.horizon_days === 1 ? '' : 's'}`,
+        r.stop && `stop if ${r.stop}`, r.skip_if_open && `skip if it ${r.skip_if_open}`].filter(Boolean).join(' · ')));
+    }
     box.append(block('Wrong if', r.invalidation || '—'));
     if (r.drivers) box.append(block('Rested on', r.drivers.split(',').map(human).join(', ')));
+    // The five steps behind ideas recorded from November 2026 on.
+    [['why_what_changed', 'What changed'], ['why_story', 'The story'], ['why_chart', 'The chart'], ['why_coming', 'What’s coming'],
+      ['why_case_against', 'Case against']].forEach(([k, label]) => { if (r[k]) box.append(block(label, r[k], true)); });
     box.append(block('Thesis', r.thesis || '—', true));
     if (isNightly(r) && r.oc_bps == null) box.append(block('Stand down before the open if', r.stand_down_if || '—', true));
     return box;
@@ -1036,7 +1136,7 @@
       .filter((r) => ui.filter === 'all' || (ui.filter === 'waiting' ? next.has(r.id) : (r.book || 'Nightly') === ui.filter))
       .sort((a, b) => b.trade_date.localeCompare(a.trade_date) || a.id.localeCompare(b.id));
     const mx = Math.max(1, ...d.data.filter((r) => r.oc_bps != null).map((r) => Math.abs(r.oc_bps)));
-    if (!rows.length) { const tr = h('tr'); const td = h('td', 'fr-empty', 'No ideas match.'); td.colSpan = 7; tr.append(td); tb.replaceChildren(tr); return; }
+    if (!rows.length) { const tr = h('tr'); const td = h('td', 'fr-empty', 'No ideas match.'); td.colSpan = 8; tr.append(td); tb.replaceChildren(tr); return; }
     tb.replaceChildren(...rows.flatMap((r) => {
       const open = ui.openIdeas.has(r.id);
       const tr = h('tr', `is-row${open ? ' is-open' : ''}`);
@@ -1049,11 +1149,12 @@
       const confTd = h('td', 'fr-hide-narrow'); confTd.append(pips(r.confidence));
       const stTd = h('td'); stTd.append(statusChip(r));
       const barTd = h('td', 'bar fr-hide-narrow'); if (r.oc_bps != null) barTd.append(zbar(r.oc_bps, mx));
-      tr.append(h('td', 'fr-num', day(r.trade_date, '%a %b %-d')), ideaTd, h('td', 'fr-hide-narrow', r.book || 'Nightly'), confTd, stTd, barTd, h('td', `num fr-amt ${tone(r.oc_bps)}`, fmtBp(r.oc_bps)));
+      const whole = h('td', `num fr-hide-narrow ${tone(r.outcome_bps)}`, r.outcome_bps == null ? '—' : `${fmtBp(r.outcome_bps)}${r.outcome_status === 'Open' ? ' so far' : ''}`);
+      tr.append(h('td', 'fr-num', day(r.trade_date, '%a %b %-d')), ideaTd, h('td', 'fr-hide-narrow', r.book || 'Nightly'), confTd, stTd, barTd, h('td', `num fr-amt ${tone(r.oc_bps)}`, fmtBp(r.oc_bps)), whole);
       tr.addEventListener('click', (ev) => { if (ev.target.closest('[data-chart]')) return; if (open) ui.openIdeas.delete(r.id); else ui.openIdeas.add(r.id); drawLedger(tb); });
       if (!open) return [tr];
       const dt = h('tr', 'fr-detail');
-      const td = h('td'); td.colSpan = 7; td.append(ideaDetail(r)); dt.append(td);
+      const td = h('td'); td.colSpan = 8; td.append(ideaDetail(r)); dt.append(td);
       return [tr, dt];
     }));
   };
@@ -1128,6 +1229,13 @@
   });
   dash.draw('calib-chart', (el) => { const d = ready(el, 'by_conf', true); if (d) resultBars(el, d.data, (r) => `Confidence ${r.confidence}`); });
   dash.draw('type-chart', (el) => { const d = ready(el, 'by_type', true); if (d) resultBars(el, d.data, (r) => r.type); });
+  dash.draw('setup-chart', (el) => {
+    const d = ready(el, 'by_setup', true);
+    if (!d) return;
+    if (!d.data.length) { el.replaceChildren(h('p', 'fr-empty', 'Ideas carry a setup from now on; results show here as they finish.')); return; }
+    resultBars(el, d.data, (r) => human(r.setup));
+  });
+
   dash.draw('driver-chart', (el) => {
     const d = ready(el, 'by_driver', true);
     if (!d) return;

@@ -1,0 +1,1064 @@
+{
+ "as_of": "2026-11-06",
+ "built_at": "2026-11-07T18:45:02-05:00",
+ "bars_settled": true,
+ "next_session": "2026-11-09",
+ "screened": 245,
+ "hits_by_setup": {
+  "earnings_gap_held": 4,
+  "earnings_gap_faded": 6,
+  "basket_big_move": 5,
+  "basket_breakout": 2,
+  "breakout": 2,
+  "factor_turn": 5,
+  "stretched": 22,
+  "basket_stretched": 5,
+  "factor_stretched": 6
+ },
+ "spy_ret_1d": 0.00312,
+ "candidates": [
+  {
+   "name": "ABNB",
+   "kind": "stock",
+   "setup": "earnings_gap_held",
+   "direction": "long",
+   "strength": 3.74,
+   "why": "reported 2026-11-05 after close, reacted today: gap +12.4% (+3.7 ATR), day +11.7%, +11.7% against XLY, volume 3.4x, EPS surprise +11%; closed in the top third and still above the middle of that day's range (188.28)",
+   "hedge": "XLY",
+   "baskets": [
+    "Airlines, cruises and bookings"
+   ],
+   "chart": "uptrend: above the 50 and 200-day; +2.7 ATR from the 20-day, RSI 66; volume 3.4x; resistance 193.45 (52-week high, +1.8%); support 180.06 (20-day high, -5.2%); ATR 6.81 (3.6%)",
+   "numbers": {
+    "close": 189.99001,
+    "ret_1d": 0.11673,
+    "ret_5d": 0.15573,
+    "ret_20d": 0.14542,
+    "atr": 6.80907,
+    "atr_pct": 0.03584,
+    "rsi": 66.21446,
+    "dist20_atr": 2.72067,
+    "vol_ratio": 3.3598,
+    "sma50": 169.069,
+    "sma200": 147.778,
+    "hi52": 193.453,
+    "lo52": 110.81,
+    "usd_volume": 596308637.54425
+   },
+   "next_earnings": null,
+   "also": [
+    "breakout (long)"
+   ],
+   "score": 3.624
+  },
+  {
+   "name": "CVS",
+   "kind": "stock",
+   "setup": "earnings_gap_faded",
+   "direction": "short",
+   "strength": 6.17,
+   "why": "reported 2026-11-04 before open, reacted 2 sessions ago: gap -6.7% (-2.6 ATR), day -12.5%, -15.6% against XLV, volume 4.0x, EPS surprise +27%; beat estimates and still fell against XLV (good news sold)",
+   "hedge": "XLV",
+   "baskets": [
+    "Managed care"
+   ],
+   "chart": "downtrend: below the 50 and 200-day; -1.8 ATR from the 20-day, RSI 40; volume 1.5x; resistance 87.77 (200-day, +4.7%); support 77.33 (20-day low, -7.8%); ATR 3.23 (3.9%)",
+   "numbers": {
+    "close": 83.85,
+    "ret_1d": 0.03098,
+    "ret_5d": -0.07091,
+    "ret_20d": -0.01984,
+    "atr": 3.22894,
+    "atr_pct": 0.03851,
+    "rsi": 40.48792,
+    "dist20_atr": -1.80391,
+    "vol_ratio": 1.52254,
+    "sma50": 89.89072,
+    "sma200": 87.76849,
+    "hi52": 109.21723,
+    "lo52": 67.99392,
+    "usd_volume": 788205952.80838
+   },
+   "next_earnings": null,
+   "also": [],
+   "score": 3.6
+  },
+  {
+   "name": "ROK",
+   "kind": "stock",
+   "setup": "earnings_gap_held",
+   "direction": "short",
+   "strength": 3.35,
+   "why": "reported 2026-11-05 before open, reacted yesterday: gap -9.2% (-3.4 ATR), day -14.2%, -10.0% against XLI, volume 3.1x, EPS surprise +5%; closed in the bottom third and still below the middle of that day's range (395.47)",
+   "hedge": "XLI",
+   "baskets": [
+    "Robotics and automation"
+   ],
+   "chart": "downtrend: below the 50 and 200-day; -3.2 ATR from the 20-day, RSI 29; volume 2.2x; resistance 378.31 (20-day low, +0.7%); support 345.40 (52-week low, -8.1%); ATR 16.44 (4.4%)",
+   "numbers": {
+    "close": 375.85999,
+    "ret_1d": -0.01362,
+    "ret_5d": -0.13833,
+    "ret_20d": -0.13114,
+    "atr": 16.44038,
+    "atr_pct": 0.04374,
+    "rsi": 28.86213,
+    "dist20_atr": -3.19123,
+    "vol_ratio": 2.24768,
+    "sma50": 429.3932,
+    "sma200": 425.528,
+    "hi52": 495.83263,
+    "lo52": 345.39728,
+    "usd_volume": 359499075.92316
+   },
+   "next_earnings": {
+    "date": "2027-02-04",
+    "when": "before_open",
+    "sessions_away": 60
+   },
+   "also": [
+    "earnings_gap_faded (short)",
+    "breakdown (short)",
+    "stretched (long)"
+   ],
+   "score": 3.559
+  },
+  {
+   "name": "U",
+   "kind": "stock",
+   "setup": "earnings_gap_held",
+   "direction": "long",
+   "strength": 2.5,
+   "why": "reported 2026-11-05 before open, reacted yesterday: gap +13.2% (+2.5 ATR), day +14.9%, +15.5% against XLC, volume 5.2x, EPS surprise +28%; closed in the top third and still above the middle of that day's range (47.16)",
+   "hedge": "XLC",
+   "baskets": [
+    "Ad tech and mobile apps"
+   ],
+   "chart": "uptrend: above the 50 and 200-day; +3.5 ATR from the 20-day, RSI 72; volume 2.0x; resistance 52.15 (52-week high, +1.3%); support 49.49 (20-day high, -3.9%); ATR 2.69 (5.2%)",
+   "numbers": {
+    "close": 51.49,
+    "ret_1d": 0.05512,
+    "ret_5d": 0.36578,
+    "ret_20d": 0.09834,
+    "atr": 2.69334,
+    "atr_pct": 0.05231,
+    "rsi": 72.11272,
+    "dist20_atr": 3.51497,
+    "vol_ratio": 2.03491,
+    "sma50": 42.488,
+    "sma200": 31.70485,
+    "hi52": 52.15,
+    "lo52": 16.78,
+    "usd_volume": 347689017.42058
+   },
+   "next_earnings": null,
+   "also": [
+    "breakout (long)",
+    "stretched (short)"
+   ],
+   "score": 3.416
+  },
+  {
+   "name": "OUST",
+   "kind": "stock",
+   "setup": "earnings_gap_held",
+   "direction": "long",
+   "strength": 1.68,
+   "why": "reported 2026-11-03 after close, reacted 2 sessions ago: gap +14.8% (+1.7 ATR), day +15.7%, +16.8% against XLI, volume 2.4x, EPS surprise -95%; closed in the top third and still above the middle of that day's range (31.93)",
+   "hedge": "XLI",
+   "baskets": [
+    "Robotics and automation"
+   ],
+   "chart": "below the 50-day, above the 200-day; +1.2 ATR from the 20-day, RSI 53; volume 1.2x; resistance 35.36 (50-day, +1.6%); support 32.55 (200-day, -6.5%); ATR 2.98 (8.6%)",
+   "numbers": {
+    "close": 34.795,
+    "ret_1d": 0.14007,
+    "ret_5d": 0.16997,
+    "ret_20d": -0.12794,
+    "atr": 2.9843,
+    "atr_pct": 0.08577,
+    "rsi": 53.07914,
+    "dist20_atr": 1.19182,
+    "vol_ratio": 1.15061,
+    "sma50": 35.3635,
+    "sma200": 32.5466,
+    "hi52": 63.79,
+    "lo52": 16.4,
+    "usd_volume": 77460955.68914
+   },
+   "next_earnings": null,
+   "also": [
+    "earnings_gap_faded (long)"
+   ],
+   "score": 3.281
+  },
+  {
+   "name": "QCOM",
+   "kind": "stock",
+   "setup": "earnings_gap_faded",
+   "direction": "long",
+   "strength": 3.0,
+   "why": "reported 2026-11-04 after close, reacted yesterday: gap -13.4% (-3.0 ATR), day -9.5%, -5.1% against SPY, volume 3.5x, EPS surprise +0%; closed in the top third, against the gap",
+   "hedge": "SPY",
+   "baskets": [],
+   "chart": "downtrend: below the 50 and 200-day; -0.9 ATR from the 20-day, RSI 44; volume 1.5x; resistance 168.60 (200-day, +1.9%); support 148.25 (20-day low, -10.4%); ATR 9.08 (5.5%)",
+   "numbers": {
+    "close": 165.41,
+    "ret_1d": 0.05525,
+    "ret_5d": 0.00376,
+    "ret_20d": -0.05749,
+    "atr": 9.07806,
+    "atr_pct": 0.05488,
+    "rsi": 44.30863,
+    "dist20_atr": -0.88653,
+    "vol_ratio": 1.5269,
+    "sma50": 178.03273,
+    "sma200": 168.59852,
+    "hi52": 257.56175,
+    "lo52": 120.88318,
+    "usd_volume": 1908061558.23059
+   },
+   "next_earnings": {
+    "date": "2027-02-03",
+    "when": "after_close",
+    "sessions_away": 60
+   },
+   "also": [
+    "earnings_gap_faded (short)"
+   ],
+   "score": 3.099
+  },
+  {
+   "name": "NVO",
+   "kind": "stock",
+   "setup": "earnings_gap_faded",
+   "direction": "short",
+   "strength": 2.78,
+   "why": "reported 2026-11-04 before open, reacted 2 sessions ago: gap +5.6% (+2.8 ATR), day +5.0%, +1.9% against XLV, volume 2.5x, EPS surprise +25%; closed in the bottom third, against the gap",
+   "hedge": "XLV",
+   "baskets": [
+    "GLP-1 and obesity"
+   ],
+   "chart": "downtrend: below the 50 and 200-day; +0.9 ATR from the 20-day, RSI 53; volume 0.8x; resistance 40.58 (50-day, +0.7%); support 37.90 (20-day low, -6.0%); ATR 1.06 (2.6%)",
+   "numbers": {
+    "close": 40.31,
+    "ret_1d": 0.00025,
+    "ret_5d": 0.00775,
+    "ret_20d": 0.04322,
+    "atr": 1.05619,
+    "atr_pct": 0.0262,
+    "rsi": 52.8182,
+    "dist20_atr": 0.91935,
+    "vol_ratio": 0.82406,
+    "sma50": 40.5846,
+    "sma200": 42.95288,
+    "hi52": 61.10932,
+    "lo52": 34.1454,
+    "usd_volume": 371038128.15018
+   },
+   "next_earnings": {
+    "date": "2027-02-03",
+    "when": "before_open",
+    "sessions_away": 59
+   },
+   "also": [],
+   "score": 3.064
+  },
+  {
+   "name": "RDW",
+   "kind": "stock",
+   "setup": "earnings_gap_faded",
+   "direction": "short",
+   "strength": 1.92,
+   "why": "reported 2026-11-04 after close, reacted yesterday: gap -6.5% (-0.8 ATR), day -19.8%, -15.7% against XLI, volume 2.3x, EPS surprise +35%; beat estimates and still fell against XLI (good news sold)",
+   "hedge": "XLI",
+   "baskets": [
+    "Space"
+   ],
+   "chart": "downtrend: below the 50 and 200-day; -1.6 ATR from the 20-day, RSI 38; volume 1.2x; resistance 9.80 (50-day, +35.9%); support 6.06 (20-day low, -16.0%); ATR 0.73 (10.2%)",
+   "numbers": {
+    "close": 7.21,
+    "ret_1d": 0.16478,
+    "ret_5d": -0.14064,
+    "ret_20d": -0.24739,
+    "atr": 0.73248,
+    "atr_pct": 0.10159,
+    "rsi": 37.54542,
+    "dist20_atr": -1.55364,
+    "vol_ratio": 1.2214,
+    "sma50": 9.8012,
+    "sma200": 10.98975,
+    "hi52": 26.64,
+    "lo52": 4.87,
+    "usd_volume": 99541063.31387
+   },
+   "next_earnings": null,
+   "also": [
+    "turn (long)"
+   ],
+   "score": 2.919
+  },
+  {
+   "name": "UBER",
+   "kind": "stock",
+   "setup": "earnings_gap_faded",
+   "direction": "long",
+   "strength": 1.3,
+   "why": "reported 2026-11-04 before open, reacted 2 sessions ago: gap +2.5% (+1.0 ATR), day +4.9%, +3.3% against SPY, volume 2.2x, EPS surprise -72%; missed estimates and still rose against SPY (bad news bought)",
+   "hedge": "SPY",
+   "baskets": [],
+   "chart": "downtrend: below the 50 and 200-day; +0.2 ATR from the 20-day, RSI 50; volume 1.0x; resistance 70.14 (50-day, +2.3%); support 64.04 (52-week low, -6.6%); ATR 2.08 (3.0%)",
+   "numbers": {
+    "close": 68.59,
+    "ret_1d": -0.00276,
+    "ret_5d": 0.05119,
+    "ret_20d": -0.04083,
+    "atr": 2.07823,
+    "atr_pct": 0.0303,
+    "rsi": 50.30502,
+    "dist20_atr": 0.16985,
+    "vol_ratio": 0.98259,
+    "sma50": 70.1446,
+    "sma200": 72.9414,
+    "hi52": 95.44,
+    "lo52": 64.04,
+    "usd_volume": 1177847435.87799
+   },
+   "next_earnings": {
+    "date": "2027-02-03",
+    "when": "before_open",
+    "sessions_away": 59
+   },
+   "also": [],
+   "score": 2.816
+  },
+  {
+   "name": "CGNX",
+   "kind": "stock",
+   "setup": "earnings_gap_faded",
+   "direction": "short",
+   "strength": 1.12,
+   "why": "reported 2026-11-04 after close, reacted yesterday: gap -5.0% (-0.9 ATR), day -10.5%, -6.4% against XLI, volume 2.9x, EPS surprise +2%; beat estimates and still fell against XLI (good news sold)",
+   "hedge": "XLI",
+   "baskets": [
+    "Robotics and automation"
+   ],
+   "chart": "downtrend: below the 50 and 200-day; -2.6 ATR from the 20-day, RSI 32; volume 1.9x; resistance 58.09 (200-day, +21.6%); support 46.59 (20-day low, -2.5%); ATR 3.19 (6.7%)",
+   "numbers": {
+    "close": 47.78,
+    "ret_1d": 0.00589,
+    "ret_5d": -0.14907,
+    "ret_20d": -0.24062,
+    "atr": 3.19044,
+    "atr_pct": 0.06677,
+    "rsi": 31.94235,
+    "dist20_atr": -2.56313,
+    "vol_ratio": 1.85357,
+    "sma50": 59.0546,
+    "sma200": 58.09157,
+    "hi52": 72.77784,
+    "lo52": 34.45408,
+    "usd_volume": 86191427.49596
+   },
+   "next_earnings": null,
+   "also": [],
+   "score": 2.786
+  },
+  {
+   "name": "Quantum computing",
+   "basket_id": "quantum",
+   "kind": "basket",
+   "members": [
+    "IONQ",
+    "RGTI",
+    "QBTS",
+    "QUBT"
+   ],
+   "hedge": "QQQ",
+   "setup": "basket_big_move",
+   "direction": "long",
+   "strength": 4.4,
+   "why": "Quantum computing against QQQ: +16.9% today (+4.4 sd), 5-day +8.4%, 20-day -6.2%, z -0.7",
+   "chart": "0 of 4 members above their 50-day; best IONQ +23.4%, worst QUBT +12.4%; spread +4.4 sd today, z -0.7",
+   "numbers": {
+    "today": 0.1689,
+    "sd_20d": 0.03839,
+    "today_sd": 4.3992,
+    "ret_5d": 0.08363,
+    "ret_20d": -0.06192,
+    "z_50d": -0.66714,
+    "z_50d_prev": -1.74581,
+    "new_20d_high": false,
+    "new_20d_low": false
+   },
+   "members_reporting_within_5": [
+    "RGTI",
+    "QBTS",
+    "QUBT"
+   ],
+   "also": [],
+   "members_flagged": [
+    "QBTS: turn"
+   ],
+   "score": 2.533
+  },
+  {
+   "name": "Utility-scale solar",
+   "basket_id": "utility_solar",
+   "kind": "basket",
+   "members": [
+    "FSLR",
+    "NXT",
+    "SHLS"
+   ],
+   "hedge": "XLU",
+   "setup": "basket_breakout",
+   "direction": "long",
+   "strength": 1.7,
+   "why": "Utility-scale solar against XLU: +7.1% today (+1.7 sd), 5-day +30.1%, 20-day +12.3%, z +3.2; a 20-day high",
+   "chart": "3 of 3 members above their 50-day; best SHLS +12.1%, worst FSLR +2.7%; spread +1.7 sd today, z +3.2",
+   "numbers": {
+    "today": 0.07112,
+    "sd_20d": 0.04192,
+    "today_sd": 1.69643,
+    "ret_5d": 0.30087,
+    "ret_20d": 0.12298,
+    "z_50d": 3.15287,
+    "z_50d_prev": 2.00091,
+    "new_20d_high": true,
+    "new_20d_low": false
+   },
+   "members_reporting_within_5": [],
+   "also": [],
+   "members_flagged": [
+    "SHLS: breakout"
+   ],
+   "score": 2.483
+  },
+  {
+   "name": "Airlines, cruises and bookings",
+   "basket_id": "travel",
+   "kind": "basket",
+   "members": [
+    "DAL",
+    "UAL",
+    "RCL",
+    "CCL",
+    "NCLH",
+    "BKNG",
+    "ABNB"
+   ],
+   "hedge": "XLY",
+   "setup": "basket_breakout",
+   "direction": "long",
+   "strength": 1.53,
+   "why": "Airlines, cruises and bookings against XLY: +2.0% today (+1.5 sd), 5-day +5.7%, 20-day +6.1%, z +2.9; a 20-day high",
+   "chart": "6 of 7 members above their 50-day; best ABNB +11.7%, worst BKNG -4.8%; spread +1.5 sd today, z +2.9",
+   "numbers": {
+    "today": 0.02029,
+    "sd_20d": 0.01324,
+    "today_sd": 1.53224,
+    "ret_5d": 0.0573,
+    "ret_20d": 0.06064,
+    "z_50d": 2.89109,
+    "z_50d_prev": 2.21031,
+    "new_20d_high": true,
+    "new_20d_low": false
+   },
+   "members_reporting_within_5": [],
+   "also": [],
+   "members_flagged": [],
+   "score": 2.455
+  },
+  {
+   "name": "APP",
+   "kind": "stock",
+   "setup": "breakout",
+   "direction": "long",
+   "strength": 1.77,
+   "why": "closed at 391.22, above the 20-day high 365.33, on 2.3x volume (+9.9%, +1.8 ATR)",
+   "hedge": "XLC",
+   "baskets": [
+    "Ad tech and mobile apps"
+   ],
+   "chart": "above the 50-day, below the 200-day; +5.4 ATR from the 20-day, RSI 76; volume 2.3x; resistance 409.30 (200-day, +4.6%); support 365.33 (20-day high, -6.6%); ATR 21.95 (5.6%)",
+   "numbers": {
+    "close": 391.22,
+    "ret_1d": 0.09862,
+    "ret_5d": 0.71212,
+    "ret_20d": 0.41214,
+    "atr": 21.95146,
+    "atr_pct": 0.05611,
+    "rsi": 76.31176,
+    "dist20_atr": 5.41937,
+    "vol_ratio": 2.27242,
+    "sma50": 293.3552,
+    "sma200": 409.3041,
+    "hi52": 738.01001,
+    "lo52": 225.19,
+    "usd_volume": 1001670859.10492
+   },
+   "next_earnings": null,
+   "also": [
+    "stretched (short)"
+   ],
+   "score": 2.395
+  },
+  {
+   "name": "Nuclear fuel and new reactors",
+   "basket_id": "nuclear_new",
+   "kind": "basket",
+   "members": [
+    "OKLO",
+    "SMR",
+    "LEU",
+    "BWXT",
+    "CCJ"
+   ],
+   "hedge": "XLU",
+   "setup": "basket_big_move",
+   "direction": "long",
+   "strength": 3.52,
+   "why": "Nuclear fuel and new reactors against XLU: +13.3% today (+3.5 sd), 5-day -5.3%, 20-day -27.8%, z -1.6",
+   "chart": "0 of 5 members above their 50-day; best OKLO +22.7%, worst BWXT +4.0%; spread +3.5 sd today, z -1.6",
+   "numbers": {
+    "today": 0.13334,
+    "sd_20d": 0.03787,
+    "today_sd": 3.52072,
+    "ret_5d": -0.05252,
+    "ret_20d": -0.27754,
+    "z_50d": -1.60404,
+    "z_50d_prev": -2.22328,
+    "new_20d_high": false,
+    "new_20d_low": false
+   },
+   "members_reporting_within_5": [],
+   "also": [],
+   "members_flagged": [
+    "CCJ: turn",
+    "OKLO: turn",
+    "SMR: turn"
+   ],
+   "score": 2.387
+  },
+  {
+   "name": "Drones and defense tech",
+   "basket_id": "drones_defense_tech",
+   "kind": "basket",
+   "members": [
+    "AVAV",
+    "KTOS",
+    "RCAT",
+    "ONDS"
+   ],
+   "hedge": "XLI",
+   "setup": "basket_big_move",
+   "direction": "long",
+   "strength": 3.5,
+   "why": "Drones and defense tech against XLI: +12.9% today (+3.5 sd), 5-day -10.3%, 20-day -17.5%, z -1.6",
+   "chart": "0 of 4 members above their 50-day; best RCAT +18.6%, worst KTOS +5.1%; spread +3.5 sd today, z -1.6",
+   "numbers": {
+    "today": 0.12943,
+    "sd_20d": 0.03697,
+    "today_sd": 3.50112,
+    "ret_5d": -0.10313,
+    "ret_20d": -0.17475,
+    "z_50d": -1.61335,
+    "z_50d_prev": -2.44107,
+    "new_20d_high": false,
+    "new_20d_low": false
+   },
+   "members_reporting_within_5": [
+    "ONDS"
+   ],
+   "also": [],
+   "members_flagged": [
+    "ONDS: turn",
+    "RCAT: turn"
+   ],
+   "score": 2.384
+  },
+  {
+   "name": "Space",
+   "basket_id": "space",
+   "kind": "basket",
+   "members": [
+    "RKLB",
+    "ASTS",
+    "LUNR",
+    "PL",
+    "RDW"
+   ],
+   "hedge": "XLI",
+   "setup": "basket_big_move",
+   "direction": "long",
+   "strength": 3.19,
+   "why": "Space against XLI: +14.0% today (+3.2 sd), 5-day -6.4%, 20-day -22.6%, z -1.5",
+   "chart": "0 of 5 members above their 50-day; best LUNR +21.5%, worst ASTS +7.1%; spread +3.2 sd today, z -1.5",
+   "numbers": {
+    "today": 0.1403,
+    "sd_20d": 0.04402,
+    "today_sd": 3.18685,
+    "ret_5d": -0.06428,
+    "ret_20d": -0.22574,
+    "z_50d": -1.53898,
+    "z_50d_prev": -2.36382,
+    "new_20d_high": false,
+    "new_20d_low": false
+   },
+   "members_reporting_within_5": [
+    "RKLB",
+    "ASTS",
+    "LUNR"
+   ],
+   "also": [],
+   "members_flagged": [],
+   "score": 2.331
+  },
+  {
+   "name": "HUM",
+   "kind": "stock",
+   "setup": "breakout",
+   "direction": "long",
+   "strength": 1.37,
+   "why": "closed at 433.74, above the 52-week closing high 432.58, on 1.7x volume (+5.3%, +1.4 ATR)",
+   "hedge": "XLV",
+   "baskets": [
+    "Managed care"
+   ],
+   "chart": "uptrend: above the 50 and 200-day; +0.8 ATR from the 20-day, RSI 61; volume 1.7x; resistance 455.53 (20-day high, +5.0%); support 403.32 (50-day, -7.0%); ATR 17.20 (4.0%)",
+   "numbers": {
+    "close": 433.73999,
+    "ret_1d": 0.0533,
+    "ret_5d": 0.04642,
+    "ret_20d": 0.00646,
+    "atr": 17.19536,
+    "atr_pct": 0.03964,
+    "rsi": 61.44268,
+    "dist20_atr": 0.82177,
+    "vol_ratio": 1.6894,
+    "sma50": 403.32319,
+    "sma200": 310.84923,
+    "hi52": 455.53245,
+    "lo52": 161.56065,
+    "usd_volume": 566438593.98041
+   },
+   "next_earnings": null,
+   "also": [],
+   "score": 2.328
+  },
+  {
+   "name": "Texas power",
+   "basket_id": "texas_power",
+   "kind": "basket",
+   "members": [
+    "VST",
+    "NRG",
+    "CEG",
+    "CNP"
+   ],
+   "hedge": "XLU",
+   "setup": "basket_big_move",
+   "direction": "long",
+   "strength": 2.3,
+   "why": "Texas power against XLU: +6.9% today (+2.3 sd), 5-day -5.8%, 20-day -16.7%, z -2.2",
+   "chart": "1 of 4 members above their 50-day; best VST +10.6%, worst CNP +1.7%; spread +2.3 sd today, z -2.2",
+   "numbers": {
+    "today": 0.06938,
+    "sd_20d": 0.03022,
+    "today_sd": 2.29559,
+    "ret_5d": -0.05847,
+    "ret_20d": -0.1673,
+    "z_50d": -2.15037,
+    "z_50d_prev": -3.55022,
+    "new_20d_high": false,
+    "new_20d_low": false
+   },
+   "members_reporting_within_5": [
+    "NRG",
+    "CEG"
+   ],
+   "also": [],
+   "members_flagged": [
+    "VST: turn"
+   ],
+   "score": 2.183
+  },
+  {
+   "name": "IWF/IWD",
+   "factor": "growth_value",
+   "kind": "factor",
+   "long": "IWF",
+   "short": "IWD",
+   "setup": "factor_turn",
+   "direction": "long",
+   "strength": 2.95,
+   "why": "IWF/IWD (large-cap growth vs value): +1.6% today (+1.1 sd), 5-day -4.5%, 20-day -14.0%, z -2.4; was stretched at z -3.0 and turned",
+   "chart": "large-cap growth vs value; z -2.4 vs 50-day, 20-day -14.0%",
+   "numbers": {
+    "today": 0.01619,
+    "sd_20d": 0.01528,
+    "today_sd": 1.05995,
+    "ret_5d": -0.04507,
+    "ret_20d": -0.1395,
+    "z_50d": -2.38468,
+    "z_50d_prev": -2.95442,
+    "new_20d_high": false,
+    "new_20d_low": false
+   },
+   "also": [],
+   "score": 2.092
+  }
+ ],
+ "more": [
+  {
+   "name": "SPHB/SPLV",
+   "kind": "factor",
+   "setup": "factor_turn",
+   "direction": "long",
+   "score": 2.052,
+   "why": "SPHB/SPLV (high beta vs low volatility): +3.6% today (+1.1 sd), 5-day -7.0%, 20-day -22.3%, z -2.1; was stretched at z -2.7 and turned"
+  },
+  {
+   "name": "QQQ/RSP",
+   "kind": "factor",
+   "setup": "factor_turn",
+   "direction": "long",
+   "score": 2.036,
+   "why": "QQQ/RSP (Nasdaq-100 vs equal-weight S&P): +1.8% today (+1.1 sd), 5-day -3.9%, 20-day -13.9%, z -2.1; was stretched at z -2.6 and turned"
+  },
+  {
+   "name": "SMH/IGV",
+   "kind": "factor",
+   "setup": "factor_turn",
+   "direction": "long",
+   "score": 2.014,
+   "why": "SMH/IGV (semiconductors vs software): +3.8% today (+1.4 sd), 5-day -6.0%, 20-day -12.1%, z -1.8; was stretched at z -2.5 and turned"
+  },
+  {
+   "name": "IJR/IWM",
+   "kind": "factor",
+   "setup": "factor_turn",
+   "direction": "short",
+   "score": 1.988,
+   "why": "IJR/IWM (quality-screened small caps vs Russell 2000): -0.9% today (-1.9 sd), 5-day +0.1%, 20-day +1.9%, z +1.4; was stretched at z +2.3 and turned"
+  },
+  {
+   "name": "FTNT",
+   "kind": "stock",
+   "setup": "stretched",
+   "direction": "long",
+   "score": 1.268,
+   "why": "stretched down: RSI 23, -4.8 ATR from the 20-day, no turn yet"
+  },
+  {
+   "name": "NOW",
+   "kind": "stock",
+   "setup": "stretched",
+   "direction": "long",
+   "score": 1.243,
+   "why": "stretched down: RSI 28, -4.4 ATR from the 20-day, no turn yet"
+  },
+  {
+   "name": "CAT",
+   "kind": "stock",
+   "setup": "stretched",
+   "direction": "long",
+   "score": 1.236,
+   "why": "stretched down: RSI 21, -4.3 ATR from the 20-day, no turn yet"
+  },
+  {
+   "name": "INTC",
+   "kind": "stock",
+   "setup": "stretched",
+   "direction": "long",
+   "score": 1.234,
+   "why": "stretched down: RSI 26, -4.2 ATR from the 20-day, no turn yet"
+  },
+  {
+   "name": "RDDT",
+   "kind": "stock",
+   "setup": "stretched",
+   "direction": "long",
+   "score": 1.233,
+   "why": "stretched down: RSI 27, -4.2 ATR from the 20-day, no turn yet"
+  },
+  {
+   "name": "MTUM",
+   "kind": "etf",
+   "setup": "stretched",
+   "direction": "long",
+   "score": 1.231,
+   "why": "stretched down: RSI 27, -4.2 ATR from the 20-day, no turn yet"
+  },
+  {
+   "name": "Ad tech and mobile apps",
+   "kind": "basket",
+   "setup": "basket_stretched",
+   "direction": "short",
+   "score": 1.226,
+   "why": "Ad tech and mobile apps against XLC: +1.8% today (+0.7 sd), 5-day +12.9%, 20-day +6.1%, z +2.7; stretched, no turn yet"
+  },
+  {
+   "name": "Memory and storage",
+   "kind": "basket",
+   "setup": "basket_stretched",
+   "direction": "long",
+   "score": 1.225,
+   "why": "Memory and storage against SMH: -1.0% today (-0.4 sd), 5-day -13.1%, 20-day -17.0%, z -2.7; stretched, no turn yet"
+  },
+  {
+   "name": "TER",
+   "kind": "stock",
+   "setup": "stretched",
+   "direction": "long",
+   "score": 1.218,
+   "why": "stretched down: RSI 24, -3.9 ATR from the 20-day, no turn yet"
+  },
+  {
+   "name": "QUAL/SPY",
+   "kind": "factor",
+   "setup": "factor_stretched",
+   "direction": "short",
+   "score": 1.215,
+   "why": "QUAL/SPY (quality vs market): -0.2% today (-0.5 sd), 5-day +1.3%, 20-day +2.2%, z +2.6; stretched, no turn yet"
+  },
+  {
+   "name": "MCD",
+   "kind": "stock",
+   "setup": "stretched",
+   "direction": "short",
+   "score": 1.211,
+   "why": "stretched up: RSI 74, +3.8 ATR from the 20-day, no turn yet"
+  }
+ ],
+ "held_back": [
+  {
+   "name": "NRG",
+   "kind": "stock",
+   "setup": "turn",
+   "direction": "long",
+   "strength": 3.447428644638891,
+   "why": "was stretched down (RSI 28, -3.4 ATR from the 20-day) and turned: +9.6%, closed in the top quarter of the day",
+   "hedge": "XLU",
+   "baskets": [
+    "Texas power"
+   ],
+   "chart": "downtrend: below the 50 and 200-day; -1.5 ATR from the 20-day, RSI 40; volume 2.4x; resistance 101.58 (50-day, +15.1%); support 79.65 (52-week low, -9.8%); ATR 5.09 (5.8%)",
+   "numbers": {
+    "close": 88.29,
+    "ret_1d": 0.09609,
+    "ret_5d": -0.07632,
+    "ret_20d": -0.17821,
+    "atr": 5.09452,
+    "atr_pct": 0.0577,
+    "rsi": 40.46452,
+    "dist20_atr": -1.51144,
+    "vol_ratio": 2.42313,
+    "sma50": 101.57805,
+    "sma200": 132.55502,
+    "hi52": 187.77705,
+    "lo52": 79.65,
+    "usd_volume": 307848908.82378
+   },
+   "next_earnings": {
+    "date": "2026-11-09",
+    "when": "before_open",
+    "sessions_away": 1
+   },
+   "also": [],
+   "held_back": "reports 2026-11-09 before open, inside the next session"
+  }
+ ],
+ "earnings_ahead": [
+  {
+   "symbol": "BRK B",
+   "date": "2026-11-07",
+   "when": "after_close",
+   "sessions_away": 1,
+   "baskets": [],
+   "usd_volume": 2561852727
+  },
+  {
+   "symbol": "CEG",
+   "date": "2026-11-09",
+   "when": "before_open",
+   "sessions_away": 1,
+   "baskets": [
+    "Texas power"
+   ],
+   "usd_volume": 835015583
+  },
+  {
+   "symbol": "NRG",
+   "date": "2026-11-09",
+   "when": "before_open",
+   "sessions_away": 1,
+   "baskets": [
+    "Texas power"
+   ],
+   "usd_volume": 307848909
+  },
+  {
+   "symbol": "TECH",
+   "date": "2026-11-06",
+   "when": "after_close",
+   "sessions_away": 1,
+   "baskets": [
+    "Life science tools"
+   ],
+   "usd_volume": 189311998
+  },
+  {
+   "symbol": "RKLB",
+   "date": "2026-11-09",
+   "when": "after_close",
+   "sessions_away": 2,
+   "baskets": [
+    "Space"
+   ],
+   "usd_volume": 930880866
+  },
+  {
+   "symbol": "ASTS",
+   "date": "2026-11-09",
+   "when": "after_close",
+   "sessions_away": 2,
+   "baskets": [
+    "Space"
+   ],
+   "usd_volume": 613672893
+  },
+  {
+   "symbol": "OXY",
+   "date": "2026-11-09",
+   "when": "after_close",
+   "sessions_away": 2,
+   "baskets": [],
+   "usd_volume": 516809402
+  },
+  {
+   "symbol": "HIMS",
+   "date": "2026-11-09",
+   "when": "after_close",
+   "sessions_away": 2,
+   "baskets": [
+    "GLP-1 and obesity"
+   ],
+   "usd_volume": 282130813
+  },
+  {
+   "symbol": "TTD",
+   "date": "2026-11-09",
+   "when": "after_close",
+   "sessions_away": 2,
+   "baskets": [
+    "Ad tech and mobile apps"
+   ],
+   "usd_volume": 184511657
+  },
+  {
+   "symbol": "QBTS",
+   "date": "2026-11-10",
+   "when": "before_open",
+   "sessions_away": 2,
+   "baskets": [
+    "Quantum computing"
+   ],
+   "usd_volume": 157420474
+  },
+  {
+   "symbol": "QUBT",
+   "date": "2026-11-09",
+   "when": "after_close",
+   "sessions_away": 2,
+   "baskets": [
+    "Quantum computing"
+   ],
+   "usd_volume": 43116836
+  },
+  {
+   "symbol": "CRWV",
+   "date": "2026-11-10",
+   "when": "after_close",
+   "sessions_away": 3,
+   "baskets": [
+    "Neoclouds"
+   ],
+   "usd_volume": 3456592747
+  },
+  {
+   "symbol": "RGTI",
+   "date": "2026-11-10",
+   "when": "after_close",
+   "sessions_away": 3,
+   "baskets": [
+    "Quantum computing"
+   ],
+   "usd_volume": 151253041
+  },
+  {
+   "symbol": "NBIS",
+   "date": "2026-11-12",
+   "when": "before_open",
+   "sessions_away": 4,
+   "baskets": [
+    "Neoclouds"
+   ],
+   "usd_volume": 3580308290
+  },
+  {
+   "symbol": "ONDS",
+   "date": "2026-11-12",
+   "when": "before_open",
+   "sessions_away": 4,
+   "baskets": [
+    "Drones and defense tech"
+   ],
+   "usd_volume": 267783405
+  },
+  {
+   "symbol": "HBM",
+   "date": "2026-11-12",
+   "when": "before_open",
+   "sessions_away": 4,
+   "baskets": [
+    "Copper miners"
+   ],
+   "usd_volume": 105742737
+  },
+  {
+   "symbol": "LUNR",
+   "date": "2026-11-12",
+   "when": "before_open",
+   "sessions_away": 4,
+   "baskets": [
+    "Space"
+   ],
+   "usd_volume": 72634539
+  },
+  {
+   "symbol": "AMAT",
+   "date": "2026-11-12",
+   "when": "after_close",
+   "sessions_away": 5,
+   "baskets": [
+    "Chip equipment"
+   ],
+   "usd_volume": 2928425527
+  },
+  {
+   "symbol": "CSCO",
+   "date": "2026-11-12",
+   "when": "after_close",
+   "sessions_away": 5,
+   "baskets": [],
+   "usd_volume": 1803763587
+  }
+ ],
+ "calendar_ahead": [],
+ "regime": [
+  "Sector correlation moved from 0.16 to 0.29 in five sessions",
+  "VIX/VIX3M still inverted at 1.04"
+ ]
+}
