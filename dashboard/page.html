@@ -231,6 +231,7 @@
       <button type="button" data-view-to="market">Market</button>
       <button type="button" data-view-to="baskets">Baskets</button>
       <button type="button" data-view-to="earnings">Earnings</button>
+      <button type="button" data-view-to="paper">Paper</button>
       <button type="button" data-view-to="chart" hidden>Chart</button>
     </nav>
     <div class="fr-fresh">
@@ -423,6 +424,27 @@
     </div>
     <details class="fr-method"><summary>How the radar is built</summary>
       <p>Dates and EPS figures come from Yahoo Finance, and some dates are estimates until the company confirms them. Price reactions come from our daily bars: the gap is the open against the prior close, the day is close to close, and the hedge is the name's first basket's ETF, or SPY for a stock in no basket.</p>
+    </details>
+  </section>
+
+  <!-- PAPER -->
+  <section class="fr-view" id="paper" data-view="paper" hidden>
+    <div class="fr-viewhead"><h2>Paper trading</h2><p data-draw="paper-acct" data-source="mkt_paper_account">—</p></div>
+    <div class="fr-band" aria-label="Paper books" data-draw="paper-band" data-source="mkt_paper"></div>
+    <div class="fr-panel">
+      <div class="fr-phead"><h3>Every paper trade</h3>
+        <div class="fr-filters" role="group" aria-label="Show">
+          <button type="button" data-pfilter="all" aria-pressed="true">All</button>
+          <button type="button" data-pfilter="open" aria-pressed="false">Open</button>
+          <button type="button" data-pfilter="dynamic" aria-pressed="false">Dynamic</button>
+          <button type="button" data-pfilter="selective" aria-pressed="false">Selective</button>
+        </div>
+        <p>Newest first. Results are in bp of one side's $10,000, after commissions; open trades are marked at the last daily close. "Fills vs model" is the paper result minus the same shares scored from the first open to the last close on daily bars.</p></div>
+      <div class="fr-tablewrap" data-draw="paper-table" data-source="mkt_paper"></div>
+    </div>
+    <details class="fr-method"><summary>How the paper books work</summary>
+      <p>Two books trade on an IBKR paper account, never a live one. The selective book takes the recorded ideas with their own plan, minus any the pre-open check stood down. The dynamic book takes up to 10 of the screen's top candidates each session, mechanically: a stock against its sector or basket ETF, a basket against its hedge, a factor pair as it stands. Each setup has a default time limit (2 to 5 sessions) and a stop at 1.5 times the trade's typical daily move, between 2% and 8%. A name already in an open dynamic trade isn't taken again.</p>
+      <p>Entries go into the opening auction as market-on-open orders sent at 9:22 AM ET. At 3:45 PM ET every open trade is checked against its stop and time limit on current prices, and the ones leaving are sent as market-on-close orders. A pair whose other leg never filled leaves at that day's close. Caps: 60 open trades, $900,000 gross and $30,000 net in any one symbol, across both books.</p>
     </details>
   </section>
 
@@ -699,6 +721,10 @@
     fn: (market) => market.filter((r) => r.section === 'basket_member') });
   dash.calc('mkt_earnings', { inputs: ['market'], title: 'Earnings radar', description: 'Reports in the next ten sessions and the last five, with dates from Yahoo Finance and price reactions from daily bars.',
     fn: (market) => market.filter((r) => r.section === 'earnings') });
+  dash.calc('mkt_paper', { inputs: ['market'], title: 'Paper trades', description: 'Every paper trade on the IBKR paper account: book, plan, state, result after commissions and the difference from the daily-bar model.',
+    fn: (market) => market.filter((r) => r.section === 'paper').sort((a, b) => b.entry_date.localeCompare(a.entry_date) || a.id.localeCompare(b.id)) });
+  dash.calc('mkt_paper_account', { inputs: ['market'], title: 'Paper account', description: 'The paper account’s value and positions at the last sync.',
+    fn: (market) => market.filter((r) => r.section === 'paper_account') });
   dash.calc('mkt_screen', { inputs: ['market'], title: 'Screen shortlist', description: 'The latest screen’s candidates: setup, direction, score, what triggered it and a one-line chart verdict.',
     fn: (market) => market.filter((r) => r.section === 'screen').sort((a, b) => a.rank - b.rank) });
   dash.calc('mkt_meta', { inputs: ['market'], title: 'Brief details', description: 'The session and build time behind tonight’s market rows.',
@@ -718,7 +744,7 @@
     fn: (market) => market.filter((r) => r.section === 'trend') });
 
   // ---- Views --------------------------------------------------------------------------------------
-  const VIEWS = ['today', 'ideas', 'record', 'market', 'baskets', 'earnings', 'chart'];
+  const VIEWS = ['today', 'ideas', 'record', 'market', 'baskets', 'earnings', 'paper', 'chart'];
   const ALIAS = { top: 'today', next: 'today', last: 'ideas', ledger: 'ideas', factors: 'market' };
   const ui = { view: 'today', openIdeas: new Set(), openBaskets: new Set(), filter: 'all', basketSort: { key: 'spread_today_pct', dir: -1 } };
   const setView = (v, { link = true, scroll = true } = {}) => {
@@ -1039,6 +1065,75 @@
     el.replaceChildren(...out);
   };
   dash.draw('screen-list', drawScreen);
+
+  // ---- Paper ----------------------------------------------------------------------------------------
+  dash.draw('paper-acct', (el) => {
+    const a = (okData('mkt_paper_account') || [])[0];
+    el.textContent = a ? `Paper account ${a.net_liquidation == null ? '' : `${fmtUsd(a.net_liquidation)} `}at the ${day(a.session, '%a %b %-d')} sync · ${a.positions} positions${a.halted ? ` · HALTED: ${a.halted}` : ''}`
+      : 'No paper trades yet. The paper books start once the paper gateway is set up.';
+  });
+  dash.draw('paper-band', (el) => {
+    const rows = okData('mkt_paper');
+    if (!rows) { el.replaceChildren(); return; }
+    const cells = ['selective', 'dynamic'].map((book) => {
+      const rs = rows.filter((r) => r.book === book);
+      const closed = rs.filter((r) => r.state === 'closed');
+      const pnl = closed.reduce((s, r) => s + (r.pnl || 0), 0);
+      const slip = closed.filter((r) => r.slippage_bps != null);
+      const c = h('div', 'fr-stat');
+      c.append(h('p', 'fr-label', `${human(book)} book, closed`), h('div', `fr-val ${tone(pnl)}`, closed.length ? `${pnl < 0 ? '−' : ''}$${d3.format(',.0f')(Math.abs(pnl))}` : '—'),
+        h('p', 'fr-sub', closed.length ? `${closed.filter((r) => r.pnl > 0).length} of ${closed.length} won · average ${fmtBp(d3.mean(closed, (r) => r.bps))}` : 'Nothing closed yet'),
+        h('p', 'fr-sub', `${rs.filter((r) => r.state === 'open' || r.state === 'closing').length} open${slip.length ? ` · fills vs model ${fmtBp(d3.mean(slip, (r) => r.slippage_bps))}` : ''}`));
+      return c;
+    });
+    el.replaceChildren(...cells);
+  });
+  const PAPER_STATE = { planned: ['Order sent', 'is-fg'], open: ['Open', 'is-warn'], closing: ['Exit sent', 'is-warn'], unfilled: ['Never filled', 'is-bad'] };
+  const paperUi = { filter: 'all', open: new Set() };
+  const drawPaper = (el) => {
+    const d = ready(el, 'mkt_paper', true);
+    if (!d) return;
+    const f = paperUi.filter;
+    const rows = d.data.filter((r) => f === 'all' || (f === 'open' ? ['open', 'closing', 'planned'].includes(r.state) : r.book === f));
+    if (!rows.length) { el.replaceChildren(h('p', 'fr-empty', d.data.length ? 'No trades match.' : 'No paper trades yet.')); return; }
+    const mx = Math.max(1, ...d.data.filter((r) => r.bps != null).map((r) => Math.abs(r.bps)));
+    const table = h('table', 'fr-table');
+    const head = h('tr');
+    [['Entered'], ['Trade'], ['Book', 'fr-hide-narrow'], ['State'], ['', 'fr-hide-narrow'], ['Result', 'num'], ['Fills vs model', 'num fr-hide-narrow']].forEach(([t, c]) => { const th = h('th', c || null, t); th.scope = 'col'; head.append(th); });
+    const thead = h('thead'); thead.append(head);
+    const tbody = h('tbody');
+    rows.forEach((r) => {
+      const open = paperUi.open.has(r.id);
+      const tr = h('tr', `is-row${open ? ' is-open' : ''}`);
+      const tg = h('button', 'fr-toggle', r.name);
+      tg.type = 'button';
+      tg.setAttribute('aria-expanded', String(open));
+      tg.append(h('small', null, `${human(r.setup)} · ${r.direction}`));
+      const nameTd = h('td'); nameTd.append(tg);
+      const st = PAPER_STATE[r.state] || [r.pnl > 0 ? 'Won' : 'Lost', r.pnl > 0 ? 'is-ok' : 'is-bad'];
+      const stTd = h('td'); stTd.append(chip(st[0], st[1]));
+      const barTd = h('td', 'bar fr-hide-narrow'); if (r.bps != null) barTd.append(zbar(r.bps, mx));
+      tr.append(h('td', 'fr-num', day(r.entry_date, '%a %b %-d')), nameTd, h('td', 'fr-hide-narrow', human(r.book)), stTd, barTd,
+        h('td', `num fr-amt ${tone(r.bps)}`, fmtBp(r.bps)), h('td', `num fr-hide-narrow ${tone(r.slippage_bps)}`, fmtBp(r.slippage_bps)));
+      tr.addEventListener('click', () => { if (open) paperUi.open.delete(r.id); else paperUi.open.add(r.id); drawPaper(el); });
+      tbody.append(tr);
+      if (open) {
+        const box = h('div', 'fr-open');
+        box.append(block('Legs', r.legs), block('Plan', `${r.horizon_days} session${r.horizon_days === 1 ? '' : 's'} at most · stop if ${r.stop}`),
+          block('Result', r.pnl == null ? 'No fills yet' : `${r.pnl < 0 ? '−' : ''}$${d3.format(',.2f')(Math.abs(r.pnl))} after $${d3.format(',.2f')(r.commission)} of commissions${r.state === 'closed' ? '' : ', marked at the last close'}`),
+          block('Exit', r.reason ? `${day(r.exit_date, '%a %b %-d')} · ${r.reason}` : 'Still held'), block('From', r.source), block('Why', r.why || '—', true));
+        const dt = h('tr', 'fr-detail'); const td = h('td'); td.colSpan = 7; td.append(box); dt.append(td); tbody.append(dt);
+      }
+    });
+    table.append(thead, tbody);
+    el.replaceChildren(table);
+  };
+  dash.draw('paper-table', drawPaper);
+  document.querySelectorAll('[data-pfilter]').forEach((b) => b.addEventListener('click', () => {
+    paperUi.filter = b.dataset.pfilter;
+    document.querySelectorAll('[data-pfilter]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    drawPaper(document.querySelector('[data-draw=paper-table]'));
+  }));
 
   dash.draw('movers', (el) => {
     const d = ready(el, 'mkt_basket', true);

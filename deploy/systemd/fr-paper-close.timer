@@ -1,0 +1,10 @@
+[Unit]
+Description=factor-rotation: paper close
+
+[Timer]
+OnCalendar=Mon..Fri *-*-* 15:45:00 America/New_York
+Persistent=false
+Unit=fr@paper-close.service
+
+[Install]
+WantedBy=timers.target

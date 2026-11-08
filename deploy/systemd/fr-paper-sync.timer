@@ -1,0 +1,10 @@
+[Unit]
+Description=factor-rotation: paper sync
+
+[Timer]
+OnCalendar=Mon..Fri *-*-* 16:20:00 America/New_York
+Persistent=false
+Unit=fr@paper-sync.service
+
+[Install]
+WantedBy=timers.target

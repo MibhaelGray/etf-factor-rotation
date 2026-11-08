@@ -128,5 +128,5 @@ The nightly ideas can't react to what happens after the dossier is written: on 2
                "setup": "catalyst", "horizon_days": 1, "stop": {"spread_pct": -2.5},
                "reasoning": {"what_changed": "...", "story": "...", "chart": "...", "coming": "...", "case_against": "..."}}]}
    ```
-   On their OK, `uv run fr morning <draft>` before 09:30; it refuses after the open. Commit and push `journal/` when the user approves, before 19:00, so the collector's intraday pull and scoring include the morning legs.
+   On their OK, `uv run fr morning <draft>` before 09:30; it refuses after the open. The paper account trades the morning book too, but its entry orders go out at 9:22 AM ET, so record by 9:20 AM for a morning idea to be paper traded. Commit and push `journal/` when the user approves, before 19:00, so the collector's intraday pull and scoring include the morning legs.
 6. Refresh the dashboard (step 6). Morning ideas show with a "Morning idea" chip, and the track record keeps their running total apart from the nightly book.

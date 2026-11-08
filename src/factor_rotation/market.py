@@ -303,7 +303,7 @@ def build(as_of: date) -> list[dict]:
     pairs = _live_pairs(brief, as_of)
     meta["factor_live"] = pairs is not brief
     return [meta, *_factors(pairs, _idea_legs(as_of)), *_regime(as_of), *_gamma(as_of, brief),
-            *_flows(brief), *_baskets(), *_earnings(_latest_session()), *_screen()]
+            *_flows(brief), *_baskets(), *_earnings(_latest_session()), *_screen(), *_paper()]
 
 
 def _screen() -> list[dict]:
@@ -316,3 +316,19 @@ def _screen() -> list[dict]:
              "kind": c["kind"], "setup": c["setup"], "direction": c["direction"], "score": c["score"], "why": c["why"],
              "chart": c["chart"], "hedge": c.get("hedge"), "basket_id": c.get("basket_id")}
             for i, c in enumerate(s["candidates"], 1)]
+
+
+def _paper() -> list[dict]:
+    """Every paper trade (`fr paper`), one row each, plus the account's latest value."""
+    from .paper import book
+
+    if not book.ROOT.exists():
+        return []
+    rows = [{"section": "paper", **r} for r in book.rows()]
+    fills = sorted((book.ROOT / "fills").glob("*.json"))
+    if fills:
+        last = json.loads(fills[-1].read_text())
+        rows.append({"section": "paper_account", "session": last["session"], "pulled_at": last["pulled_at"],
+                     "net_liquidation": last.get("net_liquidation"), "positions": len(last.get("positions") or {}),
+                     "halted": book.HALT.read_text().strip() if book.HALT.exists() else None})
+    return rows

@@ -81,6 +81,10 @@ def main(argv: list[str] | None = None) -> None:
     c.add_argument("--marks", type=Path, help="intraday marks JSON for ideas not yet scored")
     c.add_argument("--out", type=Path, default=Path("ledger.json"))
 
+    c = sub.add_parser("paper", help="paper-trading jobs on the IBKR paper account (see paper/__init__.py)")
+    c.add_argument("job", choices=["open", "close", "sync", "status", "report", "halt", "resume"])
+    c.add_argument("--flatten", action="store_true", help="close: exit every open trade at today's close")
+    c.add_argument("--reason", default="", help="halt: why, kept in the HALT file")
     c = sub.add_parser("dashboard", help="build a local copy of the dashboard (dashboard/local.html) and open it")
     c.add_argument("--as-of", default=None, help="brief date for tonight's market rows (default: the latest brief)")
     c.add_argument("--marks", type=Path, help="intraday marks JSON for ideas not yet scored")
@@ -179,8 +183,67 @@ def main(argv: list[str] | None = None) -> None:
         print(f"{info['out']}  ideas={info['ideas']} market_rows={info['market_rows']} ({info['market']})")
         if not a.no_open:
             webbrowser.open(out.resolve().as_uri())
+    elif a.cmd == "paper":
+        _paper(a)
     elif a.cmd == "ledger":
         rows = journal.ledger(json.loads(a.marks.read_text()) if a.marks else None)
         a.out.write_text(json.dumps(rows, indent=1) + "\n")
         print(f"{a.out}  ideas={len(rows)} " + " ".join(
             f"{s.lower()}={sum(r['status'] == s for r in rows)}" for s in ("Final", "Intraday", "Open")))
+
+
+def _paper(a) -> None:
+    from .paper import book
+    from .paper.broker import IBPaper, PaperSettings
+
+    today = _today()
+    if a.job in ("open", "close", "sync") and not journal.is_trading_day(today):
+        logging.info("market_closed date=%s", today)
+        return
+    if a.job == "open":
+        plan = asyncio.run(book.open_session(today))
+        tag = " (dry run: set FR_PAPER_SEND=1 to send)" if plan["dry_run"] else ""
+        print(f"paper open {today}{tag}: {len(plan['trades'])} trades, {len(plan['orders'])} orders, {len(plan['skipped'])} skipped"
+              + (f"; HALTED: {plan['halted']}" if plan.get("halted") else ""))
+        for t in plan["trades"]:
+            print(f"  {t['id']:<28} {t['book']:<9} {t['name'][:34]:<34} {t['setup']:<20} {t['horizon_days']}d stop {journal.stop_text(t) or '-'}")
+        for o in plan["orders"]:
+            if o["status"] not in ("PreSubmitted", "Submitted", "dry run"):
+                print(f"  ! {o['trade_id']} {o['action']} {o['shares']} {o['symbol']}: {o['status']} {o.get('note', '')}")
+        for k in plan["skipped"]:
+            print(f"  skipped {k['name']}: {k['reason']}")
+    elif a.job == "close":
+        out = asyncio.run(book.close_session(today, flatten=a.flatten))
+        tag = " (dry run)" if out["dry_run"] else ""
+        print(f"paper close {today}{tag}: {len(out['exits'])} exits, {len(out['orders'])} orders")
+        for e in out["exits"]:
+            print(f"  {e['trade_id']}: {e['reason']}")
+        for o in out["orders"]:
+            if o["status"] not in ("PreSubmitted", "Submitted", "dry run"):
+                print(f"  ! {o['trade_id']} {o['action']} {o['shares']} {o['symbol']}: {o['status']} {o.get('note', '')}")
+    elif a.job == "sync":
+        out = asyncio.run(book.sync(today))
+        print(f"paper sync {today}: {len(out['fills'])} fills, {len(out['positions'])} positions, net liquidation {out['net_liquidation']}")
+        for m in out["mismatches"]:
+            print(f"  ! {m}")
+    elif a.job == "status":
+        async def status():
+            async with IBPaper(readonly=True) as b:
+                return b.s.account, await b.net_liquidation(), await b.positions()
+        account, nav, positions = asyncio.run(status())
+        print(f"paper account {account} on port {PaperSettings().port}: net liquidation {nav}, {len(positions)} positions")
+        print(f"orders {'ON (FR_PAPER_SEND=1)' if PaperSettings().send else 'off: dry runs only'}; "
+              f"{'HALTED: ' + book.HALT.read_text().strip() if book.HALT.exists() else 'not halted'}")
+        for m in book.reconcile(positions):
+            print(f"  ! {m}")
+    elif a.job == "report":
+        print(book.summary_text())
+        for r in book.rows():
+            print(f"  {r['id']:<28} {r['state']:<8} {r['name'][:30]:<30} {r['bps'] if r['bps'] is not None else '-':>8} bp  {r['reason'] or ''}")
+    elif a.job == "halt":
+        book.HALT.parent.mkdir(parents=True, exist_ok=True)
+        book.HALT.write_text((a.reason or "halted by hand") + "\n")
+        print(f"{book.HALT} written: no new paper trades until fr paper resume")
+    elif a.job == "resume":
+        book.HALT.unlink(missing_ok=True)
+        print("paper trading resumed")

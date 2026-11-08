@@ -32,6 +32,11 @@ SCHEDULE = {
     "options-etfs": ["11:00", "12:00", "13:00", "14:00"],
     "bars": ["16:30"],
     "nightly": ["19:00"],
+    # Paper trading: entries into the opening auction, exits into the closing auction, then the fills.
+    # Market-on-open orders must be in by 9:28 AM and market-on-close by 3:50 PM.
+    "paper-open": ["09:22"],
+    "paper-close": ["15:45"],
+    "paper-sync": ["16:20"],
 }
 
 

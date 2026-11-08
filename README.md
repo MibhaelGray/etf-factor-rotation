@@ -24,6 +24,9 @@ Yahoo is unofficial and can miss a split on its first day. `fr bars` repairs tha
 | `fr record` | Mac | ~19:30 | `journal/ideas/`, committed and pushed |
 | `fr check` | Mac | 08:30–09:25 | `journal/checks/`: the pre-open stands / stand-down decision per idea; refused after the open |
 | `fr morning` | Mac | after the check, before 09:30 | `journal/morning/ideas/`: the morning book, 1–2 new ideas from the overnight session, scored apart from the nightly book; refused after the open |
+| `fr paper open` | collector | 09:22 | `journal/paper/plans/`: today's paper entries, sent to the paper account as market-on-open orders |
+| `fr paper close` | collector | 15:45 | `journal/paper/exits/`: trades leaving at the close (stop, time limit, broken pair), sent as market-on-close orders |
+| `fr paper sync` | collector | 16:20 | `journal/paper/fills/`: the day's fills, commissions, positions and account value |
 | `fr scorecard` | anywhere | any time | prints the scorecard |
 | `fr ledger` | Mac | after `git pull` | every idea and its result as JSON rows for the [Factor Rotation Ledger](https://claude.ai/artifact/TVknCZmSXjToEPbmMGPSKv) dashboard |
 | `fr market` | Mac | after `git pull` | tonight's market rows for the dashboard: factor board, regime, dealer gamma, forced flows |
@@ -119,6 +122,18 @@ The dashboard's Earnings page (`#earnings`) lists who reports in the next ten se
 Before the open, `fr check` records whether each idea stands or is stood down under its own `stand_down_if` rules. The ideas never change; the scorecard reports the full book and the book after the check side by side.
 
 After the check, `fr morning` can record 1–2 new ideas for the session from what happened overnight, before the open. They are the morning book: the same fields as a nightly idea, with `overnight` (what the idea reacts to) in place of `stand_down_if`, ids like `2026-11-05-m1`, and scores in `journal/morning/scores/`. The scorecard and dashboard keep the two books apart, so the record shows whether reacting to the overnight session helps. Push the morning file before 19:00 so the collector's intraday pull and scoring include its legs.
+
+## Paper trading
+
+Two books trade on an IBKR **paper** account, so ideas get real fills, slippage, borrow and commissions. The selective book takes the recorded ideas (nightly and morning) with their own plan, minus any the pre-open check stood down. The dynamic book takes up to 10 of the screen's top candidates each session mechanically, with a default time limit and stop per setup (`paper/rules.py`). Each side of a trade is $10,000; caps are 60 open trades, $900,000 gross and $30,000 net in one symbol. Entries are market-on-open orders sent at 9:22 AM ET, so a morning idea must be recorded by then to be traded. Exits are decided at 3:45 PM ET on Yahoo prices and sent as market-on-close orders. The dashboard's Paper view shows every trade, each book's result and the difference between paper fills and the daily-bar model.
+
+`paper/broker.py` is the only code that can send an order. It refuses unless the port is a paper port (4002 or 7497, never the collector's), `FR_PAPER_ACCOUNT` is a DU account, and every account on the gateway is a paper account. Orders can only be market-on-open or market-on-close. Without `FR_PAPER_SEND=1` every job is a dry run that prints its orders and writes nothing. `fr paper halt --reason "..."` stops new entries (exits still go out) until `fr paper resume`; `fr paper close --flatten` exits everything at today's close. `fr paper status` connects read-only and compares the account's positions with the books; `fr paper report` prints the results.
+
+Setup, once:
+1. In Client Portal, open the paper account (Settings → Account Settings → Paper Trading Account) and note its username and DU account number. It has its own login, so it never competes with the collector or your own live sessions.
+2. Start a second IB Gateway (on a Mac, `open -n` with the app's path opens another copy), choose Paper Trading, log in with the paper username, and in Configure → Settings → API → Settings set the socket port to 4002, untick "Read-Only API" and allow connections from 127.0.0.1. The collector's live gateway stays as it is, read-only on 4001.
+3. Add to `.env`: `FR_PAPER_ACCOUNT=DU...` and `FR_PAPER_PORT=4002`. Run `uv run fr paper status` to check the connection, then `uv run fr paper open` on a trading morning to see a dry run.
+4. When the dry runs look right, add `FR_PAPER_SEND=1` to `.env` and reinstall the schedules (step 6 below) so `paper-open`, `paper-close` and `paper-sync` run. The jobs skip quietly while `FR_PAPER_ACCOUNT` is unset.
 
 ## Collector setup (macOS)
 
