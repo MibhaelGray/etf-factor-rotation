@@ -1,6 +1,6 @@
 {
  "as_of": "2026-11-06",
- "built_at": "2026-11-07T18:45:02-05:00",
+ "built_at": "2026-11-08T18:35:51-05:00",
  "bars_settled": true,
  "next_session": "2026-11-09",
  "screened": 245,
@@ -871,14 +871,6 @@
   }
  ],
  "earnings_ahead": [
-  {
-   "symbol": "BRK B",
-   "date": "2026-11-07",
-   "when": "after_close",
-   "sessions_away": 1,
-   "baskets": [],
-   "usd_volume": 2561852727
-  },
   {
    "symbol": "CEG",
    "date": "2026-11-09",

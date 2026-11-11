@@ -1,0 +1,15 @@
+{
+ "postmortems": [
+  {
+   "trade_id": "2026-11-09-D08",
+   "proposal_id": null,
+   "name": "RDW",
+   "setup": "earnings_gap_faded",
+   "bps": -1079.5,
+   "tag": "noise",
+   "what_happened": "The short (RDW against XLI, industrials ETF) was stopped on its first session, down 10.4% at 3:45 PM ET. RDW rose about 12% with the whole space group (RKLB +10.9%, ASTS +14.1%, FLY +17.1%) on NASA's CLPS 2 lunar awards of 11-07, the $1.3B Firefly-AST engine deal of 11-06 and a +2.4% SPY day. No Redwire news was found; the reason for the short (a revenue miss of $109.0M against $125-136M, four target cuts) was not contradicted. Short interest was about 18.6% of float, and XLI moved nothing like the space group.",
+   "lesson": "A short in a small, heavily shorted theme stock hedged with a broad sector fund carries the theme's whole move; check the group's news since the signal and hedge with what it trades with, or pass.",
+   "at": "2026-11-09T23:11:11.100797-05:00"
+  }
+ ]
+}

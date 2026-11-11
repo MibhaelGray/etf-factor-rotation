@@ -1,0 +1,241 @@
+{
+ "session": "2026-11-09",
+ "pulled_at": "2026-11-09T16:20:09.203232-05:00",
+ "fills": [
+  {
+   "order_ref": "2026-11-09-D04|XLC",
+   "symbol": "XLC",
+   "side": "SLD",
+   "shares": 23.0,
+   "price": 106.21,
+   "commission": 1.050391,
+   "time": "2026-11-09T14:30:02+00:00",
+   "exec_id": "00025b47.6af155f3.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D08|RDW",
+   "symbol": "RDW",
+   "side": "SLD",
+   "shares": 346.0,
+   "price": 7.23,
+   "commission": 1.782571,
+   "time": "2026-11-09T14:30:02+00:00",
+   "exec_id": "00025b49.6af2bb33.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D01|ABNB",
+   "symbol": "ABNB",
+   "side": "BOT",
+   "shares": 13.0,
+   "price": 193.22,
+   "commission": 1.000039,
+   "time": "2026-11-09T14:30:02+00:00",
+   "exec_id": "0000e0d5.6af159dd.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D03|XLI",
+   "symbol": "XLI",
+   "side": "BOT",
+   "shares": 15.0,
+   "price": 165.73,
+   "commission": 1.000045,
+   "time": "2026-11-09T14:30:03+00:00",
+   "exec_id": "00025b47.6af15692.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D08|XLI",
+   "symbol": "XLI",
+   "side": "BOT",
+   "shares": 15.0,
+   "price": 165.73,
+   "commission": 1.000045,
+   "time": "2026-11-09T14:30:03+00:00",
+   "exec_id": "00025b47.6af15693.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D10|XLI",
+   "symbol": "XLI",
+   "side": "BOT",
+   "shares": 15.0,
+   "price": 165.73,
+   "commission": 1.000045,
+   "time": "2026-11-09T14:30:03+00:00",
+   "exec_id": "00025b47.6af15694.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D05|XLI",
+   "symbol": "XLI",
+   "side": "SLD",
+   "shares": 15.0,
+   "price": 165.49,
+   "commission": 1.051181,
+   "time": "2026-11-09T14:30:03+00:00",
+   "exec_id": "00025b47.6af156bb.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D09|SPY",
+   "symbol": "SPY",
+   "side": "SLD",
+   "shares": 3.0,
+   "price": 742.01,
+   "commission": 1.045865,
+   "time": "2026-11-09T14:30:03+00:00",
+   "exec_id": "00025b49.6af2bbd3.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D06|SPY",
+   "symbol": "SPY",
+   "side": "SLD",
+   "shares": 3.0,
+   "price": 742.01,
+   "commission": 1.045865,
+   "time": "2026-11-09T14:30:03+00:00",
+   "exec_id": "00025b49.6af2bbd5.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D05|OUST",
+   "symbol": "OUST",
+   "side": "BOT",
+   "shares": 71.0,
+   "price": 35.26,
+   "commission": 1.000213,
+   "time": "2026-11-09T14:30:03+00:00",
+   "exec_id": "00025b49.6af2bbe4.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D02|CVS",
+   "symbol": "CVS",
+   "side": "SLD",
+   "shares": 29.0,
+   "price": 84.55,
+   "commission": 1.050597,
+   "time": "2026-11-09T14:30:03+00:00",
+   "exec_id": "00025b44.6af1811a.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D09|UBER",
+   "symbol": "UBER",
+   "side": "BOT",
+   "shares": 36.0,
+   "price": 69.52,
+   "commission": 1.000108,
+   "time": "2026-11-09T14:30:04+00:00",
+   "exec_id": "00025b46.6af15c95.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D10|CGNX",
+   "symbol": "CGNX",
+   "side": "SLD",
+   "shares": 52.0,
+   "price": 48.3,
+   "commission": 1.051895,
+   "time": "2026-11-09T14:30:04+00:00",
+   "exec_id": "00025b44.6af18408.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D04|U",
+   "symbol": "U",
+   "side": "BOT",
+   "shares": 48.0,
+   "price": 52.82,
+   "commission": 1.000144,
+   "time": "2026-11-09T14:30:06+00:00",
+   "exec_id": "00025b46.6af15e8e.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D07|NVO",
+   "symbol": "NVO",
+   "side": "SLD",
+   "shares": 62.0,
+   "price": 41.07,
+   "commission": 1.052641,
+   "time": "2026-11-09T14:30:07+00:00",
+   "exec_id": "00025b45.6af18781.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D01|XLY",
+   "symbol": "XLY",
+   "side": "SLD",
+   "shares": 21.0,
+   "price": 119.83,
+   "commission": 1.051901,
+   "time": "2026-11-09T14:30:12+00:00",
+   "exec_id": "00025b47.6af15644.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D06|QCOM",
+   "symbol": "QCOM",
+   "side": "BOT",
+   "shares": 15.0,
+   "price": 165.12,
+   "commission": 1.000045,
+   "time": "2026-11-09T14:30:14+00:00",
+   "exec_id": "00025b49.6af2bd6c.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D02|XLV",
+   "symbol": "XLV",
+   "side": "BOT",
+   "shares": 13.0,
+   "price": 186.51,
+   "commission": 1.000039,
+   "time": "2026-11-09T14:30:15+00:00",
+   "exec_id": "00025b47.6af158c7.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D07|XLV",
+   "symbol": "XLV",
+   "side": "BOT",
+   "shares": 13.0,
+   "price": 186.51,
+   "commission": 1.000039,
+   "time": "2026-11-09T14:30:15+00:00",
+   "exec_id": "00025b47.6af158c8.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D08|XLI",
+   "symbol": "XLI",
+   "side": "SLD",
+   "shares": 15.0,
+   "price": 168.87,
+   "commission": 1.052226,
+   "time": "2026-11-09T20:59:31+00:00",
+   "exec_id": "00025b47.6af186fd.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D03|XLI",
+   "symbol": "XLI",
+   "side": "SLD",
+   "shares": 15.0,
+   "price": 168.87,
+   "commission": 1.052226,
+   "time": "2026-11-09T20:59:31+00:00",
+   "exec_id": "00025b47.6af186fe.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D08|RDW",
+   "symbol": "RDW",
+   "side": "BOT",
+   "shares": 346.0,
+   "price": 8.13,
+   "commission": 1.731038,
+   "time": "2026-11-09T20:59:31+00:00",
+   "exec_id": "00025b49.6af43c1e.01.01"
+  }
+ ],
+ "positions": {
+  "XLV": 26.0,
+  "XLC": -23.0,
+  "UBER": 36.0,
+  "XLY": -21.0,
+  "ABNB": 13.0,
+  "SPY": -6.0,
+  "NVO": -62.0,
+  "OUST": 71.0,
+  "U": 48.0,
+  "QCOM": 15.0,
+  "CVS": -29.0,
+  "CGNX": -52.0
+ },
+ "net_liquidation": 1026380.45
+}

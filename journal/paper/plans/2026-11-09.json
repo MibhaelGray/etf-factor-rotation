@@ -1,0 +1,521 @@
+{
+ "session": "2026-11-09",
+ "built_at": "2026-11-09T09:23:18.126528-05:00",
+ "screen": "2026-11-06",
+ "dry_run": false,
+ "trades": [
+  {
+   "id": "2026-11-09-D01",
+   "book": "dynamic",
+   "source": "screen 2026-11-06 #1",
+   "name": "ABNB",
+   "setup": "earnings_gap_held",
+   "direction": "long",
+   "why": "reported 2026-11-05 after close, reacted today: gap +12.4% (+3.7 ATR), day +11.7%, +11.7% against XLY, volume 3.4x, EPS surprise +11%; closed in the top third and still above the middle of that day's range (188.28)",
+   "entry_date": "2026-11-09",
+   "horizon_days": 4,
+   "stop": {
+    "spread_pct": -5.4
+   },
+   "skip_if_open": [],
+   "notional": 2500,
+   "legs": [
+    {
+     "symbol": "ABNB",
+     "side": "long",
+     "shares": 13,
+     "ref_price": 189.99
+    },
+    {
+     "symbol": "XLY",
+     "side": "short",
+     "shares": 21,
+     "ref_price": 117.58
+    }
+   ],
+   "hedge": "XLY"
+  },
+  {
+   "id": "2026-11-09-D02",
+   "book": "dynamic",
+   "source": "screen 2026-11-06 #2",
+   "name": "CVS",
+   "setup": "earnings_gap_faded",
+   "direction": "short",
+   "why": "reported 2026-11-04 before open, reacted 2 sessions ago: gap -6.7% (-2.6 ATR), day -12.5%, -15.6% against XLV, volume 4.0x, EPS surprise +27%; beat estimates and still fell against XLV (good news sold)",
+   "entry_date": "2026-11-09",
+   "horizon_days": 4,
+   "stop": {
+    "spread_pct": -5.8
+   },
+   "skip_if_open": [],
+   "notional": 2500,
+   "legs": [
+    {
+     "symbol": "XLV",
+     "side": "long",
+     "shares": 13,
+     "ref_price": 184.8
+    },
+    {
+     "symbol": "CVS",
+     "side": "short",
+     "shares": 29,
+     "ref_price": 83.85
+    }
+   ],
+   "hedge": "XLV"
+  },
+  {
+   "id": "2026-11-09-D03",
+   "book": "dynamic",
+   "source": "screen 2026-11-06 #3",
+   "name": "ROK",
+   "setup": "earnings_gap_held",
+   "direction": "short",
+   "why": "reported 2026-11-05 before open, reacted yesterday: gap -9.2% (-3.4 ATR), day -14.2%, -10.0% against XLI, volume 3.1x, EPS surprise +5%; closed in the bottom third and still below the middle of that day's range (395.47)",
+   "entry_date": "2026-11-09",
+   "horizon_days": 4,
+   "stop": {
+    "spread_pct": -6.6
+   },
+   "skip_if_open": [],
+   "notional": 2500,
+   "legs": [
+    {
+     "symbol": "XLI",
+     "side": "long",
+     "shares": 15,
+     "ref_price": 162.67
+    },
+    {
+     "symbol": "ROK",
+     "side": "short",
+     "shares": 6,
+     "ref_price": 375.86
+    }
+   ],
+   "hedge": "XLI"
+  },
+  {
+   "id": "2026-11-09-D04",
+   "book": "dynamic",
+   "source": "screen 2026-11-06 #4",
+   "name": "U",
+   "setup": "earnings_gap_held",
+   "direction": "long",
+   "why": "reported 2026-11-05 before open, reacted yesterday: gap +13.2% (+2.5 ATR), day +14.9%, +15.5% against XLC, volume 5.2x, EPS surprise +28%; closed in the top third and still above the middle of that day's range (47.16)",
+   "entry_date": "2026-11-09",
+   "horizon_days": 4,
+   "stop": {
+    "spread_pct": -7.8
+   },
+   "skip_if_open": [],
+   "notional": 2500,
+   "legs": [
+    {
+     "symbol": "U",
+     "side": "long",
+     "shares": 48,
+     "ref_price": 51.49
+    },
+    {
+     "symbol": "XLC",
+     "side": "short",
+     "shares": 23,
+     "ref_price": 104.79
+    }
+   ],
+   "hedge": "XLC"
+  },
+  {
+   "id": "2026-11-09-D05",
+   "book": "dynamic",
+   "source": "screen 2026-11-06 #5",
+   "name": "OUST",
+   "setup": "earnings_gap_held",
+   "direction": "long",
+   "why": "reported 2026-11-03 after close, reacted 2 sessions ago: gap +14.8% (+1.7 ATR), day +15.7%, +16.8% against XLI, volume 2.4x, EPS surprise -95%; closed in the top third and still above the middle of that day's range (31.93)",
+   "entry_date": "2026-11-09",
+   "horizon_days": 4,
+   "stop": {
+    "spread_pct": -8.0
+   },
+   "skip_if_open": [],
+   "notional": 2500,
+   "legs": [
+    {
+     "symbol": "OUST",
+     "side": "long",
+     "shares": 71,
+     "ref_price": 34.795
+    },
+    {
+     "symbol": "XLI",
+     "side": "short",
+     "shares": 15,
+     "ref_price": 162.67
+    }
+   ],
+   "hedge": "XLI"
+  },
+  {
+   "id": "2026-11-09-D06",
+   "book": "dynamic",
+   "source": "screen 2026-11-06 #6",
+   "name": "QCOM",
+   "setup": "earnings_gap_faded",
+   "direction": "long",
+   "why": "reported 2026-11-04 after close, reacted yesterday: gap -13.4% (-3.0 ATR), day -9.5%, -5.1% against SPY, volume 3.5x, EPS surprise +0%; closed in the top third, against the gap",
+   "entry_date": "2026-11-09",
+   "horizon_days": 4,
+   "stop": {
+    "spread_pct": -8.0
+   },
+   "skip_if_open": [],
+   "notional": 2500,
+   "legs": [
+    {
+     "symbol": "QCOM",
+     "side": "long",
+     "shares": 15,
+     "ref_price": 165.41
+    },
+    {
+     "symbol": "SPY",
+     "side": "short",
+     "shares": 3,
+     "ref_price": 735.29
+    }
+   ],
+   "hedge": "SPY"
+  },
+  {
+   "id": "2026-11-09-D07",
+   "book": "dynamic",
+   "source": "screen 2026-11-06 #7",
+   "name": "NVO",
+   "setup": "earnings_gap_faded",
+   "direction": "short",
+   "why": "reported 2026-11-04 before open, reacted 2 sessions ago: gap +5.6% (+2.8 ATR), day +5.0%, +1.9% against XLV, volume 2.5x, EPS surprise +25%; closed in the bottom third, against the gap",
+   "entry_date": "2026-11-09",
+   "horizon_days": 4,
+   "stop": {
+    "spread_pct": -3.9
+   },
+   "skip_if_open": [],
+   "notional": 2500,
+   "legs": [
+    {
+     "symbol": "XLV",
+     "side": "long",
+     "shares": 13,
+     "ref_price": 184.8
+    },
+    {
+     "symbol": "NVO",
+     "side": "short",
+     "shares": 62,
+     "ref_price": 40.31
+    }
+   ],
+   "hedge": "XLV"
+  },
+  {
+   "id": "2026-11-09-D08",
+   "book": "dynamic",
+   "source": "screen 2026-11-06 #8",
+   "name": "RDW",
+   "setup": "earnings_gap_faded",
+   "direction": "short",
+   "why": "reported 2026-11-04 after close, reacted yesterday: gap -6.5% (-0.8 ATR), day -19.8%, -15.7% against XLI, volume 2.3x, EPS surprise +35%; beat estimates and still fell against XLI (good news sold)",
+   "entry_date": "2026-11-09",
+   "horizon_days": 4,
+   "stop": {
+    "spread_pct": -8.0
+   },
+   "skip_if_open": [],
+   "notional": 2500,
+   "legs": [
+    {
+     "symbol": "XLI",
+     "side": "long",
+     "shares": 15,
+     "ref_price": 162.67
+    },
+    {
+     "symbol": "RDW",
+     "side": "short",
+     "shares": 346,
+     "ref_price": 7.21
+    }
+   ],
+   "hedge": "XLI"
+  },
+  {
+   "id": "2026-11-09-D09",
+   "book": "dynamic",
+   "source": "screen 2026-11-06 #9",
+   "name": "UBER",
+   "setup": "earnings_gap_faded",
+   "direction": "long",
+   "why": "reported 2026-11-04 before open, reacted 2 sessions ago: gap +2.5% (+1.0 ATR), day +4.9%, +3.3% against SPY, volume 2.2x, EPS surprise -72%; missed estimates and still rose against SPY (bad news bought)",
+   "entry_date": "2026-11-09",
+   "horizon_days": 4,
+   "stop": {
+    "spread_pct": -4.5
+   },
+   "skip_if_open": [],
+   "notional": 2500,
+   "legs": [
+    {
+     "symbol": "UBER",
+     "side": "long",
+     "shares": 36,
+     "ref_price": 68.59
+    },
+    {
+     "symbol": "SPY",
+     "side": "short",
+     "shares": 3,
+     "ref_price": 735.29
+    }
+   ],
+   "hedge": "SPY"
+  },
+  {
+   "id": "2026-11-09-D10",
+   "book": "dynamic",
+   "source": "screen 2026-11-06 #10",
+   "name": "CGNX",
+   "setup": "earnings_gap_faded",
+   "direction": "short",
+   "why": "reported 2026-11-04 after close, reacted yesterday: gap -5.0% (-0.9 ATR), day -10.5%, -6.4% against XLI, volume 2.9x, EPS surprise +2%; beat estimates and still fell against XLI (good news sold)",
+   "entry_date": "2026-11-09",
+   "horizon_days": 4,
+   "stop": {
+    "spread_pct": -8.0
+   },
+   "skip_if_open": [],
+   "notional": 2500,
+   "legs": [
+    {
+     "symbol": "XLI",
+     "side": "long",
+     "shares": 15,
+     "ref_price": 162.67
+    },
+    {
+     "symbol": "CGNX",
+     "side": "short",
+     "shares": 52,
+     "ref_price": 47.78
+    }
+   ],
+   "hedge": "XLI"
+  }
+ ],
+ "skipped": [],
+ "orders": [
+  {
+   "trade_id": "2026-11-09-D01",
+   "symbol": "ABNB",
+   "action": "BUY",
+   "shares": 13,
+   "kind": "MOO",
+   "order_id": 64,
+   "status": "PreSubmitted",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D01",
+   "symbol": "XLY",
+   "action": "SELL",
+   "shares": 21,
+   "kind": "MOO",
+   "order_id": 66,
+   "status": "PreSubmitted",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D02",
+   "symbol": "XLV",
+   "action": "BUY",
+   "shares": 13,
+   "kind": "MOO",
+   "order_id": 68,
+   "status": "PreSubmitted",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D02",
+   "symbol": "CVS",
+   "action": "SELL",
+   "shares": 29,
+   "kind": "MOO",
+   "order_id": 70,
+   "status": "PreSubmitted",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D03",
+   "symbol": "XLI",
+   "action": "BUY",
+   "shares": 15,
+   "kind": "MOO",
+   "order_id": 72,
+   "status": "PreSubmitted",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D03",
+   "symbol": "ROK",
+   "action": "SELL",
+   "shares": 6,
+   "kind": "MOO",
+   "order_id": 74,
+   "status": "PreSubmitted",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D04",
+   "symbol": "U",
+   "action": "BUY",
+   "shares": 48,
+   "kind": "MOO",
+   "order_id": 76,
+   "status": "PreSubmitted",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D04",
+   "symbol": "XLC",
+   "action": "SELL",
+   "shares": 23,
+   "kind": "MOO",
+   "order_id": 78,
+   "status": "PreSubmitted",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D05",
+   "symbol": "OUST",
+   "action": "BUY",
+   "shares": 71,
+   "kind": "MOO",
+   "order_id": 80,
+   "status": "PreSubmitted",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D05",
+   "symbol": "XLI",
+   "action": "SELL",
+   "shares": 15,
+   "kind": "MOO",
+   "order_id": 82,
+   "status": "PreSubmitted",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D06",
+   "symbol": "QCOM",
+   "action": "BUY",
+   "shares": 15,
+   "kind": "MOO",
+   "order_id": 84,
+   "status": "PreSubmitted",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D06",
+   "symbol": "SPY",
+   "action": "SELL",
+   "shares": 3,
+   "kind": "MOO",
+   "order_id": 86,
+   "status": "PreSubmitted",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D07",
+   "symbol": "XLV",
+   "action": "BUY",
+   "shares": 13,
+   "kind": "MOO",
+   "order_id": 88,
+   "status": "PreSubmitted",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D07",
+   "symbol": "NVO",
+   "action": "SELL",
+   "shares": 62,
+   "kind": "MOO",
+   "order_id": 90,
+   "status": "PreSubmitted",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D08",
+   "symbol": "XLI",
+   "action": "BUY",
+   "shares": 15,
+   "kind": "MOO",
+   "order_id": 92,
+   "status": "PreSubmitted",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D08",
+   "symbol": "RDW",
+   "action": "SELL",
+   "shares": 346,
+   "kind": "MOO",
+   "order_id": 94,
+   "status": "PreSubmitted",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D09",
+   "symbol": "UBER",
+   "action": "BUY",
+   "shares": 36,
+   "kind": "MOO",
+   "order_id": 96,
+   "status": "PreSubmitted",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D09",
+   "symbol": "SPY",
+   "action": "SELL",
+   "shares": 3,
+   "kind": "MOO",
+   "order_id": 98,
+   "status": "PreSubmitted",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D10",
+   "symbol": "XLI",
+   "action": "BUY",
+   "shares": 15,
+   "kind": "MOO",
+   "order_id": 100,
+   "status": "PreSubmitted",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D10",
+   "symbol": "CGNX",
+   "action": "SELL",
+   "shares": 52,
+   "kind": "MOO",
+   "order_id": 102,
+   "status": "PreSubmitted",
+   "note": ""
+  }
+ ]
+}

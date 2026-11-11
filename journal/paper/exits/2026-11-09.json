@@ -1,0 +1,72 @@
+{
+ "session": "2026-11-09",
+ "built_at": "2026-11-09T15:45:08.375554-05:00",
+ "dry_run": false,
+ "prices": {
+  "ABNB": 191.8249969482422,
+  "CGNX": 50.38999938964844,
+  "CVS": 84.69499969482422,
+  "NVO": 41.5525016784668,
+  "OUST": 38.47999954223633,
+  "QCOM": 172.92999267578125,
+  "RDW": 8.125,
+  "SPY": 754.0650024414062,
+  "U": 51.775001525878906,
+  "UBER": 71.16000366210938,
+  "XLC": 107.38999938964844,
+  "XLI": 169.10000610351562,
+  "XLV": 188.39999389648438,
+  "XLY": 121.5199966430664
+ },
+ "exits": [
+  {
+   "trade_id": "2026-11-09-D03",
+   "book": "dynamic",
+   "session_number": 1,
+   "reason": "broken: ROK never filled"
+  },
+  {
+   "trade_id": "2026-11-09-D08",
+   "book": "dynamic",
+   "session_number": 1,
+   "reason": "stopped: down 10.4% at 3:45 PM ET, past the 8% stop"
+  }
+ ],
+ "extended": [],
+ "retried": [],
+ "stops_not_checked": [],
+ "reviewed": [],
+ "orders": [
+  {
+   "trade_id": "2026-11-09-D03",
+   "symbol": "XLI",
+   "action": "SELL",
+   "shares": 15,
+   "kind": "MOC",
+   "order_id": 116,
+   "status": "PendingSubmit",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D08",
+   "symbol": "XLI",
+   "action": "SELL",
+   "shares": 15,
+   "kind": "MOC",
+   "order_id": 118,
+   "status": "PendingSubmit",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D08",
+   "symbol": "RDW",
+   "action": "BUY",
+   "shares": 346,
+   "kind": "MOC",
+   "order_id": 120,
+   "status": "PendingSubmit",
+   "note": ""
+  }
+ ],
+ "warnings": []
+}

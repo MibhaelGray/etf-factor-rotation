@@ -1,0 +1,291 @@
+{
+ "session": "2026-11-10",
+ "built_at": "2026-11-10T09:20:24.848801-05:00",
+ "screen": "2026-11-09",
+ "proposals": {
+  "take": 2,
+  "pass": 18
+ },
+ "dry_run": false,
+ "trades": [
+  {
+   "id": "2026-11-10-A01",
+   "book": "dynamic",
+   "source": "proposal 2026-11-10-P01",
+   "proposal_id": "2026-11-10-P01",
+   "conviction": 3,
+   "name": "NVDA",
+   "setup": "relative_weakness",
+   "direction": "short",
+   "why": "Company-specific and still escalating: board probe of the CEO (11-08), DOJ criminal inquiry into Megaspeed (11-09), a House reply due 11-11; worst day against the index since January 2025 on 3.9x volume while every other chip stock rallied.",
+   "wrong_if": "The board's independent directors, the Justice Department or the FBI say Huang is not a subject or the probe found nothing; or the 11-11 House reply closes the matter; or the White House confirms Huang on the Shenzhen trip. Any of these inside the window means the overhang is lifting.",
+   "entry_date": "2026-11-10",
+   "horizon_days": 4,
+   "stop": {
+    "spread_pct": -7.0
+   },
+   "notional": 10000,
+   "legs": [
+    {
+     "symbol": "QQQ",
+     "side": "long",
+     "shares": 14,
+     "ref_price": 672.46
+    },
+    {
+     "symbol": "NVDA",
+     "side": "short",
+     "shares": 57,
+     "ref_price": 174.05
+    }
+   ],
+   "hedge": "QQQ"
+  },
+  {
+   "id": "2026-11-10-A02",
+   "book": "dynamic",
+   "source": "proposal 2026-11-10-P02",
+   "proposal_id": "2026-11-10-P02",
+   "conviction": 3,
+   "name": "Seat-based software",
+   "setup": "basket_breakdown",
+   "direction": "short",
+   "why": "Three reports in six days (HubSpot 11-04, Atlassian 11-05, monday.com 11-09) all beat and all guided growth lower, after ServiceNow did the same on 10-28; the group made a 20-day low against software on a day the market rose 2.4%.",
+   "wrong_if": "ServiceNow raises or firmly reaffirms its contracted-revenue outlook at the BMO chat on 11-12, or an analyst upgrades two or more members on stabilising seat growth, or the basket regains its 5-day loss against IGV on no news.",
+   "entry_date": "2026-11-10",
+   "horizon_days": 5,
+   "stop": {
+    "spread_pct": -6.0
+   },
+   "notional": 10000,
+   "legs": [
+    {
+     "symbol": "IGV",
+     "side": "long",
+     "shares": 99,
+     "ref_price": 100.3463
+    },
+    {
+     "symbol": "CRM",
+     "side": "short",
+     "shares": 5,
+     "ref_price": 214.37
+    },
+    {
+     "symbol": "NOW",
+     "side": "short",
+     "shares": 12,
+     "ref_price": 101.669
+    },
+    {
+     "symbol": "WDAY",
+     "side": "short",
+     "shares": 6,
+     "ref_price": 189.67
+    },
+    {
+     "symbol": "ADBE",
+     "side": "short",
+     "shares": 5,
+     "ref_price": 238.02
+    },
+    {
+     "symbol": "TEAM",
+     "side": "short",
+     "shares": 8,
+     "ref_price": 153.79
+    },
+    {
+     "symbol": "HUBS",
+     "side": "short",
+     "shares": 6,
+     "ref_price": 205.0
+    },
+    {
+     "symbol": "MNDY",
+     "side": "short",
+     "shares": 15,
+     "ref_price": 79.0
+    },
+    {
+     "symbol": "ASAN",
+     "side": "short",
+     "shares": 123,
+     "ref_price": 10.1605
+    }
+   ],
+   "hedge": "IGV"
+  },
+  {
+   "id": "2026-11-10-A03",
+   "book": "dynamic",
+   "source": "proposal 2026-11-10-P21",
+   "proposal_id": "2026-11-10-P21",
+   "conviction": 3,
+   "name": "NOVT short after guide cut",
+   "setup": "catalyst",
+   "direction": "short",
+   "why": "Q3 beat but Q4 adj. EPS guide $0.91-0.96 vs about $1.02 consensus (one source), FY26 adj. EPS guide cut to $3.66-3.71 from $3.68-3.74; down about 15.6% on 2026-11-10 on heavy volume.",
+   "wrong_if": "At Baird or in an analyst note, management's Q4 shortfall is shown to be a quantified one-off, or the guide is credibly framed as conservative.",
+   "entry_date": "2026-11-10",
+   "horizon_days": 5,
+   "stop": {
+    "spread_pct": -8.0
+   },
+   "notional": 10000,
+   "legs": [
+    {
+     "symbol": "XLK",
+     "side": "long",
+     "shares": 59,
+     "ref_price": 167.88
+    },
+    {
+     "symbol": "NOVT",
+     "side": "short",
+     "shares": 80,
+     "ref_price": 124.825
+    }
+   ],
+   "hedge": "XLK"
+  }
+ ],
+ "skipped": [],
+ "orders": [
+  {
+   "trade_id": "2026-11-10-A01",
+   "symbol": "QQQ",
+   "action": "BUY",
+   "shares": 14,
+   "kind": "MOO",
+   "order_id": 123,
+   "status": "PreSubmitted",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-10-A01",
+   "symbol": "NVDA",
+   "action": "SELL",
+   "shares": 57,
+   "kind": "MOO",
+   "order_id": 125,
+   "status": "PreSubmitted",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-10-A02",
+   "symbol": "IGV",
+   "action": "BUY",
+   "shares": 99,
+   "kind": "MOO",
+   "order_id": 127,
+   "status": "PreSubmitted",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-10-A02",
+   "symbol": "CRM",
+   "action": "SELL",
+   "shares": 5,
+   "kind": "MOO",
+   "order_id": 129,
+   "status": "PreSubmitted",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-10-A02",
+   "symbol": "NOW",
+   "action": "SELL",
+   "shares": 12,
+   "kind": "MOO",
+   "order_id": 131,
+   "status": "PreSubmitted",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-10-A02",
+   "symbol": "WDAY",
+   "action": "SELL",
+   "shares": 6,
+   "kind": "MOO",
+   "order_id": 133,
+   "status": "PreSubmitted",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-10-A02",
+   "symbol": "ADBE",
+   "action": "SELL",
+   "shares": 5,
+   "kind": "MOO",
+   "order_id": 135,
+   "status": "PreSubmitted",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-10-A02",
+   "symbol": "TEAM",
+   "action": "SELL",
+   "shares": 8,
+   "kind": "MOO",
+   "order_id": 137,
+   "status": "PreSubmitted",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-10-A02",
+   "symbol": "HUBS",
+   "action": "SELL",
+   "shares": 6,
+   "kind": "MOO",
+   "order_id": 139,
+   "status": "PreSubmitted",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-10-A02",
+   "symbol": "MNDY",
+   "action": "SELL",
+   "shares": 15,
+   "kind": "MOO",
+   "order_id": 141,
+   "status": "PreSubmitted",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-10-A02",
+   "symbol": "ASAN",
+   "action": "SELL",
+   "shares": 123,
+   "kind": "MOO",
+   "order_id": 143,
+   "status": "PreSubmitted",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-10-A03",
+   "symbol": "XLK",
+   "action": "BUY",
+   "shares": 59,
+   "kind": "MKT",
+   "order_id": 3,
+   "status": "Filled",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-10-A03",
+   "symbol": "NOVT",
+   "action": "SELL",
+   "shares": 80,
+   "kind": "MKT",
+   "order_id": 5,
+   "status": "Submitted",
+   "note": ""
+  }
+ ],
+ "prices": {
+  "quoted": 11,
+  "last_close": []
+ },
+ "warnings": []
+}

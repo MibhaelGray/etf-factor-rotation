@@ -1,0 +1,73 @@
+{
+ "session": "2026-11-10",
+ "reviewed_at": "2026-11-10T15:02:36.953039-05:00",
+ "summary": "Hot October CPI and hawkish Fed talk; indexes down about 0.5-1%. No trade's reason has been contradicted: eleven holds.",
+ "reviews": [
+  {
+   "trade_id": "2026-11-09-D01",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "Raised guide stands; Redburn upgraded to Neutral 11-09. Today's -1.4% is the OpenAI/Odessia travel-planner report and CPI, hitting Booking and Expedia too. Losing and near its stop, which is the stop's job."
+  },
+  {
+   "trade_id": "2026-11-09-D02",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "CVS up 3.4% today at the day's high with no dated cause found; at Wolfe on 11-09 management reaffirmed targets, no new guidance. Price is against the short but no news changes the story."
+  },
+  {
+   "trade_id": "2026-11-09-D04",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "Unity -3.3% on CPI/Fed and the Digital Turbine read-across (margins, material weakness); nothing Unity-specific, no guidance change, targets raised 11-06. Close to its stop; the stop decides."
+  },
+  {
+   "trade_id": "2026-11-09-D05",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "Only new item is the Indra toll-collection selection (11-10); stock -2.2% on a down day, still well above the gap day's middle."
+  },
+  {
+   "trade_id": "2026-11-09-D06",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "Freedom Broker cut to Hold 11-09 and job cuts began 11-10, but no guidance change and QCOM is up 0.6% against a falling market. The rebound is not finished enough to call played out on session 2 of 4."
+  },
+  {
+   "trade_id": "2026-11-09-D07",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "FDA vision-loss warning on GLP-1 drugs (11-09) and Lilly pill data are neutral to negative for Novo; NVO -2% while XLV is flat."
+  },
+  {
+   "trade_id": "2026-11-09-D09",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "McDonald's partnership expansion and Citi resuming at Buy (11-09); a robotaxi engineering leader's exit is the one negative. UBER lags SPY today on no thesis-level news."
+  },
+  {
+   "trade_id": "2026-11-09-D10",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "No Cognex or peer news on 11-09 or 11-10; the stock is outpacing XLI both days, which is price against the short, not a changed story."
+  },
+  {
+   "trade_id": "2026-11-10-A01",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "No part of wrong_if has happened: no clearance from the directors, Justice or the FBI, the House chairs pressed again 11-10, no Shenzhen trip confirmed. New reports today (The Information on $7.5B China sales, NYT on Rubio's warning) add to the overhang; NVDA -6.7% vs QQQ -1.1%. Note: sources give the House briefing date as 11-18, and the 11-11 reply date could not be confirmed."
+  },
+  {
+   "trade_id": "2026-11-10-A02",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "No ServiceNow reaffirmation (BMO session still set for 11-12), no upgrades (Needham cut monday.com 11-09); basket about -4.2% vs IGV -1.9% today."
+  },
+  {
+   "trade_id": "2026-11-10-A03",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "wrong_if partly touched, not met: on the 11-10 call the CFO called the guide conservative and tied about 200 bp of Q4 gross margin to a UK shipment pause and factory-move costs, with no EPS figure, and no analyst note backs the one-off reading; the stock fell 15% after hearing it. Baird appearance on 11-11 could not be confirmed; test again tomorrow."
+  }
+ ]
+}
