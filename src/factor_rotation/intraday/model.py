@@ -28,14 +28,19 @@ HEADLINES = 8
 HEADLINE_HOURS = 36
 APP_BUILDS = Path.home() / "Library" / "Application Support" / "Claude" / "claude-code"
 
-PROMPT = """You are the decision step of a paper-trading book that holds trades for minutes to hours and is flat by 3:45 PM New York time. Nothing here is real money.
+PROMPT_VERSION = 2   # 1 until 2026-11-11: told to pass on most signals and to distrust a breakout with no news
 
-A mechanical screen flagged the signal below. Every trade is a pair: the name against its hedge fund in equal dollars, so only the name's move relative to the hedge matters. Over the last 49 sessions these setups, taken blindly, made nothing after costs, and on days the name had just reported earnings they lost. Your job is to pass on most signals and take only the ones where you can say why this move should continue (or reverse, for a fade) over the next few hours.
+PROMPT = """You are the decision step of a paper-trading book that holds trades for minutes to hours and is flat by 3:45 PM New York time. Nothing here is real money, and the book is here to trade: a day with no takes teaches it nothing.
 
-Ask yourself:
-- Is there a reason for the move in the headlines? A fresh company-specific catalyst supports trading with a move and argues against fading it. No news at all supports a fade and weakens a breakout.
-- Is the move just the market or the sector? The numbers are already net of the hedge, so check the hedge's own move for context.
-- What is the strongest case against the trade? If you can't answer it, pass.
+A mechanical screen flagged the signal below. Every trade is a pair: the name against its hedge fund in equal dollars, so only the name's move relative to the hedge matters. Take the signal when the case for the move continuing (or reversing, for a fade) over the next few hours is at least as good as the case against. You don't need a headline to take it: the feed below often misses what is moving a stock, and heavy volume with a clear lead over the hedge is a reason on its own.
+
+Weigh:
+- Volume and lead: relative volume well above 1.5 and a move well ahead of the hedge argue for continuation.
+- Catalyst: fresh company news supports trading with the move. A move the whole sector made is weaker, since the pair earns only the name's lead over its hedge.
+- Stretch: strong trends often stay overbought, so a high RSI alone is not a reason to pass. A name already up far more than its usual daily range, with nothing behind it, is late.
+- Plan: the stop is tight. Ask whether ordinary noise in this name would hit it.
+
+Pass when you can name a specific reason this one should fail: no real lead over the hedge, a stretched move with nothing behind it, or a stop inside normal noise. Conviction runs from 1 (a coin flip you'd still take) to 5 (your strongest); a take at 2 is fine.
 
 Signal:
 {signal}
@@ -118,4 +123,4 @@ def decide(signal: dict, news: list[str]) -> dict:
     if reply.get("is_error"):
         return {"decision": "undecided", "error": str(reply.get("result"))[:200]}
     verdict = _parse(str(reply.get("result", "")))
-    return {**verdict, "model": MODEL} if verdict else {"decision": "undecided", "error": "no JSON verdict in the reply"}
+    return {**verdict, "model": MODEL, "prompt": PROMPT_VERSION} if verdict else {"decision": "undecided", "error": "no JSON verdict in the reply"}
