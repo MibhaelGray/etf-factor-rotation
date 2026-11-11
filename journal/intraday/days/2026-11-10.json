@@ -1,0 +1,679 @@
+{
+ "date": "2026-11-10",
+ "mode": "rehearsal",
+ "ticks": [
+  {
+   "at": "2026-11-10T10:01:00-05:00",
+   "bar_closed": "10:00 AM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-10T10:16:00-05:00",
+   "bar_closed": "10:15 AM",
+   "signals": 5,
+   "judged": 4
+  },
+  {
+   "at": "2026-11-10T10:31:00-05:00",
+   "bar_closed": "10:30 AM",
+   "signals": 1,
+   "judged": 1
+  },
+  {
+   "at": "2026-11-10T10:46:00-05:00",
+   "bar_closed": "10:45 AM",
+   "signals": 2,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-10T11:01:00-05:00",
+   "bar_closed": "11:00 AM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-10T11:16:00-05:00",
+   "bar_closed": "11:15 AM",
+   "signals": 1,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-10T11:31:00-05:00",
+   "bar_closed": "11:30 AM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-10T11:46:00-05:00",
+   "bar_closed": "11:45 AM",
+   "signals": 1,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-10T12:01:00-05:00",
+   "bar_closed": "12:00 PM",
+   "signals": 1,
+   "judged": 1
+  },
+  {
+   "at": "2026-11-10T12:16:00-05:00",
+   "bar_closed": "12:15 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-10T12:31:00-05:00",
+   "bar_closed": "12:30 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-10T12:46:00-05:00",
+   "bar_closed": "12:45 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-10T13:01:00-05:00",
+   "bar_closed": "1:00 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-10T13:16:00-05:00",
+   "bar_closed": "1:15 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-10T13:31:00-05:00",
+   "bar_closed": "1:30 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-10T13:46:00-05:00",
+   "bar_closed": "1:45 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-10T14:01:00-05:00",
+   "bar_closed": "2:00 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-10T14:16:00-05:00",
+   "bar_closed": "2:15 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-10T14:31:00-05:00",
+   "bar_closed": "2:30 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-10T14:46:07-05:00",
+   "bar_closed": "2:45 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-10T15:01:06-05:00",
+   "bar_closed": "3:00 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-10T15:16:06-05:00",
+   "bar_closed": "3:15 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-10T15:31:06-05:00",
+   "bar_closed": "3:30 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-10T15:52:56-05:00",
+   "bar_closed": "3:45 PM",
+   "signals": 0,
+   "judged": 0
+  }
+ ],
+ "signals": [
+  {
+   "id": "I-1110-MTUM",
+   "symbol": "MTUM",
+   "hedge": "SPY",
+   "beta": 1.66,
+   "setup": "range_break",
+   "direction": "long",
+   "slot": 2,
+   "signal_at": "10:15 AM",
+   "numbers": {
+    "gap_atr": -0.11,
+    "day_atr": 0.26,
+    "run_atr": 0.38,
+    "rvol": 2.92,
+    "rsi": 66.1,
+    "price": 67.24,
+    "name_day_pct": 0.55,
+    "hedge_day_pct": -0.19
+   },
+   "atr_pct": 0.0331,
+   "plan": {
+    "stop_pct": -1.66,
+    "target_pct": 3.31,
+    "max_bars": null,
+    "flat_by": "3:45 PM"
+   },
+   "headlines": [
+    "Nov 10, 6:06 AM ET \u00b7 GuruFocus.com \u00b7 iShares MSCI USA Momentum Factor ETF (MTUM) Adds AMD and Micron on Nov. 6"
+   ],
+   "verdict": {
+    "decision": "pass",
+    "conviction": 2,
+    "catalyst": "none found",
+    "why": "The only headline is a Nov 6 index-holdings note that MTUM added AMD and Micron, which is a routine rebalance and not a fresh company-specific catalyst. The name's +0.55% move against SPY's -0.19% looks like a sector or factor rotation, and the setup has lost money over the last 49 sessions.",
+    "against": "The 2.92x relative volume and a range break at 10:15 AM could reflect real semiconductor buying that continues, and the rebalance flows into AMD and Micron may keep supporting the factor ETF.",
+    "model": "claude-haiku-5-5"
+   },
+   "entry": {
+    "at": "10:15 AM",
+    "name": 67.22,
+    "hedge": 750.66
+   },
+   "exit": {
+    "at": "3:45 PM",
+    "reason": "flat",
+    "bars": 22,
+    "result_bp": -80.3,
+    "after_costs_bp": -88.3
+   }
+  },
+  {
+   "id": "I-1110-MARA",
+   "symbol": "MARA",
+   "hedge": "SMH",
+   "beta": 1.36,
+   "setup": "range_break",
+   "direction": "long",
+   "slot": 2,
+   "signal_at": "10:15 AM",
+   "numbers": {
+    "gap_atr": 0.14,
+    "day_atr": 1.19,
+    "run_atr": 1.06,
+    "rvol": 2.33,
+    "rsi": 86.1,
+    "price": 7.49,
+    "name_day_pct": 12.9,
+    "hedge_day_pct": 0.67
+   },
+   "atr_pct": 0.1004,
+   "plan": {
+    "stop_pct": -2.0,
+    "target_pct": 4.0,
+    "max_bars": null,
+    "flat_by": "3:45 PM"
+   },
+   "skipped": "reported earnings since the last close",
+   "verdict": {
+    "decision": "not judged",
+    "why": "reported earnings since the last close"
+   },
+   "entry": {
+    "at": "10:15 AM",
+    "name": 7.485,
+    "hedge": 490.725
+   },
+   "exit": {
+    "at": "11:45 AM",
+    "reason": "stop",
+    "bars": 6,
+    "result_bp": -257.8,
+    "after_costs_bp": -265.8
+   }
+  },
+  {
+   "id": "I-1110-GEV",
+   "symbol": "GEV",
+   "hedge": "XLI",
+   "beta": 2.27,
+   "setup": "gap_fade",
+   "direction": "long",
+   "slot": 2,
+   "signal_at": "10:15 AM",
+   "numbers": {
+    "gap_atr": -0.93,
+    "day_atr": -0.49,
+    "run_atr": 0.5,
+    "rvol": 2.19,
+    "rsi": 38.9,
+    "price": 792.22,
+    "name_day_pct": -4.45,
+    "hedge_day_pct": -0.48
+   },
+   "atr_pct": 0.0682,
+   "plan": {
+    "stop_pct": -2.0,
+    "target_pct": 4.0,
+    "max_bars": null,
+    "flat_by": "3:45 PM"
+   },
+   "headlines": [
+    "Nov 10, 8:33 AM ET \u00b7 Stocktwits \u00b7 Venture Global CEO Eyes New Growth Opportunity In Off-Grid Power For AI Data Centers \u2013 Firm Raises FY2026 Guidance After Record Q3 Earnings",
+    "Nov 10, 8:14 AM ET \u00b7 24/7 Wall St. \u00b7 2 Stocks Sidestep the Data Center Backlash",
+    "Nov 10, 8:10 AM ET \u00b7 Barrons.com \u00b7 LNG Giant Venture Global Looks to Become a Vertically Integrated AI Utility",
+    "Nov 10, 6:37 AM ET \u00b7 Simply Wall St. \u00b7 Energy Transition Today - Cleantech Innovation Fuels Economic Growth and Competitiveness",
+    "Nov 10, 2:46 AM ET \u00b7 TIKR \u00b7 A $28 Billion Fund Bought These 3 Stocks",
+    "Nov 10, 2:07 AM ET \u00b7 GuruFocus.com \u00b7 Azad Engineering Ltd (NSE:AZAD) (Q2 2027) Earnings Call Highlights: Record Revenue of Rs 187. ..."
+   ],
+   "verdict": {
+    "decision": "pass",
+    "conviction": 4,
+    "catalyst": "none found for GEV; the only related backdrop is a 'data center backlash' theme in a 24/7 Wall St. headline, which is sector-level and negative",
+    "why": "GEV is down 4.45% against a hedge down 0.48%, so the selloff is name-specific, on 2.2x normal volume, with no company news to explain it. Heavy volume on a stock-specific drop with a negative sector theme points to continuation, not a washed-out gap to fade.",
+    "against": "The fade thesis needs a reversal trigger, and with no catalyst and a 2% stop against a 4% target on a beta-2.27 name, a normal wobble could hit the stop before any bounce.",
+    "model": "claude-haiku-5-5"
+   },
+   "entry": {
+    "at": "10:15 AM",
+    "name": 792.5766,
+    "hedge": 168.03
+   },
+   "exit": {
+    "at": "11:45 AM",
+    "reason": "stop",
+    "bars": 6,
+    "result_bp": -201.2,
+    "after_costs_bp": -209.2
+   }
+  },
+  {
+   "id": "I-1110-AMD",
+   "symbol": "AMD",
+   "hedge": "SMH",
+   "beta": 1.55,
+   "setup": "range_break",
+   "direction": "long",
+   "slot": 2,
+   "signal_at": "10:15 AM",
+   "numbers": {
+    "gap_atr": 0.21,
+    "day_atr": 0.62,
+    "run_atr": 0.41,
+    "rvol": 1.9,
+    "rsi": 84.1,
+    "price": 538.26,
+    "name_day_pct": 5.75,
+    "hedge_day_pct": 0.67
+   },
+   "atr_pct": 0.0761,
+   "plan": {
+    "stop_pct": -2.0,
+    "target_pct": 4.0,
+    "max_bars": null,
+    "flat_by": "3:45 PM"
+   },
+   "headlines": [],
+   "verdict": {
+    "decision": "pass",
+    "conviction": 4,
+    "catalyst": "none found",
+    "why": "AMD is up 5.75% against SMH's 0.67%, so about 5% of the move is name-specific, yet no headlines turned up in 36 hours. With RSI at 84 and the move already 0.41 ATR past the range break, a breakout with no news is the setup the rules say to avoid.",
+    "against": "The feed may be missing a real catalyst such as a product, customer, or analyst item, and with 1.9x relative volume the move could keep running past the 4% target.",
+    "model": "claude-haiku-5-5"
+   },
+   "entry": {
+    "at": "10:15 AM",
+    "name": 538.32,
+    "hedge": 490.725
+   },
+   "exit": {
+    "at": "12:00 PM",
+    "reason": "stop",
+    "bars": 7,
+    "result_bp": -230.1,
+    "after_costs_bp": -238.1
+   }
+  },
+  {
+   "id": "I-1110-AVGO",
+   "symbol": "AVGO",
+   "hedge": "SMH",
+   "beta": 0.87,
+   "setup": "range_break",
+   "direction": "long",
+   "slot": 2,
+   "signal_at": "10:15 AM",
+   "numbers": {
+    "gap_atr": 0.15,
+    "day_atr": 0.77,
+    "run_atr": 0.63,
+    "rvol": 1.72,
+    "rsi": 79.3,
+    "price": 333.61,
+    "name_day_pct": 4.4,
+    "hedge_day_pct": 0.67
+   },
+   "atr_pct": 0.0494,
+   "plan": {
+    "stop_pct": -2.0,
+    "target_pct": 4.0,
+    "max_bars": null,
+    "flat_by": "3:45 PM"
+   },
+   "headlines": [],
+   "verdict": {
+    "decision": "pass",
+    "conviction": 4,
+    "catalyst": "none found",
+    "why": "No headlines in the last 36 hours, so nothing company-specific explains the move. The 4.4% day gain against SMH's 0.67% is roughly a 3.7% idiosyncratic move with no news behind it, and RSI near 79 makes an extension less likely than a fade or pullback.",
+    "against": "The move could be unexplained flow or positioning with 1.7x relative volume that keeps running intraday, which is the one case that would make this trade work, and nothing here lets me confirm it.",
+    "model": "claude-haiku-5-5"
+   },
+   "entry": {
+    "at": "10:15 AM",
+    "name": 333.605,
+    "hedge": 490.725
+   },
+   "exit": {
+    "at": "3:45 PM",
+    "reason": "flat",
+    "bars": 22,
+    "result_bp": 116.2,
+    "after_costs_bp": 108.2
+   }
+  },
+  {
+   "id": "I-1110-CIEN",
+   "symbol": "CIEN",
+   "hedge": "SMH",
+   "beta": 1.63,
+   "setup": "range_break",
+   "direction": "long",
+   "slot": 3,
+   "signal_at": "10:30 AM",
+   "numbers": {
+    "gap_atr": 0.07,
+    "day_atr": 0.43,
+    "run_atr": 0.36,
+    "rvol": 1.6,
+    "rsi": 75.2,
+    "price": 280.54,
+    "name_day_pct": 4.17,
+    "hedge_day_pct": -0.17
+   },
+   "atr_pct": 0.1045,
+   "plan": {
+    "stop_pct": -2.0,
+    "target_pct": 4.0,
+    "max_bars": null,
+    "flat_by": "3:45 PM"
+   },
+   "headlines": [
+    "Nov 10, 8:11 AM ET \u00b7 Trefis \u00b7 Who Is Paying For AOI's Cash Burn?",
+    "Nov 10, 7:07 AM ET \u00b7 Zacks \u00b7 GLW Stock Rises 32.5% in a Year: Is There Still Room to Grow?",
+    "Nov 9, 4:25 PM ET \u00b7 Barrons.com \u00b7 Nvidia, AMD, CoreWeave, Coherent, First Solar, Trade Desk, and More Stocks That Explain Today\u2019s Market",
+    "Nov 9, 10:58 AM ET \u00b7 24/7 Wall St. \u00b7 Coherent Jumps 13% as Optical Stocks Extend AI Rebound; Lumentum Surges 11%, Applied Optoelectronics Rises 4%",
+    "Nov 9, 9:06 AM ET \u00b7 TIKR \u00b7 Ciena\u2019s Growth Rides on the Same Cloud Buyers as Arista. Arista Just Reported."
+   ],
+   "verdict": {
+    "decision": "pass",
+    "conviction": 2,
+    "catalyst": "Sector theme only: AI optical rebound from Nov 9 peer moves (Coherent +13%, Lumentum +11%). No CIEN-specific news in the headlines.",
+    "why": "The +4.2% move tracks an optical-sector rally that already ran the day before, and SMH is flat, so this is a late, RSI-75 catch-up with no fresh company catalyst to support continuation. The base rate for these setups has been negative.",
+    "against": "The optical theme is still strong and CIEN is breaking out on 1.6x volume, so momentum could carry it to the +4% target before a -2% stop is hit.",
+    "model": "claude-haiku-5-5"
+   },
+   "entry": {
+    "at": "10:30 AM",
+    "name": 280.525,
+    "hedge": 486.66
+   },
+   "exit": {
+    "at": "12:00 PM",
+    "reason": "stop",
+    "bars": 6,
+    "result_bp": -252.2,
+    "after_costs_bp": -260.2
+   }
+  },
+  {
+   "id": "I-1110-NVDA",
+   "symbol": "NVDA",
+   "hedge": "SMH",
+   "beta": 0.69,
+   "setup": "range_break",
+   "direction": "short",
+   "slot": 4,
+   "signal_at": "10:45 AM",
+   "numbers": {
+    "gap_atr": -0.29,
+    "day_atr": -0.93,
+    "run_atr": -0.65,
+    "rvol": 15.82,
+    "rsi": 28.3,
+    "price": 169.71,
+    "name_day_pct": -4.98,
+    "hedge_day_pct": -0.92
+   },
+   "atr_pct": 0.0469,
+   "plan": {
+    "stop_pct": -2.0,
+    "target_pct": 4.0,
+    "max_bars": null,
+    "flat_by": "3:45 PM"
+   },
+   "skipped": "held by the swing book",
+   "verdict": {
+    "decision": "not judged",
+    "why": "held by the swing book"
+   },
+   "entry": {
+    "at": "10:45 AM",
+    "name": 169.7,
+    "hedge": 483.0
+   },
+   "exit": {
+    "at": "3:45 PM",
+    "reason": "flat",
+    "bars": 20,
+    "result_bp": 70.1,
+    "after_costs_bp": 62.1
+   }
+  },
+  {
+   "id": "I-1110-USAR",
+   "symbol": "USAR",
+   "hedge": "IWM",
+   "beta": 2.85,
+   "setup": "range_break",
+   "direction": "short",
+   "slot": 4,
+   "signal_at": "10:45 AM",
+   "numbers": {
+    "gap_atr": -0.3,
+    "day_atr": -0.64,
+    "run_atr": -0.36,
+    "rvol": 1.82,
+    "rsi": 30.9,
+    "price": 7.88,
+    "name_day_pct": -10.26,
+    "hedge_day_pct": -1.36
+   },
+   "atr_pct": 0.0998,
+   "plan": {
+    "stop_pct": -2.0,
+    "target_pct": 4.0,
+    "max_bars": null,
+    "flat_by": "3:45 PM"
+   },
+   "skipped": "reported earnings since the last close",
+   "verdict": {
+    "decision": "not judged",
+    "why": "reported earnings since the last close"
+   },
+   "entry": {
+    "at": "10:45 AM",
+    "name": 7.875,
+    "hedge": 278.655
+   },
+   "exit": {
+    "at": "3:45 PM",
+    "reason": "flat",
+    "bars": 20,
+    "result_bp": 155.2,
+    "after_costs_bp": 147.2
+   }
+  },
+  {
+   "id": "I-1110-DHT",
+   "symbol": "DHT",
+   "hedge": "XLE",
+   "beta": 1.01,
+   "setup": "range_break",
+   "direction": "long",
+   "slot": 6,
+   "signal_at": "11:15 AM",
+   "numbers": {
+    "gap_atr": -0.54,
+    "day_atr": 0.33,
+    "run_atr": 0.92,
+    "rvol": 3.76,
+    "rsi": 55.8,
+    "price": 20.81,
+    "name_day_pct": 1.31,
+    "hedge_day_pct": -0.47
+   },
+   "atr_pct": 0.0536,
+   "plan": {
+    "stop_pct": -2.0,
+    "target_pct": 4.0,
+    "max_bars": null,
+    "flat_by": "3:45 PM"
+   },
+   "skipped": "reported earnings since the last close",
+   "verdict": {
+    "decision": "not judged",
+    "why": "reported earnings since the last close"
+   },
+   "entry": {
+    "at": "11:15 AM",
+    "name": 20.8,
+    "hedge": 61.67
+   },
+   "exit": {
+    "at": "2:00 PM",
+    "reason": "stop",
+    "bars": 11,
+    "result_bp": -230.5,
+    "after_costs_bp": -238.5
+   }
+  },
+  {
+   "id": "I-1110-QBTS",
+   "symbol": "QBTS",
+   "hedge": "QQQ",
+   "beta": 2.34,
+   "setup": "range_break",
+   "direction": "short",
+   "slot": 8,
+   "signal_at": "11:45 AM",
+   "numbers": {
+    "gap_atr": -0.16,
+    "day_atr": -1.02,
+    "run_atr": -0.89,
+    "rvol": 2.54,
+    "rsi": 25.9,
+    "price": 10.22,
+    "name_day_pct": -10.82,
+    "hedge_day_pct": -0.96
+   },
+   "atr_pct": 0.0839,
+   "plan": {
+    "stop_pct": -2.0,
+    "target_pct": 4.0,
+    "max_bars": null,
+    "flat_by": "3:45 PM"
+   },
+   "skipped": "reported earnings since the last close",
+   "verdict": {
+    "decision": "not judged",
+    "why": "reported earnings since the last close"
+   },
+   "entry": {
+    "at": "11:45 AM",
+    "name": 10.225,
+    "hedge": 672.16
+   },
+   "exit": {
+    "at": "3:45 PM",
+    "reason": "flat",
+    "bars": 16,
+    "result_bp": -60.2,
+    "after_costs_bp": -68.2
+   }
+  },
+  {
+   "id": "I-1110-SMR",
+   "symbol": "SMR",
+   "hedge": "SMH",
+   "beta": 1.13,
+   "setup": "range_break",
+   "direction": "short",
+   "slot": 9,
+   "signal_at": "12:00 PM",
+   "numbers": {
+    "gap_atr": -0.11,
+    "day_atr": -0.31,
+    "run_atr": -0.2,
+    "rvol": 1.55,
+    "rsi": 33.8,
+    "price": 5.12,
+    "name_day_pct": -5.71,
+    "hedge_day_pct": -2.41
+   },
+   "atr_pct": 0.0961,
+   "plan": {
+    "stop_pct": -2.0,
+    "target_pct": 4.0,
+    "max_bars": null,
+    "flat_by": "3:45 PM"
+   },
+   "headlines": [
+    "Nov 10, 8:29 AM ET \u00b7 TIKR \u00b7 Oklo Soars 14% in a Week on a Narrower Loss and a Deal for 27 Reactors\u2019 Worth of Forgings",
+    "Nov 9, 3:02 PM ET \u00b7 24/7 Wall St. \u00b7 NuScale Is Still Down 61% in 2026: Did Today Mark the Bottom for SMR Stock?",
+    "Nov 9, 2:15 PM ET \u00b7 Simply Wall St. \u00b7 NuScale Power (SMR) Recovery Now Rests On Unfinished Power Purchase Talks"
+   ],
+   "verdict": {
+    "decision": "pass",
+    "conviction": 4,
+    "catalyst": "none found",
+    "why": "The headlines don't explain today's -5.7% drop: they are from Nov 9 and the Nov 10 morning, and the Oklo piece is about a peer. About 2.4 points of the move came from SMH, so roughly 3.3 points is name-specific with no news behind it. An unexplained, oversold selloff (RSI 33.8, down 61% in 2026) doesn't give a breakdown short a clear reason to keep going.",
+    "against": "The stock is already down 61% this year and oversold, so an unexplained drop can snap back on any unresolved power-purchase deal headline.",
+    "model": "claude-haiku-5-5"
+   },
+   "entry": {
+    "at": "12:00 PM",
+    "name": 5.11,
+    "hedge": 475.295
+   },
+   "exit": {
+    "at": "3:45 PM",
+    "reason": "flat",
+    "bars": 15,
+    "result_bp": -86.6,
+    "after_costs_bp": -94.6
+   }
+  }
+ ]
+}

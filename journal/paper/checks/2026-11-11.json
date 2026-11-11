@@ -1,0 +1,53 @@
+{
+ "session": "2026-11-11",
+ "built_at": "2026-11-11T11:35:14.587837-05:00",
+ "dry_run": false,
+ "unfilled": [
+  {
+   "trade_id": "2026-11-11-A01",
+   "name": "MARA",
+   "symbols": [
+    "IBIT",
+    "MARA"
+   ]
+  },
+  {
+   "trade_id": "2026-11-11-A02",
+   "name": "QNT",
+   "symbols": [
+    "QNT",
+    "SPHB"
+   ]
+  }
+ ],
+ "waiting": [],
+ "exits": [],
+ "orders": [],
+ "order_status": [
+  {
+   "trade_id": "2026-11-11-A01",
+   "symbol": "MARA",
+   "status": "not found"
+  },
+  {
+   "trade_id": "2026-11-11-A01",
+   "symbol": "IBIT",
+   "status": "not found"
+  },
+  {
+   "trade_id": "2026-11-11-A02",
+   "symbol": "QNT",
+   "status": "not found"
+  },
+  {
+   "trade_id": "2026-11-11-A02",
+   "symbol": "SPHB",
+   "status": "not found"
+  }
+ ],
+ "warnings": [
+  "The plan has trades but no order statuses, so the entry job stopped while sending. Legs that filled are handled here; the rest were never sent.",
+  "2026-11-11-A01 MARA: no leg filled at the open (IBIT (not found), MARA (not found)), so the trade wasn't taken.",
+  "2026-11-11-A02 QNT: no leg filled at the open (QNT (not found), SPHB (not found)), so the trade wasn't taken."
+ ]
+}

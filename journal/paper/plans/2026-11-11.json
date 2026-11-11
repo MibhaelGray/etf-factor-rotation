@@ -1,0 +1,85 @@
+{
+ "session": "2026-11-11",
+ "built_at": "2026-11-11T09:23:37.859552-05:00",
+ "screen": "2026-11-10",
+ "proposals": {
+  "take": 2,
+  "pass": 10
+ },
+ "dry_run": false,
+ "trades": [
+  {
+   "id": "2026-11-11-A01",
+   "book": "dynamic",
+   "source": "proposal 2026-11-11-P01",
+   "proposal_id": "2026-11-11-P01",
+   "conviction": 3,
+   "name": "MARA",
+   "setup": "earnings_gap_faded",
+   "direction": "long",
+   "why": "Q3 on 11-09 came with a buyback of up to $500M (about 18% of market value), $750M of bitcoin-backed loans repaid and debt down 37% this year; it rose 10.5% on a day bitcoin hit an 11-week low and with about a third of the float short. Hedged with the bitcoin fund so the bet is the company, not the coin.",
+   "wrong_if": "MARA announces a share sale, at-the-market use or a new convertible (for Long Ridge or otherwise), or says the buyback waits on other uses of cash; or it gives back the whole 11-10 gain against IBIT (closes under 6.64 with bitcoin flat or up) on no news.",
+   "entry_date": "2026-11-11",
+   "horizon_days": 4,
+   "stop": {
+    "spread_pct": -8.0
+   },
+   "notional": 10000,
+   "legs": [
+    {
+     "symbol": "MARA",
+     "side": "long",
+     "shares": 1303,
+     "ref_price": 7.67
+    },
+    {
+     "symbol": "IBIT",
+     "side": "short",
+     "shares": 240,
+     "ref_price": 41.57
+    }
+   ],
+   "hedge": "IBIT"
+  },
+  {
+   "id": "2026-11-11-A02",
+   "book": "dynamic",
+   "source": "proposal 2026-11-11-P02",
+   "proposal_id": "2026-11-11-P02",
+   "conviction": 3,
+   "name": "QNT",
+   "setup": "breakout",
+   "direction": "long",
+   "why": "Quantinuum raised its 2026 revenue guide on record bookings (11-05), added a RIKEN/SoftBank agreement on 11-10, and broke its 20-day high up 7.4% on a day every other quantum name fell and Rigetti missed after the close; it held after hours.",
+   "wrong_if": "QNT closes back under its 20-day high of 40.56 while SPHB is flat or up (the breakout failed on sympathy with Rigetti); or the company or Honeywell files a share sale or the underwriters waive the lockup; or the Cantor chat walks back the raised guide.",
+   "entry_date": "2026-11-11",
+   "horizon_days": 4,
+   "stop": {
+    "spread_pct": -8.0
+   },
+   "notional": 10000,
+   "legs": [
+    {
+     "symbol": "QNT",
+     "side": "long",
+     "shares": 228,
+     "ref_price": 43.85
+    },
+    {
+     "symbol": "SPHB",
+     "side": "short",
+     "shares": 72,
+     "ref_price": 137.77
+    }
+   ],
+   "hedge": "SPHB"
+  }
+ ],
+ "skipped": [],
+ "orders": [],
+ "prices": {
+  "quoted": 4,
+  "last_close": []
+ },
+ "warnings": []
+}

@@ -1,0 +1,73 @@
+{
+ "session": "2026-11-11",
+ "reviewed_at": "2026-11-11T15:02:06.769991-05:00",
+ "summary": "Tech-led rebound (SPY +1.4%, QQQ +2.6%, VIX 17.5, -10%). No trade's wrong_if has happened and no news changes a story: eleven holds.",
+ "reviews": [
+  {
+   "trade_id": "2026-11-09-D01",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "ABNB -2.8% vs XLY flat on the OpenAI/Odessia AI-travel-planner worry (Barron's 11-11), a sector sentiment item, not a change to Airbnb's raised guide or demand; no analyst or demand news. Near its stop, which decides."
+  },
+  {
+   "trade_id": "2026-11-09-D02",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "CVS flat vs XLV -0.2%; only an awards press release (11-11), no guidance or analyst news."
+  },
+  {
+   "trade_id": "2026-11-09-D04",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "U -0.4% vs XLC +0.9% with no Unity news since 11-09; lagging on a strong day is price, not a changed story."
+  },
+  {
+   "trade_id": "2026-11-09-D05",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "OUST +1.3%, in line with XLI; no news since the Indra selection (11-10). Thesis intact, gain held."
+  },
+  {
+   "trade_id": "2026-11-09-D06",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "QCOM +3.0% vs SPY +1.4% on the chip rally; BofA stays cautious (11-11), no guidance change. Rebound running, not judged finished with a session left."
+  },
+  {
+   "trade_id": "2026-11-09-D07",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "No Novo news in the window; NVO +1.0% vs XLV -0.2% is price against the short, not a story change."
+  },
+  {
+   "trade_id": "2026-11-09-D09",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "McDonald's tie-up expansion (11-11) is mildly positive; Google-buys-Uber piece is commentary. UBER +0.9% vs SPY +1.4%, no rating changes."
+  },
+  {
+   "trade_id": "2026-11-09-D10",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "No Cognex news; CGNX +2.5% vs XLI +1.3% alongside peer ZBRA +2.6%, a group move, not a changed story."
+  },
+  {
+   "trade_id": "2026-11-10-A01",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "No part of wrong_if: no clearance from directors, DOJ or FBI; the House reply deadline is today with no Nvidia response and a subpoena threatened; no White House confirmation of the Shenzhen trip. Morgan Stanley dropped it as top pick and Baird downgraded (11-11). NVDA +4% vs QQQ +2.6% is the chip rally."
+  },
+  {
+   "trade_id": "2026-11-10-A02",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "No upgrades on seat growth and no ServiceNow guidance comments before the BMO chat on 11-12; today's lift is the tech rebound after the 11-10 Anthropic-launch selloff, not a regained 5-day loss on no news."
+  },
+  {
+   "trade_id": "2026-11-10-A03",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "Nothing found from the Baird conference or analysts framing the Q4 shortfall as a quantified one-off or the guide as conservative; NOVT +0.2% vs XLK +3.7%."
+  }
+ ]
+}

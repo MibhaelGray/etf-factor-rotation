@@ -1,13 +1,13 @@
 {
   "note": "Themed baskets: equal-weight groups of stocks for ideas no single ETF captures. A watchlist, not recorded ideas. Members come from IBKR's theme data (search_investment_topics / get_theme_details) and the dossier; every member is checked with IBKR (search_contracts for a US listing, get_price_snapshot avg_90d_usd_volume of at least about $20M; names in the standard universe skip the volume check). The snapshot is IBKR's change from the prior close at the time shown; after 16:00 it includes after-hours trades.",
-  "updated": "2026-11-05",
+  "updated": "2026-11-09",
   "snapshot_at": "2026-11-05T16:00:00-05:00",
   "baskets": [
     {
       "id": "texas_power",
       "name": "Texas power",
       "hedge": "XLU",
-      "story": "Generators and utilities whose growth case leans on ERCOT data-center load. A Texas data-center moratorium, which the governor's race put on the table, hits them directly; regulated utilities elsewhere (XLU) far less.",
+      "story": "Power generators and retailers whose growth case leans on ERCOT data-center load. A Texas data-center moratorium, which the governor's race put on the table, hits them directly; regulated utilities elsewhere (XLU) far less.",
       "watch": "Texas count and any statement from the governor-elect or PUCT on large-load interconnection; ERCOT large-load queue updates.",
       "source": "IBKR theme Data Center Power; dossier 2026-11-03",
       "members": [
@@ -28,12 +28,6 @@
           "why": "Mostly PJM nuclear, but its Freestone Texas site hosts a CyrusOne data center under a recent PUCT approval: a partial Texas name",
           "avg_usd_volume_90d": 802228620,
           "change_pct": -2.47
-        },
-        {
-          "symbol": "CNP",
-          "why": "Houston electric utility whose load forecast leans on data-center interconnections",
-          "avg_usd_volume_90d": 269268974,
-          "change_pct": -2.61
         }
       ],
       "hedge_change_pct": -0.71
@@ -75,6 +69,13 @@
           "why": "Helios campus in West Texas, leased for AI compute",
           "avg_usd_volume_90d": 89402831,
           "change_pct": -7.09
+        },
+        {
+          "symbol": "MARA",
+          "why": "MARA: bitcoin miner with Texas sites and AI-power plans; moved here from Crypto stocks on 2026-11-09 after tracking this group (0.75) far more closely than crypto stocks (0.29) over 120 sessions",
+          "avg_usd_volume_90d": 281326382,
+          "change_pct": 2.99,
+          "added": "2026-11-09"
         }
       ],
       "hedge_change_pct": -11.21,
@@ -117,6 +118,20 @@
           "why": "Power ICs for AI servers; about a third of revenue from AI and servers",
           "avg_usd_volume_90d": 925893933,
           "change_pct": -10.28
+        },
+        {
+          "symbol": "NVT",
+          "why": "nVent: liquid cooling and electrical connections; data centers about $1B in 2025, about a quarter of sales and rising",
+          "avg_usd_volume_90d": 291097426,
+          "change_pct": 6.97,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "POWL",
+          "why": "Powell: switchgear; one data-center order over $400M was about 43% of fiscal Q3 orders, commercial and other industrial 40% of backlog",
+          "avg_usd_volume_90d": 87416227,
+          "change_pct": 7.25,
+          "added": "2026-11-09"
         }
       ],
       "hedge_change_pct": -4.12
@@ -146,6 +161,20 @@
           "why": "Electrical balance-of-system for utility-scale solar and storage",
           "avg_usd_volume_90d": 40467786,
           "change_pct": -1.86
+        },
+        {
+          "symbol": "TE",
+          "why": "T1 Energy: US module maker (G1 Dallas), all sales from solar modules, $250M in Q2; reports Q3 on Nov 12",
+          "avg_usd_volume_90d": 47289222,
+          "change_pct": -2.33,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "CSIQ",
+          "why": "Canadian Solar: modules and storage, with roughly half of 2026 module shipments in the US (6.5-7.0 GW guided) and a Texas plant; only just clears the volume bar after being dropped at $19.5M on Nov 5",
+          "avg_usd_volume_90d": 20333032,
+          "change_pct": -4.59,
+          "added": "2026-11-09"
         }
       ],
       "hedge_change_pct": -0.71,
@@ -183,16 +212,24 @@
           "change_pct": -0.5
         },
         {
-          "symbol": "CVS",
-          "why": "Aetna insurance plus pharmacy and PBM",
-          "avg_usd_volume_90d": 647179420,
-          "change_pct": 1.71
-        },
-        {
           "symbol": "CNC",
           "why": "The largest ACA marketplace and Medicaid insurer",
           "avg_usd_volume_90d": 339678623,
           "change_pct": -2.42
+        },
+        {
+          "symbol": "MOH",
+          "why": "Molina: Medicaid about 78% of Q3 premiums, Medicare 15%, Marketplace 6% after a deliberate retreat",
+          "avg_usd_volume_90d": 154073389,
+          "change_pct": -1.96,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "OSCR",
+          "why": "Oscar: the ACA marketplace specialist, nearly all revenue from ACA plans, about 2.7M members; Q3 profit on Nov 5 with a Q4 loss implied by guidance",
+          "avg_usd_volume_90d": 170093898,
+          "change_pct": 3.72,
+          "added": "2026-11-09"
         }
       ],
       "hedge_change_pct": -2.5,
@@ -231,10 +268,11 @@
           "avg_usd_volume_90d": 2586810491
         },
         {
-          "symbol": "RMBS",
-          "why": "Rambus: memory interface chips, about half of revenue; mid-40% share of DDR5 clock drivers",
-          "change_pct": -15.95,
-          "avg_usd_volume_90d": 179424120
+          "symbol": "SIMO",
+          "why": "Silicon Motion: NAND flash controllers are its whole business; Q2 revenue $451M, up 127%; enterprise controllers 5-10% of 2026 revenue",
+          "avg_usd_volume_90d": 168817928,
+          "change_pct": 5.7,
+          "added": "2026-11-09"
         }
       ],
       "hedge_change_pct": -11.21
@@ -270,6 +308,20 @@
           "why": "Converting its bitcoin sites to AI cloud; also in the Texas AI hosts basket",
           "change_pct": -16.95,
           "avg_usd_volume_90d": 1013601739
+        },
+        {
+          "symbol": "WULF",
+          "why": "TeraWulf: HPC leases about 83% of Q3 revenue (Fluidstack, Anthropic); a landlord like APLD rather than a GPU renter",
+          "avg_usd_volume_90d": 452296158,
+          "change_pct": 7.3,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "CBRS",
+          "why": "Cerebras: wafer-scale AI chips and its own inference cloud, cloud about 70% of Q2 reported revenue with OpenAI the driver; also a chip maker, so not a pure neocloud",
+          "avg_usd_volume_90d": 846036626,
+          "change_pct": 4.95,
+          "added": "2026-11-09"
         }
       ],
       "hedge_change_pct": -11.21
@@ -359,6 +411,27 @@
           "why": "Cameco: uranium mining and conversion, 49% of Westinghouse",
           "change_pct": -4.67,
           "avg_usd_volume_90d": 224037581
+        },
+        {
+          "symbol": "UEC",
+          "why": "Uranium Energy: US uranium miner and conversion developer, all FY2026 revenue ($37.3M) from uranium sales",
+          "avg_usd_volume_90d": 71991502,
+          "change_pct": 8.82,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "UUUU",
+          "why": "Energy Fuels: uranium about 97% of Q3 revenue, but rare earths and the pending VAC deal are a growing part of the story",
+          "avg_usd_volume_90d": 56550793,
+          "change_pct": 7.66,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "NNE",
+          "why": "NANO Nuclear: KRONOS microreactor developer, essentially pre-revenue apart from small nuclear-transport sales; thin at about $24M a day",
+          "avg_usd_volume_90d": 24063719,
+          "change_pct": 11.34,
+          "added": "2026-11-09"
         }
       ],
       "hedge_change_pct": -0.71
@@ -394,6 +467,20 @@
           "why": "Photonic systems; the smallest and thinnest of the four",
           "change_pct": -12.44,
           "avg_usd_volume_90d": 45426088
+        },
+        {
+          "symbol": "INFQ",
+          "why": "Infleqtion: neutral-atom computers and quantum sensors, all revenue quantum, about 80% from US government customers; NASA sensing work was a main Q2 driver",
+          "avg_usd_volume_90d": 78415710,
+          "change_pct": 8.21,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "QNT",
+          "why": "Quantinuum: trapped-ion systems (Helios); Honeywell keeps about 48% of the vote; IPO June 4, so a six-month lockup would likely end around early December",
+          "avg_usd_volume_90d": 80457557,
+          "change_pct": 6.15,
+          "added": "2026-11-09"
         }
       ],
       "hedge_change_pct": -6.49
@@ -429,6 +516,20 @@
           "why": "Circle: issues USDC and earns interest on the reserves, so it is also rate-sensitive",
           "change_pct": -8.72,
           "avg_usd_volume_90d": 977912847
+        },
+        {
+          "symbol": "BMNR",
+          "why": "BitMine: ether treasury, about 95% of $14.5B in assets (6.06M ETH on Nov 1). IBIT is bitcoin, so the spread carries ether against bitcoin",
+          "avg_usd_volume_90d": 704037415,
+          "change_pct": 0.64,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "BLSH",
+          "why": "Bullish: institutional crypto exchange for spot, derivatives and options; all revenue from digital-asset trading",
+          "avg_usd_volume_90d": 33361204,
+          "change_pct": 5.63,
+          "added": "2026-11-09"
         }
       ],
       "hedge_change_pct": -5.07
@@ -470,44 +571,30 @@
           "why": "Redwire: space infrastructure and components for NASA missions",
           "change_pct": -19.82,
           "avg_usd_volume_90d": 99783000
+        },
+        {
+          "symbol": "VOYG",
+          "why": "Voyager: Starlab commercial station and space infrastructure; nearly three quarters of capex and innovation spending on space; Q3 revenue $89M, up 124%",
+          "avg_usd_volume_90d": 51839540,
+          "change_pct": 16.31,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "FLY",
+          "why": "Firefly: Blue Ghost lunar landers and Alpha rockets, spacecraft 83.5% of Q2 revenue; reports Q3 on Nov 10 after the close",
+          "avg_usd_volume_90d": 73566412,
+          "change_pct": 11.8,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "SPCX",
+          "why": "SpaceX: launch and Starlink, connectivity about 61% of 2025 revenue; IPO June 2026 and by far the largest name in the group",
+          "avg_usd_volume_90d": 13811863287,
+          "change_pct": 4.98,
+          "added": "2026-11-09"
         }
       ],
       "hedge_change_pct": -4.12
-    },
-    {
-      "id": "glp1",
-      "name": "GLP-1 and obesity",
-      "hedge": "XLV",
-      "story": "Makers and sellers of obesity drugs. Their pricing depends on Medicare coverage and drug-price negotiation set in Washington, so a Democratic sweep matters here too. Against XLV, the spread is the obesity franchise against health care as a whole.",
-      "watch": "Medicare coverage of obesity drugs, drug-price negotiation lists, trial readouts, prescription data, compounding rules for HIMS.",
-      "source": "IBKR theme Obesity Treatments",
-      "members": [
-        {
-          "symbol": "LLY",
-          "why": "Eli Lilly: Zepbound and Mounjaro, about two thirds of revenue",
-          "change_pct": -3.76,
-          "avg_usd_volume_90d": 3525001946
-        },
-        {
-          "symbol": "NVO",
-          "why": "Novo Nordisk (US ADR): Wegovy and Ozempic",
-          "change_pct": -4.46,
-          "avg_usd_volume_90d": 497404744
-        },
-        {
-          "symbol": "VKTX",
-          "why": "Viking: VK2735 in Phase III, injectable and oral",
-          "change_pct": -7.79,
-          "avg_usd_volume_90d": 137014452
-        },
-        {
-          "symbol": "HIMS",
-          "why": "Hims & Hers: telehealth seller of branded and compounded weight-loss drugs",
-          "change_pct": -9.75,
-          "avg_usd_volume_90d": 285757588
-        }
-      ],
-      "hedge_change_pct": -2.5
     },
     {
       "id": "defense_primes",
@@ -546,6 +633,13 @@
           "why": "L3Harris: defense electronics, communications and rocket motors",
           "change_pct": -0.63,
           "avg_usd_volume_90d": 427312391
+        },
+        {
+          "symbol": "HII",
+          "why": "Huntington Ingalls: Navy shipbuilder, shipbuilding about 80% of Q3 revenue ($2.8B of $3.5B) and the rest Mission Technologies",
+          "avg_usd_volume_90d": 155202692,
+          "change_pct": 5.16,
+          "added": "2026-11-09"
         }
       ],
       "hedge_change_pct": -4.12
@@ -659,64 +753,10 @@
           "why": "Rubrik: data security and ransomware recovery",
           "avg_usd_volume_90d": 193966430,
           "change_pct": -11.14
-        },
-        {
-          "symbol": "CHKP",
-          "why": "Check Point: network and cloud security, a slower, more profitable grower",
-          "avg_usd_volume_90d": 85352283,
-          "change_pct": 0.52
         }
       ],
       "hedge_change_pct": -4.39,
       "caution": "PANW and CRWD are also large IGV holdings, so the spread understates the group's move. CHKP rose while the others fell 5-11% today; check for its own news."
-    },
-    {
-      "id": "adtech_apps",
-      "name": "Ad tech and mobile apps",
-      "hedge": "XLC",
-      "story": "Companies that sell or place digital ads, led by the mobile app ad platforms AppLovin and Unity. They ride ad budgets and AI targeting, not AI hardware capex. Against XLC, whose biggest holdings are Meta and Alphabet.",
-      "watch": "Earnings (AppLovin's result set today's tone), Meta and Alphabet ad commentary, consumer spending, app-store and privacy rule changes.",
-      "source": "IBKR theme Advertising; Unity added for its mobile ad network",
-      "members": [
-        {
-          "symbol": "APP",
-          "why": "AppLovin: mobile ad platform and auction, expanding beyond games",
-          "avg_usd_volume_90d": 1008258792,
-          "change_pct": 31.04
-        },
-        {
-          "symbol": "U",
-          "why": "Unity: game engine plus a mobile ad network competing with AppLovin",
-          "avg_usd_volume_90d": 284490487,
-          "change_pct": 14.93
-        },
-        {
-          "symbol": "TTD",
-          "why": "The Trade Desk: independent programmatic ad buying, strong in connected TV",
-          "avg_usd_volume_90d": 168310422,
-          "change_pct": -3.17
-        },
-        {
-          "symbol": "RDDT",
-          "why": "Reddit: ads are over 94% of revenue",
-          "avg_usd_volume_90d": 482881025,
-          "change_pct": -7.93
-        },
-        {
-          "symbol": "PINS",
-          "why": "Pinterest: shopping-led ad platform",
-          "avg_usd_volume_90d": 175285751,
-          "change_pct": -6.74
-        },
-        {
-          "symbol": "ROKU",
-          "why": "Roku: connected TV ads, nearly half of revenue",
-          "avg_usd_volume_90d": 152434802,
-          "change_pct": -1.47
-        }
-      ],
-      "hedge_change_pct": -0.59,
-      "caution": "APP rose 31% and U rose 15% on earnings today while the other four fell, so today's basket average says little about the group."
     },
     {
       "id": "hyperscalers",
@@ -797,6 +837,20 @@
           "why": "Teradyne: chip testing, tied to AI accelerators; also a robotics business",
           "avg_usd_volume_90d": 521915174,
           "change_pct": -15.24
+        },
+        {
+          "symbol": "ONTO",
+          "why": "Onto Innovation: process control and inspection for advanced nodes and packaging; all revenue is chip equipment",
+          "avg_usd_volume_90d": 190182894,
+          "change_pct": 10.86,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "MKSI",
+          "why": "MKS: vacuum, plasma and RF subsystems inside chip tools, semiconductors over 40% of revenue and the rest electronics and specialty",
+          "avg_usd_volume_90d": 283238430,
+          "change_pct": 8.22,
+          "added": "2026-11-09"
         }
       ],
       "hedge_change_pct": -11.21,
@@ -833,6 +887,20 @@
           "why": "Ouster: lidar sensors; robotics is its second-largest market",
           "avg_usd_volume_90d": 64177049,
           "change_pct": -9.0
+        },
+        {
+          "symbol": "HSAI",
+          "why": "Hesai (China ADR): lidar, robotics about 23% of Q2 units and nearly tripling; left out at $18M a day on Nov 5 and now only just clears",
+          "avg_usd_volume_90d": 22872646,
+          "change_pct": -0.21,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "NOVT",
+          "why": "Novanta: motion control and precision robotic components; robotics and automation about 20% of sales, up 13.5% in Q2; the rest is mostly medical",
+          "avg_usd_volume_90d": 55188298,
+          "change_pct": 7.13,
+          "added": "2026-11-09"
         }
       ],
       "hedge_change_pct": -4.12,
@@ -869,6 +937,20 @@
           "why": "Hudbay Minerals: copper and gold mines in the Americas",
           "avg_usd_volume_90d": 72668075,
           "change_pct": -7.38
+        },
+        {
+          "symbol": "ERO",
+          "why": "Ero Copper: Brazilian mines, copper about 73% of Q3 revenue and gold the rest, with stockpile gold flattering the quarter",
+          "avg_usd_volume_90d": 45614804,
+          "change_pct": 5.89,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "TGB",
+          "why": "Trekor Metals (renamed from Taseko in June): Gibraltar and Florence copper mines, 36M lb of copper in Q2; revenue share not stated in the sources",
+          "avg_usd_volume_90d": 36271580,
+          "change_pct": 6.47,
+          "added": "2026-11-09"
         }
       ],
       "hedge_change_pct": -2.91,
@@ -917,12 +999,6 @@
           "why": "Booking: online travel, no fuel bill",
           "avg_usd_volume_90d": 749003983,
           "change_pct": -1.32
-        },
-        {
-          "symbol": "ABNB",
-          "why": "Airbnb: online lodging, no fuel bill; up about 7% after hours on earnings",
-          "avg_usd_volume_90d": 393135540,
-          "change_pct": -3.54
         }
       ],
       "hedge_change_pct": -3.83,
@@ -959,10 +1035,271 @@
           "why": "Ondas: drone and autonomous systems",
           "avg_usd_volume_90d": 388294339,
           "change_pct": -14.23
+        },
+        {
+          "symbol": "UMAC",
+          "why": "Unusual Machines: US drone motors and components, nearly all revenue; Q3 revenue $13.9M, up 551%",
+          "avg_usd_volume_90d": 45463687,
+          "change_pct": 11.51,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "AVEX",
+          "why": "AEVEX: military drones and loitering munitions, Tactical Systems about 88% of quarterly revenue; IPO April 2026, Madison Dearborn holds 79% of the vote, only just clears the volume bar",
+          "avg_usd_volume_90d": 20568746,
+          "change_pct": 10.88,
+          "added": "2026-11-09"
         }
       ],
       "hedge_change_pct": -4.12,
       "caution": "RCAT and ONDS fell 14-15% today and are thin, speculative names; RCAT is the thinnest, at about $44M a day."
+    },
+    {
+      "id": "refiners",
+      "name": "Refiners",
+      "hedge": "XLE",
+      "story": "US refiners earn the gap between crude and fuel, not the price of oil. XLE is mostly producers, so the spread isolates the crack: diesel and gasoline margins hit records in Q3 2026 on Middle East and Ukraine supply losses.",
+      "watch": "Weekly 3-2-1 and diesel crack spreads, EIA refinery utilization and distillate stocks, Hormuz and Russian product headlines, whether the CVR-Marathon refinery sale closes around year-end, small refinery exemption rulings for CVI, DK and PARR.",
+      "source": "No IBKR refining theme exists (searched refining, refiner, petroleum); Q3 2026 company releases, Oct 22 to Nov 6, 2026",
+      "members": [
+        {
+          "symbol": "MPC",
+          "why": "Marathon Petroleum: Refining & Marketing about 85% of Q3 2026 segment EBITDA ($9.9B of $11.7B), the rest mostly MPLX midstream; selling St. Paul Park and Mandan to CVI (MPC release, Nov 2026)",
+          "avg_usd_volume_90d": 1010091782,
+          "change_pct": 4.72,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "VLO",
+          "why": "Valero: refining about 93% of Q3 2026 segment operating income ($8.78B of $9.41B), plus renewable diesel and ethanol (Valero 8-K, Oct 22, 2026)",
+          "avg_usd_volume_90d": 1100873377,
+          "change_pct": 3.1,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "PSX",
+          "why": "Phillips 66: refining about 85% of Q3 2026 adjusted segment income, but about a third in Q3 2025, with midstream and CPChem the rest (Phillips 66 results, Oct 28, 2026)",
+          "avg_usd_volume_90d": 746754843,
+          "change_pct": 2.99,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "PBF",
+          "why": "PBF Energy: nearly pure refiner, about 924,000 bpd of throughput across four regions, with a renewable diesel joint venture; refining share not itemized (PBF 8-K, Oct 30, 2026)",
+          "avg_usd_volume_90d": 222162570,
+          "change_pct": 4.06,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "DINO",
+          "why": "HF Sinclair: refining about 87% of Q3 2026 adjusted EBITDA ($2.58B of $2.98B), plus lubricants, renewables and midstream (HF Sinclair release, Oct 28, 2026)",
+          "avg_usd_volume_90d": 256511888,
+          "change_pct": 3.45,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "DK",
+          "why": "Delek US: refining about 97% of Q3 2026 adjusted EBITDA ($1.24B of $1.28B), with Delek Logistics the rest (Delek release, Nov 6, 2026)",
+          "avg_usd_volume_90d": 132730264,
+          "change_pct": 3.11,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "CVI",
+          "why": "CVR Energy: petroleum about 97% of Q3 2026 adjusted EBITDA ($565M of $582M), nitrogen fertilizer the rest; buying two Marathon refineries for $4.2B, nearly doubling capacity; it is the buyer, so no price pin (CVR release, Nov 3, 2026)",
+          "avg_usd_volume_90d": 51777317,
+          "change_pct": 3.83,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "PARR",
+          "why": "Par Pacific: refining about 61% of Q3 2026 adjusted EBITDA ($396M of $646M, per the call, not checked against the release), plus logistics and retail in Hawaii and the Rockies (Q3 call, Nov 3, 2026)",
+          "avg_usd_volume_90d": 63170508,
+          "change_pct": 0.98,
+          "added": "2026-11-09"
+        }
+      ],
+      "hedge_change_pct": 0.86
+    },
+    {
+      "id": "seat_software",
+      "name": "Seat-based software",
+      "hedge": "IGV",
+      "story": "Software priced per user, where the fear is that AI agents do the work of paid seats and customers buy fewer. monday.com fell 21% in February after flagging agents as a threat, and Atlassian's call brought up seat compression. Against IGV, the spread is that fear, without the infrastructure and security names.",
+      "watch": "Net revenue retention and seat counts in earnings, how fast seats-plus-credits pricing spreads, Workday and Silver Lake headlines, Salesforce's next results (early December), any further take-private of a seat-based name.",
+      "source": "IBKR theme SaaS (evidence pulled 2026-11-09); company results, Sep to Nov 2026",
+      "members": [
+        {
+          "symbol": "CRM",
+          "why": "Salesforce: per-user CRM licenses at the core; subscription about 95% of sales, with Agentforce sold on seats, credits and outcomes (IBKR SaaS, Nov 2026)",
+          "avg_usd_volume_90d": 2497375834,
+          "change_pct": 1.46,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "NOW",
+          "why": "ServiceNow: priced per fulfiller, subscription virtually all revenue; about half of new business now on a seat-plus-consumption hybrid (IBKR SaaS, Nov 2026)",
+          "avg_usd_volume_90d": 1652889086,
+          "change_pct": 1.92,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "WDAY",
+          "why": "Workday: priced on customer headcount, subscription 93% of revenue. Silver Lake talks reported Aug 13 and still live Sep 17; no signed deal or terms found, so not pinned, status since unconfirmed (IBKR SaaS, Nov 2026; Reuters, Aug 13, 2026)",
+          "avg_usd_volume_90d": 613674769,
+          "change_pct": -0.13,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "ADBE",
+          "why": "Adobe: per-user Creative Cloud; Creative and Marketing Professionals subscriptions 69% of Q3 FY26 revenue ($4.65B of $6.76B). The fear is more generative AI replacing creative work than agents cutting seats (Adobe release, Sep 2026)",
+          "avg_usd_volume_90d": 1120354511,
+          "change_pct": 0.21,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "TEAM",
+          "why": "Atlassian: Jira and Confluence seat subscriptions; Cloud 73% of Q1 FY27 revenue ($1.30B of $1.77B), and management has used the phrase seat compression (Atlassian release, Nov 5, 2026; IBKR SaaS)",
+          "avg_usd_volume_90d": 538171440,
+          "change_pct": 0.87,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "HUBS",
+          "why": "HubSpot: priced on Core Seats with bundled AI credits; subscription 98% of revenue; Q4 guide below Q3 on weaker demand (HubSpot Q3 release, Nov 2026; IBKR SaaS)",
+          "avg_usd_volume_90d": 315134457,
+          "change_pct": 3.69,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "MNDY",
+          "why": "monday.com: seat plans, with seats-plus-credits for customers joining after May 6, 2026; Q3 revenue $377.5M, up 19%, reported today (monday.com release, Nov 9, 2026)",
+          "avg_usd_volume_90d": 101216368,
+          "change_pct": -4.71,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "ASAN",
+          "why": "Asana: revenue entirely from tiered, seat-based subscriptions, about $800M a year; 96% net retention. The purest seat name here (IBKR SaaS, Nov 2026)",
+          "avg_usd_volume_90d": 60296495,
+          "change_pct": -4.15,
+          "added": "2026-11-09"
+        }
+      ],
+      "hedge_change_pct": 2.47
+    },
+    {
+      "id": "critical_minerals",
+      "name": "Rare earths and critical minerals",
+      "hedge": "XLB",
+      "story": "Producers of minerals China dominates, where Washington now buys stakes, sets price floors and stockpiles. MP has a 15% federal stake and an NdPr floor of $110/kg; USA Rare Earth has a pending $1.6B Commerce deal; antimony and tungsten are under Chinese export limits. Against XLB, the spread is that policy bid, which has faded quickly after past deals.",
+      "watch": "The US-China truce on rare earth exports, reported to expire in November 2026; any new federal stake, floor or Defense Logistics Agency order; NdPr price against the $110/kg floor; USA Rare Earth Q3 results after the close today, 4:30 PM ET call; US Antimony Q3 results (Nov 10 or 16, dates conflict).",
+      "source": "IBKR themes Rare Earth Elements, Critical Minerals; S&P Global, Oct 20, 2026; company releases",
+      "members": [
+        {
+          "symbol": "MP",
+          "why": "MP Materials: essentially 100% rare earths; Q3 2026 revenue $147.6M including $8.1M of federal price-protection income (MP release, Nov 5, 2026; IBKR Rare Earth Elements)",
+          "avg_usd_volume_90d": 212921491,
+          "change_pct": 4.55,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "USAR",
+          "why": "USA Rare Earth: 100% of revenue from Less Common Metals, buying Serra Verde, $1.6B Commerce funding pending; Q3 results after the close today (IBKR Rare Earth Elements, Nov 2026; company notice)",
+          "avg_usd_volume_90d": 119724307,
+          "change_pct": 7.65,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "UAMY",
+          "why": "US Antimony: antimony about 75% of Q2 2026 revenue ($5.9M of $7.9M), zeolite the rest; $245M sole-source Defense Logistics Agency contract (10-Q, Aug 2026). At the volume bar, $21M a day",
+          "avg_usd_volume_90d": 21361614,
+          "change_pct": 19.5,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "ALM",
+          "why": "Almonty: tungsten miner, Q1 2026 revenue $25.4M on record tungsten prices; Korea's Sangdong mine started processing July 1, 2026; China controls tungsten exports; exact split not found (Almonty Q1 report; company release, Jul 1, 2026)",
+          "avg_usd_volume_90d": 57459265,
+          "change_pct": 6.53,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "ALB",
+          "why": "Albemarle: lithium-led Energy Storage about 72% of Q3 2026 sales ($1.12B of $1.55B); IBKR's top Critical Minerals name, but no federal stake or floor (Albemarle 8-K, Nov 2026)",
+          "avg_usd_volume_90d": 238631048,
+          "change_pct": -1.04,
+          "added": "2026-11-09"
+        }
+      ],
+      "hedge_change_pct": 2.27
+    },
+    {
+      "id": "oil_tankers",
+      "name": "Oil tankers",
+      "hedge": "XLE",
+      "story": "Tanker owners that gain when Hormuz disruption forces crude onto longer routes and tightens available ships. VLCC spot earnings ran above $150,000 a day in Q3 2026, and XLE owns almost no shipping, so the spread is freight rates rather than oil.",
+      "watch": "VLCC rates on the Middle East to China route, Hormuz transit counts and the US-Iran deal terms, DHT and Frontline Q4 booking updates, Hafnia's stake in TORM.",
+      "source": "IBKR theme Shipping Routes (FRO, STNG, DHT, TNK, TRMD); Q2 and Q3 2026 company results",
+      "members": [
+        {
+          "symbol": "FRO",
+          "why": "Frontline: tankers are the whole business, 30% of VLCC days on time charter; record Q2 2026 profit of $659M (Frontline Q2 release, Aug 28, 2026; IBKR Shipping Routes)",
+          "avg_usd_volume_90d": 166670345,
+          "change_pct": -0.86,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "DHT",
+          "why": "DHT Holdings: VLCC-only fleet, Q3 2026 spot VLCCs earned about $167,100 a day (DHT update, Oct 12, 2026)",
+          "avg_usd_volume_90d": 92947063,
+          "change_pct": 0.58,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "INSW",
+          "why": "International Seaways: tankers are the whole business, crude and product; Q3 2026 VLCC spot averaged about $154,600 a day (INSW Q3 release, Nov 2026)",
+          "avg_usd_volume_90d": 72589561,
+          "change_pct": -0.82,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "TNK",
+          "why": "Teekay Tankers: Suezmax and Aframax tankers are the whole business; Q3 Suezmax bookings about $104,800 a day at late July, 44% booked (Teekay 6-K, Jul 2026)",
+          "avg_usd_volume_90d": 41585824,
+          "change_pct": 0.43,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "NAT",
+          "why": "Nordic American: 17 Suezmaxes, the whole business; about 75% of Q3 days booked near $54,000 a day (NAT Q2 report, Aug 2026)",
+          "avg_usd_volume_90d": 30303248,
+          "change_pct": -0.82,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "ECO",
+          "why": "Okeanis Eco Tankers: 10 Suezmaxes and 8 VLCCs, the whole business; Q3 VLCC bookings $206,600 a day at 48% of days; Q3 results pending (Okeanis Q2 report, Aug 2026)",
+          "avg_usd_volume_90d": 64765391,
+          "change_pct": -0.26,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "STNG",
+          "why": "Scorpio Tankers: product tankers only, a weaker fit to the crude story; Q3 2026 fleet TCE $37,508 a day (Scorpio Q3 results, Baird Maritime, Nov 2026; IBKR Shipping Routes)",
+          "avg_usd_volume_90d": 82420159,
+          "change_pct": -0.35,
+          "added": "2026-11-09"
+        },
+        {
+          "symbol": "TRMD",
+          "why": "TORM (NASDAQ line): product tankers only, 95 vessels; no merger terms found, so not pinned, but Hafnia is at about 19.85% after its latest purchase and wants a combination (TORM Q3 release; Hafnia notice, Sep 23, 2026)",
+          "avg_usd_volume_90d": 57349803,
+          "change_pct": 0.87,
+          "added": "2026-11-09"
+        }
+      ],
+      "hedge_change_pct": 0.86
     }
   ]
 }

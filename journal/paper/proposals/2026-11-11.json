@@ -1,0 +1,843 @@
+{
+ "session": "2026-11-11",
+ "screen": "2026-11-10",
+ "passes": [
+  {
+   "pass": "evening",
+   "at": "2026-11-10T20:21:28.534089-05:00",
+   "summary": "Hot October CPI (core +0.3% vs +0.2%) sent the 10-year to 4.99% and priced a December hike; SPY -0.4%, tech worst, Nvidia -5.5%. A thin screen of 11, nine of them stretched with no turn. Two takes, both company-specific longs that rose against falling groups; a third (short LOW against ITB) was dropped on the challenge.",
+   "market": {
+    "ES": "+0.2% (7,558)",
+    "NQ": "+0.4%",
+    "VIX": "19.46",
+    "10y": "4.98%",
+    "WTI": "86.22",
+    "as_of": "about 7:40 PM ET, IBKR delayed"
+   },
+   "proposals": 12,
+   "checks": 0
+  },
+  {
+   "pass": "preopen",
+   "at": "2026-11-11T08:52:20.871026-05:00",
+   "summary": "Veterans Day: stocks open, bond market closed, no 8:30 AM ET data. ES +0.9% (7,615), VIX 18.4 (-5.6%), 10-year 4.998% (+0.3%) as of about 8:45 AM ET (IBKR, delayed). Both takes stand; nothing new.",
+   "market": {
+    "ES": "+0.93% (7,614.75)",
+    "VIX": "18.38",
+    "10y": "4.998%",
+    "as_of": "about 8:45 AM ET, IBKR delayed"
+   },
+   "proposals": 0,
+   "checks": 2
+  }
+ ],
+ "proposals": [
+  {
+   "name": "MARA",
+   "kind": "stock",
+   "setup": "earnings_gap_faded",
+   "direction": "long",
+   "source": "screen 2026-11-10 #1",
+   "signal": {
+    "why": "reported 2026-11-09 after close, reacted today: gap -1.2% (-0.1 ATR), day +10.5%, +11.3% against SMH, volume 1.8x, EPS surprise -447%; missed estimates and still rose against SMH (bad news bought)",
+    "chart": "below the 50 and 200-day; 50-day below the 200-day and falling (trend down); +0.3 ATR from the 20-day, RSI 45; volume 1.8x; daily ranges of the 10 sessions before today 1.20x the 50 before; resistance 9.27 (20-day high, +26.3%); support 5.69 (52-week low, -22.5%); ATR 0.70 (9.5%); hedge SMH: correlation +0.64, beta 1.34",
+    "numbers": {
+     "close": 7.34,
+     "ret_1d": 0.10542,
+     "ret_5d": 0.02514,
+     "ret_20d": -0.19429,
+     "atr": 0.69766,
+     "atr_pct": 0.09505,
+     "rsi": 44.84747,
+     "dist20_atr": 0.27951,
+     "vol_ratio": 1.76216,
+     "sma50": 9.7308,
+     "sma200": 10.6602,
+     "hi52": 16.62,
+     "lo52": 5.69,
+     "usd_volume": 268291650.19159,
+     "tightness": 1.19558,
+     "trend": "down",
+     "sma50_change_20d": -0.12009
+    },
+    "score": 2.788,
+    "adjust": {},
+    "hedge": "SMH",
+    "hedge_fit": {
+     "corr_60d": 0.64,
+     "beta_60d": 1.34,
+     "chosen": "its basket's hedge",
+     "weak": false
+    },
+    "next_earnings": null,
+    "also": []
+   },
+   "long": [
+    "MARA"
+   ],
+   "short": [
+    "IBIT"
+   ],
+   "plan": {
+    "horizon_days": 4,
+    "stop": {
+     "spread_pct": -8.0
+    }
+   },
+   "decision": "take",
+   "conviction": 3,
+   "reason": "Q3 on 11-09 came with a buyback of up to $500M (about 18% of market value), $750M of bitcoin-backed loans repaid and debt down 37% this year; it rose 10.5% on a day bitcoin hit an 11-week low and with about a third of the float short. Hedged with the bitcoin fund so the bet is the company, not the coin.",
+   "reviewed": true,
+   "reasoning": {
+    "what_changed": "Reported 11-09 after the close; 11-10 opened -1.2% and closed +10.5% at 7.34 on 1.8x volume, +11.3% against SMH. The screen's -447% EPS 'miss' is a sign artifact: EPS was $1.28 against about -$0.20 to -$0.39 expected, on an $885M non-cash bitcoin gain. Revenue did miss ($164.2M against $176-183M).",
+    "story": "Shareholder letter and 10-Q, 11-09: buyback of up to $500M authorised against a $2.84B market value (387.4M shares); 13,597 BTC sold after quarter-end at about $81,039 and the $750M of bitcoin-backed loans fully repaid; a 4-year $79M GPU contract at Exaion. Every write-up on 11-10 credits the buyback and the debt paydown; no index change or squeeze commentary found. Peers were mixed (RIOT +2.4%, CLSK -5.1%, IREN -7.9%) and bitcoin fell under $74,000, so the move was MARA's own. Short interest 33.65% of float as of 10-15 (stale).",
+    "chart": "For: bad-tape day bought on volume; up from 5.88 on 11-05, just above the 52-week low of 5.69. Against: 50-day (9.73) under the 200-day (10.66) and both falling, -19% in 20 days, loose base (1.20), and it is already +25% in three sessions.",
+    "coming": "No report inside the limit. Long Ridge acquisition (about $1.51B) closes in 'coming weeks'. Cantor's crypto and AI conference runs to 11-12 (MARA's attendance not confirmed). 30-year auction 11-12, PPI 11-13.",
+    "case_against": "The buyback is discretionary with no timetable or funding named, the $1.5B at-the-market share programme stays open, and Long Ridge may need financing inside the window. About 20,400 BTC (roughly half of market value) is still held and management says it will keep selling. The one earlier report it rose on (2-27, +5.8%) gave the gain back within five sessions, and March's convertible buyback pop reversed in two. No AI hosting lease is signed and it 'could slip into next year'. It fell 14% in the 11-05 AI sell-off, which IBIT does not hedge. Beta to IBIT is 1.38, so equal dollars stay net long bitcoin. It didn't win because the news is one day old, specific, large against the company's size, and the price went up on it against both bitcoin and the market; a 3, not more."
+   },
+   "wrong_if": "MARA announces a share sale, at-the-market use or a new convertible (for Long Ridge or otherwise), or says the buyback waits on other uses of cash; or it gives back the whole 11-10 gain against IBIT (closes under 6.64 with bitcoin flat or up) on no news.",
+   "hedge_why": "Correlation 0.60, beta 1.38. Bitcoin is still about half of market value and drives mining revenue, and it is the risk I don't want; SMH (0.64) would hedge the AI-hosting side instead and adds Nvidia, which the book is already short.",
+   "through_earnings": null,
+   "preopen": {
+    "decision": "stands",
+    "reason": "MARA 7.68 pre-market, +4.6% (+0.34, 0.49 ATR on ATR 0.70) with IBIT flat (+0.02%): the spread has gapped about half an ATR in the trade's direction, under the one-ATR line. No overnight share sale, ATM use, convertible or change to the buyback found in a news search; wrong_if has not happened.",
+    "at": "2026-11-11T08:52:20.871026-05:00"
+   },
+   "stats": {
+    "corr_60d": 0.6,
+    "beta_60d": 1.38,
+    "sessions": 60
+   },
+   "session": "2026-11-11",
+   "pass": "evening",
+   "recorded_at": "2026-11-10T20:21:28.534089-05:00",
+   "id": "2026-11-11-P01"
+  },
+  {
+   "name": "QNT",
+   "kind": "stock",
+   "setup": "breakout",
+   "direction": "long",
+   "source": "screen 2026-11-10 #2",
+   "signal": {
+    "why": "closed at 43.00, above the 20-day high 40.56, on 1.7x volume (+7.4%, +0.9 ATR); from a loose base: daily ranges of the 10 sessions before today 1.64x the 50 before",
+    "chart": "below the 50-day; under 200 days of history; +2.0 ATR from the 20-day, RSI 57; volume 1.7x; daily ranges of the 10 sessions before today 1.64x the 50 before; resistance 43.07 (50-day, +0.2%); support 40.56 (20-day high, -5.7%); ATR 3.54 (8.2%); hedge QQQ: correlation +0.54, beta 2.14",
+    "numbers": {
+     "close": 43.0,
+     "ret_1d": 0.07393,
+     "ret_5d": 0.32023,
+     "ret_20d": 0.16975,
+     "atr": 3.53674,
+     "atr_pct": 0.08225,
+     "rsi": 57.23636,
+     "dist20_atr": 1.95392,
+     "vol_ratio": 1.6629,
+     "sma50": 43.0674,
+     "sma200": null,
+     "hi52": 86.79,
+     "lo52": 28.31,
+     "usd_volume": 81829313.19046,
+     "tightness": 1.64425,
+     "trend": null,
+     "sma50_change_20d": null
+    },
+    "score": 2.243,
+    "adjust": {},
+    "hedge": "QQQ",
+    "hedge_fit": {
+     "corr_60d": 0.54,
+     "beta_60d": 2.14,
+     "chosen": "its basket's hedge",
+     "weak": false
+    },
+    "next_earnings": null,
+    "also": []
+   },
+   "long": [
+    "QNT"
+   ],
+   "short": [
+    "SPHB"
+   ],
+   "plan": {
+    "horizon_days": 4,
+    "stop": {
+     "spread_pct": -8.0
+    }
+   },
+   "decision": "take",
+   "conviction": 3,
+   "reason": "Quantinuum raised its 2026 revenue guide on record bookings (11-05), added a RIKEN/SoftBank agreement on 11-10, and broke its 20-day high up 7.4% on a day every other quantum name fell and Rigetti missed after the close; it held after hours.",
+   "reviewed": true,
+   "reasoning": {
+    "what_changed": "Closed 43.00, above the 20-day high of 40.56, +7.4% on 1.7x volume; +32% in five sessions; last 43.26 at about 8:15 PM ET.",
+    "story": "Q3 8-K, 11-05: revenue $9.05M (+233%), bookings $98M led by Oracle, 2026 revenue guide raised to $31-34M from $28-32M; adjusted EBITDA loss widened to $80.5M. PR Newswire, 11-10 2:00 AM ET: expanded RIKEN partnership and an agreement with RIKEN and SoftBank to explore linking quantum machines to AI data centres (exploratory, no terms). On 11-10 RGTI -6.4% and then about -8% after hours on a revenue miss, QBTS -8.6%, QUBT about -8%, IONQ -1%.",
+    "chart": "For: breakout on volume against a falling group and a falling Nasdaq. Against: loose base (1.64), sitting exactly on its 50-day (43.07), 28% under its $60 IPO price, under 200 days of history so no trend reading, and it has already run 32%.",
+    "coming": "Fireside chat at Cantor's conference by 11-12. No report in the window; the whole group has now reported. IPO lockup ends 11-30, outside the limit; the underwriters can waive it at any time.",
+    "case_against": "Quantum names have traded as one group this year (pairwise correlation near 0.89), and the 11-06 jump came with IonQ's guide raise lifting all of them, so 11-10 is the only day QNT has diverged and Rigetti's miss may pull it down at the open. Eight target cuts since the report (BofA to $50 from $85). A cash-burning $10B name with the 10-year near 5% and a hike priced. A follow-on or lockup waiver after +32% is possible. SPHB hedges market beta (1.52), not the group: this is a call on QNT's direction. The stop at 8% is one day's range. It didn't win because the reasons are QNT's own, dated this week, and the price held them on a day that tested them."
+   },
+   "wrong_if": "QNT closes back under its 20-day high of 40.56 while SPHB is flat or up (the breakout failed on sympathy with Rigetti); or the company or Honeywell files a share sale or the underwriters waive the lockup; or the Cantor chat walks back the raised guide.",
+   "hedge_why": "Best correlation of the funds (0.59) with a beta of 1.52, closer to 1 than QQQ's 2.14; SMH (0.58) would add Nvidia news to the pair. No fund hedges the quantum group itself.",
+   "through_earnings": null,
+   "preopen": {
+    "decision": "stands",
+    "reason": "QNT 43.86 pre-market, +2.0% (+0.86, 0.24 ATR on ATR 3.54), still above the 40.56 20-day high; SPHB +2.5% on an earlier pre-market print, so the spread is slightly against the trade, not ahead of it. No share sale, lockup waiver (IPO lockup runs to about 12-01) or guide walk-back found overnight; wrong_if has not happened.",
+    "at": "2026-11-11T08:52:20.871026-05:00"
+   },
+   "stats": {
+    "corr_60d": 0.59,
+    "beta_60d": 1.52,
+    "sessions": 60
+   },
+   "session": "2026-11-11",
+   "pass": "evening",
+   "recorded_at": "2026-11-10T20:21:28.534089-05:00",
+   "id": "2026-11-11-P02"
+  },
+  {
+   "name": "LOW",
+   "kind": "stock",
+   "setup": "stretched",
+   "direction": "short",
+   "source": "screen 2026-11-10 #6",
+   "signal": {
+    "why": "stretched up: RSI 73, +3.7 ATR from the 20-day, no turn yet",
+    "chart": "above the 50 and 200-day; 50-day below the 200-day and falling (trend down); +3.7 ATR from the 20-day, RSI 73; volume 0.7x; daily ranges of the 10 sessions before today 1.50x the 50 before; resistance 234.75 (20-day high, +1.2%); support 221.64 (200-day, -4.4%); ATR 6.44 (2.8%); hedge ITB: correlation +0.87, beta 0.80",
+    "numbers": {
+     "close": 231.87,
+     "ret_1d": -0.00099,
+     "ret_5d": 0.08665,
+     "ret_20d": 0.2363,
+     "atr": 6.44337,
+     "atr_pct": 0.02779,
+     "rsi": 72.86264,
+     "dist20_atr": 3.72673,
+     "vol_ratio": 0.71571,
+     "sma50": 197.32067,
+     "sma200": 221.64403,
+     "hi52": 288.04347,
+     "lo52": 177.32642,
+     "usd_volume": 682953433.84552,
+     "tightness": 1.50181,
+     "trend": "down",
+     "sma50_change_20d": -0.01345
+    },
+    "score": 1.207,
+    "adjust": {},
+    "hedge": "ITB",
+    "hedge_fit": {
+     "corr_60d": 0.87,
+     "beta_60d": 0.8,
+     "chosen": "the best match of 24 funds",
+     "weak": false
+    },
+    "next_earnings": {
+     "date": "2026-11-18",
+     "when": "before_open",
+     "sessions_away": 6
+    },
+    "also": []
+   },
+   "long": [
+    "ITB"
+   ],
+   "short": [
+    "LOW"
+   ],
+   "plan": {
+    "horizon_days": 3,
+    "stop": {
+     "spread_pct": -4.2
+    }
+   },
+   "decision": "pass",
+   "conviction": 2,
+   "reason": "Provisional take, dropped on the challenge. The idea was that the rate shock hit builders (ITB -3.3%) and had not reached Lowe's (-0.1%). On 15 past days with the 10-year up 9 bp or more and ITB down 2% or more, Lowe's fell less 13 times and long ITB/short LOW won only 6 of 15 over the next four sessions: that gap is its normal lower beta, not a lag. Its run also predates the election, and Bernstein raised its target on 11-10.",
+   "reviewed": true,
+   "reasoning": null,
+   "wrong_if": null,
+   "hedge_why": null,
+   "through_earnings": null,
+   "preopen": null,
+   "stats": {
+    "corr_60d": 0.87,
+    "beta_60d": 0.95,
+    "sessions": 60
+   },
+   "session": "2026-11-11",
+   "pass": "evening",
+   "recorded_at": "2026-11-10T20:21:28.534089-05:00",
+   "id": "2026-11-11-P03"
+  },
+  {
+   "name": "CVI",
+   "kind": "stock",
+   "setup": "stretched",
+   "direction": "long",
+   "source": "screen 2026-11-10 #3",
+   "signal": {
+    "why": "stretched down: RSI 27, -4.2 ATR from the 20-day, no turn yet",
+    "chart": "below the 50-day, above the 200-day; 50-day above the 200-day and rising (trend up); -4.2 ATR from the 20-day, RSI 27; volume 1.0x; daily ranges of the 10 sessions before today 1.60x the 50 before; resistance 52.79 (50-day, +36.4%); support 37.22 (20-day low, -3.8%); ATR 3.63 (9.4%); hedge XOP: correlation +0.66, beta 1.46",
+    "numbers": {
+     "close": 38.71,
+     "ret_1d": -0.00997,
+     "ret_5d": -0.2035,
+     "ret_20d": -0.38672,
+     "atr": 3.63049,
+     "atr_pct": 0.09379,
+     "rsi": 26.5128,
+     "dist20_atr": -4.20274,
+     "vol_ratio": 1.04379,
+     "sma50": 52.795,
+     "sma200": 36.28903,
+     "hi52": 63.51,
+     "lo52": 19.49872,
+     "usd_volume": 47023664.6904,
+     "tightness": 1.59774,
+     "trend": "up",
+     "sma50_change_20d": 0.15583
+    },
+    "score": 1.233,
+    "adjust": {},
+    "hedge": "XOP",
+    "hedge_fit": {
+     "corr_60d": 0.66,
+     "beta_60d": 1.46,
+     "chosen": "the best match of 24 funds",
+     "weak": false
+    },
+    "next_earnings": null,
+    "also": []
+   },
+   "long": [
+    "CVI"
+   ],
+   "short": [
+    "XOP"
+   ],
+   "plan": {
+    "horizon_days": 3,
+    "stop": {
+     "spread_pct": -8.0
+    }
+   },
+   "decision": "pass",
+   "conviction": 2,
+   "reason": "Stretched with no turn, and the pressure is still arriving: a term loan being marketed (lender meeting 11-09) for the $4.2B refinery purchase, a 30-day option on 1.6M more shares, and the 3-2-1 crack at about $44 from $75 in late September as oil falls on Iran headlines.",
+   "reviewed": true,
+   "reasoning": null,
+   "wrong_if": null,
+   "hedge_why": null,
+   "through_earnings": null,
+   "preopen": null,
+   "stats": {
+    "corr_60d": 0.66,
+    "beta_60d": 1.46,
+    "sessions": 60
+   },
+   "session": "2026-11-11",
+   "pass": "evening",
+   "recorded_at": "2026-11-10T20:21:28.534089-05:00",
+   "id": "2026-11-11-P04"
+  },
+  {
+   "name": "MCD",
+   "kind": "stock",
+   "setup": "stretched",
+   "direction": "short",
+   "source": "screen 2026-11-10 #4",
+   "signal": {
+    "why": "stretched up: RSI 76, +3.9 ATR from the 20-day, no turn yet",
+    "chart": "above the 50 and 200-day; 50-day below the 200-day and falling (trend down); +3.9 ATR from the 20-day, RSI 76; volume 0.7x; daily ranges of the 10 sessions before today 1.55x the 50 before; resistance 283.26 (20-day high, +0.4%); support 279.40 (200-day, -1.0%); ATR 6.21 (2.2%); hedge XRT: correlation +0.74, beta 0.73",
+    "numbers": {
+     "close": 282.17001,
+     "ret_1d": 0.00259,
+     "ret_5d": 0.07273,
+     "ret_20d": 0.1966,
+     "atr": 6.21201,
+     "atr_pct": 0.02202,
+     "rsi": 76.48868,
+     "dist20_atr": 3.94172,
+     "vol_ratio": 0.69185,
+     "sma50": 249.475,
+     "sma200": 279.39503,
+     "hi52": 335.17969,
+     "lo52": 229.2,
+     "usd_volume": 1332760546.34323,
+     "tightness": 1.55313,
+     "trend": "down",
+     "sma50_change_20d": -0.01626
+    },
+    "score": 1.219,
+    "adjust": {},
+    "hedge": "XRT",
+    "hedge_fit": {
+     "corr_60d": 0.74,
+     "beta_60d": 0.73,
+     "chosen": "the best match of 24 funds",
+     "weak": false
+    },
+    "next_earnings": null,
+    "also": []
+   },
+   "long": [
+    "XRT"
+   ],
+   "short": [
+    "MCD"
+   ],
+   "plan": {
+    "horizon_days": 3,
+    "stop": {
+     "spread_pct": -3.3
+    }
+   },
+   "decision": "pass",
+   "conviction": 2,
+   "reason": "Stretched up with no turn on quiet volume; the Q3 beat (11-04) and four target raises are a week old and nothing dated argues for a reversal inside the window.",
+   "reviewed": true,
+   "reasoning": null,
+   "wrong_if": null,
+   "hedge_why": null,
+   "through_earnings": null,
+   "preopen": null,
+   "stats": {
+    "corr_60d": 0.74,
+    "beta_60d": 0.74,
+    "sessions": 60
+   },
+   "session": "2026-11-11",
+   "pass": "evening",
+   "recorded_at": "2026-11-10T20:21:28.534089-05:00",
+   "id": "2026-11-11-P05"
+  },
+  {
+   "name": "FTNT",
+   "kind": "stock",
+   "setup": "stretched",
+   "direction": "long",
+   "source": "screen 2026-11-10 #5",
+   "signal": {
+    "why": "stretched down: RSI 28, -3.7 ATR from the 20-day, no turn yet",
+    "chart": "below the 50 and 200-day; 50-day above the 200-day and falling (trend mixed); -3.7 ATR from the 20-day, RSI 28; volume 0.9x; daily ranges of the 10 sessions before today 1.82x the 50 before; resistance 130.01 (200-day, +5.2%); support 118.62 (20-day low, -4.0%); ATR 8.31 (6.7%); hedge IGV: correlation +0.74, beta 1.41",
+    "numbers": {
+     "close": 123.57,
+     "ret_1d": 0.00898,
+     "ret_5d": -0.03544,
+     "ret_20d": -0.35222,
+     "atr": 8.31204,
+     "atr_pct": 0.06727,
+     "rsi": 27.95656,
+     "dist20_atr": -3.74054,
+     "vol_ratio": 0.90129,
+     "sma50": 166.2386,
+     "sma200": 130.01355,
+     "hi52": 197.13,
+     "lo52": 73.55,
+     "usd_volume": 737655155.77011,
+     "tightness": 1.8166,
+     "trend": "mixed",
+     "sma50_change_20d": -0.01367
+    },
+    "score": 1.208,
+    "adjust": {},
+    "hedge": "IGV",
+    "hedge_fit": {
+     "corr_60d": 0.74,
+     "beta_60d": 1.41,
+     "chosen": "its basket's hedge",
+     "weak": false
+    },
+    "next_earnings": {
+     "date": "2027-02-04",
+     "when": "after_close",
+     "sessions_away": 59
+    },
+    "also": []
+   },
+   "long": [
+    "FTNT"
+   ],
+   "short": [
+    "IGV"
+   ],
+   "plan": {
+    "horizon_days": 3,
+    "stop": {
+     "spread_pct": -8.0
+    }
+   },
+   "decision": "pass",
+   "conviction": 2,
+   "reason": "Stretched with no turn; nothing new since the 10-28 guide cut, the security group fell again on 11-10 (Qualys -13.5% on its outlook), and management speaks at BMO on 11-12, which could go either way.",
+   "reviewed": true,
+   "reasoning": null,
+   "wrong_if": null,
+   "hedge_why": null,
+   "through_earnings": null,
+   "preopen": null,
+   "stats": {
+    "corr_60d": 0.74,
+    "beta_60d": 1.41,
+    "sessions": 60
+   },
+   "session": "2026-11-11",
+   "pass": "evening",
+   "recorded_at": "2026-11-10T20:21:28.534089-05:00",
+   "id": "2026-11-11-P06"
+  },
+  {
+   "name": "INTC",
+   "kind": "stock",
+   "setup": "stretched",
+   "direction": "long",
+   "source": "screen 2026-11-10 #7",
+   "signal": {
+    "why": "stretched down: RSI 29, -3.4 ATR from the 20-day, no turn yet",
+    "chart": "below the 50 and 200-day; 50-day above the 200-day and falling (trend mixed); -3.4 ATR from the 20-day, RSI 29; volume 0.7x; daily ranges of the 10 sessions before today 1.72x the 50 before; resistance 87.19 (200-day, +50.0%); support 51.51 (20-day low, -11.4%); ATR 6.02 (10.4%); hedge SMH: correlation +0.80, beta 1.60",
+    "numbers": {
+     "close": 58.13,
+     "ret_1d": -0.02089,
+     "ret_5d": -0.03997,
+     "ret_20d": -0.43459,
+     "atr": 6.0241,
+     "atr_pct": 0.10363,
+     "rsi": 28.85248,
+     "dist20_atr": -3.42176,
+     "vol_ratio": 0.66482,
+     "sma50": 96.72,
+     "sma200": 87.18925,
+     "hi52": 142.35001,
+     "lo52": 32.89,
+     "usd_volume": 9582646685.5484,
+     "tightness": 1.72374,
+     "trend": "mixed",
+     "sma50_change_20d": -0.06587
+    },
+    "score": 1.19,
+    "adjust": {},
+    "hedge": "SMH",
+    "hedge_fit": {
+     "corr_60d": 0.8,
+     "beta_60d": 1.6,
+     "chosen": "the best match of 24 funds",
+     "weak": false
+    },
+    "next_earnings": {
+     "date": "2027-01-28",
+     "when": "after_close",
+     "sessions_away": 54
+    },
+    "also": []
+   },
+   "long": [
+    "INTC"
+   ],
+   "short": [
+    "SMH"
+   ],
+   "plan": {
+    "horizon_days": 3,
+    "stop": {
+     "spread_pct": -8.0
+    }
+   },
+   "decision": "pass",
+   "conviction": 2,
+   "reason": "Stretched with no turn: -2.1% on 0.7x volume on a day tech was the worst sector, after a Q4 guide $1-2B under consensus on 10-29. No company event inside two weeks to turn it, and Nvidia's report on 11-17 hangs over the group.",
+   "reviewed": true,
+   "reasoning": null,
+   "wrong_if": null,
+   "hedge_why": null,
+   "through_earnings": null,
+   "preopen": null,
+   "stats": {
+    "corr_60d": 0.8,
+    "beta_60d": 1.6,
+    "sessions": 60
+   },
+   "session": "2026-11-11",
+   "pass": "evening",
+   "recorded_at": "2026-11-10T20:21:28.534089-05:00",
+   "id": "2026-11-11-P07"
+  },
+  {
+   "name": "Airlines, cruises and bookings",
+   "kind": "basket",
+   "setup": "basket_stretched",
+   "direction": "short",
+   "source": "screen 2026-11-10 #8",
+   "signal": {
+    "why": "Airlines, cruises and bookings against XLY: -0.2% today (-0.1 sd), 5-day +4.6%, 20-day +7.4%, z +2.3, the 10 sessions before today 1.11x as volatile as the 50 before; stretched, no turn yet",
+    "chart": "5 of 6 members above their 50-day; best RCL +0.9%, worst BKNG -2.6%; spread -0.1 sd today, z +2.3",
+    "numbers": {
+     "today": -0.0019,
+     "sd_20d": 0.01482,
+     "today_sd": -0.12843,
+     "tightness": 1.1135,
+     "ret_5d": 0.04552,
+     "ret_20d": 0.07387,
+     "z_50d": 2.26995,
+     "z_50d_prev": 2.52124,
+     "new_20d_high": false,
+     "new_20d_low": false
+    },
+    "score": 1.189,
+    "hedge": "XLY",
+    "members": [
+     "DAL",
+     "UAL",
+     "RCL",
+     "CCL",
+     "NCLH",
+     "BKNG"
+    ],
+    "also": []
+   },
+   "long": [
+    "XLY"
+   ],
+   "short": [
+    "DAL",
+    "UAL",
+    "RCL",
+    "CCL",
+    "NCLH",
+    "BKNG"
+   ],
+   "plan": {
+    "horizon_days": 3,
+    "stop": {
+     "spread_pct": -2.2
+    }
+   },
+   "decision": "pass",
+   "conviction": 2,
+   "reason": "The basket's run against XLY is the oil trade (Brent under $90 intraday on 11-10) plus raised guides at Royal Caribbean and Norwegian; shorting it is a call that Iran headlines reverse, with no talks dated. Booking fell 2.6% on an OpenAI travel deal, which is its own story.",
+   "reviewed": true,
+   "reasoning": null,
+   "wrong_if": null,
+   "hedge_why": null,
+   "through_earnings": null,
+   "preopen": null,
+   "stats": {
+    "corr_60d": 0.78,
+    "beta_60d": 0.45,
+    "sessions": 60
+   },
+   "session": "2026-11-11",
+   "pass": "evening",
+   "recorded_at": "2026-11-10T20:21:28.534089-05:00",
+   "id": "2026-11-11-P08"
+  },
+  {
+   "name": "QUAL/SPY",
+   "kind": "factor",
+   "setup": "factor_stretched",
+   "direction": "short",
+   "source": "screen 2026-11-10 #9",
+   "signal": {
+    "why": "QUAL/SPY (quality vs market): +0.0% today (+0.1 sd), 5-day +1.2%, 20-day +2.0%, z +2.1, the 10 sessions before today 2.33x as volatile as the 50 before; stretched, no turn yet",
+    "chart": "quality vs market; z +2.1 vs 50-day, 20-day +2.0%",
+    "numbers": {
+     "today": 0.00029,
+     "sd_20d": 0.00521,
+     "today_sd": 0.05555,
+     "tightness": 2.32544,
+     "ret_5d": 0.01228,
+     "ret_20d": 0.01974,
+     "z_50d": 2.10105,
+     "z_50d_prev": 2.22251,
+     "new_20d_high": false,
+     "new_20d_low": false
+    },
+    "score": 1.175,
+    "also": []
+   },
+   "long": [
+    "SPY"
+   ],
+   "short": [
+    "QUAL"
+   ],
+   "plan": {
+    "horizon_days": 3,
+    "stop": {
+     "spread_pct": -2.0
+    }
+   },
+   "decision": "pass",
+   "conviction": 2,
+   "reason": "Quality's lead over the market is the same rotation out of AI megacaps; flat on the day, no turn, and Nvidia fell another 5.5%.",
+   "reviewed": true,
+   "reasoning": null,
+   "wrong_if": null,
+   "hedge_why": null,
+   "through_earnings": null,
+   "preopen": null,
+   "stats": {
+    "corr_60d": 0.92,
+    "beta_60d": 1.07,
+    "sessions": 60
+   },
+   "session": "2026-11-11",
+   "pass": "evening",
+   "recorded_at": "2026-11-10T20:21:28.534089-05:00",
+   "id": "2026-11-11-P09"
+  },
+  {
+   "name": "IWF/IWD",
+   "kind": "factor",
+   "setup": "factor_stretched",
+   "direction": "long",
+   "source": "screen 2026-11-10 #10",
+   "signal": {
+    "why": "IWF/IWD (large-cap growth vs value): -0.9% today (-0.5 sd), 5-day -4.4%, 20-day -13.0%, z -2.1, the 10 sessions before today 1.91x as volatile as the 50 before; stretched, no turn yet",
+    "chart": "large-cap growth vs value; z -2.1 vs 50-day, 20-day -13.0%",
+    "numbers": {
+     "today": -0.00872,
+     "sd_20d": 0.01653,
+     "today_sd": -0.5278,
+     "tightness": 1.91049,
+     "ret_5d": -0.04355,
+     "ret_20d": -0.13045,
+     "z_50d": -2.09208,
+     "z_50d_prev": -2.05592,
+     "new_20d_high": false,
+     "new_20d_low": false
+    },
+    "score": 1.174,
+    "also": []
+   },
+   "long": [
+    "IWF"
+   ],
+   "short": [
+    "IWD"
+   ],
+   "plan": {
+    "horizon_days": 3,
+    "stop": {
+     "spread_pct": -2.5
+    }
+   },
+   "decision": "pass",
+   "conviction": 2,
+   "reason": "Growth lost another 0.9% to value on a hot CPI with a December hike now priced and Nvidia's board probe widening; no turn, and the Nvidia short already in the book is the same view from the other side.",
+   "reviewed": true,
+   "reasoning": null,
+   "wrong_if": null,
+   "hedge_why": null,
+   "through_earnings": null,
+   "preopen": null,
+   "stats": {
+    "corr_60d": 0.52,
+    "beta_60d": 0.99,
+    "sessions": 60
+   },
+   "session": "2026-11-11",
+   "pass": "evening",
+   "recorded_at": "2026-11-10T20:21:28.534089-05:00",
+   "id": "2026-11-11-P10"
+  },
+  {
+   "name": "RSP/SPY",
+   "kind": "factor",
+   "setup": "factor_stretched",
+   "direction": "short",
+   "source": "screen 2026-11-10 #11",
+   "signal": {
+    "why": "RSP/SPY (equal weight vs cap weight): +0.3% today (+0.4 sd), 5-day +1.3%, 20-day +7.3%, z +2.0, the 10 sessions before today 1.70x as volatile as the 50 before; stretched, no turn yet",
+    "chart": "equal weight vs cap weight; z +2.0 vs 50-day, 20-day +7.3%",
+    "numbers": {
+     "today": 0.00336,
+     "sd_20d": 0.00836,
+     "today_sd": 0.40233,
+     "tightness": 1.69746,
+     "ret_5d": 0.01262,
+     "ret_20d": 0.0728,
+     "z_50d": 2.00461,
+     "z_50d_prev": 1.95302,
+     "new_20d_high": false,
+     "new_20d_low": false
+    },
+    "score": 1.167,
+    "also": []
+   },
+   "long": [
+    "SPY"
+   ],
+   "short": [
+    "RSP"
+   ],
+   "plan": {
+    "horizon_days": 3,
+    "stop": {
+     "spread_pct": -2.0
+    }
+   },
+   "decision": "pass",
+   "conviction": 2,
+   "reason": "Equal weight made a fresh high against cap weight on 11-10 (+0.3%); fading it is a bet on megacap tech bouncing with nothing dated to cause it before Nvidia's report on 11-17.",
+   "reviewed": true,
+   "reasoning": null,
+   "wrong_if": null,
+   "hedge_why": null,
+   "through_earnings": null,
+   "preopen": null,
+   "stats": {
+    "corr_60d": 0.75,
+    "beta_60d": 0.86,
+    "sessions": 60
+   },
+   "session": "2026-11-11",
+   "pass": "evening",
+   "recorded_at": "2026-11-10T20:21:28.534089-05:00",
+   "id": "2026-11-11-P11"
+  },
+  {
+   "name": "Lowe's against retail after the rate shock",
+   "kind": "own",
+   "setup": "other",
+   "direction": "short",
+   "source": "own",
+   "signal": null,
+   "long": [
+    "XRT"
+   ],
+   "short": [
+    "LOW"
+   ],
+   "plan": {
+    "horizon_days": 4,
+    "stop": {
+     "spread_pct": -4.0
+    }
+   },
+   "decision": "pass",
+   "conviction": 2,
+   "reason": "The challenge's repair of the LOW idea: against XRT the pair does lose when yields rise less (spread correlation with 10-year changes +0.37) and won 10 of 15 after past rate-shock days, median +0.9%. But XRT held on 11-10 too (-0.4%), so there is no gap to close and no dated reason; it is a stretched fade with a rates overlay. Recorded as a pass so the record scores it.",
+   "reviewed": true,
+   "reasoning": {
+    "what_changed": "LOW 231.87, -0.1% on 11-10, +23.6% in 20 sessions, RSI 73; XRT -0.4%; 10-year +13 bp to 4.99%.",
+    "story": "Hot CPI and a priced December hike raise mortgage rates (Freddie Mac 7.18% on 11-05, next print 11-12); Lowe's ran with housing hopes and falling oil.",
+    "chart": "Stretched 3.7 ATR above the 20-day with no turn; opened -1.6% on 11-10 and was bought back.",
+    "coming": "Home Depot reports 11-17 (confirmed), Lowe's 11-18 (tentative).",
+    "case_against": "Bernstein raised its target on 11-10 on a de-risked guide; the dip was bought the same day; nothing dated before Home Depot."
+   },
+   "wrong_if": null,
+   "hedge_why": null,
+   "through_earnings": null,
+   "preopen": null,
+   "stats": {
+    "corr_60d": 0.82,
+    "beta_60d": 0.64,
+    "sessions": 60
+   },
+   "session": "2026-11-11",
+   "pass": "evening",
+   "recorded_at": "2026-11-10T20:21:28.534089-05:00",
+   "id": "2026-11-11-P12"
+  }
+ ]
+}

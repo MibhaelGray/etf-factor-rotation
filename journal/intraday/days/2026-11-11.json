@@ -1,0 +1,847 @@
+{
+ "date": "2026-11-11",
+ "mode": "rehearsal",
+ "ticks": [
+  {
+   "at": "2026-11-11T10:01:06-05:00",
+   "bar_closed": "10:00 AM",
+   "signals": 1,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-11T10:16:07-05:00",
+   "bar_closed": "10:15 AM",
+   "signals": 2,
+   "judged": 2
+  },
+  {
+   "at": "2026-11-11T10:31:07-05:00",
+   "bar_closed": "10:30 AM",
+   "signals": 6,
+   "judged": 4
+  },
+  {
+   "at": "2026-11-11T10:46:07-05:00",
+   "bar_closed": "10:45 AM",
+   "signals": 4,
+   "judged": 1
+  },
+  {
+   "at": "2026-11-11T11:01:07-05:00",
+   "bar_closed": "11:00 AM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-11T11:16:06-05:00",
+   "bar_closed": "11:15 AM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-11T11:31:06-05:00",
+   "bar_closed": "11:30 AM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-11T11:46:06-05:00",
+   "bar_closed": "11:45 AM",
+   "signals": 1,
+   "judged": 1
+  },
+  {
+   "at": "2026-11-11T12:01:07-05:00",
+   "bar_closed": "12:00 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-11T12:16:07-05:00",
+   "bar_closed": "12:15 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-11T12:31:07-05:00",
+   "bar_closed": "12:30 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-11T12:46:07-05:00",
+   "bar_closed": "12:45 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-11T13:01:07-05:00",
+   "bar_closed": "1:00 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-11T13:16:07-05:00",
+   "bar_closed": "1:15 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-11T13:31:07-05:00",
+   "bar_closed": "1:30 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-11T13:46:07-05:00",
+   "bar_closed": "1:45 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-11T14:01:07-05:00",
+   "bar_closed": "2:00 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-11T14:16:07-05:00",
+   "bar_closed": "2:15 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-11T14:31:07-05:00",
+   "bar_closed": "2:30 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-11T14:46:09-05:00",
+   "bar_closed": "2:45 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-11T15:01:07-05:00",
+   "bar_closed": "3:00 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-11T15:16:06-05:00",
+   "bar_closed": "3:15 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-11T15:31:07-05:00",
+   "bar_closed": "3:30 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-11T15:46:06-05:00",
+   "bar_closed": "3:45 PM",
+   "signals": 0,
+   "judged": 0
+  }
+ ],
+ "signals": [
+  {
+   "id": "I-1111-CRWV",
+   "symbol": "CRWV",
+   "hedge": "SMH",
+   "beta": 1.43,
+   "setup": "gap_hold",
+   "direction": "long",
+   "slot": 1,
+   "signal_at": "10:00 AM",
+   "numbers": {
+    "gap_atr": 0.87,
+    "day_atr": 1.07,
+    "run_atr": 0.18,
+    "rvol": 3.18,
+    "rsi": 85.2,
+    "price": 57.16,
+    "name_day_pct": 17.16,
+    "hedge_day_pct": 3.38
+   },
+   "atr_pct": 0.1155,
+   "plan": {
+    "stop_pct": -2.0,
+    "target_pct": 4.0,
+    "max_bars": null,
+    "flat_by": "3:45 PM"
+   },
+   "skipped": "reported earnings since the last close",
+   "verdict": {
+    "decision": "not judged",
+    "why": "reported earnings since the last close"
+   },
+   "entry": {
+    "at": "10:00 AM",
+    "name": 57.14,
+    "hedge": 501.24
+   },
+   "exit": {
+    "at": "11:45 AM",
+    "reason": "target",
+    "bars": 7,
+    "result_bp": 416.2,
+    "after_costs_bp": 408.2
+   }
+  },
+  {
+   "id": "I-1111-BE",
+   "symbol": "BE",
+   "hedge": "SMH",
+   "beta": 1.59,
+   "setup": "range_break",
+   "direction": "long",
+   "slot": 2,
+   "signal_at": "10:15 AM",
+   "numbers": {
+    "gap_atr": 0.05,
+    "day_atr": 0.64,
+    "run_atr": 0.55,
+    "rvol": 1.92,
+    "rsi": 81.3,
+    "price": 208.95,
+    "name_day_pct": 12.36,
+    "hedge_day_pct": 3.15
+   },
+   "atr_pct": 0.1149,
+   "plan": {
+    "stop_pct": -2.0,
+    "target_pct": 4.0,
+    "max_bars": null,
+    "flat_by": "3:45 PM"
+   },
+   "headlines": [
+    "Nov 11, 9:37 AM ET \u00b7 Barrons.com \u00b7 CoreWeave Boosts AI Trade. Bloom Energy, Other Power Stocks Are Big Winners.",
+    "Nov 11, 8:28 AM ET \u00b7 Trefis \u00b7 Why You Should Think About Bloom Energy Differently Now",
+    "Nov 11, 8:00 AM ET \u00b7 Investor's Business Daily \u00b7 10 Stocks Rode Trump Era \u2014 What Happens As MAGA 'Disintegrates'?",
+    "Nov 11, 7:36 AM ET \u00b7 Barrons.com \u00b7 AI Villain Turns Hero but Stock Market Chaos Is Just Getting Started",
+    "Nov 11, 6:27 AM ET \u00b7 Barrons.com \u00b7 Nvidia, CoreWeave, Marvell, Dell, Costco, and More Stocks That Explain Today\u2019s Market",
+    "Nov 11, 1:14 AM ET \u00b7 Simply Wall St. \u00b7 Can Bloom Energy (BE) Justify Its Price on Future Cash Flow?",
+    "Nov 10, 4:17 PM ET \u00b7 TIKR \u00b7 GE Vernova Falls 4% as SoftBank\u2019s Ohio Data Center Undergoes \u201cA Thorough Reassessment\u201d",
+    "Nov 10, 1:49 PM ET \u00b7 Barrons.com \u00b7 AMD and Coherent: What the Biggest Gainers Since the Midterms Selloff Say About the AI Trade"
+   ],
+   "verdict": {
+    "decision": "pass",
+    "conviction": 2,
+    "catalyst": "Sector theme, not company news: Barron's (Nov 11, 9:37 AM) ties Bloom Energy to the CoreWeave/AI-power trade. No company-specific catalyst found.",
+    "why": "BE is up 12.4% against SMH's 3.2%, so most of the move is a group rally on a headline theme rather than a fresh company event, and RSI is 81 after a 12% run. Chasing a 10:15 breakout into that, with no earnings or company news to anchor it, is the kind of entry that lost in the sample.",
+    "against": "A 2% stop is tight for a name moving this much, and a sector headline like the Nov 10 GE Vernova drop could reverse the whole AI-power group against the position.",
+    "model": "claude-haiku-5-5"
+   },
+   "entry": {
+    "at": "10:15 AM",
+    "name": 208.99,
+    "hedge": 500.16
+   },
+   "exit": {
+    "at": "3:45 PM",
+    "reason": "flat",
+    "bars": 22,
+    "result_bp": -68.0,
+    "after_costs_bp": -76.0
+   }
+  },
+  {
+   "id": "I-1111-SNDK",
+   "symbol": "SNDK",
+   "hedge": "SMH",
+   "beta": 1.62,
+   "setup": "range_break",
+   "direction": "long",
+   "slot": 2,
+   "signal_at": "10:15 AM",
+   "numbers": {
+    "gap_atr": 0.1,
+    "day_atr": 0.61,
+    "run_atr": 0.48,
+    "rvol": 1.62,
+    "rsi": 81.5,
+    "price": 967.23,
+    "name_day_pct": 12.48,
+    "hedge_day_pct": 3.15
+   },
+   "atr_pct": 0.1217,
+   "plan": {
+    "stop_pct": -2.0,
+    "target_pct": 4.0,
+    "max_bars": null,
+    "flat_by": "3:45 PM"
+   },
+   "headlines": [
+    "Nov 11, 9:37 AM ET \u00b7 Barrons.com \u00b7 CoreWeave Boosts AI Trade. Bloom Energy, Other Power Stocks Are Big Winners.",
+    "Nov 11, 9:08 AM ET \u00b7 24/7 Wall St. \u00b7 Seagate Spikes 9%, Sandisk Surges 8% as CoreWeave\u2019s Results Revive AI Trade; Micron Climbs 7%",
+    "Nov 11, 8:34 AM ET \u00b7 Barrons.com \u00b7 Why Sandisk and Lumentum Are Leading the AI Comeback",
+    "Nov 11, 8:09 AM ET \u00b7 Simply Wall St. \u00b7 Top 3 Value Stocks To Watch In November 2026",
+    "Nov 11, 7:36 AM ET \u00b7 Barrons.com \u00b7 AI Villain Turns Hero but Stock Market Chaos Is Just Getting Started",
+    "Nov 11, 6:27 AM ET \u00b7 Barrons.com \u00b7 Nvidia, CoreWeave, Marvell, Dell, Costco, and More Stocks That Explain Today\u2019s Market",
+    "Nov 11, 6:11 AM ET \u00b7 Simply Wall St. \u00b7 Sandisk (SNDK) Dropped, So What Is Behind Its Latest Move?",
+    "Nov 11, 5:04 AM ET \u00b7 Motley Fool \u00b7 1 Stock-Split AI Stock to Buy Before It Soars 328%, According to a Wall Street Analyst"
+   ],
+   "verdict": {
+    "decision": "pass",
+    "conviction": 2,
+    "catalyst": "Sector read-through from CoreWeave's results reviving the AI trade (24/7 Wall St, Nov 11 9:08 AM); no company-specific SNDK news found",
+    "why": "The name is up 12.5% against 3.2% for SMH with RSI 81.5, so the move is an extended, sector-driven squeeze that has already run most of its distance before the 10:15 signal. The base rate for these setups is negative, so chasing it here is not justified.",
+    "against": "The AI-sector momentum and high relative volume (1.6x) could carry SNDK through the +4% target before the 3:45 PM flat time, and a -2% stop limits the downside.",
+    "model": "claude-haiku-5-5"
+   },
+   "entry": {
+    "at": "10:15 AM",
+    "name": 967.63,
+    "hedge": 500.16
+   },
+   "exit": {
+    "at": "3:45 PM",
+    "reason": "flat",
+    "bars": 22,
+    "result_bp": 27.3,
+    "after_costs_bp": 19.3
+   }
+  },
+  {
+   "id": "I-1111-MTUM",
+   "symbol": "MTUM",
+   "hedge": "SPY",
+   "beta": 1.68,
+   "setup": "range_break",
+   "direction": "long",
+   "slot": 3,
+   "signal_at": "10:30 AM",
+   "numbers": {
+    "gap_atr": 0.44,
+    "day_atr": 0.61,
+    "run_atr": 0.16,
+    "rvol": 3.42,
+    "rsi": 83.1,
+    "price": 69.06,
+    "name_day_pct": 3.29,
+    "hedge_day_pct": 0.78
+   },
+   "atr_pct": 0.0327,
+   "plan": {
+    "stop_pct": -1.63,
+    "target_pct": 3.27,
+    "max_bars": null,
+    "flat_by": "3:45 PM"
+   },
+   "headlines": [
+    "Nov 10, 6:06 AM ET \u00b7 GuruFocus.com \u00b7 iShares MSCI USA Momentum Factor ETF (MTUM) Adds AMD and Micron on Nov. 6"
+   ],
+   "verdict": {
+    "decision": "pass",
+    "conviction": 4,
+    "catalyst": "none found",
+    "why": "The only headline is a GuruFocus note from Nov 10 that MTUM added AMD and Micron in its Nov 6 rebalance, which is a stale index-holdings change rather than a fresh catalyst. The 2.5-point outperformance over SPY (3.29% vs 0.78%) on 3.4x volume with RSI 83 and a 0.61 ATR day looks like a sector or semis-driven spike without news support, which weakens a breakout.",
+    "against": "If semis leadership is driving a real sector rotation, the 3.4x volume and momentum-factor flows could carry the range break further than the 1.63% stop allows.",
+    "model": "claude-haiku-5-5"
+   },
+   "entry": {
+    "at": "10:30 AM",
+    "name": 69.05,
+    "hedge": 756.72
+   },
+   "exit": {
+    "at": "3:45 PM",
+    "reason": "flat",
+    "bars": 21,
+    "result_bp": 9.0,
+    "after_costs_bp": 1.0
+   }
+  },
+  {
+   "id": "I-1111-AMZN",
+   "symbol": "AMZN",
+   "hedge": "XLY",
+   "beta": 1.11,
+   "setup": "range_break",
+   "direction": "short",
+   "slot": 3,
+   "signal_at": "10:30 AM",
+   "numbers": {
+    "gap_atr": 0.14,
+    "day_atr": -0.41,
+    "run_atr": -0.54,
+    "rvol": 1.97,
+    "rsi": 35.0,
+    "price": 266.48,
+    "name_day_pct": -2.01,
+    "hedge_day_pct": -0.52
+   },
+   "atr_pct": 0.035,
+   "plan": {
+    "stop_pct": -1.75,
+    "target_pct": 3.5,
+    "max_bars": null,
+    "flat_by": "3:45 PM"
+   },
+   "headlines": [
+    "Nov 11, 10:00 AM ET \u00b7 Sourcing Journal \u00b7 Amazon to Launch Accelerator Program For Companies With Innovative Low-Carbon Tech",
+    "Nov 11, 7:15 AM ET \u00b7 24/7 Wall St. \u00b7 Why Alphabet and Amazon Will Always Need Nvidia",
+    "Nov 11, 7:09 AM ET \u00b7 GuruFocus.com \u00b7 Cathie Wood Dumps $3 Million of This Magnificent Seven Stock",
+    "Nov 11, 7:00 AM ET \u00b7 Yahoo Finance Video \u00b7 Anthropic is hiding its best AI: Fable 5.2 and the IPO",
+    "Nov 11, 6:15 AM ET \u00b7 Barrons.com \u00b7 Data Centers Will Prevail Despite All the Opposition. How to Play It With Options.",
+    "Nov 11, 6:14 AM ET \u00b7 GuruFocus.com \u00b7 Microsoft Stock Falls as Anthropic Takes Aim at Office Work With New Claude Tools",
+    "Nov 11, 6:04 AM ET \u00b7 GuruFocus.com \u00b7 What ProShares Ultra S&P500 2x Shares (SSO) Sold: Apple Leads on Monday",
+    "Nov 11, 6:03 AM ET \u00b7 GuruFocus.com \u00b7 Invesco NASDAQ 100 ETF (QQQM) Buys $35.0 Million More Apple on Monday"
+   ],
+   "verdict": {
+    "decision": "pass",
+    "conviction": 4,
+    "catalyst": "none found",
+    "why": "AMZN is down about 1.5 points relative to XLY on 2x volume, but none of the headlines are about Amazon's shares, so there is no company-specific reason for the breakdown to continue or to fade. Without a catalyst and with the setup's losing record, there is no edge to justify a short.",
+    "against": "The breakdown is volume-backed and unexplained, so it could be persistent flow that keeps pushing a stock already at RSI 35 lower until the 3:45 PM flat time, which is the case for the short.",
+    "model": "claude-haiku-5-5"
+   },
+   "entry": {
+    "at": "10:30 AM",
+    "name": 266.44,
+    "hedge": 120.5
+   },
+   "exit": {
+    "at": "3:45 PM",
+    "reason": "flat",
+    "bars": 21,
+    "result_bp": 45.0,
+    "after_costs_bp": 37.0
+   }
+  },
+  {
+   "id": "I-1111-NBIS",
+   "symbol": "NBIS",
+   "hedge": "SMH",
+   "beta": 1.63,
+   "setup": "range_break",
+   "direction": "long",
+   "slot": 3,
+   "signal_at": "10:30 AM",
+   "numbers": {
+    "gap_atr": 0.4,
+    "day_atr": 0.79,
+    "run_atr": 0.35,
+    "rvol": 1.72,
+    "rsi": 81.9,
+    "price": 156.21,
+    "name_day_pct": 16.48,
+    "hedge_day_pct": 4.22
+   },
+   "atr_pct": 0.1215,
+   "plan": {
+    "stop_pct": -2.0,
+    "target_pct": 4.0,
+    "max_bars": null,
+    "flat_by": "3:45 PM"
+   },
+   "headlines": [
+    "Nov 11, 10:21 AM ET \u00b7 Investor's Business Daily \u00b7 Stock Market Today: Nasdaq Jumps As CoreWeave Surges On Earnings; Nvidia, AMD Shares Bounce (Live Coverage)",
+    "Nov 11, 10:10 AM ET \u00b7 Reuters \u00b7 S&P 500, Nasdaq rise as CoreWeave results ease AI spending worries",
+    "Nov 11, 9:54 AM ET \u00b7 Investor's Business Daily \u00b7 Why CoreWeave Earnings, Outlook Sparked 'Sigh Of Relief In The AI Market'",
+    "Nov 11, 9:32 AM ET \u00b7 TIKR \u00b7 CoreWeave Soars 17% on Raised Outlook, Rules Out Unsecured Debt: \u201cNor Do We Need To\u201d",
+    "Nov 11, 9:19 AM ET \u00b7 Investing.com \u00b7 Nebius stock setup into earnings: technicals, catalysts and key levels to watch",
+    "Nov 11, 9:03 AM ET \u00b7 24/7 Wall St. \u00b7 CoreWeave Surges 16% as Beat-and-Raise Quarter Eases Financing Fears; Nebius Gains 13%, Oracle Advances 5%",
+    "Nov 11, 8:01 AM ET \u00b7 MT Newswires \u00b7 Stock Futures Rise Amid CoreWeave's Strong Financial Results",
+    "Nov 11, 6:41 AM ET \u00b7 MT Newswires \u00b7 Social Buzz: Wallstreetbets Stocks Advance Premarket Wednesday; CoreWeave, Nebius Group to Open Higher"
+   ],
+   "verdict": {
+    "decision": "pass",
+    "conviction": 4,
+    "catalyst": "Sympathy move on CoreWeave's Nov 11 beat-and-raise earnings (Nebius +13% per 24/7 Wall St.); no Nebius-specific news found, and a Nebius earnings preview is still pending",
+    "why": "The 16.5% move is a one-day read-through from a peer's results, and it runs about 12 points ahead of SMH with RSI near 82. Nothing company-specific supports continuation over the next few hours, and the pending Nebius earnings adds event risk.",
+    "against": "AI-infrastructure relief could keep bidding the group if CoreWeave's outlook holds up, and a 2% stop may be hit by normal volatility before any fade plays out, so a long could still work.",
+    "model": "claude-haiku-5-5"
+   },
+   "entry": {
+    "at": "10:30 AM",
+    "name": 156.13,
+    "hedge": 504.9
+   },
+   "exit": {
+    "at": "3:45 PM",
+    "reason": "flat",
+    "bars": 21,
+    "result_bp": -111.1,
+    "after_costs_bp": -119.1
+   }
+  },
+  {
+   "id": "I-1111-PLD",
+   "symbol": "PLD",
+   "hedge": "XLRE",
+   "beta": 0.86,
+   "setup": "range_break",
+   "direction": "short",
+   "slot": 3,
+   "signal_at": "10:30 AM",
+   "numbers": {
+    "gap_atr": -0.02,
+    "day_atr": -0.32,
+    "run_atr": -0.3,
+    "rvol": 1.71,
+    "rsi": 36.0,
+    "price": 128.9,
+    "name_day_pct": -0.9,
+    "hedge_day_pct": -0.26
+   },
+   "atr_pct": 0.0211,
+   "plan": {
+    "stop_pct": -1.06,
+    "target_pct": 2.11,
+    "max_bars": null,
+    "flat_by": "3:45 PM"
+   },
+   "headlines": [
+    "Nov 10, 3:08 PM ET \u00b7 Simply Wall St. \u00b7 Is Prologis (PLD) Below Fair Value After Its $5b ATM Offering?",
+    "Nov 10, 2:09 PM ET \u00b7 Simply Wall St. \u00b7 Prologis (PLD) Stock Appears Fairly Valued After A 40% Run",
+    "Nov 10, 8:57 AM ET \u00b7 24/7 Wall St. \u00b7 Move Cash Now: 3 Ultra-High-Yield Nasdaq Stocks Screaming Buys for December",
+    "Nov 10, 6:25 AM ET \u00b7 Barchart \u00b7 Are Wall Street Analysts Predicting Prologis Stock Will Climb or Sink?"
+   ],
+   "verdict": {
+    "decision": "pass",
+    "conviction": 2,
+    "catalyst": "Possible: a $5b ATM equity offering, but it appears only in a generic Simply Wall St recap dated Nov 10. No fresh company announcement found in the headlines.",
+    "why": "The stock is down about 0.6% net of its hedge, which is a company-specific move, and the ATM program is a plausible supply overhang. But the offering news is a day old and comes from a low-quality recap, ATM selling is gradual rather than a shock, and RSI at 36 is not oversold.",
+    "against": "The $5b ATM offering was likely priced in on Nov 10, and the -1.06% stop sits inside normal intraday noise for a stock that just fell 0.9%, so the trade could be stopped out before any continuation.",
+    "model": "claude-haiku-5-5"
+   },
+   "entry": {
+    "at": "10:30 AM",
+    "name": 128.91,
+    "hedge": 44.475
+   },
+   "exit": {
+    "at": "12:45 PM",
+    "reason": "stop",
+    "bars": 9,
+    "result_bp": -107.0,
+    "after_costs_bp": -115.0
+   }
+  },
+  {
+   "id": "I-1111-ROK",
+   "symbol": "ROK",
+   "hedge": "XLI",
+   "beta": 1.54,
+   "setup": "range_break",
+   "direction": "long",
+   "slot": 3,
+   "signal_at": "10:30 AM",
+   "numbers": {
+    "gap_atr": 0.25,
+    "day_atr": 0.38,
+    "run_atr": 0.13,
+    "rvol": 1.63,
+    "rsi": 85.8,
+    "price": 407.65,
+    "name_day_pct": 2.63,
+    "hedge_day_pct": 0.7
+   },
+   "atr_pct": 0.0404,
+   "plan": {
+    "stop_pct": -2.0,
+    "target_pct": 4.0,
+    "max_bars": null,
+    "flat_by": "3:45 PM"
+   },
+   "verdict": {
+    "decision": "not judged",
+    "why": "more than 4 signals at this bar; the heaviest volume went first"
+   },
+   "entry": {
+    "at": "10:30 AM",
+    "name": 407.66,
+    "hedge": 170.09
+   },
+   "exit": {
+    "at": "3:45 PM",
+    "reason": "flat",
+    "bars": 21,
+    "result_bp": 0.2,
+    "after_costs_bp": -7.8
+   }
+  },
+  {
+   "id": "I-1111-COHR",
+   "symbol": "COHR",
+   "hedge": "SMH",
+   "beta": 1.88,
+   "setup": "range_break",
+   "direction": "long",
+   "slot": 3,
+   "signal_at": "10:30 AM",
+   "numbers": {
+    "gap_atr": 0.14,
+    "day_atr": 0.28,
+    "run_atr": 0.13,
+    "rvol": 1.52,
+    "rsi": 81.0,
+    "price": 239.07,
+    "name_day_pct": 10.84,
+    "hedge_day_pct": 4.22
+   },
+   "atr_pct": 0.1044,
+   "plan": {
+    "stop_pct": -2.0,
+    "target_pct": 4.0,
+    "max_bars": null,
+    "flat_by": "3:45 PM"
+   },
+   "verdict": {
+    "decision": "not judged",
+    "why": "more than 4 signals at this bar; the heaviest volume went first"
+   },
+   "entry": {
+    "at": "10:30 AM",
+    "name": 239.15,
+    "hedge": 504.9
+   },
+   "exit": {
+    "at": "2:45 PM",
+    "reason": "stop",
+    "bars": 17,
+    "result_bp": -211.8,
+    "after_costs_bp": -219.8
+   }
+  },
+  {
+   "id": "I-1111-RGTI",
+   "symbol": "RGTI",
+   "hedge": "QQQ",
+   "beta": 2.5,
+   "setup": "range_break",
+   "direction": "short",
+   "slot": 4,
+   "signal_at": "10:45 AM",
+   "numbers": {
+    "gap_atr": 0.21,
+    "day_atr": -1.31,
+    "run_atr": -1.44,
+    "rvol": 3.3,
+    "rsi": 24.2,
+    "price": 11.46,
+    "name_day_pct": -5.99,
+    "hedge_day_pct": 1.97
+   },
+   "atr_pct": 0.0831,
+   "plan": {
+    "stop_pct": -2.0,
+    "target_pct": 4.0,
+    "max_bars": null,
+    "flat_by": "3:45 PM"
+   },
+   "skipped": "reported earnings since the last close",
+   "verdict": {
+    "decision": "not judged",
+    "why": "reported earnings since the last close"
+   },
+   "entry": {
+    "at": "10:45 AM",
+    "name": 11.45,
+    "hedge": 689.085
+   },
+   "exit": {
+    "at": "3:45 PM",
+    "reason": "flat",
+    "bars": 20,
+    "result_bp": 185.1,
+    "after_costs_bp": 177.1
+   }
+  },
+  {
+   "id": "I-1111-SMH",
+   "symbol": "SMH",
+   "hedge": "SPY",
+   "beta": 2.34,
+   "setup": "range_break",
+   "direction": "long",
+   "slot": 4,
+   "signal_at": "10:45 AM",
+   "numbers": {
+    "gap_atr": 0.49,
+    "day_atr": 0.48,
+    "run_atr": -0.02,
+    "rvol": 2.11,
+    "rsi": 77.9,
+    "price": 505.61,
+    "name_day_pct": 4.31,
+    "hedge_day_pct": 0.87
+   },
+   "atr_pct": 0.0477,
+   "plan": {
+    "stop_pct": -2.0,
+    "target_pct": 4.0,
+    "max_bars": null,
+    "flat_by": "3:45 PM"
+   },
+   "headlines": [
+    "Nov 11, 6:05 AM ET \u00b7 MT Newswires \u00b7 CoreWeave Earnings Trigger AI Revival on Wall Street; Asia, Europe Up",
+    "Nov 10, 9:54 AM ET \u00b7 24/7 Wall St. \u00b7 Hedge Funds Dumped Tech at a Near-Record Pace Right Before Chip Stocks Jumped 7%",
+    "Nov 10, 8:27 AM ET \u00b7 24/7 Wall St. \u00b7 This Short Seller Flagged Jensen Huang\u2019s Ties to Alice Huang 6 Months Before Nvidia\u2019s Scandal",
+    "Nov 10, 7:42 AM ET \u00b7 Zacks \u00b7 Time to Buy Nvidia-Heavy ETFs as CEO Huang's Affair Turns Into a Spy Plot?",
+    "Nov 10, 6:12 AM ET \u00b7 MT Newswires \u00b7 CPI, Crude Views Support Wall Street Pre-Bell; Asia, Europe Up"
+   ],
+   "verdict": {
+    "decision": "pass",
+    "conviction": 2,
+    "catalyst": "CoreWeave earnings (Nov 11, 6:05 AM headline, 'Trigger AI Revival on Wall Street') for AI and chip names, on top of the prior day's roughly 7% chip rally",
+    "why": "The catalyst is sector-wide and already in the price: SMH is up 4.3% against SPY's 0.9%, RSI is 78, and the move follows a 7% chip rally the day before, so the breakout is extended after two strong sessions. The run since the signal is flat (run_atr -0.02), so there is no evidence yet that the breakout is holding.",
+    "against": "This is a second-day chip rally with RSI near 78 and a sector-wide catalyst that is already priced in, so a fade back toward the range is at least as likely as a continuation to +4%, and the Nvidia-related headline noise adds reversal risk.",
+    "model": "claude-haiku-5-5"
+   },
+   "entry": {
+    "at": "10:45 AM",
+    "name": 505.69,
+    "hedge": 757.45
+   },
+   "exit": {
+    "at": "3:45 PM",
+    "reason": "flat",
+    "bars": 20,
+    "result_bp": 22.4,
+    "after_costs_bp": 14.4
+   }
+  },
+  {
+   "id": "I-1111-QQQ",
+   "symbol": "QQQ",
+   "hedge": "SPY",
+   "beta": 1.5,
+   "setup": "range_break",
+   "direction": "long",
+   "slot": 4,
+   "signal_at": "10:45 AM",
+   "numbers": {
+    "gap_atr": 0.22,
+    "day_atr": 0.28,
+    "run_atr": 0.06,
+    "rvol": 2.06,
+    "rsi": 78.7,
+    "price": 689.12,
+    "name_day_pct": 1.97,
+    "hedge_day_pct": 0.87
+   },
+   "atr_pct": 0.0238,
+   "plan": {
+    "stop_pct": -1.19,
+    "target_pct": 2.38,
+    "max_bars": null,
+    "flat_by": "3:45 PM"
+   },
+   "skipped": "held by the swing book",
+   "verdict": {
+    "decision": "not judged",
+    "why": "held by the swing book"
+   },
+   "entry": {
+    "at": "10:45 AM",
+    "name": 689.085,
+    "hedge": 757.45
+   },
+   "exit": {
+    "at": "3:45 PM",
+    "reason": "flat",
+    "bars": 20,
+    "result_bp": -5.5,
+    "after_costs_bp": -13.5
+   }
+  },
+  {
+   "id": "I-1111-XLK",
+   "symbol": "XLK",
+   "hedge": "SPY",
+   "beta": 1.79,
+   "setup": "range_break",
+   "direction": "long",
+   "slot": 4,
+   "signal_at": "10:45 AM",
+   "numbers": {
+    "gap_atr": 0.41,
+    "day_atr": 0.48,
+    "run_atr": 0.07,
+    "rvol": 1.51,
+    "rsi": 77.7,
+    "price": 174.41,
+    "name_day_pct": 3.04,
+    "hedge_day_pct": 0.87
+   },
+   "atr_pct": 0.0312,
+   "plan": {
+    "stop_pct": -1.56,
+    "target_pct": 3.12,
+    "max_bars": null,
+    "flat_by": "3:45 PM"
+   },
+   "skipped": "held by the swing book",
+   "verdict": {
+    "decision": "not judged",
+    "why": "held by the swing book"
+   },
+   "entry": {
+    "at": "10:45 AM",
+    "name": 174.4,
+    "hedge": 757.45
+   },
+   "exit": {
+    "at": "3:45 PM",
+    "reason": "flat",
+    "bars": 20,
+    "result_bp": -13.1,
+    "after_costs_bp": -21.1
+   }
+  },
+  {
+   "id": "I-1111-HUM",
+   "symbol": "HUM",
+   "hedge": "SPY",
+   "beta": 0.5,
+   "setup": "range_break",
+   "direction": "long",
+   "slot": 8,
+   "signal_at": "11:45 AM",
+   "numbers": {
+    "gap_atr": 0.19,
+    "day_atr": 0.39,
+    "run_atr": 0.2,
+    "rvol": 3.18,
+    "rsi": 69.9,
+    "price": 447.4,
+    "name_day_pct": 2.18,
+    "hedge_day_pct": 1.12
+   },
+   "atr_pct": 0.0411,
+   "plan": {
+    "stop_pct": -2.0,
+    "target_pct": 4.0,
+    "max_bars": null,
+    "flat_by": "3:45 PM"
+   },
+   "headlines": [],
+   "verdict": {
+    "decision": "pass",
+    "conviction": 4,
+    "catalyst": "none found",
+    "why": "HUM is up 2.18% against SPY's 1.12%, a range break on 3.2x volume with no company-specific headlines in 36 hours, so the excess move is unexplained. Blind setups like this lost over the last 49 sessions, and an unexplained breakout is more likely to fade than to extend.",
+    "against": "A 3x-volume range break in a managed-care name could be an early sector rotation or policy move that hasn't reached the headline feed yet, and it could run through the 4% target.",
+    "model": "claude-haiku-5-5"
+   },
+   "entry": {
+    "at": "11:45 AM",
+    "name": 447.365,
+    "hedge": 759.3
+   },
+   "exit": {
+    "at": "3:45 PM",
+    "reason": "flat",
+    "bars": 16,
+    "result_bp": -3.8,
+    "after_costs_bp": -11.8
+   }
+  }
+ ]
+}
