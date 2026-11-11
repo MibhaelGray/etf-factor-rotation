@@ -1,11 +1,31 @@
 {
  "session": "2026-11-11",
- "pulled_at": "2026-11-11T15:45:07.305765-05:00",
- "fills": [],
+ "pulled_at": "2026-11-11T16:20:07.358875-05:00",
+ "fills": [
+  {
+   "order_ref": "2026-11-09-D01|XLY",
+   "symbol": "XLY",
+   "side": "BOT",
+   "shares": 21.0,
+   "price": 120.95,
+   "commission": 1.000063,
+   "time": "2026-11-11T20:59:35+00:00",
+   "exec_id": "00025b47.6af445c7.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D01|ABNB",
+   "symbol": "ABNB",
+   "side": "SLD",
+   "shares": 13.0,
+   "price": 181.1,
+   "commission": 1.048538,
+   "time": "2026-11-11T20:59:41+00:00",
+   "exec_id": "0000e0d5.6af4d41b.01.01"
+  }
+ ],
  "positions": {
   "XLV": 26.0,
   "QQQ": 14.0,
-  "XLY": -21.0,
   "SPY": -6.0,
   "HUBS": -6.0,
   "NVO": -62.0,
@@ -19,7 +39,6 @@
   "XLC": -23.0,
   "UBER": 36.0,
   "ADBE": -5.0,
-  "ABNB": 13.0,
   "U": 48.0,
   "TEAM": -8.0,
   "NOW": -12.0,
@@ -29,5 +48,5 @@
   "WDAY": -6.0,
   "CGNX": -52.0
  },
- "net_liquidation": 1027195.61
+ "net_liquidation": 1027190.61
 }
