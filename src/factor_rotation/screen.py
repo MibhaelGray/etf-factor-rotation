@@ -2,7 +2,8 @@
 
 Code checks every stock, ETF, themed basket and factor pair we have bars for against a fixed list of setups
 (journal.SETUPS) and writes the best 20 or so to journal/screens/<as_of>.json, each with the numbers that
-triggered it and a one-line chart verdict. The pass researches only those. The screen never decides: it says
+triggered it and a one-line chart verdict. The pass researches only those. A breakout or breakdown also says
+how tight the base was and which way the trend ran (TIGHT_BASE and ADJUST below). The screen never decides: it says
 where to look, and every recorded idea carries its setup so results can be compared setup by setup.
 
 Daily bars only for now; the intraday version for the daytime passes comes with the pass schedule.
@@ -18,7 +19,7 @@ from . import bars, earnings, journal
 from .analytics.technicals import atr, rsi
 from .config import NY
 from .market import _regime, basket_library
-from .universe import BARS_ONLY, CONSTITUENTS, ETFS, FACTOR_PAIRS
+from .universe import BARS_ONLY, BROAD, CONSTITUENTS, ETFS, FACTOR_PAIRS, INDUSTRIES, SECTORS
 
 MIN_DOLLAR_VOLUME = 20e6
 TOP = 20
@@ -33,6 +34,134 @@ WEIGHTS = {
     "stretched": 1.0, "basket_stretched": 1.0, "factor_stretched": 1.0,
 }
 EARNINGS_SETUPS = {"earnings_gap_held", "earnings_gap_faded"}
+# Two things about the chart behind a breakout or breakdown, recorded on every stock and ETF candidate.
+# Tightness: the average daily range (true range over the prior close) of the 10 sessions before today, over
+# the same for the 50 sessions before those. Under 0.75 the name had gone quiet before it broke.
+# Trend: "up" when the 50-day average is above the 200-day and higher than 20 sessions ago, "down" for the
+# mirror image, otherwise "mixed".
+# They move the ranking only a little, and only where five years of our own bars (November 2021 to November
+# 2026, about 3,600 breakouts) gave a reason: a breakout inside a downtrend lagged SPY by about 30 bp over
+# the next five sessions, in four years of five, where the rest led by about 35 bp. A tight base led a loose one on
+# average, but in only three years of five, so it earns a smaller nudge. A breakout with the trend did no better
+# than one in a mixed trend, and breakdowns didn't depend on trend, so neither is counted. The record of
+# proposals decides whether any of this stays.
+TIGHT_BASE = 0.75
+LOOSE_BASE = 1.0
+ADJUST = {"tight_base": 0.15, "breakout_in_downtrend": -0.3}
+BASE_SETUPS = {"breakout", "breakdown"}
+
+# The shortlist is 20 slots, and each should hold a different idea.
+# - A name the paper book holds, or closed within RECENT_EXIT sessions, isn't a candidate: an earnings setup
+#   re-lists the same name for three nights. Fresh signals on those names go to `in_book` for the pre-close review.
+# - No setup takes more than MAX_PER_SETUP slots, so one kind of day (a market-wide turn, a heavy earnings
+#   week) can't fill the list.
+# - Funds that gave the same signal and move together (TWIN_CORR over 60 sessions) are one idea: the best-ranked
+#   stays and names the others in `moved_with`.
+# - A stock's default hedge is the market, sector or industry fund it has moved with most over 60 sessions,
+#   unless its basket's own hedge is within KEEP_BASKET_WITHIN of that. Under MIN_HEDGE_CORR nothing hedges
+#   it: SPY stays as the default and `hedge_fit.weak` says so. A fund is always set against SPY.
+MAX_PER_SETUP = 5
+RECENT_EXIT = 3
+TWIN_CORR = 0.9
+MIN_HEDGE_CORR = 0.4
+KEEP_BASKET_WITHIN = 0.05
+HEDGE_FUNDS = [*BROAD, *SECTORS, *(f for f in INDUSTRIES if f != "ARKK")]
+
+
+def _fit(a: pd.Series, b: pd.Series) -> dict | None:
+    """Correlation and beta of a's daily returns on b's, or None with under 30 sessions in common."""
+    x, y = a.to_numpy(float), b.to_numpy(float)  # a screen makes thousands of these; pandas took over half its time
+    both = ~(np.isnan(x) | np.isnan(y))
+    if both.sum() < 30:
+        return None
+    x, y = x[both] - x[both].mean(), y[both] - y[both].mean()
+    xx, yy, xy = float(x @ x), float(y @ y), float(x @ y)
+    if not xx or not yy:
+        return None
+    return {"corr_60d": round(xy / (xx * yy) ** 0.5, 2), "beta_60d": round(xy / yy, 2)}
+
+
+def _pick_hedge(sym: str, r60: pd.DataFrame, basket_hedge: str | None) -> tuple[str, dict | None]:
+    """(hedge, how well it fits) for one name from its last 60 sessions of returns."""
+    if sym == "SPY":
+        return "SPY", None
+    if sym in ETFS:
+        fit = _fit(r60[sym], r60["SPY"])
+        if fit:
+            fit = {**fit, "chosen": "a fund is set against the market", "weak": fit["corr_60d"] < MIN_HEDGE_CORR}
+        return "SPY", fit
+    fits = {f: fit for f in {*HEDGE_FUNDS, *([basket_hedge] if basket_hedge else [])}
+            if f in r60 and (fit := _fit(r60[sym], r60[f]))}
+    if not fits:
+        return basket_hedge or "SPY", None
+    best = max(sorted(fits), key=lambda f: fits[f]["corr_60d"])
+    if basket_hedge in fits and fits[basket_hedge]["corr_60d"] >= fits[best]["corr_60d"] - KEEP_BASKET_WITHIN \
+            and fits[basket_hedge]["corr_60d"] >= MIN_HEDGE_CORR:
+        return basket_hedge, {**fits[basket_hedge], "chosen": "its basket's hedge", "weak": False}
+    if fits[best]["corr_60d"] >= MIN_HEDGE_CORR:
+        return best, {**fits[best], "chosen": f"the best match of {len(fits)} funds", "weak": False}
+    spy = fits.get("SPY") or {"corr_60d": None, "beta_60d": None}
+    return "SPY", {**spy, "chosen": f"no fund moves with it (best {best} {fits[best]['corr_60d']:+.2f}); SPY by default", "weak": True}
+
+
+def _fit_text(hedge: str, fit: dict | None) -> str | None:
+    if not fit or fit["corr_60d"] is None:
+        return None
+    text = f"hedge {hedge}: correlation {fit['corr_60d']:+.2f}, beta {fit['beta_60d']:.2f}"
+    return text + ("; it barely moves with the hedge, so this is close to an outright position" if fit["weak"] else "")
+
+
+def _book_names(sessions: list[date], as_of: date) -> dict[str, str]:
+    """Names the paper book holds, or closed within the last RECENT_EXIT sessions, and why each is left out."""
+    from .paper import book, rules
+
+    if not book.ROOT.exists():
+        return {}
+    recent = {d.isoformat() for d in [d for d in sessions if d <= as_of][-RECENT_EXIT:]}
+    out = {}
+    for t in book.trades():
+        if t["state"] == "unfilled":
+            continue
+        if t["state"] != "closed":
+            why = f"the book holds it ({t['id']})"
+        elif (t.get("exit") or {}).get("session") in recent:
+            why = f"the book closed it on {t['exit']['session']} ({t['id']}: {t['exit']['reason']})"
+        else:
+            continue
+        for sym in rules.core_symbols(t):
+            out[sym] = why
+    return out
+
+
+def _shortlist(ranked: list[dict], r60: pd.DataFrame, in_book: dict[str, str]) -> tuple[list[dict], list[dict], list[dict]]:
+    """(candidates, the rest in rank order, signals on names the book holds) from every hit, best first."""
+    held, kept = [], []
+    for c in ranked:
+        if c["kind"] in ("stock", "etf") and c["name"] in in_book:
+            held.append({**{k: c[k] for k in ("name", "kind", "setup", "direction", "score", "why")}, "in_book": in_book[c["name"]]})
+            continue
+        if c["kind"] == "etf":
+            twin = next((k for k in kept if k["kind"] == "etf" and k["setup"] == c["setup"] and k["direction"] == c["direction"]
+                         and c["name"] in r60 and k["name"] in r60 and r60[c["name"]].corr(r60[k["name"]]) >= TWIN_CORR), None)
+            if twin:
+                twin.setdefault("moved_with", []).append(c["name"])
+                continue
+        kept.append(c)
+    for c in kept:
+        if c.get("moved_with"):
+            c["why"] += f"; {', '.join(c['moved_with'])} gave the same signal and move with it"
+    top, rest, used = [], [], {}
+    for c in kept:
+        if len(top) < TOP and used.get(c["setup"], 0) < MAX_PER_SETUP:
+            top.append(c)
+            used[c["setup"]] = used.get(c["setup"], 0) + 1
+        else:
+            rest.append(c)
+    return top, rest, held
+
+
+def _score(hit: dict) -> float:
+    return WEIGHTS[hit["setup"]] + min(hit["strength"], 6) / 6 + sum((hit.get("adjust") or {}).values())
 
 
 def _pct(x: float, places: int = 1) -> str:
@@ -86,9 +215,9 @@ def _verdict(f: dict) -> tuple[str, dict]:
     if f["sma200"] is None:
         trend = "above the 50-day; under 200 days of history" if c > f["sma50"] else "below the 50-day; under 200 days of history"
     elif c > f["sma50"] and c > f["sma200"]:
-        trend = "uptrend: above the 50 and 200-day"
+        trend = "above the 50 and 200-day"
     elif c < f["sma50"] and c < f["sma200"]:
-        trend = "downtrend: below the 50 and 200-day"
+        trend = "below the 50 and 200-day"
     elif c > f["sma50"]:
         trend = "above the 50-day, below the 200-day"
     else:
@@ -98,6 +227,10 @@ def _verdict(f: dict) -> tuple[str, dict]:
     above = [(v, k) for k, v in levels if v is not None and v > c]
     below = [(v, k) for k, v in levels if v is not None and v < c]
     parts = [trend, f"{f['dist20_atr']:+.1f} ATR from the 20-day, RSI {f['rsi']:.0f}", f"volume {f['vol_ratio']:.1f}x"]
+    if f["trend"]:
+        parts.insert(1, _trend_text(f))
+    if f["tightness"] is not None:
+        parts.append(f"daily ranges of the 10 sessions before today {f['tightness']:.2f}x the 50 before")
     if above:
         v, k = min(above)
         parts.append(f"resistance {v:,.2f} ({k}, {(v / c - 1) * 100:+.1f}%)")
@@ -106,8 +239,20 @@ def _verdict(f: dict) -> tuple[str, dict]:
         parts.append(f"support {v:,.2f} ({k}, {(v / c - 1) * 100:+.1f}%)")
     parts.append(f"ATR {f['atr']:,.2f} ({f['atr_pct'] * 100:.1f}%)")
     nums = {k: f[k] for k in ("close", "ret_1d", "ret_5d", "ret_20d", "atr", "atr_pct", "rsi", "dist20_atr", "vol_ratio",
-                              "sma50", "sma200", "hi52", "lo52", "usd_volume")}
+                              "sma50", "sma200", "hi52", "lo52", "usd_volume", "tightness", "trend", "sma50_change_20d")}
     return "; ".join(parts), journal._records(pd.DataFrame([nums]))[0]
+
+
+def _trend_text(f: dict) -> str:
+    side = "above" if f["sma50"] > f["sma200"] else "below"
+    way = "rising" if f["sma50_change_20d"] > 0 else "falling"
+    return f"50-day {side} the 200-day and {way} (trend {f['trend']})"
+
+
+def _base_text(f: dict) -> str:
+    t = f["tightness"]
+    word = "a tight base" if t <= TIGHT_BASE else "a loose base" if t > LOOSE_BASE else "an ordinary base"
+    return f"{word}: daily ranges of the 10 sessions before today {t:.2f}x the 50 before"
 
 
 def _features(df: pd.DataFrame) -> dict | None:
@@ -120,6 +265,15 @@ def _features(df: pd.DataFrame) -> dict | None:
     s20, s50, s200 = sma(20), sma(50), sma(200)
     rng = h[-1] - lo[-1]
     prior_vol = v[-21:-1].mean()
+    # True range as a share of the prior close; tr[-1] is today, which the base leaves out.
+    tr = np.maximum.reduce([h[1:] - lo[1:], np.abs(h[1:] - c[:-1]), np.abs(lo[1:] - c[:-1])]) / c[:-1]
+    tightness = None
+    if len(tr) >= 61 and tr[-61:-11].mean() > 0:
+        tightness = float(tr[-11:-1].mean() / tr[-61:-11].mean())
+    trend, s50_change = None, None
+    if len(c) >= 221 and not np.isnan(s200[-1]) and not np.isnan(s50[-21]):
+        s50_change = float(s50[-1] / s50[-21] - 1)
+        trend = "up" if s50[-1] > s200[-1] and s50_change > 0 else "down" if s50[-1] < s200[-1] and s50_change < 0 else "mixed"
     below200 = 0
     for i in range(len(c) - 2, -1, -1):
         if np.isnan(s200[i]) or c[i] >= s200[i]:
@@ -143,6 +297,7 @@ def _features(df: pd.DataFrame) -> dict | None:
         "hi52_close": c[-253:-1].max(), "lo52_close": c[-253:-1].min(),
         "days_below_200": below200, "days_above_200": above200, "above200_now": s200[-1] < c[-1] if not np.isnan(s200[-1]) else None,
         "down_streak": int(c[-2] < c[-3] < c[-4] < c[-5]), "up_streak": int(c[-2] > c[-3] > c[-4] > c[-5]),
+        "tightness": tightness, "trend": trend, "sma50_change_20d": s50_change,
     }
 
 
@@ -151,7 +306,19 @@ def _symbol_hits(sym: str, f: dict, hedge: str, hedge_ret: pd.Series, spy_ret1: 
     hits = []
 
     def add(setup: str, direction: int, strength: float, why: str) -> None:
-        hits.append({"setup": setup, "direction": "long" if direction > 0 else "short", "strength": float(abs(strength)), "why": why})
+        adjust = {}
+        if setup in BASE_SETUPS:
+            if f["tightness"] is not None:
+                why += f"; from {_base_text(f)}"
+                if f["tightness"] <= TIGHT_BASE:
+                    adjust["tight_base"] = ADJUST["tight_base"]
+            if f["trend"]:
+                against = (direction > 0 and f["trend"] == "down") or (direction < 0 and f["trend"] == "up")
+                why += f"; {_trend_text(f)}{', against this trade' if against else ''}"
+                if setup == "breakout" and f["trend"] == "down":
+                    adjust["breakout_in_downtrend"] = ADJUST["breakout_in_downtrend"]
+        hits.append({"setup": setup, "direction": "long" if direction > 0 else "short", "strength": float(abs(strength)), "why": why,
+                     "adjust": adjust})
 
     ret1, atrp = f["ret_1d"], f["atr_pct_prev"]
     # Earnings in the last three sessions: gapped and held, or gapped and faded, or the reaction ran against the news.
@@ -244,10 +411,14 @@ def _spread_hits(name: str, spread: pd.Series, stretched_setup: str, big_setup: 
     mean50, std50 = idx.rolling(50).mean(), idx.rolling(50).std()
     z = ((idx - mean50) / std50).iloc[-2:]
     z_prev, z_now = float(z.iloc[0]), float(z.iloc[1])
-    nums = {"today": today, "sd_20d": sd, "today_sd": today / sd if sd else None, "ret_5d": idx.iloc[-1] / idx.iloc[-6] - 1,
+    before = spread.iloc[-61:-11].std() if len(spread) >= 61 else None
+    tightness = float(spread.iloc[-11:-1].std() / before) if before else None
+    nums = {"today": today, "sd_20d": sd, "today_sd": today / sd if sd else None, "tightness": tightness, "ret_5d": idx.iloc[-1] / idx.iloc[-6] - 1,
             "ret_20d": idx.iloc[-1] / idx.iloc[-21] - 1, "z_50d": z_now, "z_50d_prev": z_prev,
             "new_20d_high": bool(idx.iloc[-1] > idx.iloc[-21:-1].max()), "new_20d_low": bool(idx.iloc[-1] < idx.iloc[-21:-1].min())}
     base = f"{name}: {_pct(today)} today ({today / sd:+.1f} sd), 5-day {_pct(nums['ret_5d'])}, 20-day {_pct(nums['ret_20d'])}, z {z_now:+.1f}"
+    if tightness is not None:
+        base += f", the 10 sessions before today {tightness:.2f}x as volatile as the 50 before"
     hits = []
     if big_setup:  # baskets
         if nums["new_20d_high"] and today >= sd:
@@ -279,6 +450,7 @@ def build() -> dict:
     close = frame.pivot_table(index="date", columns="symbol", values="close").sort_index()
     rets = close.pct_change()
     spy_ret1 = float(rets["SPY"].iloc[-1])
+    r60 = rets.iloc[-60:]
 
     found, feats, held_back = [], {}, []
     for sym, df in frame.groupby("symbol"):
@@ -291,15 +463,17 @@ def build() -> dict:
         is_etf = sym in ETFS
         if not is_etf and f["usd_volume"] < MIN_DOLLAR_VOLUME:
             continue
-        hedge = (groups[sym][0]["hedge"] if sym in groups else "SPY") if sym != "SPY" else "SPY"
+        hedge, fit = _pick_hedge(sym, r60, groups[sym][0]["hedge"] if sym in groups else None)
         hits = _symbol_hits(sym, f, hedge, rets[hedge] if hedge in rets else rets["SPY"], spy_ret1, reports, days)
         if not hits:
             continue
-        hits.sort(key=lambda x: -(WEIGHTS[x["setup"]] + min(x["strength"], 6) / 6))
+        hits.sort(key=lambda x: -_score(x))
         best = hits[0]
         verdict, nums = _verdict(f)
+        if text := _fit_text(hedge, fit):
+            verdict += f"; {text}"
         nxt = _next_report(sym, reports, days) if not is_etf else None
-        cand = {"name": sym, "kind": "etf" if is_etf else "stock", **best, "hedge": None if sym == "SPY" else hedge,
+        cand = {"name": sym, "kind": "etf" if is_etf else "stock", **best, "hedge": None if sym == "SPY" else hedge, "hedge_fit": fit,
                 "baskets": [b["name"] for b in groups.get(sym, [])], "chart": verdict, "numbers": nums,
                 "next_earnings": {k: v for k, v in nxt.items() if k != "reacts"} if nxt else None,
                 "also": [f"{h['setup']} ({h['direction']})" for h in hits[1:]]}
@@ -347,12 +521,14 @@ def build() -> dict:
                 continue
         kept.append(c)
     for c in kept:
-        c["score"] = round(WEIGHTS[c["setup"]] + min(c["strength"], 6) / 6, 3)
+        c["score"] = round(_score(c), 3)
         c["strength"] = round(c["strength"], 2)
     kept.sort(key=lambda c: -c["score"])
     counts: dict[str, int] = {}
     for c in kept:
         counts[c["setup"]] = counts.get(c["setup"], 0) + 1
+
+    top, rest, held = _shortlist(kept, r60, _book_names(days.sessions, as_of))
 
     liquid = {s for s, f in feats.items() if s not in ETFS and f["usd_volume"] >= MIN_DOLLAR_VOLUME}
     upcoming = []
@@ -375,9 +551,10 @@ def build() -> dict:
         "screened": len(feats),
         "hits_by_setup": counts,
         "spy_ret_1d": round(spy_ret1, 5),
-        "candidates": kept[:TOP],
-        "more": [{k: c[k] for k in ("name", "kind", "setup", "direction", "score", "why")} for c in kept[TOP:TOP + MORE]],
+        "candidates": top,
+        "more": [{k: c[k] for k in ("name", "kind", "setup", "direction", "score", "why")} for c in rest[:MORE]],
         "held_back": held_back,
+        "in_book": held,
         "earnings_ahead": upcoming[:40],
         "calendar_ahead": events,
         "regime": _regime_notes(as_of),
@@ -418,5 +595,7 @@ def summary(payload: dict) -> str:
         lines.append(f"{c['score']:.2f}  {c['name']:<28} {c['setup']:<20} {c['direction']:<5}  {c['why']}")
     if payload["held_back"]:
         lines.append("Held back (earnings inside the next session): " + ", ".join(c["name"] for c in payload["held_back"]))
+    if payload.get("in_book"):
+        lines.append("Left out, already in the book: " + ", ".join(f"{c['name']} ({c['setup']} {c['direction']})" for c in payload["in_book"]))
     lines += payload["regime"]
     return "\n".join(lines)

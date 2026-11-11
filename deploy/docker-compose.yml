@@ -1,3 +1,11 @@
+# IB Gateway in Docker (gnzsnz/ib-gateway, with IBC logging in and restarting it). Each service is its own
+# login, so the two never cut each other off.
+#
+#   docker compose -f deploy/docker-compose.yml up -d ib-gateway-paper   # the paper account, for fr paper
+#   docker compose -f deploy/docker-compose.yml up -d ib-gateway         # the live collector login (option pulls)
+#
+# Inside the container the gateway listens on 4001 (live) and 4002 (paper) on its own loopback; socat relays
+# them on 4003 and 4004. Both publish only on this Mac's 127.0.0.1.
 services:
   ib-gateway:
     image: ghcr.io/gnzsnz/ib-gateway:stable
@@ -11,4 +19,21 @@ services:
       TWOFA_TIMEOUT_ACTION: restart
     ports:
       - "127.0.0.1:4001:4003"
+
+  # The paper account. Its login lives in .env.paper (TWS_USERID and TWS_PASSWORD of the paper username),
+  # which git ignores. Orders are allowed here and only here; fr paper still refuses any non-paper account.
+  ib-gateway-paper:
+    image: ghcr.io/gnzsnz/ib-gateway:stable
+    restart: always
+    env_file: ../.env.paper
+    environment:
+      TRADING_MODE: paper
+      READ_ONLY_API: "no"
+      # The API precaution dialogs would otherwise hold auction orders for a click nobody is there to make.
+      BYPASS_WARNING: "yes"
+      TIME_ZONE: America/New_York
+      AUTO_RESTART_TIME: "11:55 PM"
+      RELOGIN_AFTER_TWOFA_TIMEOUT: "yes"
+      TWOFA_TIMEOUT_ACTION: restart
+    ports:
       - "127.0.0.1:4002:4004"

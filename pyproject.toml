@@ -1,7 +1,7 @@
 [project]
 name = "factor-rotation"
 version = "0.1.0"
-description = "Factor rotation research: IBKR options and bar collection, nightly pair ideas, scorecard"
+description = "Factor rotation research: IBKR options and bar collection, the nightly screen and a research-led paper book"
 readme = "README.md"
 authors = [
     { name = "Your Name" }

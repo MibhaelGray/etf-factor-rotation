@@ -1,7 +1,7 @@
 """The nightly stock and basket scan: where a stock or basket idea could come from tonight.
 
-It only lists candidates. `fr record` requires a slate with a verdict on the best of them, so these get looked
-at every night whether or not an ETF pair is the better idea.
+It only lists candidates. The screen (`fr screen`) ranks them with the factor pairs and earnings setups, and
+the research pass judges the shortlist.
 """
 
 import json

@@ -1,23 +1,34 @@
-"""The paper books' rules, as plain functions with no broker or file access, so they can be tested alone.
+"""The paper book's rules, as plain functions with no broker or file access, so they can be tested alone.
 
 A trade is a dict:
-    {"id", "book", "source", "name", "setup", "direction", "why", "entry_date", "horizon_days",
-     "stop": {"spread_pct": -3.0} and/or {"rules": [...]}, "skip_if_open": [...],
-     "notional": 10000, "legs": [{"symbol", "side": "long" | "short", "shares", "ref_price"}]}
+    {"id", "book", "source", "proposal_id", "conviction", "name", "setup", "direction", "why", "wrong_if",
+     "entry_date", "horizon_days", "stop": {"spread_pct": -3.0} and/or {"rules": [...]},
+     "notional": 10000, "legs": [{"symbol", "side": "long" | "short", "shares", "ref_price"}], "hedge"}
 
-Each side of a trade gets `notional` dollars: a pair is $10k long and $10k short, an outright trade $10k on
-one side, and a basket side splits its $10k evenly across its members. Results are quoted in bp of one
-side's notional, which is the same scale as an idea's score (long return minus short return).
+Each side of a trade gets `notional` dollars: a pair is $10,000 long and $10,000 short, an outright trade
+$10,000 on one side, and a basket side splits its $10,000 evenly across its members. Results are quoted in bp
+of one side's notional (long return minus short return). `book` is always "dynamic", the automatic book's name
+in the files; the selective book, which traded the recorded ideas as they stood, was retired on 2026-11-09.
 """
 
 import math
 
-# Sizing and caps. Paper money, but the caps keep a bug from building a silly book.
+from ..universe import ETFS
+
+# Sizing and caps. Paper money, but the caps keep a bug from building a silly book. The book trades only what
+# the research pass takes (proposals.py), so it holds few trades and each is large enough that the broker's $1
+# minimum commission is about 4 bp a round trip, not the 16 bp it costs at $2,500 a side.
 NOTIONAL = 10_000          # dollars per side
-MAX_NEW_DYNAMIC = 10       # screen trades opened per session
-MAX_OPEN = 60              # open trades across both books
-MAX_GROSS = 900_000        # dollars, long plus short, across both books
-MAX_SYMBOL = 30_000        # dollars of net exposure to one symbol across both books
+MAX_NEW = 5                # takes opened per session, strongest conviction first
+MAX_OPEN = 60              # open trades
+MAX_GROSS = 900_000        # dollars, long plus short
+MAX_SYMBOL = 30_000        # dollars of net exposure to one symbol
+MIN_CONVICTION = 3         # a take below this is a pass
+# The outer limits on a plan the research pass writes. Inside them the plan is the pass's call; the pass can
+# end a trade early at the pre-close review but can never widen a stop, and can extend only a winner, once.
+MAX_HORIZON = 10           # sessions, counting the first
+STOP_LIMITS = (1.0, 8.0)   # percent loss from entry: no tighter than the first, no wider than the second
+MAX_EXTENSION = 3          # sessions
 
 # How long each setup is held and how far the spread may fall before it is stopped, as a multiple of the
 # trade's typical daily move (ATR % for a stock, the spread's daily sd for a basket or factor pair). The
@@ -38,6 +49,14 @@ def _stop_pct(daily_move: float | None) -> float:
         return -DEFAULT_STOP
     lo, hi = STOP_RANGE
     return -round(min(hi, max(lo, STOP_MOVES * daily_move * 100)), 1)
+
+
+def default_plan(c: dict) -> dict:
+    """The mechanical plan for a screen candidate: its setup's time limit and a stop sized on its daily move.
+    A candidate the research pass passes on is scored against this plan."""
+    n = c.get("numbers") or {}
+    daily = n.get("atr_pct") if c["kind"] in ("stock", "etf") else n.get("sd_20d")
+    return {"horizon_days": HORIZON.get(c["setup"], 3), "stop": {"spread_pct": _stop_pct(daily)}}
 
 
 def _sides(c: dict) -> tuple[list[str], list[str]] | None:
@@ -81,73 +100,46 @@ def core_symbols(trade: dict) -> set[str]:
     return sides["long"] | sides["short"]
 
 
-def dynamic_trades(screen: dict, entry_date: str, prices: dict[str, float], held: set[str]) -> tuple[list[dict], list[dict]]:
-    """The screen's best candidates as trades, best first, up to MAX_NEW_DYNAMIC. Skips a candidate whose
-    stock, basket members or factor funds are already in an open dynamic trade or one taken tonight (`held`
-    is those core symbols), a stock reporting inside its time limit, and anything it can't size. Returns
-    (trades, skipped with reasons)."""
+def _hedge(longs: list[str], shorts: list[str]) -> str | None:
+    """The side that is one ETF hedging stocks or a basket on the other. Two ETFs against each other are a
+    pair with no hedge: the trade is about both."""
+    for hedge, other in ((shorts, longs), (longs, shorts)):
+        if len(hedge) == 1 and hedge[0] in ETFS and other and not all(s in ETFS for s in other):
+            return hedge[0]
+    return None
+
+
+def proposal_trades(proposals: list[dict], entry_date: str, prices: dict[str, float], held: set[str]) -> tuple[list[dict], list[dict]]:
+    """The research pass's takes as trades, strongest conviction first, up to MAX_NEW, each with the plan
+    the pass wrote. Skips a take stood down before the open, one whose stock, basket members or pair funds are
+    already in an open automatic trade or one taken today (`held` is those core symbols), and anything it
+    can't size. Returns (trades, skipped with reasons)."""
     trades, skipped, used = [], [], set(held)
-    for c in screen.get("candidates", []):
-        if len(trades) >= MAX_NEW_DYNAMIC:
-            break
-        horizon = HORIZON.get(c["setup"])
-        if horizon is None:
-            skipped.append({"name": c["name"], "reason": f"no default plan for {c['setup']}"})
+    takes = [p for p in proposals if p["decision"] == "take"]
+    for p in sorted(takes, key=lambda p: -p["conviction"]):  # a stable sort: the pass's own order within a conviction
+        if (p.get("preopen") or {}).get("decision") == "stand_down":
+            skipped.append({"name": p["id"], "reason": f"stood down before the open: {p['preopen']['reason']}"})
             continue
-        sides = _sides(c)
-        if sides is None:
-            skipped.append({"name": c["name"], "reason": "fewer than 3 basket members left after dropping reporters"})
+        if len(trades) >= MAX_NEW:
+            skipped.append({"name": p["id"], "reason": f"the {MAX_NEW} takes with the most conviction came first"})
             continue
-        longs, shorts = sides
-        # What the trade is about: the stock, the basket's members or both funds of a factor pair. A shared
-        # hedge ETF is fine (MAX_SYMBOL caps it); the same story twice is not.
-        symbols = {*longs, *shorts} - ({c.get("hedge")} if c["kind"] != "factor" and len({*longs, *shorts}) > 1 else set())
-        if c["kind"] == "stock" and c.get("next_earnings"):
-            away = c["next_earnings"].get("sessions_away")
-            if away is not None and away <= horizon:
-                skipped.append({"name": c["name"], "reason": f"reports in {away} sessions, inside the {horizon}-session limit"})
-                continue
-        clash = symbols & used
-        if clash:
-            skipped.append({"name": c["name"], "reason": f"already holds {', '.join(sorted(clash))}"})
+        longs, shorts = p["long"], p["short"]
+        hedge = _hedge(longs, shorts)
+        symbols = {*longs, *shorts} - {hedge}
+        if clash := symbols & used:
+            skipped.append({"name": p["id"], "reason": f"already holds {', '.join(sorted(clash))}"})
             continue
         legs = size_legs(longs, shorts, prices)
         if legs is None:
-            skipped.append({"name": c["name"], "reason": "no price, or a share costs more than its side's notional"})
+            skipped.append({"name": p["id"], "reason": "no price, or a share costs more than its side's notional"})
             continue
-        n = c.get("numbers") or {}
-        daily = n.get("atr_pct") if c["kind"] == "stock" else n.get("sd_20d")
         trades.append({
-            "id": f"{entry_date}-D{len(trades) + 1:02d}", "book": "dynamic", "source": f"screen {screen['as_of']} #{screen['candidates'].index(c) + 1}",
-            "name": c["name"], "setup": c["setup"], "direction": c["direction"], "why": c.get("why", ""),
-            "entry_date": entry_date, "horizon_days": horizon, "stop": {"spread_pct": _stop_pct(daily)},
-            "skip_if_open": [], "notional": NOTIONAL, "legs": legs,
-            "hedge": c.get("hedge") if c["kind"] != "factor" else None,
+            "id": f"{entry_date}-A{len(trades) + 1:02d}", "book": "dynamic", "source": f"proposal {p['id']}", "proposal_id": p["id"],
+            "conviction": p["conviction"], "name": p["name"], "setup": p["setup"], "direction": p["direction"], "why": p["reason"],
+            "wrong_if": p["wrong_if"], "entry_date": entry_date, "horizon_days": p["plan"]["horizon_days"], "stop": p["plan"]["stop"],
+            "notional": NOTIONAL, "legs": legs, "hedge": hedge,
         })
         used |= symbols
-    return trades, skipped
-
-
-def selective_trades(ideas: list[dict], entry_date: str, prices: dict[str, float], checks: dict[str, dict]) -> tuple[list[dict], list[dict]]:
-    """The recorded ideas for the session as trades, with their own plan. Ideas the pre-open check stood
-    down are skipped, as are ideas recorded before plans existed (they get a one-session limit, no stop)."""
-    trades, skipped = [], []
-    for idea in ideas:
-        if (checks.get(idea["id"]) or {}).get("decision") == "stand_down":
-            skipped.append({"name": idea["id"], "reason": "stood down at the pre-open check"})
-            continue
-        side = lambda k: list(idea[k]) if isinstance(idea.get(k), list) else ([idea[k]] if idea.get(k) else [])
-        legs = size_legs(side("long"), side("short"), prices)
-        if legs is None:
-            skipped.append({"name": idea["id"], "reason": "no price, or a share costs more than its side's notional"})
-            continue
-        label = " / ".join(filter(None, [idea.get("long_label") or ", ".join(side("long")), idea.get("short_label") or ", ".join(side("short"))]))
-        trades.append({
-            "id": f"{entry_date}-S-{idea['id']}", "book": "selective", "source": f"idea {idea['id']}",
-            "name": label, "setup": idea.get("setup", "other"), "direction": "pair" if side("long") and side("short") else ("long" if side("long") else "short"),
-            "why": idea.get("thesis", ""), "entry_date": entry_date, "horizon_days": idea.get("horizon_days", 1),
-            "stop": idea.get("stop") or {}, "skip_if_open": idea.get("skip_if_open", []), "notional": NOTIONAL, "legs": legs,
-        })
     return trades, skipped
 
 
@@ -163,10 +155,9 @@ def exposure(trades: list[dict]) -> tuple[float, dict[str, float]]:
 
 
 def apply_caps(new: list[dict], open_trades: list[dict]) -> tuple[list[dict], list[dict]]:
-    """Keep new trades in order while every cap holds; selective trades go first."""
+    """Keep new trades, in the order given, while every cap holds."""
     kept, skipped = [], []
-    ordered = sorted(new, key=lambda t: t["book"] != "selective")
-    for t in ordered:
+    for t in new:
         trial = [*open_trades, *kept, t]
         gross, net = exposure(trial)
         if len(trial) > MAX_OPEN:
@@ -178,19 +169,6 @@ def apply_caps(new: list[dict], open_trades: list[dict]) -> tuple[list[dict], li
         else:
             kept.append(t)
     return kept, skipped
-
-
-def skip_at_open(trade: dict, quotes: dict[str, float]) -> str | None:
-    """A skip_if_open rule met by the pre-market quote. Orders go into the opening auction, so this is the
-    last price the job can see; with no quote the trade goes in."""
-    for rule in trade.get("skip_if_open", []):
-        px = quotes.get(rule["symbol"])
-        if px is None:
-            continue
-        side = "below" if "below" in rule else "above"
-        if (px < rule["below"]) if side == "below" else (px > rule["above"]):
-            return f"{rule['symbol']} at {px:,.2f} before the open, {side} {rule[side]:,.2f}"
-    return None
 
 
 def spread_return(held: list[dict], prices: dict[str, float]) -> float | None:

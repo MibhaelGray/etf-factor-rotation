@@ -40,7 +40,7 @@ def main(argv: list[str] | None = None) -> None:
     c.add_argument("--duration", default="5y")
     c.add_argument("--symbols")
     c.add_argument("--pending", action="store_true",
-                   help="only names outside the standard universe: legs of unscored ideas and the basket watchlist")
+                   help="only names outside the standard universe: the paper book's legs and the basket watchlist")
 
     c = sub.add_parser("exposures", help="recompute exposures for a stored snapshot")
     c.add_argument("--date", default=None)
@@ -49,22 +49,7 @@ def main(argv: list[str] | None = None) -> None:
     c = sub.add_parser("brief", help="build the nightly brief from stored data")
     c.add_argument("--as-of", default=None)
 
-    c = sub.add_parser("record", help="record tonight's ideas from a draft JSON")
-    c.add_argument("draft", type=Path)
-
     sub.add_parser("trading-day", help="exit 0 if today is an NYSE trading day, else 1")
-    sub.add_parser("score", help="score every idea whose trade date has bars")
-    sub.add_parser("scorecard", help="print the running scorecard")
-
-    c = sub.add_parser("check", help="record the pre-open check from a draft JSON (before 09:30)")
-    c.add_argument("draft", type=Path)
-
-    c = sub.add_parser("morning", help="record the morning book: 1-2 new ideas from the overnight session (before 09:30)")
-    c.add_argument("draft", type=Path)
-
-    c = sub.add_parser("intraday", help="store today's 15-minute bars for the session's idea legs")
-    c.add_argument("--date", default=None)
-
     c = sub.add_parser("market", help="write tonight's market rows for the dashboard from the brief")
     c.add_argument("--as-of", default=None)
     c.add_argument("--out", type=Path, default=Path("market.json"))
@@ -77,17 +62,21 @@ def main(argv: list[str] | None = None) -> None:
     sub.add_parser("scan", help="list tonight's stock and basket candidates")
     sub.add_parser("screen", help="check every name, basket and factor pair against the setups; write the shortlist")
 
-    c = sub.add_parser("ledger", help="write every idea and its result as JSON rows for the dashboard")
-    c.add_argument("--marks", type=Path, help="intraday marks JSON for ideas not yet scored")
-    c.add_argument("--out", type=Path, default=Path("ledger.json"))
-
     c = sub.add_parser("paper", help="paper-trading jobs on the IBKR paper account (see paper/__init__.py)")
-    c.add_argument("job", choices=["open", "close", "sync", "status", "report", "halt", "resume"])
+    c.add_argument("job", choices=["open", "check", "close", "sync", "status", "report", "halt", "resume",
+                                   "propose", "review", "postmortem", "learn", "hedges"])
+    c.add_argument("args", nargs="*", help="propose, review, postmortem: the draft JSON file; hedges: the symbols on one side")
     c.add_argument("--flatten", action="store_true", help="close: exit every open trade at today's close")
     c.add_argument("--reason", default="", help="halt: why, kept in the HALT file")
+    c = sub.add_parser("pass", help="run one of the swing book's research passes as a background job (see passes.py)")
+    c.add_argument("name", choices=["pre-close"])
+    c.add_argument("--shadow", action="store_true", help="work on a copy of the journal, so the app's pass stays the one that counts")
+    c = sub.add_parser("quotes", help="current prices from Yahoo for stocks, ETFs, indexes (VIX, TNX) and futures (ES=F, CL=F)")
+    c.add_argument("names", nargs="+")
+    c = sub.add_parser("intraday", help="the intraday book: 15-minute bars and the replay of its setups (see intraday/__init__.py)")
+    c.add_argument("job", choices=["bars", "replay", "tick", "report"])
     c = sub.add_parser("dashboard", help="build a local copy of the dashboard (dashboard/local.html) and open it")
     c.add_argument("--as-of", default=None, help="brief date for tonight's market rows (default: the latest brief)")
-    c.add_argument("--marks", type=Path, help="intraday marks JSON for ideas not yet scored")
     c.add_argument("--out", type=Path, default=None)
     c.add_argument("--no-open", action="store_true", help="build without opening it in the browser")
 
@@ -101,8 +90,9 @@ def main(argv: list[str] | None = None) -> None:
         print(json.dumps(stats))
     elif a.cmd == "bars":
         from .market import basket_library
+        from .paper import book
         watch = [m["symbol"] for b in basket_library()["baskets"] for m in b["members"]]
-        extra = sorted({s for s in [*journal.pending_legs(), *watch] if s not in set(bar_universe())})
+        extra = sorted({s for s in [*watch, *book.symbols_held()] if s not in set(bar_universe())})
         if a.pending:
             if not extra:
                 print(json.dumps({"symbols": 0, "failed": []}))
@@ -121,26 +111,8 @@ def main(argv: list[str] | None = None) -> None:
         brief = journal.build_brief(as_of)
         print(f"journal/briefs/{as_of}.json  pairs={len(brief['factor_pairs'])} options={len(brief['options'])} "
               f"bars_through={brief['bars_through']} snapshot={brief['options_snapshot']}")
-    elif a.cmd == "record":
-        print(journal.record_ideas(a.draft))
     elif a.cmd == "trading-day":
         sys.exit(0 if journal.is_trading_day(_today()) else 1)
-    elif a.cmd == "score":
-        for path in journal.score():
-            print(path)
-    elif a.cmd == "scorecard":
-        print(journal.scorecard_report())
-    elif a.cmd == "check":
-        print(journal.record_check(a.draft))
-    elif a.cmd == "morning":
-        print(journal.record_morning(a.draft))
-    elif a.cmd == "intraday":
-        day = date.fromisoformat(a.date) if a.date else _today()
-        symbols = journal.intraday_symbols(day)
-        if not symbols:
-            logging.info("no_ideas date=%s", day)
-            return
-        print(journal.write_intraday(day, bars.collect_intraday(symbols, day)))
     elif a.cmd == "serve":
         from . import serve
         serve.run(a.port)
@@ -151,6 +123,40 @@ def main(argv: list[str] | None = None) -> None:
         earnings_gaps.PATH.write_text(json.dumps({"events": len(df), "from": str(df["session"].min().date()),
                                                   "to": str(df["session"].max().date()), "rows": rows}, indent=1) + "\n")
         print(f"{earnings_gaps.PATH}  events={len(df)}")
+    elif a.cmd == "pass":
+        from . import passes
+        out = passes.run(a.name, a.shadow)
+        print(f"pass {a.name}{' (shadow)' if a.shadow else ''}: {'recorded ' + out['recorded'] if out.get('recorded') else 'NOTHING RECORDED'}"
+              f"{'; ' + out['error'] if out.get('error') else ''} in {out.get('minutes', 0)} min, {out.get('agents') or 0} agents, {len(out.get('refused') or [])} refused")
+        for r in out.get("refused") or []:
+            print(f"  refused {r}")
+        print(out.get("message") or "")
+        sys.exit(0 if out["ok"] else 1)
+    elif a.cmd == "quotes":
+        from . import quotes
+        print(quotes.text(quotes.fetch(a.names)))
+    elif a.cmd == "intraday":
+        from .intraday import bars15, replay
+        if a.job == "bars":
+            print(json.dumps(bars15.collect(replay.universe())))
+        elif a.job == "tick":
+            from .intraday import live
+            out = live.tick()
+            print(f"intraday tick {out['date']}: " + (out.get("skipped") or f"bar closed {out['bar_closed']}, {len(out['new'])} new, {out['open']} open, {out['total']} today"))
+            for x in out.get("new", []):
+                v = x["verdict"]
+                print(f"  {x['symbol']:<6} vs {x['hedge']:<5} {x['setup']:<12} {x['direction']:<5} {v['decision']:<10} {v.get('why') or v.get('error') or ''}")
+            for x in out.get("paper", []):
+                r = x.get("result")
+                print(f"  paper {x['id']:<16} {x['state']:<9} {x.get('exit_reason') or ''}" + (f"  {r['dollars']:+.2f} ({r['bp']:+.1f} bp)" if r else ""))
+            _notify("intraday", out.get("warnings", []))
+        elif a.job == "report":
+            from .intraday import live
+            print(json.dumps(live.report(), indent=1))
+        else:
+            path, payload = replay.write()
+            print(path)
+            print(replay.text(payload))
     elif a.cmd == "scan":
         from . import scan
         path, payload = scan.write()
@@ -178,28 +184,93 @@ def main(argv: list[str] | None = None) -> None:
 
         from . import localdash
         out = a.out or localdash.DEFAULT_OUT
-        info = localdash.build(out, date.fromisoformat(a.as_of) if a.as_of else None,
-                               json.loads(a.marks.read_text()) if a.marks else None)
-        print(f"{info['out']}  ideas={info['ideas']} market_rows={info['market_rows']} ({info['market']})")
+        info = localdash.build(out, date.fromisoformat(a.as_of) if a.as_of else None)
+        print(f"{info['out']}  market_rows={info['market_rows']} ({info['market']})")
         if not a.no_open:
             webbrowser.open(out.resolve().as_uri())
     elif a.cmd == "paper":
         _paper(a)
-    elif a.cmd == "ledger":
-        rows = journal.ledger(json.loads(a.marks.read_text()) if a.marks else None)
-        a.out.write_text(json.dumps(rows, indent=1) + "\n")
-        print(f"{a.out}  ideas={len(rows)} " + " ".join(
-            f"{s.lower()}={sum(r['status'] == s for r in rows)}" for s in ("Final", "Intraday", "Open")))
+
+
+def _notify(job: str, warnings: list[str]) -> None:
+    """Print a job's warnings and, on a Mac, raise a notification, so a failure isn't found days later in a
+    log. Best effort: a notification that can't be shown changes nothing."""
+    for w in warnings:
+        print(f"  ! {w}")
+    if not warnings or sys.platform != "darwin":
+        return
+    import subprocess
+
+    text = warnings[0] if len(warnings) == 1 else f"{len(warnings)} warnings. First: {warnings[0]}"
+    script = 'on run argv\ndisplay notification (item 1 of argv) with title (item 2 of argv)\nend run'
+    try:
+        subprocess.run(["osascript", "-e", script, text[:240], f"Paper {job}"], capture_output=True, timeout=10)
+    except Exception:
+        pass
+
+
+def _research(a) -> None:
+    """The research pass's commands. They only read and write the journal; none of them reaches the gateway."""
+    from .paper import learn, proposals
+
+    def draft() -> dict:
+        if len(a.args) != 1:
+            sys.exit(f"usage: fr paper {a.job} <draft.json>")
+        return json.loads(Path(a.args[0]).read_text())
+
+    try:
+        if a.job == "propose":
+            path, doc, notes = proposals.record(draft())
+            takes = [p for p in doc["proposals"] if p["decision"] == "take"]
+            print(f"{path}: {len(doc['proposals'])} verdicts for {doc['session']}, {len(takes)} takes "
+                  f"(the entry job trades up to {proposals.rules.MAX_NEW}, strongest conviction first)")
+            for p in takes:
+                st = p.get("stats") or {}
+                legs = " / ".join(filter(None, [p["long"] and "long " + ", ".join(p["long"]), p["short"] and "short " + ", ".join(p["short"])]))
+                print(f"  {p['id']}  {p['name'][:24]:<24} conviction {p['conviction']}  {p['plan']['horizon_days']}d, stop {abs(p['plan']['stop']['spread_pct']):g}%  {legs}"
+                      + (f"  (hedge correlation {st['corr_60d']:+.2f}, beta {st['beta_60d']:.2f})" if st else "")
+                      + (f"  {p['preopen']['decision'].upper().replace('_', ' ')}: {p['preopen']['reason']}" if p.get("preopen") else ""))
+            for n in notes:
+                print(f"  note: {n}")
+        elif a.job == "review":
+            path = learn.record_review(draft())
+            for r in json.loads(path.read_text())["reviews"]:
+                print(f"  {r['trade_id']}: {r['action']}" + (f" {r['sessions']} sessions" if r["action"] == "extend" else "") + f" ({r['thesis']}): {r['reason']}")
+            print(f"{path}: the 3:45 PM ET exit check will read it")
+        elif a.job == "postmortem":
+            print(learn.record_postmortems(draft()))
+        elif a.job == "learn":
+            print(learn.brief())
+        elif a.job == "hedges":
+            if not a.args:
+                sys.exit("usage: fr paper hedges SYMBOL [SYMBOL ...]  (several symbols are one equal-weight side)")
+            print(f"{', '.join(a.args)} against each ETF, daily returns over 60 sessions:")
+            for r in learn.hedges(a.args):
+                print(f"  {r['hedge']:<6} correlation {r['corr_60d']:+.2f}  beta {r['beta_60d']:.2f}")
+    except (ValueError, FileNotFoundError, FileExistsError, KeyError) as e:
+        sys.exit(f"fr paper {a.job} refused: {e}")
 
 
 def _paper(a) -> None:
     from .paper import book
     from .paper.broker import IBPaper, PaperSettings
 
+    if a.job in ("propose", "review", "postmortem", "learn", "hedges"):
+        return _research(a)
     today = _today()
-    if a.job in ("open", "close", "sync") and not journal.is_trading_day(today):
+    if a.job in ("open", "check", "close", "sync") and not journal.is_trading_day(today):
         logging.info("market_closed date=%s", today)
         return
+    # A job that starts late (the Mac woke from sleep, say) must not send orders after the auction cutoffs:
+    # market-on-open by 9:28 AM ET, market-on-close by 3:50 PM ET. Missed entries are simply not taken;
+    # missed exits go out the next session, since a trade past its time limit exits at the next check.
+    now = datetime.now(NY).strftime("%H:%M")
+    # The post-open check closes half-filled trades at the market, so it runs only while the market is open
+    # and before the 3:45 PM exits, which deal with whatever is left.
+    window = {"open": ("09:00", "09:27"), "check": ("09:33", "15:29"), "close": ("15:30", "15:49")}.get(a.job)
+    if window and not (window[0] <= now <= window[1]) and PaperSettings().send:
+        print(f"paper {a.job}: {now} ET is outside {window[0]}-{window[1]} ET, so nothing was sent")
+        sys.exit(1)
     if a.job == "open":
         plan = asyncio.run(book.open_session(today))
         tag = " (dry run: set FR_PAPER_SEND=1 to send)" if plan["dry_run"] else ""
@@ -207,20 +278,21 @@ def _paper(a) -> None:
               + (f"; HALTED: {plan['halted']}" if plan.get("halted") else ""))
         for t in plan["trades"]:
             print(f"  {t['id']:<28} {t['book']:<9} {t['name'][:34]:<34} {t['setup']:<20} {t['horizon_days']}d stop {journal.stop_text(t) or '-'}")
-        for o in plan["orders"]:
-            if o["status"] not in ("PreSubmitted", "Submitted", "dry run"):
-                print(f"  ! {o['trade_id']} {o['action']} {o['shares']} {o['symbol']}: {o['status']} {o.get('note', '')}")
         for k in plan["skipped"]:
             print(f"  skipped {k['name']}: {k['reason']}")
+        _notify("open", plan.get("warnings", []))
+    elif a.job == "check":
+        out = asyncio.run(book.check_session(today))
+        print(f"paper check {today}: " + (out.get("note") or f"{len(out['unfilled'])} trades never filled, {len(out['exits'])} broken trades "
+                                          f"closed with {len(out['orders'])} orders, {len(out['waiting'])} still waiting"))
+        _notify("check", out["warnings"])
     elif a.job == "close":
         out = asyncio.run(book.close_session(today, flatten=a.flatten))
         tag = " (dry run)" if out["dry_run"] else ""
         print(f"paper close {today}{tag}: {len(out['exits'])} exits, {len(out['orders'])} orders")
-        for e in out["exits"]:
+        for e in [*out["exits"], *out["retried"]]:
             print(f"  {e['trade_id']}: {e['reason']}")
-        for o in out["orders"]:
-            if o["status"] not in ("PreSubmitted", "Submitted", "dry run"):
-                print(f"  ! {o['trade_id']} {o['action']} {o['shares']} {o['symbol']}: {o['status']} {o.get('note', '')}")
+        _notify("close", out["warnings"])
     elif a.job == "sync":
         out = asyncio.run(book.sync(today))
         print(f"paper sync {today}: {len(out['fills'])} fills, {len(out['positions'])} positions, net liquidation {out['net_liquidation']}")
@@ -238,6 +310,8 @@ def _paper(a) -> None:
             print(f"  ! {m}")
     elif a.job == "report":
         print(book.summary_text())
+        for w in book.alerts():
+            print(f"  ! {w}")
         for r in book.rows():
             print(f"  {r['id']:<28} {r['state']:<8} {r['name'][:30]:<30} {r['bps'] if r['bps'] is not None else '-':>8} bp  {r['reason'] or ''}")
     elif a.job == "halt":

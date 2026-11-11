@@ -1,7 +1,7 @@
 <meta name="dash-one-writer">
 <style>
   /* Layout: a sticky bar with the views, then one view at a time. Today is the cockpit: market pulse, then
-     ideas beside what needs attention, then basket movers beside who reports soon. The other views hold
+     the swing book beside what needs attention, then basket movers beside who reports soon. The other views hold
      the detail. Colors and type come from the Dashboard runtime's tokens (dashboard/tokens.css locally). */
   [hidden] { display: none !important; }
   .fr { --fr-line: var(--color-border-line); --fr-muted: var(--color-fg-muted); --fr-num: var(--font-anthropic-sans);
@@ -22,9 +22,21 @@
   .fr-bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--color-bg); border-bottom: 1px solid var(--fr-line);
     display: flex; flex-wrap: wrap; align-items: center; gap: var(--cds-gap-xs) var(--cds-gap-lg); padding-block: var(--cds-pad-sm); }
   .fr-name { font-family: var(--font-anthropic-serif); font-size: 1.2rem; font-weight: 400; margin: 0; white-space: nowrap; }
-  .fr-tabs { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; min-width: 0; }
+  .fr-tabs { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; min-width: 0; }
   .fr-tabs::-webkit-scrollbar { display: none; }
-  .fr-tabs button { background: none; border: 0; border-radius: 6px; padding: .4rem .7rem; color: var(--fr-muted); cursor: pointer; white-space: nowrap; font-weight: var(--cds-font-weight-medium); }
+  .fr-detail { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: var(--cds-gap-md); padding: var(--cds-pad-sm) 0 var(--cds-pad-md); }
+  .fr-detail .fr-wide { grid-column: 1 / -1; }
+  .fr-detail p { margin: 0; }
+  .fr-inlist { margin: var(--cds-gap-xs) 0 0; padding-left: 1.1rem; font-size: var(--cds-font-size-caption); color: var(--fr-muted); }
+  .fr-nw, .fr-nw b { white-space: nowrap; }
+  .fr-tabsep { flex: none; width: 1px; margin: .45rem .2rem; background: var(--fr-line); }
+  .fr-rtchip { background: none; cursor: pointer; font: inherit; font-size: var(--cds-font-size-caption); }
+  .fr-fold { scroll-margin-top: 6rem; }
+  .fr-fold > summary { cursor: pointer; list-style: none; }
+  .fr-fold > summary::-webkit-details-marker { display: none; }
+  .fr-fold > summary h3::before { content: "▸"; display: inline-block; width: 1.1em; color: var(--fr-muted); }
+  .fr-fold[open] > summary h3::before { content: "▾"; }
+  .fr-tabs button { background: none; border: 0; border-radius: 6px; padding: .4rem .4rem; color: var(--fr-muted); cursor: pointer; white-space: nowrap; font-weight: var(--cds-font-weight-medium); }
   .fr-tabs button:hover { color: var(--color-fg); background: var(--color-panel); }
   .fr-tabs button[aria-current=page] { color: var(--color-fg); background: var(--color-panel); box-shadow: inset 0 -2px 0 var(--color-fg); }
   .fr-fresh { margin-left: auto; display: flex; flex-wrap: wrap; align-items: center; gap: var(--cds-gap-sm); font-size: var(--cds-font-size-caption); color: var(--fr-muted); }
@@ -74,7 +86,7 @@
   .fr-pip { width: .5rem; height: .5rem; border-radius: 50%; border: 1px solid var(--color-fg); }
   .fr-pip.on { background: var(--color-fg); }
 
-  /* Ideas */
+  /* Cards and result rows: the swing book on Today */
   .fr-ideas { display: grid; gap: var(--cds-gap-md); }
   .fr-idea { border: 1px solid var(--fr-line); border-radius: 8px; padding: var(--cds-pad-md); display: grid; gap: var(--cds-gap-xs); background: var(--color-bg); min-width: 0; }
   .fr-ideatop { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--cds-gap-xs) var(--cds-gap-md); align-items: center; }
@@ -128,7 +140,6 @@
   .fr-board { display: grid; }
   .fr-frow { display: grid; grid-template-columns: minmax(9rem, 1.4fr) minmax(6rem, 1fr) minmax(6rem, 1fr) 3rem 3rem; gap: var(--cds-gap-md); align-items: center; padding: .35rem 0; border-bottom: 1px solid var(--fr-line); }
   .fr-frow.is-head { font-size: var(--cds-font-size-caption); color: var(--fr-muted); border-bottom-color: var(--color-fg); }
-  .fr-frow.is-idea { background: color-mix(in srgb, var(--color-warn) 9%, transparent); }
   .fr-frow > span:nth-child(n+4) { text-align: right; }
   .fr-frow small { display: block; color: var(--fr-muted); font-size: var(--cds-font-size-caption); }
   .fr-ztrack { position: relative; height: 1rem; }
@@ -166,18 +177,25 @@
   .fr-tag { display: inline-block; margin-left: var(--cds-gap-xs); padding: 0 var(--cds-pad-xs); border: 1px solid var(--color-warn); color: var(--color-warn); border-radius: 4px; font-size: var(--cds-font-size-caption); font-weight: 500; }
   @media (max-width: 40rem) { .fr-hide-narrow { display: none; } .fr-table td.why { min-width: 0; } }
 
-  /* Expanded detail: an idea's path and reasoning, or a basket's story and members. */
+  /* Expanded detail: a trade's legs and reasoning, or a basket's story and members. */
   .fr-open { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: var(--cds-gap-md) var(--cds-gap-lg); padding: var(--cds-pad-md); background: var(--color-bg); border: 1px solid var(--fr-line); border-radius: 8px; }
   .fr-open > div { display: grid; gap: 2px; align-content: start; min-width: 0; }
   .fr-open p { margin: 0; font-size: var(--cds-font-size-caption); line-height: 1.55; }
   .fr-open .fr-wide { grid-column: 1 / -1; }
-  .fr-filters { display: flex; flex-wrap: wrap; gap: var(--cds-gap-xs); }
-  .fr-filters button { background: none; border: 1px solid var(--fr-line); border-radius: 999px; padding: .15rem .65rem; cursor: pointer; font-size: var(--cds-font-size-caption); color: var(--fr-muted); }
-  .fr-filters button[aria-pressed=true] { background: var(--color-fg); border-color: var(--color-fg); color: var(--color-bg); }
+  @media (max-width: 40rem) { .fr-tabs { flex-wrap: wrap; } }
+  .fr-paperband { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  @media (max-width: 52rem) { .fr-paperband { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .fr-held { white-space: nowrap; }
+  .fr-papernotes { display: grid; gap: var(--cds-gap-xs); }
+  .fr-cellsub { display: block; font-weight: 400; color: var(--fr-muted); font-size: var(--cds-font-size-caption); }
+  .fr-legs { width: 100%; font-size: var(--cds-font-size-caption); }
+  .fr-toggle + .fr-chip { margin: 2px 0 0 1em; }
 
   /* Charts */
   .fr-chart { position: relative; min-height: 220px; }
   .fr-chart.is-short { min-height: 150px; }
+  .fr-pnlhead { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--cds-gap-xs) var(--cds-gap-md); }
+  .fr-pnlhead .fr-sub { margin: 0; }
   .fr-tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); border-radius: 6px; box-shadow: var(--cds-shadow-popover); padding: var(--cds-pad-xs) var(--cds-pad-sm); font-size: var(--cds-font-size-caption); display: grid; gap: 2px; white-space: nowrap; font-variant-numeric: tabular-nums; z-index: 3; }
   .fr-tip .dim { color: var(--cds-text-secondary); }
   .fr-list { list-style: none; margin: 0; padding: 0; display: grid; font-variant-numeric: tabular-nums; }
@@ -219,6 +237,58 @@
     .fr-zbar i { animation: fr-grow var(--cds-dur-slow) var(--cds-ease-out) both; }
     @keyframes fr-grow { from { clip-path: inset(0 50% 0 50%); } to { clip-path: inset(0); } }
   }
+
+  /* Hormuz: a dark operations map whatever the page theme, with the numbers under it. */
+  .fr-hz { --hz-bg: #0a0f14; --hz-land: #131c25; --hz-coast: #33485c; --hz-grid: #17222d; --hz-text: #c9d6e2; --hz-dim: #7d92a6; --hz-oil: #f0a23b; --hz-gas: #3ec8e0; --hz-pipe: #4fd18b; --hz-alert: #ff5d5d;
+    background: var(--hz-bg); color: var(--hz-text); border: 1px solid #1d2a36; border-radius: var(--cds-radius); overflow: hidden; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .72rem; letter-spacing: .04em; min-width: 0; }
+  .fr-hz-frame { position: relative; line-height: 1.35; }
+  .fr-hz-frame svg { display: block; cursor: crosshair; }
+  .fr-hz-frame::before, .fr-hz-frame::after { content: ""; position: absolute; width: 18px; height: 18px; border: 1px solid var(--hz-dim); pointer-events: none; opacity: .7; }
+  .fr-hz-frame::before { left: 8px; top: 8px; border-right: 0; border-bottom: 0; }
+  .fr-hz-frame::after { right: 8px; bottom: 8px; border-left: 0; border-top: 0; }
+  .fr-hz-empty { margin: 0; padding: 3rem 1rem; text-align: center; color: var(--hz-dim); }
+  .fr-hz-hud { position: absolute; left: 12px; top: 12px; display: grid; gap: 3px; pointer-events: none; max-width: min(70%, 26rem); background: rgba(10, 15, 20, .82); border: 1px solid #1d2a36; border-radius: 6px; padding: .55rem .75rem; z-index: 1; text-shadow: 0 0 6px var(--hz-bg), 0 0 2px var(--hz-bg); }
+  .fr-hz-kicker { color: var(--hz-dim); text-transform: uppercase; }
+  .fr-hz-status { font-size: 1.05rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; display: flex; align-items: center; gap: .55rem; }
+  .fr-hz-status i { width: .6rem; height: .6rem; border-radius: 50%; background: var(--hz-state); box-shadow: 0 0 10px var(--hz-state); flex: none; }
+  .fr-hz-legend { position: absolute; right: 20px; top: 18px; display: grid; gap: 4px; color: var(--hz-dim); text-transform: uppercase; pointer-events: none; text-shadow: 0 0 6px var(--hz-bg); }
+  .fr-hz-legend span { display: flex; align-items: center; gap: .5rem; justify-content: flex-end; }
+  .fr-hz-legend i { width: 1.4rem; height: 0; border-top: 2px solid var(--c); flex: none; }
+  .fr-hz-legend i.node { width: .5rem; height: .5rem; border: 1px solid var(--hz-text); transform: rotate(45deg); margin-inline: .45rem; }
+  .fr-hz-coord { position: absolute; left: 20px; bottom: 14px; color: var(--hz-dim); pointer-events: none; font-variant-numeric: tabular-nums; text-shadow: 0 0 6px var(--hz-bg); }
+  .fr-hz-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr)); gap: 1px; background: #1d2a36; border-top: 1px solid #1d2a36; }
+  .fr-hz-strip > div { background: var(--hz-bg); padding: .7rem 1rem; display: grid; gap: 2px; align-content: start; }
+  .fr-hz-strip p { margin: 0; color: var(--hz-dim); text-transform: uppercase; }
+  .fr-hz-strip b { font-size: 1.35rem; font-weight: 500; letter-spacing: 0; font-variant-numeric: tabular-nums; color: var(--hz-text); }
+  .fr-hz-strip b small { font-size: .72rem; font-weight: 400; color: var(--hz-dim); margin-left: .3rem; letter-spacing: .04em; }
+  .fr-hz .fr-tip { font-family: var(--font-anthropic-sans); letter-spacing: 0; color: var(--color-fg); max-width: 16rem; }
+  .hz-grid line { stroke: var(--hz-grid); stroke-width: 1; }
+  .hz-grid text, .hz-place text { fill: var(--hz-dim); font-size: 9px; }
+  .hz-land path { fill: var(--hz-land); stroke: var(--hz-coast); stroke-width: .8; stroke-linejoin: round; }
+  .hz-country { fill: #55697c; font-size: 11px; letter-spacing: .28em; text-anchor: middle; }
+  .hz-water { fill: #2f4a63; font-size: 10px; letter-spacing: .4em; text-anchor: middle; font-style: italic; }
+  .hz-lane { fill: none; stroke-linecap: round; }
+  .hz-flow { fill: none; stroke-linecap: round; stroke-dasharray: 3 15; animation: hz-dash var(--hz-dur, 8s) linear infinite; }
+  .hz-pipeline { fill: none; stroke: var(--hz-pipe); stroke-width: 1.5; stroke-dasharray: 5 4; animation: hz-dash 14s linear infinite; }
+  .hz-node rect { fill: var(--hz-bg); stroke-width: 1.4; }
+  .hz-node text { fill: var(--hz-text); font-size: 10px; paint-order: stroke; stroke: var(--hz-bg); stroke-width: 3px; stroke-linejoin: round; }
+  .hz-gate line { stroke: var(--hz-state); stroke-width: 2; }
+  .hz-gate circle { fill: none; stroke: var(--hz-state); stroke-width: 1.5; transform-box: fill-box; transform-origin: center; animation: hz-ping 2.6s ease-out infinite; }
+  .hz-gate circle + circle { animation-delay: 1.3s; }
+  .hz-gate text { fill: var(--hz-text); font-size: 10px; paint-order: stroke; stroke: var(--hz-bg); stroke-width: 3px; }
+  .hz-cross line { stroke: var(--hz-dim); stroke-width: .6; stroke-dasharray: 2 3; pointer-events: none; }
+  @keyframes hz-dash { to { stroke-dashoffset: -180; } }
+  @keyframes hz-ping { from { transform: scale(.25); opacity: .9; } to { transform: scale(1); opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .hz-flow, .hz-pipeline, .hz-gate circle { animation: none; } .hz-gate circle { opacity: .5; } }
+  @media (max-width: 40rem) { .fr-hz-frame { display: flex; flex-direction: column; } .fr-hz-hud { position: static; order: -1; max-width: none; padding: .8rem 1rem; } .fr-hz-legend, .fr-hz-coord { display: none; } .fr-hz-status { font-size: .85rem; } }
+  .fr-routine td { vertical-align: top; }
+  .fr-routine .fr-rt-detail { display: block; margin-top: 2px; font-size: var(--cds-font-size-caption); color: var(--fr-muted); max-width: 26rem; }
+  .fr-routine .fr-rt-who { font-size: var(--cds-font-size-caption); color: var(--fr-muted); }
+  .fr-routine tr.is-now td { box-shadow: inset 0 1px 0 var(--color-fg); }
+  .fr-hzchart { position: relative; }
+  .fr-hzchart text { fill: var(--fr-muted); font-size: 11px; }
+  .fr-hzprice { display: flex; align-items: baseline; gap: .4rem; flex-wrap: wrap; }
+  .fr-hzprice small { font-size: var(--cds-font-size-caption); color: var(--fr-muted); font-weight: 400; }
 </style>
 
 <div class="fr" id="top">
@@ -226,16 +296,19 @@
     <h1 class="fr-name">Factor Rotation Ledger</h1>
     <nav class="fr-tabs" aria-label="Views">
       <button type="button" data-view-to="today" aria-current="page">Today</button>
-      <button type="button" data-view-to="ideas">Ideas</button>
-      <button type="button" data-view-to="record">Track record</button>
+      <button type="button" data-view-to="paper">Swing book</button>
+      <button type="button" data-view-to="intraday">Intraday</button>
+      <span class="fr-tabsep" aria-hidden="true"></span>
       <button type="button" data-view-to="market">Market</button>
       <button type="button" data-view-to="baskets">Baskets</button>
       <button type="button" data-view-to="earnings">Earnings</button>
-      <button type="button" data-view-to="paper">Paper</button>
+      <span class="fr-tabsep" aria-hidden="true"></span>
+      <button type="button" data-view-to="hormuz">Hormuz</button>
       <button type="button" data-view-to="chart" hidden>Chart</button>
     </nav>
     <div class="fr-fresh">
-      <span data-draw="fresh" data-source="mkt_meta ledger">—</span>
+      <button type="button" class="fr-chip fr-rtchip" data-draw="routine-chip" data-source="mkt_routine" data-routine-jump hidden></button>
+      <span data-draw="fresh" data-source="mkt_meta">—</span>
       <button type="button" class="fr-btn" data-refresh hidden>Refresh data</button>
       <span data-refresh-note role="status" hidden></span>
     </div>
@@ -243,13 +316,12 @@
 
   <!-- TODAY: the cockpit -->
   <section class="fr-view" id="today" data-view="today">
-    <div class="fr-band" aria-label="Market pulse" data-draw="pulse" data-source="mkt_regime summary last_session"></div>
-    <p class="fr-note is-warn" data-intraday hidden>Some results are intraday marks taken at <b data-draw="mark-time" data-source="ledger">—</b>. They become final when tonight's bars are scored.</p>
+    <div class="fr-band" aria-label="Market pulse" data-draw="pulse" data-source="mkt_regime mkt_paper mkt_paper_proposals"></div>
 
     <div class="fr-cols">
       <div class="fr-panel">
-        <div class="fr-phead"><h3>Ideas</h3><button type="button" class="fr-link" data-view-to="ideas">Every idea</button></div>
-        <div class="fr-ideas" data-draw="today-ideas" data-source="ledger last_session"></div>
+        <div class="fr-phead"><h3>Swing book</h3><button type="button" class="fr-link" data-view-to="paper">All trades</button></div>
+        <div class="fr-ideas" data-draw="today-book" data-source="mkt_paper mkt_paper_proposals"></div>
       </div>
       <div class="fr-panel">
         <div class="fr-phead">
@@ -270,7 +342,7 @@
 
     <div class="fr-grid2">
       <div class="fr-panel">
-        <div class="fr-phead"><h3>Basket movers</h3><button type="button" class="fr-link" data-view-to="baskets">All 23 baskets</button>
+        <div class="fr-phead"><h3>Basket movers</h3><button type="button" class="fr-link" data-view-to="baskets">All baskets</button>
           <p>Today's spread against each basket's hedge ETF, in percentage points. Biggest moves both ways.</p></div>
         <div class="fr-bars" data-draw="movers" data-source="mkt_basket"></div>
       </div>
@@ -280,85 +352,16 @@
         <div data-draw="soon" data-source="mkt_earnings"></div>
       </div>
     </div>
-  </section>
-
-  <!-- IDEAS: track record, then every idea -->
-  <section class="fr-view" id="ideas" data-view="ideas" hidden>
-    <div class="fr-viewhead"><h2>Ideas</h2><p>Scored next open to close, in basis points (100 bp = 1%).</p></div>
-    <p class="fr-note is-warn" data-intraday hidden>Some results are intraday marks. They become final when tonight's bars are scored.</p>
-
-    <div class="fr-panel">
-      <div class="fr-phead"><h3>Every idea</h3>
-        <div class="fr-filters" role="group" aria-label="Show">
-          <button type="button" data-filter="all" aria-pressed="true">All</button>
-          <button type="button" data-filter="waiting" aria-pressed="false">Waiting</button>
-          <button type="button" data-filter="Nightly" aria-pressed="false">Nightly</button>
-          <button type="button" data-filter="Morning" aria-pressed="false">Morning</button>
-        </div>
-        <p>Newest first. Ideas are written once and never edited after the outcome is known. Open a row for its path through the day and its reasoning.</p>
-      </div>
-      <div class="fr-tablewrap">
-        <table class="fr-table" data-source="ledger" data-row-key="id">
-          <thead><tr>
-            <th scope="col">Session</th><th scope="col">Idea</th><th scope="col" class="fr-hide-narrow">Book</th>
-            <th scope="col" class="fr-hide-narrow">Confidence</th><th scope="col">Status</th><th scope="col" class="fr-hide-narrow"></th><th scope="col" class="num">First session</th><th scope="col" class="num fr-hide-narrow">Whole trade</th>
-          </tr></thead>
-          <tbody data-draw="ledger-rows" data-source="ledger"></tbody>
-        </table>
-      </div>
-    </div>
-  </section>
-
-  <!-- TRACK RECORD -->
-  <section class="fr-view" id="record" data-view="record" hidden>
-    <div class="fr-viewhead"><h2>Track record</h2><p>Is the judgment worth anything? Results in basis points, open to close.</p></div>
-    <div class="fr-band" aria-label="Track record">
-      <div class="fr-stat"><p class="fr-label">Hit rate</p><div class="fr-val" data-draw="hit-rate" data-source="summary">—</div>
-        <p class="fr-sub">95% range <span data-draw="hit-lo" data-source="summary">—</span> to <span data-draw="hit-hi" data-source="summary">—</span></p></div>
-      <div class="fr-stat"><p class="fr-label">Average idea</p><div class="fr-val" data-draw="mean-fig" data-source="summary">—</div>
-        <p class="fr-sub">Nightly ideas, open to close</p></div>
-      <div class="fr-stat"><p class="fr-label">Nightly book, total</p><div class="fr-val" data-draw="book" data-source="summary">—</div>
-        <p class="fr-sub">After pre-open check <span data-draw="book-after" data-source="summary">—</span></p></div>
-      <div class="fr-stat"><p class="fr-label">Morning book, total</p><div class="fr-val" data-draw="book-morning" data-source="summary">—</div>
-        <p class="fr-sub"><span data-draw="morning-ideas" data-source="summary">—</span> morning ideas</p></div>
-      <div class="fr-stat"><p class="fr-label">Ideas scored</p><div class="fr-val" data-draw="ideas-fig" data-source="summary">—</div>
-        <p class="fr-sub">Nightly, over <span data-draw="sessions" data-source="summary">—</span> sessions</p></div>
-    </div>
-
-    <div class="fr-grid2">
-      <div class="fr-panel">
-        <div class="fr-phead"><h3>Book by session</h3><p>Average nightly idea and SPY, open to close, with the running total.</p></div>
-        <ul class="fr-legend"><li><span class="fr-sw" data-swatch="0"></span>Average idea</li><li><span class="fr-sw"></span>SPY</li><li><span class="fr-sw is-line" data-swatch="1"></span>Book, running total</li></ul>
-        <div class="fr-chart" data-draw="record-chart" data-source="by_day"></div>
-      </div>
-      <div class="fr-panel">
-        <div class="fr-phead"><h3>Calibration by confidence</h3><p>Average result at each confidence level, both books. Higher confidence should earn more.</p></div>
-        <div class="fr-chart is-short" data-draw="calib-chart" data-source="by_conf"></div>
-      </div>
-      <div class="fr-panel">
-        <div class="fr-phead"><h3>What the ideas rested on</h3><p>Average result by the inputs each idea was tagged with. Inputs that keep losing deserve less weight.</p></div>
-        <div class="fr-chart is-short" data-draw="driver-chart" data-source="by_driver"></div>
-      </div>
-      <div class="fr-panel">
-        <div class="fr-phead"><h3>ETFs, stocks and baskets</h3><p>Average result by what the idea trades. A pair with a stock leg counts as a stock.</p></div>
-        <div class="fr-chart is-short" data-draw="type-chart" data-source="by_type"></div>
-      </div>
-      <div class="fr-panel">
-        <div class="fr-phead"><h3>Results by setup</h3><p>Average whole-trade result by the screen setup each idea came from, both books. Setups that keep losing get dropped or tightened.</p></div>
-        <div class="fr-chart is-short" data-draw="setup-chart" data-source="by_setup"></div>
-      </div>
-    </div>
-
-    <details class="fr-method"><summary>How ideas are scored</summary>
-      <p>Each idea enters at the session's open and exits at its close. A pair is dollar-neutral, so its return is the long leg's minus the short leg's; an outright long or short is that one leg. A basket leg holds its 3 to 10 stocks in equal weight, so its return is their average.</p>
-      <p>Nightly ideas are recorded the night before and checked against their own stand-down rules before the open; the book after the check leaves out the ones stood down. Morning ideas are recorded before the open from the overnight session and scored as a separate book.</p>
-      <p>Final scores come from the nightly scoring run on daily bars. Until then a session's ideas carry intraday marks. The path through the day uses 15-minute bars from the 9:30 AM bar's open, so its end can differ slightly from the official score. The hit rate's range is a 95% Wilson interval, which treats ideas as independent; ideas on the same day often move together, so the true range is wider. Ideas are research, not advice, and carry no position sizing.</p>
+    <details class="fr-panel fr-fold" id="routine">
+      <summary class="fr-phead"><h3>Routine</h3><span class="fr-sub" data-draw="routine-sum" data-source="mkt_routine">—</span></summary>
+      <p class="fr-note">Every scheduled step, last session and today, in New York time. A step counts as done only when it left its record: the plan, the exits, a research pass's verdicts. Research passes run in the Claude app, so they need it open.</p>
+      <div class="fr-tablewrap" data-draw="routine" data-source="mkt_routine"></div>
     </details>
   </section>
 
   <!-- MARKET -->
   <section class="fr-view" id="market" data-view="market" hidden>
-    <div class="fr-viewhead"><h2>Market</h2><p>Close of <span data-draw="mkt-asof" data-source="mkt_meta">—</span>. Flow figures are model estimates of trading that has to happen, not anyone's positions.</p></div>
+    <div class="fr-viewhead"><h2>Market</h2><p>Data through <span data-draw="mkt-asof" data-source="mkt_meta">—</span>. Flow figures are model estimates of trading that has to happen, not anyone's positions.</p></div>
     <div class="fr-band" aria-label="Regime">
       <div class="fr-stat"><div class="fr-stattop"><p class="fr-label">Breadth</p><span data-draw="regime-chip" data-metric="pct_above_50" data-source="mkt_regime"></span></div>
         <div class="fr-val" data-draw="regime-val" data-metric="pct_above_50" data-source="mkt_regime">—</div>
@@ -429,26 +432,97 @@
 
   <!-- PAPER -->
   <section class="fr-view" id="paper" data-view="paper" hidden>
-    <div class="fr-viewhead"><h2>Paper trading</h2><p data-draw="paper-acct" data-source="mkt_paper_account">—</p></div>
-    <div class="fr-band" aria-label="Paper books" data-draw="paper-band" data-source="mkt_paper"></div>
+    <div class="fr-viewhead"><h2>Swing book</h2><p data-draw="paper-acct" data-source="mkt_paper_account">—</p></div>
+    <div class="fr-papernotes" data-draw="paper-notes" data-source="mkt_paper mkt_paper_account"></div>
+    <div class="fr-band fr-paperband" aria-label="Paper results" data-draw="paper-band" data-source="mkt_paper mkt_paper_account"></div>
     <div class="fr-panel">
-      <div class="fr-phead"><h3>Every paper trade</h3>
-        <div class="fr-filters" role="group" aria-label="Show">
-          <button type="button" data-pfilter="all" aria-pressed="true">All</button>
-          <button type="button" data-pfilter="open" aria-pressed="false">Open</button>
-          <button type="button" data-pfilter="dynamic" aria-pressed="false">Dynamic</button>
-          <button type="button" data-pfilter="selective" aria-pressed="false">Selective</button>
+      <div class="fr-phead"><h3>Profit and loss</h3>
+        <div class="fr-seg" role="group" aria-label="Time frame">
+          <button type="button" data-pnl-frame="1D" aria-pressed="false" hidden>1D</button>
+          <button type="button" data-pnl-frame="1W" aria-pressed="false">1W</button>
+          <button type="button" data-pnl-frame="1M" aria-pressed="false">1M</button>
+          <button type="button" data-pnl-frame="3M" aria-pressed="false">3M</button>
+          <button type="button" data-pnl-frame="All" aria-pressed="false">All</button>
         </div>
-        <p>Newest first. Results are in bp of one side's $10,000, after commissions; open trades are marked at the last daily close. "Fills vs model" is the paper result minus the same shares scored from the first open to the last close on daily bars.</p></div>
-      <div class="fr-tablewrap" data-draw="paper-table" data-source="mkt_paper"></div>
+        <p>The whole book after commissions, closed trades and open ones together, starting from zero at the beginning of the time frame.</p></div>
+      <div class="fr-pnlhead"><div class="fr-val" data-pnl-total>—</div><p class="fr-sub" data-pnl-sub></p></div>
+      <div class="fr-chart" data-draw="paper-pnl" data-source="mkt_paper_pnl"></div>
     </div>
-    <details class="fr-method"><summary>How the paper books work</summary>
-      <p>Two books trade on an IBKR paper account, never a live one. The selective book takes the recorded ideas with their own plan, minus any the pre-open check stood down. The dynamic book takes up to 10 of the screen's top candidates each session, mechanically: a stock against its sector or basket ETF, a basket against its hedge, a factor pair as it stands. Each setup has a default time limit (2 to 5 sessions) and a stop at 1.5 times the trade's typical daily move, between 2% and 8%. A name already in an open dynamic trade isn't taken again.</p>
-      <p>Entries go into the opening auction as market-on-open orders sent at 9:22 AM ET. At 3:45 PM ET every open trade is checked against its stop and time limit on current prices, and the ones leaving are sent as market-on-close orders. A pair whose other leg never filled leaves at that day's close. Caps: 60 open trades, $900,000 gross and $30,000 net in any one symbol, across both books.</p>
+    <div class="fr-panel">
+      <div class="fr-phead"><h3>Open trades</h3><span class="fr-sub" data-draw="paper-marks" data-source="mkt_paper_account">—</span>
+        <p>Worst first. Results are in bp of one side of the trade, after commissions. Room to stop is how much more the trade can lose, as a percent of one side, before the 3:45 PM ET check closes it.</p></div>
+      <div class="fr-tablewrap" data-draw="paper-open" data-source="mkt_paper mkt_paper_account"></div>
+    </div>
+    <div class="fr-panel">
+      <div class="fr-phead"><h3>Closed trades</h3>
+        <p>Newest first. "Fills vs model" is the paper result minus the same shares scored from the first open to the last close on daily bars, so it shows what real fills cost.</p></div>
+      <div class="fr-tablewrap" data-draw="paper-closed" data-source="mkt_paper"></div>
+    </div>
+    <div class="fr-panel">
+      <div class="fr-phead"><h3>Research verdicts</h3><span class="fr-sub" data-draw="paper-verdict-sum" data-source="mkt_paper_proposals">—</span>
+        <p>Every candidate the research pass judged for the swing book, newest first. "Plan result" scores each one's own plan on daily bars, from the first open to its stop or time limit, before costs, whether or not it was taken. If the takes don't beat the passes, the research isn't adding anything.</p></div>
+      <div class="fr-tablewrap" data-draw="paper-verdicts" data-source="mkt_paper_proposals"></div>
+    </div>
+    <details class="fr-method"><summary>How the swing book works</summary>
+      <p>The swing book trades on an IBKR paper account, never a live one. It starts from the nightly screen: a research pass judges every candidate on it and writes a verdict, take or pass, with a conviction from 1 to 5 and its reasoning. Only the takes are traded, up to 5 a session, strongest conviction first, at $10,000 a side. Each take carries the plan the pass wrote for it: a time limit of up to 10 sessions and a stop between 1% and 8%. A name already in an open automatic trade isn't taken again.</p>
+      <p>The research pass runs three times a day. In the evening it writes the verdicts for the next open. Before the open it lets each take stand or stands it down on what happened overnight. Before the close it reviews every open automatic trade and can close one early for a stated reason, or ask for a winner on its last session to run up to 3 sessions longer, once. It can never widen a stop or hold a loser past its time limit. Every verdict, taken or passed, is scored against its own plan on daily bars, so the passes are the control for the takes.</p>
+      <p>Entries go into the opening auction as market-on-open orders sent at 9:15 AM ET. At 9:40 AM ET the fills are checked: a trade with one side filled and the other not has its filled side closed at the market. At 3:45 PM ET every open trade is checked against its stop and time limit on current prices, and the ones leaving are sent as market-on-close orders. A pair whose other leg never filled leaves at that day's close. Caps: 60 open trades, $900,000 gross and $30,000 net in any one symbol.</p>
     </details>
   </section>
 
-  <!-- CHART (local only) -->
+  
+  <!-- HORMUZ: ship traffic through the strait and the futures that price it -->
+  <section class="fr-view" id="intraday" data-view="intraday" hidden>
+    <div class="fr-viewhead"><h2>Intraday book</h2><p data-draw="in-head" data-source="mkt_intraday">—</p></div>
+    <div class="fr-band" aria-label="Intraday results" data-draw="in-band" data-source="mkt_intraday"></div>
+    <div class="fr-panel">
+      <div class="fr-phead"><h3>Signals</h3><span class="fr-sub" data-draw="in-count" data-source="mkt_intraday">—</span>
+        <p>Every setup that fired, newest first, with the model’s call. Takes and passes are both followed to their exit by the same rules, so the two can be compared. Results are the name’s return minus its hedge’s, in bp of one side, before costs. Click a row for the reasoning.</p></div>
+      <div class="fr-tablewrap" data-draw="in-signals" data-source="mkt_intraday"></div>
+    </div>
+    <div class="fr-panel">
+      <div class="fr-phead"><h3>Takes against passes</h3>
+        <p>Every finished signal since the rehearsal began. The model earns its place only if its takes beat its passes, and beat costs.</p></div>
+      <div class="fr-tablewrap" data-draw="in-score" data-source="mkt_intraday"></div>
+    </div>
+    <details class="fr-method"><summary>How the intraday book works</summary>
+      <p>A second book, separate from the swing book, that trades the same ideas on a 15-minute clock. Haiku’s takes are traded on the paper account, $10,000 a side, with market orders; its passes are only followed. A minute after each 15-minute bar closes, from 10:00 AM to 3:45 PM ET, it checks the liquid names for four setups, each measured against the name’s hedge fund: a gap that holds, a gap that fades, a break of the first 30 minutes’ range on heavy volume, and a stretched run that turns back.</p>
+      <p>Names that reported earnings since the last close and names the swing book holds are skipped. The four heaviest-volume signals at each bar go to Claude Haiku with the name’s recent Yahoo headlines for a take or a pass, up to five takes a day and three open at once.</p>
+      <p>Every trade is a pair in equal dollars. It opens at the next bar’s open, stops at a loss of half the name’s daily ATR, takes a gain of one ATR, and is out by the 3:45 PM bar. A stop is seen at a bar’s close and filled at the next open, so losses can run past it. Costs are assumed at 8 bp a trade.</p>
+    </details>
+  </section>
+
+  <section class="fr-view" id="hormuz" data-view="hormuz" hidden>
+    <div class="fr-viewhead"><h2>Hormuz</h2><p data-draw="hz-time" data-source="mkt_hormuz">—</p></div>
+    <div class="fr-hz" data-draw="hz-map" data-source="mkt_hormuz"></div>
+    <div class="fr-panel">
+      <div class="fr-phead"><h3>What prices the strait</h3><p>Dubai crude is the benchmark Gulf barrels are sold on, and JKM is the Asian LNG price that most Qatari cargoes follow. Brent and TTF show how far the rest of the world moves with them.</p></div>
+      <div class="fr-band" data-draw="hz-prices" data-source="mkt_hormuz"></div>
+      <p class="fr-note" data-draw="hz-spread" data-source="mkt_hormuz"></p>
+    </div>
+    <div class="fr-grid2">
+      <div class="fr-panel">
+        <div class="fr-phead"><h3>Crossings through the strait, last 30 days</h3><span class="fr-sub" data-draw="hz-live-time" data-source="mkt_hormuz">—</span>
+          <p>Ships crossing in either direction, by what they carry, from the live AIS tracker at hormuz.data-tracking.net, polled every 30 minutes. Today’s bar is the day so far. It counts more ships than the PortWatch chart beside it because it defines a crossing differently: compare each with itself, not with the other.</p></div>
+        <div class="fr-hzchart" data-draw="hz-live" data-source="mkt_hormuz"></div>
+      </div>
+      <div class="fr-panel">
+        <div class="fr-phead"><h3>Tankers through the strait, per day</h3>
+          <div class="fr-seg" role="group" aria-label="Time frame">
+            <button type="button" data-hz-frame="1W" aria-pressed="false">1W</button>
+            <button type="button" data-hz-frame="1M" aria-pressed="false">1M</button>
+            <button type="button" data-hz-frame="MTD" aria-pressed="false">MTD</button>
+            <button type="button" data-hz-frame="YTD" aria-pressed="true">YTD</button>
+            <button type="button" data-hz-frame="All" aria-pressed="false">All</button>
+          </div>
+          <p>Every tanker transit that satellite tracking saw, as a 7-day average, with single days behind it. <span data-hz-avg></span></p></div>
+        <div class="fr-hzchart" data-draw="hz-transits" data-source="mkt_hormuz"></div>
+      </div>
+    </div>
+    <p class="fr-note">Live crossings come from hormuz.data-tracking.net (CC BY 4.0), which polls ship transponders every 30 minutes; its source and coverage aren’t published. The map’s state and the tanker history come from IMF PortWatch, which updates daily with about two days’ lag. PortWatch counts tankers and their cargo capacity, not barrels: the oil and LNG figures scale the U.S. EIA’s 2024 flows by tanker capacity against the 2025 average, and are estimates. Ships that switch off their transponders are not counted. Lanes and terminals are drawn for orientation. Pipeline figures are capacity, not live flow.</p>
+  </section>
+
+<!-- CHART (local only) -->
   <section class="fr-view" id="chart" data-view="chart" hidden>
     <div class="fr-viewhead"><h2 data-ch-title>Chart</h2><p>15-minute bars from Yahoo, last 60 days.</p></div>
     <div class="fr-chbar">
@@ -479,8 +553,6 @@
 
 <script>
   // ---- Helpers ------------------------------------------------------------------------------------
-  // Rows from before the morning book have no book field; they are nightly ideas.
-  const isNightly = (r) => r.book !== 'Morning';
   // Live features go through the local server (`fr serve`), so they only show there.
   const isLocal = location.protocol === 'http:' && /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
   const h = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
@@ -490,33 +562,16 @@
   const pts = (v) => v == null ? '—' : `${signed(v, '.1f')} pts`;
   const tone = (v) => (v == null || v === 0 || Number.isNaN(v)) ? '' : (v > 0 ? 'fr-pos' : 'fr-neg');
   const day = (s, f) => s ? d3.utcFormat(f || '%b %-d')(new Date(`${s}T00:00:00Z`)) : '—';
-  const pct = (v) => v == null ? '—' : d3.format('.0%')(v);
   const human = (s) => { const t = String(s || '').replace(/_/g, ' '); return t.charAt(0).toUpperCase() + t.slice(1); };
   const etTime = (t, withDay) => t ? `${new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', ...(withDay ? { weekday: 'short', month: 'short', day: 'numeric' } : {}), hour: 'numeric', minute: '2-digit' }).format(new Date(t))} ET` : '—';
   const fmtUsd = (v) => { if (v == null) return '—'; const a = Math.abs(v); const s = a >= 1e9 ? `$${d3.format('.1f')(a / 1e9)}B` : a >= 1e6 ? `$${d3.format('.0f')(a / 1e6)}M` : `$${d3.format(',.0f')(a)}`; return `${v < 0 ? '−' : ''}${s}`; };
   const failed = () => h('div', 'fr-failed', 'Failed to load');
-  const legsOf = (r) => r.long && r.short ? `Long ${r.long} / short ${r.short}` : r.long ? `Long ${r.long}` : `Short ${r.short}`;
-  const lastMarked = (rows) => rows.filter((r) => r.oc_bps != null).reduce((m, r) => (r.trade_date > m ? r.trade_date : m), '');
-  // Ideas recorded for a session after the last one with a mark.
-  const upcoming = (rows) => { const last = lastMarked(rows); return rows.filter((r) => r.oc_bps == null && r.trade_date > last); };
-  const pips = (n) => { const c = h('span', 'fr-conf'); c.setAttribute('aria-label', `Confidence ${n} of 5`); c.title = `Confidence ${n} of 5`; for (let i = 1; i <= 5; i += 1) c.append(h('span', `fr-pip${i <= n ? ' on' : ''}`)); return c; };
+  const fmtPnl = (v) => v == null ? '—' : `${v > 0 ? '+' : v < 0 ? '−' : ''}$${d3.format(',.0f')(Math.abs(v))}`;
+  // A paper trade that still holds something or has orders in.
+  const isLive = (r) => ['open', 'closing', 'planned'].includes(r.state);
+  const isBroken = (r) => (r.missing || []).length > 0;
+  const pips = (n) => { const c = h('span', 'fr-conf'); c.setAttribute('aria-label', `Conviction ${n} of 5`); c.title = `Conviction ${n} of 5`; for (let i = 1; i <= 5; i += 1) c.append(h('span', `fr-pip${i <= n ? ' on' : ''}`)); return c; };
   const chip = (text, cls) => h('span', `fr-chip${cls ? ` ${cls}` : ''}`, text);
-  // One status per idea: where it stands now.
-  const statusChip = (r) => {
-    if (r.outcome_status === 'Skipped') return chip('Skipped at open');
-    if (r.outcome_status === 'Stopped') return chip(`Stopped, session ${r.sessions_held}`, 'is-bad');
-    if (r.outcome_status === 'Open' && (r.horizon_days || 1) > 1) return chip(`Open · session ${r.sessions_held} of ${r.horizon_days}`, 'is-warn');
-    if (r.oc_bps == null) {
-      if (r.check === 'Stood down') return chip('Stood down', 'is-bad');
-      if (r.check === 'Stands') return chip('Stands, waiting', 'is-fg');
-      return chip(isNightly(r) ? 'Waiting for check' : 'Waiting for open', 'is-fg');
-    }
-    if (r.status === 'Intraday') return chip('Intraday mark', 'is-warn');
-    if (r.check === 'Stood down') return chip('Stood down', 'is-bad');
-    return chip('Final', 'is-ok');
-  };
-  const checkText = (r) => !isNightly(r) ? (r.overnight || '—') : r.check === 'Not checked' || !r.check ? 'Not checked before the open.' : `${r.check}. ${r.check_reason}`;
-  const basketText = (r) => [r.long_members && `Long ${r.long}: ${r.long_members}`, r.short_members && `Short ${r.short}: ${r.short_members}`].filter(Boolean).join(' · ');
   const block = (label, text, wide) => { const b = h('div', wide ? 'fr-wide' : null); b.append(h('p', 'fr-label', label), h('p', null, text)); return b; };
   const zbar = (v, max) => { const b = h('div', 'fr-zbar'); const i = h('i', v > 0 ? 'up' : v < 0 ? 'down' : ''); const w = Math.min(50, Math.abs(v || 0) / (max || 1) * 50); i.style.left = v >= 0 ? '50%' : `${50 - w}%`; i.style.width = `${Math.max(w, 0.5)}%`; b.append(i); return b; };
   const symBtn = (symbol) => { if (!isLocal) return h('b', null, symbol); const b = h('button', 'fr-sym', symbol); b.type = 'button'; b.dataset.chart = symbol; b.title = `Chart ${symbol}`; return b; };
@@ -599,130 +654,18 @@
   };
 
   // ---- Calculations -------------------------------------------------------------------------------
-  dash.calc('summary', {
-    inputs: ['ledger'],
-    title: 'Track record summary',
-    description: 'Nightly ideas with a mark, hits with a 95% range, the average idea, the cumulative equal-weight book before and after the pre-open check, and the morning book.',
-    fn: (ledger) => {
-      const all = ledger.filter((r) => r.oc_bps != null);
-      const marked = all.filter(isNightly);
-      const morning = all.filter((r) => !isNightly(r));
-      const mDays = [...new Set(morning.map((r) => r.trade_date))];
-      const mDayMean = (d) => { const rs = morning.filter((r) => r.trade_date === d); return rs.reduce((s, r) => s + r.oc_bps, 0) / rs.length; };
-      const n = marked.length;
-      const hits = marked.filter((r) => r.hit).length;
-      const days = [...new Set(marked.map((r) => r.trade_date))].sort();
-      const dayMean = (d, keep) => { const rs = marked.filter((r) => r.trade_date === d && (!keep || r.check !== 'Stood down')); return rs.length ? rs.reduce((s, r) => s + r.oc_bps, 0) / rs.length : 0; };
-      const z = 1.96;
-      const p = n ? hits / n : 0;
-      const mid = (p + z * z / (2 * n)) / (1 + z * z / n);
-      const half = z * Math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / (1 + z * z / n);
-      return [{
-        ideas: n,
-        hits,
-        hit_rate: n ? hits / n : null,
-        hit_lo: n ? Math.max(0, mid - half) : null,
-        hit_hi: n ? Math.min(1, mid + half) : null,
-        mean_bps: n ? Math.round(marked.reduce((s, r) => s + r.oc_bps, 0) / n * 10) / 10 : null,
-        book_bps: Math.round(days.reduce((s, d) => s + dayMean(d), 0) * 10) / 10,
-        book_after_bps: Math.round(days.reduce((s, d) => s + dayMean(d, true), 0) * 10) / 10,
-        stood_down: marked.filter((r) => r.check === 'Stood down').length,
-        morning_ideas: morning.length,
-        morning_bps: mDays.length ? Math.round(mDays.reduce((s, d) => s + mDayMean(d), 0) * 10) / 10 : null,
-        sessions: days.length,
-        latest_date: [...days, ...mDays].sort().pop() || null,
-        intraday: all.filter((r) => r.status === 'Intraday').length,
-      }];
-    },
-  });
-
-  dash.calc('last_session', {
-    inputs: ['ledger'],
-    title: 'Last session',
-    description: 'The most recent session with a mark: its average nightly idea, SPY and how many ideas were ahead, morning ideas included.',
-    fn: (ledger) => {
-      const marked = ledger.filter((r) => r.oc_bps != null);
-      const last = marked.reduce((m, r) => (r.trade_date > m ? r.trade_date : m), '');
-      const rs = marked.filter((r) => r.trade_date === last);
-      if (!rs.length) return [];
-      const book = rs.filter(isNightly).length ? rs.filter(isNightly) : rs;
-      return [{ trade_date: last, ideas: rs.length, hits: rs.filter((r) => r.hit).length, mean_bps: Math.round(book.reduce((s, r) => s + r.oc_bps, 0) / book.length * 10) / 10, spy_bps: rs[0].spy_bps, final: rs.every((r) => r.status === 'Final') }];
-    },
-  });
-
-  dash.calc('by_day', {
-    inputs: ['ledger'],
-    title: 'Book by session',
-    description: 'Each session’s average nightly idea, SPY open to close, and the running total of the nightly book.',
-    fn: (ledger) => {
-      const marked = ledger.filter((r) => r.oc_bps != null && isNightly(r));
-      const days = [...new Set(marked.map((r) => r.trade_date))].sort();
-      let cum = 0;
-      return days.map((d) => {
-        const rs = marked.filter((r) => r.trade_date === d);
-        const mean = rs.reduce((s, r) => s + r.oc_bps, 0) / rs.length;
-        cum += mean;
-        return { trade_date: d, ideas: rs.length, mean_bps: Math.round(mean * 10) / 10, cum_bps: Math.round(cum * 10) / 10, spy_bps: rs[0].spy_bps, final: rs.every((r) => r.status === 'Final') };
-      });
-    },
-  });
-
-  dash.calc('by_conf', {
-    inputs: ['ledger'],
-    title: 'Calibration by confidence',
-    description: 'Ideas, average return and hit rate at each confidence level.',
-    fn: (ledger) => [1, 2, 3, 4, 5].map((c) => {
-      const rs = ledger.filter((r) => Number(r.confidence) === c && r.oc_bps != null);
-      const hits = rs.filter((r) => r.hit).length;
-      return { confidence: c, ideas: rs.length, mean_bps: rs.length ? Math.round(rs.reduce((s, r) => s + r.oc_bps, 0) / rs.length * 10) / 10 : null, hit_rate: rs.length ? hits / rs.length : null };
-    }),
-  });
-
-  dash.calc('by_type', {
-    inputs: ['ledger'],
-    title: 'Results by trade type',
-    description: 'Average open-to-close return and hit rate for ETF, single-stock and basket ideas, both books.',
-    fn: (ledger) => ['ETF', 'Single stock', 'Basket'].map((type) => {
-      const rs = ledger.filter((r) => r.oc_bps != null && (r.trade_type || 'ETF') === type);
-      return { type, ideas: rs.length, mean_bps: rs.length ? Math.round(rs.reduce((s, r) => s + r.oc_bps, 0) / rs.length * 10) / 10 : 0, hit_rate: rs.length ? rs.filter((r) => r.hit).length / rs.length : 0 };
-    }),
-  });
-
-  dash.calc('by_driver', {
-    inputs: ['ledger'],
-    title: 'Results by input',
-    description: 'Ideas, average return and hit rate for each input an idea was tagged with when recorded.',
-    fn: (ledger) => {
-      const tagged = ledger.filter((r) => r.oc_bps != null && r.drivers);
-      const names = [...new Set(tagged.flatMap((r) => r.drivers.split(',')))].sort();
-      return names.map((driver) => {
-        const rs = tagged.filter((r) => r.drivers.split(',').includes(driver));
-        return { driver, ideas: rs.length, mean_bps: Math.round(rs.reduce((s, r) => s + r.oc_bps, 0) / rs.length * 10) / 10, hit_rate: rs.filter((r) => r.hit).length / rs.length };
-      }).sort((a, b) => b.mean_bps - a.mean_bps);
-    },
-  });
-
-  dash.calc('by_setup', {
-    inputs: ['ledger'],
-    title: 'Results by setup',
-    description: 'Ideas, average whole-trade return and hit rate for each screen setup, for ideas recorded with one and finished.',
-    fn: (ledger) => {
-      const done = ledger.filter((r) => r.setup && r.outcome_bps != null && r.outcome_status !== 'Open' && r.outcome_status !== 'Skipped');
-      return [...new Set(done.map((r) => r.setup))].map((setup) => {
-        const rs = done.filter((r) => r.setup === setup);
-        return { setup, ideas: rs.length, mean_bps: Math.round(rs.reduce((s, r) => s + r.outcome_bps, 0) / rs.length * 10) / 10, hit_rate: rs.filter((r) => r.outcome_bps > 0).length / rs.length };
-      }).sort((a, b) => b.mean_bps - a.mean_bps);
-    },
-  });
-
   dash.calc('mkt_basket', { inputs: ['market'], title: 'Themed baskets', description: 'Each themed basket against its hedge: today’s move and, when every member has bars, its 5- and 20-day spread and z-score.',
     fn: (market) => market.filter((r) => r.section === 'basket').sort((a, b) => Math.abs(b.spread_today_pct ?? 0) - Math.abs(a.spread_today_pct ?? 0)) });
   dash.calc('mkt_basket_member', { inputs: ['market'], title: 'Basket members', description: 'Each basket member: why it belongs, liquidity, today’s move and its 5- and 20-day moves.',
     fn: (market) => market.filter((r) => r.section === 'basket_member') });
   dash.calc('mkt_earnings', { inputs: ['market'], title: 'Earnings radar', description: 'Reports in the next ten sessions and the last five, with dates from Yahoo Finance and price reactions from daily bars.',
     fn: (market) => market.filter((r) => r.section === 'earnings') });
-  dash.calc('mkt_paper', { inputs: ['market'], title: 'Paper trades', description: 'Every paper trade on the IBKR paper account: book, plan, state, result after commissions and the difference from the daily-bar model.',
+  dash.calc('mkt_paper', { inputs: ['market'], title: 'Paper trades', description: 'Every paper trade on the IBKR paper account: plan, state, result after commissions and the difference from the daily-bar model.',
     fn: (market) => market.filter((r) => r.section === 'paper').sort((a, b) => b.entry_date.localeCompare(a.entry_date) || a.id.localeCompare(b.id)) });
+  dash.calc('mkt_paper_proposals', { inputs: ['market'], title: 'Research verdicts', description: 'Every candidate the research pass judged for the swing book: take or pass, conviction, reasoning, and the result of its own plan on daily bars.',
+    fn: (market) => market.filter((r) => r.section === 'paper_proposal').sort((a, b) => b.session.localeCompare(a.session) || a.id.localeCompare(b.id)) });
+  dash.calc('mkt_paper_pnl', { inputs: ['market'], title: 'Paper profit and loss', description: 'The swing book’s running profit and loss after commissions at each session’s close.',
+    fn: (market) => market.filter((r) => r.section === 'paper_pnl').sort((a, b) => a.date.localeCompare(b.date)) });
   dash.calc('mkt_paper_account', { inputs: ['market'], title: 'Paper account', description: 'The paper account’s value and positions at the last sync.',
     fn: (market) => market.filter((r) => r.section === 'paper_account') });
   dash.calc('mkt_screen', { inputs: ['market'], title: 'Screen shortlist', description: 'The latest screen’s candidates: setup, direction, score, what triggered it and a one-line chart verdict.',
@@ -744,9 +687,10 @@
     fn: (market) => market.filter((r) => r.section === 'trend') });
 
   // ---- Views --------------------------------------------------------------------------------------
-  const VIEWS = ['today', 'ideas', 'record', 'market', 'baskets', 'earnings', 'paper', 'chart'];
-  const ALIAS = { top: 'today', next: 'today', last: 'ideas', ledger: 'ideas', factors: 'market' };
-  const ui = { view: 'today', openIdeas: new Set(), openBaskets: new Set(), filter: 'all', basketSort: { key: 'spread_today_pct', dir: -1 } };
+  const VIEWS = ['today', 'market', 'baskets', 'earnings', 'paper', 'intraday', 'hormuz', 'chart'];
+  // Links from before the idea books were retired open the swing book.
+  const ALIAS = { top: 'today', next: 'today', last: 'paper', ledger: 'paper', ideas: 'paper', record: 'paper', factors: 'market' };
+  const ui = { view: 'today', openBaskets: new Set(), basketSort: { key: 'spread_today_pct', dir: -1 } };
   const setView = (v, { link = true, scroll = true } = {}) => {
     if (!VIEWS.includes(v)) v = 'today';
     ui.view = v;
@@ -770,12 +714,6 @@
     setView('baskets', { scroll: false });
     requestAnimationFrame(() => document.getElementById(`bk-${id}`)?.scrollIntoView({ block: 'center' }));
   };
-  const goIdea = (id) => {
-    ui.openIdeas.add(id);
-    ui.filter = 'all';
-    setView('ideas', { scroll: false });
-    requestAnimationFrame(() => document.querySelector(`tr[data-key="${id}"]`)?.scrollIntoView({ block: 'center' }));
-  };
 
   // ---- Shared figures -----------------------------------------------------------------------------
   const figure = (name, id, get, toneOf) => dash.draw(name, (el) => {
@@ -786,42 +724,14 @@
     el.textContent = r ? get(r) : '—';
     if (r && toneOf && tone(toneOf(r))) el.classList.add(tone(toneOf(r)));
   });
-  figure('hit-rate', 'summary', (r) => pct(r.hit_rate));
-  figure('hit-lo', 'summary', (r) => pct(r.hit_lo));
-  figure('hit-hi', 'summary', (r) => pct(r.hit_hi));
-  figure('mean-fig', 'summary', (r) => fmtBp(r.mean_bps), (r) => r.mean_bps);
-  figure('book', 'summary', (r) => fmtBp(r.book_bps), (r) => r.book_bps);
-  figure('book-after', 'summary', (r) => fmtBp(r.book_after_bps), (r) => r.book_after_bps);
-  figure('book-morning', 'summary', (r) => r.morning_ideas ? fmtBp(r.morning_bps) : 'None yet', (r) => r.morning_bps);
-  figure('morning-ideas', 'summary', (r) => d3.format(',')(r.morning_ideas || 0));
-  figure('ideas-fig', 'summary', (r) => d3.format(',')(r.ideas));
-  figure('sessions', 'summary', (r) => d3.format(',')(r.sessions));
-  figure('mkt-asof', 'mkt_meta', (r) => `${day(r.as_of, '%A, %B %-d')}${r.factor_live ? ' (factor board updated since)' : ''}`);
+  figure('mkt-asof', 'mkt_meta', (r) => `${day(r.as_of, '%A, %B %-d')}${r.marks_intraday ? ' (part-finished day)' : ''}${r.factor_live ? ' (factor board updated since)' : ''}`);
   figure('volctl-exposure', 'mkt_volctl', (r) => d3.format('.0%')(r.exposure));
-
-  dash.onData(() => {
-    const s = okData('summary');
-    const intraday = s && ((s[0] || {}).intraday || 0) > 0;
-    document.querySelectorAll('[data-intraday]').forEach((e) => { e.hidden = !intraday; });
-    document.querySelectorAll('[data-swatch]').forEach((e) => { e.style.background = dash.colors[Number(e.dataset.swatch)]; });
-  });
 
   // How fresh each source is, in the bar.
   dash.draw('fresh', (el) => {
     const meta = (okData('mkt_meta') || [])[0];
-    const ledger = okData('ledger') || [];
-    const marks = ledger.filter((r) => r.status === 'Intraday').map((r) => r.marked_at).sort().pop();
-    const parts = [];
-    if (meta) parts.push(`Market data through ${day(meta.bars_through || meta.as_of, '%a %b %-d')} close`);
-    if (marks) parts.push(`marks ${etTime(marks)}`);
-    el.textContent = parts.join(' · ') || '—';
+    el.textContent = !meta ? '—' : meta.marks_intraday && meta.marks_at ? `Prices as of ${etTime(meta.marks_at)}` : `Market data through ${day(meta.bars_through || meta.as_of, '%a %b %-d')} close`;
   });
-  dash.draw('mark-time', (el) => {
-    const d = ready(el, 'ledger');
-    if (!d) return;
-    el.textContent = etTime(d.data.filter((r) => r.status === 'Intraday').map((r) => r.marked_at).sort().pop());
-  });
-
   // ---- Today --------------------------------------------------------------------------------------
   const regimeFmt = { pct_above_50: (v) => d3.format('.0%')(v), sector_corr_20d: (v) => d3.format('.2f')(v), vix_ratio: (v) => d3.format('.2f')(v), ten_year: (v) => `${d3.format('.2f')(v)}%` };
   // A word for where each regime number sits.
@@ -847,100 +757,30 @@
   };
   dash.draw('pulse', (el) => {
     const reg = okData('mkt_regime');
-    const sum = (okData('summary') || [])[0];
-    const last = (okData('last_session') || [])[0];
+    const paper = okData('mkt_paper') || [];
+    const done = (okData('mkt_paper_proposals') || []).filter((r) => r.plan_bps != null);
     const cells = [];
     if (reg) cells.push(regimeTile(reg, 'pct_above_50', 'Breadth'), regimeTile(reg, 'sector_corr_20d', 'Sector correlation'), regimeTile(reg, 'vix_ratio', 'VIX / VIX3M'), regimeTile(reg, 'ten_year', '10-year'));
     else cells.push(Object.assign(h('div', 'fr-stat'), { textContent: 'Market data failed to load' }));
-    if (last) {
+    if (paper.length) {
+      const filled = paper.filter((r) => r.pnl != null);
+      const total = filled.length ? d3.sum(filled, (r) => r.pnl) : null;
       const c = h('div', 'fr-stat');
-      c.append(h('p', 'fr-label', `Last session · ${day(last.trade_date, '%a %b %-d')}`), h('div', `fr-val ${tone(last.mean_bps)}`, fmtBp(last.mean_bps)),
-        h('p', 'fr-sub', `Average idea · SPY ${fmtBp(last.spy_bps)} · ${last.hits} of ${last.ideas} ahead`));
+      c.append(h('p', 'fr-label', 'Swing book'), h('div', `fr-val ${tone(total)}`, fmtPnl(total)),
+        h('p', 'fr-sub', `${paper.filter(isLive).length} open · ${paper.filter((r) => r.state === 'closed').length} closed · after commissions`));
       cells.push(c);
     }
-    if (sum) {
+    {
+      // Whether the research adds anything to the screen: the plans it took against the plans it didn't.
+      const takes = done.filter((r) => r.verdict === 'take'); const rest = done.filter((r) => r.verdict !== 'take');
+      const avg = (rs) => rs.length ? `${fmtBp(d3.mean(rs, (r) => r.plan_bps))} over ${rs.length}` : 'none finished';
+      const edge = takes.length && rest.length ? d3.mean(takes, (r) => r.plan_bps) - d3.mean(rest, (r) => r.plan_bps) : null;
       const c = h('div', 'fr-stat');
-      c.append(h('p', 'fr-label', 'Nightly book, total'), h('div', `fr-val ${tone(sum.book_bps)}`, fmtBp(sum.book_bps)),
-        h('p', 'fr-sub', `Hit rate ${pct(sum.hit_rate)} of ${sum.ideas} ideas`));
+      c.append(h('p', 'fr-label', 'Takes against passes'), h('div', `fr-val ${tone(edge)}`, fmtBp(edge)),
+        h('p', 'fr-sub', done.length ? `Taken ${avg(takes)} · not taken ${avg(rest)}` : 'No proposal has finished its plan yet'));
       cells.push(c);
     }
     el.replaceChildren(...cells);
-  });
-
-  const ideaCard = (r) => {
-    const card = h('article', 'fr-idea');
-    const top = h('div', 'fr-ideatop');
-    const who = h('div');
-    who.append(h('p', 'fr-kicker', `${human(r.factor)} · ${isNightly(r) ? 'nightly' : 'morning'} · ${day(r.trade_date, '%a %b %-d')}`), h('p', 'fr-legs', legsOf(r)));
-    const chips = h('div', 'fr-chips');
-    chips.append(statusChip(r), pips(r.confidence));
-    top.append(who, chips);
-    card.append(top);
-    if (basketText(r)) card.append(h('p', 'fr-muted', basketText(r)));
-    const wrong = h('p'); wrong.append(h('b', null, 'Wrong if '), r.invalidation || '—'); card.append(wrong);
-    if (r.check === 'Stands' || r.check === 'Stood down') { const p = h('p'); p.append(h('b', null, 'Pre-open check '), r.check_reason); card.append(p); }
-    const more = h('details');
-    more.append(h('summary', null, 'Thesis and stand-down rules'));
-    const box = h('div', 'fr-open');
-    box.append(block('Thesis', r.thesis, true));
-    box.append(isNightly(r) ? block('Stand down before the open if', r.stand_down_if || '—', true) : block('Reacts to', r.overnight || '—', true));
-    more.append(box);
-    card.append(more);
-    return card;
-  };
-  dash.draw('today-ideas', (el) => {
-    const d = ready(el, 'ledger', true);
-    if (!d) return;
-    const out = [];
-    const next = upcoming(d.data).sort((a, b) => a.trade_date.localeCompare(b.trade_date) || a.id.localeCompare(b.id));
-    const nextHead = h('div', 'fr-subhead');
-    if (next.length) {
-      nextHead.append(h('b', null, `Next open · ${day(next[0].trade_date, '%A, %B %-d')}`), h('span', 'fr-sub', `${next.length} idea${next.length === 1 ? '' : 's'}`));
-      out.push(nextHead, ...next.map(ideaCard));
-    } else {
-      nextHead.append(h('b', null, 'Next open'), h('span', 'fr-sub', 'Nothing recorded yet'));
-      out.push(nextHead, h('p', 'fr-empty', 'No ideas are waiting for the next open. Tonight’s research adds them after 7:00 PM ET.'));
-    }
-    // Multi-session ideas still inside their time limit.
-    const open = d.data.filter((r) => r.outcome_status === 'Open' && r.oc_bps != null && (r.horizon_days || 1) > 1);
-    if (open.length) {
-      const list = h('div', 'fr-sublist');
-      const head = h('div', 'fr-subhead');
-      head.append(h('b', null, 'Open trades'), h('span', 'fr-sub', 'Inside their time limit, through the last close'));
-      list.append(head);
-      const omx = Math.max(1, ...open.map((r) => Math.abs(r.outcome_bps || 0)));
-      open.forEach((r) => {
-        const row = h('button', 'fr-result');
-        row.type = 'button';
-        const who = h('div');
-        who.append(h('span', 'fr-legs', legsOf(r)), h('span', 'fr-kicker', ` session ${r.sessions_held} of ${r.horizon_days} · stop if ${r.stop || '—'}`));
-        row.append(who, zbar(r.outcome_bps, omx), h('span', `fr-amt ${tone(r.outcome_bps)}`, fmtBp(r.outcome_bps)));
-        row.addEventListener('click', () => goIdea(r.id));
-        list.append(row);
-      });
-      out.push(list);
-    }
-    const lastDate = lastMarked(d.data);
-    const rs = d.data.filter((r) => r.trade_date === lastDate && r.oc_bps != null).sort((a, b) => b.oc_bps - a.oc_bps);
-    if (rs.length) {
-      const list = h('div', 'fr-sublist');
-      const head = h('div', 'fr-subhead');
-      head.append(h('b', null, `Last session · ${day(lastDate, '%A, %B %-d')}`), h('span', 'fr-sub', rs.every((r) => r.status === 'Final') ? 'Final' : 'Intraday marks'));
-      list.append(head);
-      const mx = Math.max(1, ...rs.map((r) => Math.abs(r.oc_bps)));
-      rs.forEach((r) => {
-        const row = h('button', 'fr-result');
-        row.type = 'button';
-        row.title = 'Open in Ideas';
-        const who = h('div');
-        who.append(h('span', 'fr-legs', legsOf(r)), h('span', 'fr-kicker', ` ${human(r.factor)}${isNightly(r) ? '' : ' · morning'}${r.check === 'Stood down' ? ' · stood down' : ''}`));
-        row.append(who, zbar(r.oc_bps, mx), h('span', `fr-amt ${tone(r.oc_bps)}`, fmtBp(r.oc_bps)));
-        row.addEventListener('click', () => goIdea(r.id));
-        list.append(row);
-      });
-      out.push(list);
-    }
-    el.replaceChildren(...out);
   });
 
   // What needs attention, built from the market rows. Three levels: act or decide today, watch, context.
@@ -948,8 +788,8 @@
     const items = [];
     const earn = okData('mkt_earnings') || [];
     const up = earn.filter((r) => r.kind === 'upcoming');
-    const legs = up.filter((r) => r.idea_leg && r.sessions_away != null && r.sessions_away <= 2);
-    legs.forEach((r) => items.push({ level: 0, title: `${r.symbol} reports ${r.tonight ? 'tonight' : day(r.date, '%a %b %-d')}, and it is in an idea`, detail: `${(erWhen[r.when] || '').toLowerCase()} · ${r.baskets || 'largest stocks'}`, go: () => setView('earnings'), act: 'Earnings' }));
+    const legs = up.filter((r) => r.held_leg && r.sessions_away != null && r.sessions_away <= 2);
+    legs.forEach((r) => items.push({ level: 0, title: `${r.symbol} reports ${r.tonight ? 'tonight' : day(r.date, '%a %b %-d')}, and the swing book holds it`, detail: `${(erWhen[r.when] || '').toLowerCase()} · ${r.baskets || 'largest stocks'}`, go: () => setView('earnings'), act: 'Earnings' }));
     const tonight = up.filter((r) => r.tonight);
     const nextS = up.filter((r) => !r.tonight && r.sessions_away === 1);
     const names = (rs) => rs.map((r) => r.symbol).slice(0, 10).join(', ') + (rs.length > 10 ? ` and ${rs.length - 10} more` : '');
@@ -1028,7 +868,10 @@
 
   dash.draw('screen-time', (el) => {
     const rows = okData('mkt_screen') || [];
-    el.textContent = rows.length ? `Built from the ${day(rows[0].as_of, '%a %b %-d')} close · ${rows.length} candidates` : '';
+    if (!rows.length) { el.textContent = ''; return; }
+    const meta = (okData('mkt_meta') || [])[0] || {};
+    const from = rows[0].live && meta.marks_intraday && meta.marks_at ? `Live from ${etTime(meta.marks_at)} prices, on a part-finished day` : `Built from the ${day(rows[0].as_of, '%a %b %-d')} close`;
+    el.textContent = `${from}${rows[0].live ? ' · not saved; the research pass reads the 7:00 PM ET screen' : ''} · ${rows.length} candidates`;
   });
   let screenAll = false;
   const drawScreen = (el) => {
@@ -1067,75 +910,373 @@
   dash.draw('screen-list', drawScreen);
 
   // ---- Paper ----------------------------------------------------------------------------------------
+  const JOBS = [[555, 'Entries', '9:15 AM ET', 'Market-on-open orders go out'], [580, 'Fill check', '9:40 AM ET', 'Half-filled trades are closed'], [945, 'Exit check', '3:45 PM ET', 'Stops and time limits on open trades']];
+  const paperAcct = () => (okData('mkt_paper_account') || [])[0] || null;
+  const nyNow = () => {
+    const p = Object.fromEntries(new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(new Date()).map((x) => [x.type, x.value]));
+    return { date: `${p.year}-${p.month}-${p.day}`, mins: Number(p.hour) * 60 + Number(p.minute) };
+  };
+  const whenEt = (iso) => {
+    const t = new Date(iso);
+    const time = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit' }).format(t);
+    const date = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York' }).format(t);
+    return date === nyNow().date ? `${time} ET` : `${day(date, '%a %b %-d')}, ${time} ET`;
+  };
+  const paperNext = (a) => {
+    const now = nyNow();
+    for (const s of (a && a.sessions_ahead) || []) {
+      for (const j of JOBS) if (s > now.date || (s === now.date && now.mins < j[0])) return { name: j[1], time: j[2], what: j[3], day: s === now.date ? 'Today' : day(s, '%a %b %-d') };
+    }
+    return null;
+  };
+  const pairTitle = (r) => {
+    const parts = String(r.legs || '').split(', ').filter(Boolean);
+    const lg = parts.find((p) => p[0] === '+'); const sh = parts.find((p) => p[0] !== '+');
+    const name = (p) => p.replace(/^[+−-]\d+\s+/, '');
+    return parts.length === 2 && lg && sh ? `Long ${name(lg)} / short ${name(sh)}` : `${r.name} · ${r.direction}`;
+  };
   dash.draw('paper-acct', (el) => {
-    const a = (okData('mkt_paper_account') || [])[0];
-    el.textContent = a ? `Paper account ${a.net_liquidation == null ? '' : `${fmtUsd(a.net_liquidation)} `}at the ${day(a.session, '%a %b %-d')} sync · ${a.positions} positions${a.halted ? ` · HALTED: ${a.halted}` : ''}`
-      : 'No paper trades yet. The paper books start once the paper gateway is set up.';
+    const a = paperAcct();
+    if (!a) { el.textContent = 'No paper trades yet.'; return; }
+    el.textContent = [a.net_liquidation == null ? null : `Account ${d3.format('$,.0f')(a.net_liquidation)}`,
+      a.pulled_at ? `${a.positions} positions` : null, a.pulled_at ? `fills as of ${whenEt(a.pulled_at)}` : 'Fills not loaded yet'].filter(Boolean).join(' · ');
+  });
+  dash.draw('paper-notes', (el) => {
+    const rows = okData('mkt_paper') || []; const a = paperAcct();
+    const notes = [];
+    if (a && a.halted) notes.push(`Paper trading is halted: ${a.halted}. No new trades open, and exits still go out.`);
+    if (rows.some((r) => r.state === 'planned')) notes.push(`${rows.filter((r) => r.state === 'planned').length} trades have orders in, but their fills aren't loaded yet. Results appear after the next refresh or the 3:45 PM ET check.`);
+    rows.filter((r) => r.state === 'open' && r.stop_room_pct != null && r.stop_room_pct <= 0).forEach((r) => notes.push(`${pairTitle(r)} is past its stop. Stops only count at the 3:45 PM ET check: if it's still past then, it closes at today's close.`));
+    rows.filter((r) => isLive(r) && isBroken(r)).forEach((r) => notes.push(`${pairTitle(r)}: ${r.missing.join(', ')} never filled, so the other side closes at the 9:40 AM ET fill check, or the 3:45 PM ET check if that has passed.`));
+    ((a && a.alerts) || []).forEach((t) => notes.push(t));
+    if (a && (a.mismatches || []).length) notes.push(`The account and the books disagree on ${a.mismatches.length} position${a.mismatches.length === 1 ? '' : 's'}: ${a.mismatches.join('; ')}.`);
+    el.replaceChildren(...notes.map((t) => h('p', 'fr-note is-warn', t)));
+    el.hidden = !notes.length;
+  });
+  dash.draw('paper-marks', (el) => {
+    const a = paperAcct();
+    el.textContent = !a || !a.marks_at ? '' : a.marks_intraday ? `Prices as of ${whenEt(a.marks_at)}` : 'Marked at the last close';
   });
   dash.draw('paper-band', (el) => {
     const rows = okData('mkt_paper');
     if (!rows) { el.replaceChildren(); return; }
-    const cells = ['selective', 'dynamic'].map((book) => {
-      const rs = rows.filter((r) => r.book === book);
-      const closed = rs.filter((r) => r.state === 'closed');
-      const pnl = closed.reduce((s, r) => s + (r.pnl || 0), 0);
+    const filled = rows.filter((r) => r.pnl != null);
+    const sum = (rs) => rs.reduce((s, r) => s + r.pnl, 0);
+    const stat = (label, value, cls, ...subs) => { const c = h('div', 'fr-stat'); c.append(h('p', 'fr-label', label), h('div', `fr-val ${cls}`, value), ...subs.filter(Boolean).map((t) => h('p', 'fr-sub', t))); return c; };
+    const openRows = filled.filter((r) => r.state !== 'closed'); const closedRows = filled.filter((r) => r.state === 'closed');
+    const total = filled.length ? sum(filled) : null;
+    const cells = [stat('Total result', fmtPnl(total), tone(total), filled.length ? `Open ${fmtPnl(sum(openRows))} · closed ${fmtPnl(sum(closedRows))}` : 'No fills loaded yet', 'After commissions')];
+    {
+      const rs = rows;
+      const held = rs.filter((r) => r.pnl != null); const open = held.filter((r) => r.state !== 'closed');
+      const closed = held.filter((r) => r.state === 'closed' && !isBroken(r));
       const slip = closed.filter((r) => r.slippage_bps != null);
-      const c = h('div', 'fr-stat');
-      c.append(h('p', 'fr-label', `${human(book)} book, closed`), h('div', `fr-val ${tone(pnl)}`, closed.length ? `${pnl < 0 ? '−' : ''}$${d3.format(',.0f')(Math.abs(pnl))}` : '—'),
-        h('p', 'fr-sub', closed.length ? `${closed.filter((r) => r.pnl > 0).length} of ${closed.length} won · average ${fmtBp(d3.mean(closed, (r) => r.bps))}` : 'Nothing closed yet'),
-        h('p', 'fr-sub', `${rs.filter((r) => r.state === 'open' || r.state === 'closing').length} open${slip.length ? ` · fills vs model ${fmtBp(d3.mean(slip, (r) => r.slippage_bps))}` : ''}`));
-      return c;
-    });
+      const v = held.length ? sum(held) : null;
+      cells.push(stat('Trades', String(rs.length), '',
+        !rs.length ? 'No trades yet' : `${rs.filter(isLive).length} open${open.length ? ` · average ${fmtBp(d3.mean(open, (r) => r.bps))}` : ''}`,
+        closed.length ? `${closed.filter((r) => r.pnl > 0).length} of ${closed.length} won · average ${fmtBp(d3.mean(closed, (r) => r.bps))}${slip.length ? ` · fills vs model ${fmtBp(d3.mean(slip, (r) => r.slippage_bps))}` : ''}` : (rs.length ? 'Nothing closed yet' : null)));
+    }
+    const next = paperNext(paperAcct());
+    cells.push(next ? stat('Next step', next.time, '', `${next.day}: ${next.name.toLowerCase()}`, next.what) : stat('Next step', '—', ''));
     el.replaceChildren(...cells);
   });
-  const PAPER_STATE = { planned: ['Order sent', 'is-fg'], open: ['Open', 'is-warn'], closing: ['Exit sent', 'is-warn'], unfilled: ['Never filled', 'is-bad'] };
-  const paperUi = { filter: 'all', open: new Set() };
-  const drawPaper = (el) => {
-    const d = ready(el, 'mkt_paper', true);
-    if (!d) return;
-    const f = paperUi.filter;
-    const rows = d.data.filter((r) => f === 'all' || (f === 'open' ? ['open', 'closing', 'planned'].includes(r.state) : r.book === f));
-    if (!rows.length) { el.replaceChildren(h('p', 'fr-empty', d.data.length ? 'No trades match.' : 'No paper trades yet.')); return; }
-    const mx = Math.max(1, ...d.data.filter((r) => r.bps != null).map((r) => Math.abs(r.bps)));
-    const table = h('table', 'fr-table');
-    const head = h('tr');
-    [['Entered'], ['Trade'], ['Book', 'fr-hide-narrow'], ['State'], ['', 'fr-hide-narrow'], ['Result', 'num'], ['Fills vs model', 'num fr-hide-narrow']].forEach(([t, c]) => { const th = h('th', c || null, t); th.scope = 'col'; head.append(th); });
-    const thead = h('thead'); thead.append(head);
-    const tbody = h('tbody');
+  // The P/L chart. Daily closes come with the page; 1D and 1W use 15-minute bars from the local server.
+  const pnlUi = { frame: isLocal ? '1W' : 'All', intraday: window.__PNL_INTRADAY__ || null, loading: false, failed: false };
+  const fmtDollars = (v) => `${v < 0 ? '−' : ''}$${d3.format(',.0f')(Math.abs(v))}`;
+  const FRAME_NAME = { '1D': 'the day', '1W': 'the week', '1M': 'the month', '3M': 'three months', All: 'all time' };
+  const dailyPts = (rows, frame) => {
+    let from = 0;
+    if (frame === '1W') from = Math.max(0, rows.length - 6);
+    if (frame === '1M' || frame === '3M') {
+      const start = new Date(`${rows[rows.length - 1].date}T00:00:00Z`);
+      start.setUTCMonth(start.getUTCMonth() - (frame === '1M' ? 1 : 3));
+      const iso = start.toISOString().slice(0, 10);
+      from = Math.max(0, d3.bisectRight(rows.map((r) => r.date), iso) - 1);
+    }
+    const shown = rows.slice(from);
+    return shown.map((r, i) => ({ v: r.pnl - shown[0].pnl, total: r.pnl, when: `${day(r.date, '%a, %b %-d')}${r.final ? '' : ', so far'}`, tick: day(r.date), day: i ? r.pnl - shown[i - 1].pnl : null }));
+  };
+  // 15-minute points for the last session or the whole pull, from the close before them.
+  const intradayPts = (rows, frame) => {
+    const all = pnlUi.intraday.points;
+    const sessions = [...new Set(all.map((p) => p.session))];
+    const use = frame === '1D' ? sessions.slice(-1) : sessions;
+    const points = all.filter((p) => use.includes(p.session));
+    if (!points.length) return [];
+    const base = (d3.findLast ? d3.findLast(rows, (r) => r.date < use[0]) : [...rows].reverse().find((r) => r.date < use[0])) || { pnl: 0 };
+    const open = { t: new Date(new Date(points[0].t).getTime() - 15 * 60000).toISOString(), session: use[0], pnl: base.pnl };
+    const timeOf = (t) => new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit' }).format(new Date(t));
+    let seen = '';
+    return [open, ...points].map((p) => {
+      const first = p.session !== seen;
+      seen = p.session;
+      const label = timeOf(p.t);
+      const tick = frame === '1D' ? (/:00/.test(label) || /:30/.test(label) ? label.replace(':00', '') : null) : first ? day(p.session, '%a %-d') : null;
+      return { v: p.pnl - base.pnl, total: p.pnl, when: `${day(p.session, '%a, %b %-d')}, ${label} ET`, tick, day: null };
+    });
+  };
+  const drawPnlChart = (el, pts) => {
+    el.replaceChildren();
+    const W = Math.max(280, el.clientWidth || 640);
+    const H = 240;
+    const m = { t: 12, r: 12, b: 26, l: 0 };
+    const y = d3.scaleLinear(d3.extent([0, ...pts.map((p) => p.v)]), [H - m.b, m.t]).nice(4);
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img')
+      .attr('aria-label', `Profit and loss over ${FRAME_NAME[pnlUi.frame]}: ${fmtPnl(pts[pts.length - 1].v)}`);
+    const labels = svg.append('g');
+    labels.selectAll('text').data(y.ticks(4)).join('text').attr('x', 0).attr('y', (v) => y(v)).attr('dy', '0.32em').text(fmtDollars);
+    let widest = 0;
+    labels.selectAll('text').each(function () { widest = Math.max(widest, this.getComputedTextLength()); });
+    m.l = Math.ceil(widest) + 10;
+    const x = d3.scaleLinear([0, pts.length - 1], [m.l, W - m.r]);
+    svg.insert('g', ':first-child').selectAll('line').data(y.ticks(4)).join('line')
+      .attr('x1', m.l).attr('x2', W - m.r).attr('y1', (v) => y(v)).attr('y2', (v) => y(v))
+      .style('stroke', (v) => v === 0 ? 'var(--cds-chart-axis)' : 'var(--cds-chart-grid)');
+    const color = dash.colors[0];
+    const at = (_, i) => x(i);
+    svg.append('path').datum(pts).attr('d', d3.area(at, y(0), (p) => y(p.v))).style('fill', color).style('opacity', 0.1);
+    svg.append('path').datum(pts).attr('d', d3.line(at, (p) => y(p.v))).style('fill', 'none').style('stroke', color).style('stroke-width', 2).style('stroke-linejoin', 'round').style('stroke-linecap', 'round');
+    svg.append('circle').attr('cx', x(pts.length - 1)).attr('cy', y(pts[pts.length - 1].v)).attr('r', 4).style('fill', color);
+    // Date labels at least 64px apart.
+    let lastX = -Infinity;
+    const ticks = [];
+    pts.forEach((p, i) => { if (p.tick && x(i) - lastX >= 64) { ticks.push({ text: p.tick, x: x(i), i }); lastX = x(i); } });
+    svg.append('g').selectAll('text').data(ticks).join('text').attr('x', (t) => t.x).attr('y', H - 6)
+      .attr('text-anchor', (t) => t.i === 0 ? 'start' : t.x > W - m.r - 24 ? 'end' : 'middle').text((t) => t.text);
+    const cross = svg.append('line').attr('y1', m.t).attr('y2', H - m.b).style('stroke', 'var(--cds-chart-axis)').style('visibility', 'hidden');
+    const dot = svg.append('circle').attr('r', 4).style('fill', color).style('stroke', 'var(--color-bg)').style('stroke-width', 2).style('visibility', 'hidden');
+    const tip = tooltip(el);
+    svg.append('rect').attr('x', m.l).attr('width', W - m.l - m.r).attr('y', m.t).attr('height', H - m.t - m.b).style('fill', 'transparent')
+      .on('pointermove', (event) => {
+        const i = Math.max(0, Math.min(pts.length - 1, Math.round(x.invert(d3.pointer(event)[0]))));
+        const p = pts[i];
+        cross.attr('x1', x(i)).attr('x2', x(i)).style('visibility', 'visible');
+        dot.attr('cx', x(i)).attr('cy', y(p.v)).style('visibility', 'visible');
+        tip.show(event, [[p.when, 'dim'], [`${fmtPnl(p.v)} in this time frame`], ...(p.day != null ? [[`${fmtPnl(p.day)} on the day`]] : []), [`${fmtPnl(p.total)} since the start`, 'dim']]);
+      })
+      .on('pointerleave', () => { tip.hide(); cross.style('visibility', 'hidden'); dot.style('visibility', 'hidden'); });
+  };
+  const drawPnl = (el) => {
+    const total = document.querySelector('[data-pnl-total]');
+    const sub = document.querySelector('[data-pnl-sub]');
+    const frames = document.querySelectorAll('[data-pnl-frame]');
+    frames.forEach((b) => { b.setAttribute('aria-pressed', String(b.dataset.pnlFrame === pnlUi.frame)); if (b.dataset.pnlFrame === '1D') b.hidden = !isLocal; });
+    const say = (text) => { el.replaceChildren(h('p', 'fr-empty', text)); total.textContent = '—'; total.classList.remove('fr-pos', 'fr-neg'); sub.textContent = ''; };
+    const d = ready(el, 'mkt_paper_pnl', true);
+    if (!d || ui.view !== 'paper') return;
+    const rows = d.data;
+    if (!rows.length) return say('No fills yet. The line starts with the book’s first trade.');
+    const wantsBars = isLocal && (pnlUi.frame === '1D' || pnlUi.frame === '1W');
+    if (wantsBars && !pnlUi.intraday && !pnlUi.failed) {
+      if (!pnlUi.loading) {
+        pnlUi.loading = true;
+        fetch('/api/paper/pnl').then((r) => r.ok ? r.json() : Promise.reject(new Error('refused')))
+          .then((b) => { pnlUi.intraday = b; }).catch(() => { pnlUi.failed = true; })
+          .finally(() => { pnlUi.loading = false; drawPnl(el); });
+      }
+      return say('Loading 15-minute prices…');
+    }
+    if (pnlUi.frame === '1D' && pnlUi.failed) return say('The 15-minute prices didn’t load. The other time frames use daily closes.');
+    const usingBars = wantsBars && !pnlUi.failed;
+    const pts = usingBars ? intradayPts(rows, pnlUi.frame) : dailyPts(rows, pnlUi.frame);
+    if (pts.length < 2) return say('Not enough history for this time frame yet.');
+    const change = pts[pts.length - 1].v;
+    total.textContent = fmtPnl(change);
+    total.classList.remove('fr-pos', 'fr-neg');
+    if (tone(change)) total.classList.add(tone(change));
+    const notes = [usingBars ? '15-minute prices from Yahoo' : pnlUi.frame === '1W' && pnlUi.failed ? 'Daily closes; the 15-minute prices didn’t load' : 'Daily closes'];
+    if (pnlUi.frame !== 'All') notes.unshift(`Over ${FRAME_NAME[pnlUi.frame]}`); else notes.unshift(`Since ${day(rows[1].date, '%b %-d')}`);
+    if (usingBars && pnlUi.intraday.missing.length) notes.push(`no bars for ${pnlUi.intraday.missing.join(', ')}, marked at the last fill`);
+    // Daily and 15-minute prices are pulled at different times, so each says how fresh it is.
+    const marksAt = (paperAcct() || {}).marks_at;
+    const lastRow = rows[rows.length - 1];
+    if (usingBars) notes.push(`prices as of ${whenEt(pnlUi.intraday.points[pnlUi.intraday.points.length - 1].t)}`);
+    else if (!lastRow.final && marksAt) notes.push(`prices as of ${whenEt(marksAt)}`);
+    sub.textContent = notes.join(' · ');
+    drawPnlChart(el, pts);
+  };
+  dash.draw('paper-pnl', drawPnl);
+  document.querySelectorAll('[data-pnl-frame]').forEach((b) => b.addEventListener('click', () => {
+    pnlUi.frame = b.dataset.pnlFrame;
+    drawPnl(document.querySelector('[data-draw=paper-pnl]'));
+  }));
+  const paperUi = { open: new Set() };
+  const paperDetail = (r, colSpan) => {
+    const box = h('div', 'fr-open');
+    if ((r.leg_detail || []).length) {
+      const wrap = h('div', 'fr-wide');
+      const t = h('table', 'fr-table fr-legs'); const hr = h('tr');
+      [['Leg'], ['Shares', 'num'], ['Entry', 'num'], [r.state === 'closed' ? 'Exit' : 'Last', 'num'], ['Result', 'num']].forEach(([x, c]) => { const th = h('th', c || null, x); th.scope = 'col'; hr.append(th); });
+      const th = h('thead'); th.append(hr); const tb = h('tbody');
+      r.leg_detail.forEach((l) => { const tr = h('tr'); const px = d3.format(',.2f'); tr.append(h('td', null, `${human(l.side)} ${l.symbol}`), h('td', 'num', d3.format(',')(l.shares)), h('td', 'num', px(l.entry)), h('td', 'num', px(l.last)), h('td', `num ${tone(l.pnl)}`, fmtPnl(l.pnl))); tb.append(tr); });
+      t.append(th, tb); wrap.append(t); box.append(wrap);
+    } else box.append(block('Legs', r.legs));
+    if (isBroken(r)) box.append(block('Missing side', `${r.missing.join(', ')} never filled`));
+    box.append(block('Plan', `${r.horizon_days} session${r.horizon_days === 1 ? '' : 's'} at most${r.extended ? ` (extended from ${r.planned_horizon_days})` : ''} · stop if ${r.stop}`),
+      block('Result', r.pnl == null ? 'No fills yet' : `${fmtPnl(r.pnl)} after $${d3.format(',.2f')(r.commission)} of commissions`),
+      block('Exit', r.reason ? `${day(r.exit_date, '%a %b %-d')} · ${r.reason}` : `By the close on ${day(r.exit_by, '%a %b %-d')}`), block('From', r.conviction ? `${r.source} · conviction ${r.conviction} of 5` : r.source), block('Why', r.why || '—', true));
+    if (r.wrong_if) box.append(block('Wrong if', r.wrong_if, true));
+    const dt = h('tr', 'fr-detail'); const td = h('td'); td.colSpan = colSpan; td.append(box); dt.append(td);
+    return dt;
+  };
+  const VERDICT = { take: ['Taken', 'is-ok'], pass: ['Passed', 'is-fg'], 'not reviewed': ['Not reviewed', 'is-warn'], 'stood down': ['Stood down', 'is-warn'] };
+  const STEPS = [['what_changed', 'What changed'], ['story', 'The story'], ['chart', 'The chart'], ['coming', 'What is coming'], ['case_against', 'The case against']];
+  const verdictDetail = (r, colSpan) => {
+    const box = h('div', 'fr-open');
+    const st = r.stats;
+    box.append(block('Reason', r.reason || '—', true), block('Legs', r.legs || 'None the plan could trade'),
+      block('Plan', r.horizon_days ? `${r.horizon_days} session${r.horizon_days === 1 ? '' : 's'} at most · stop at −${d3.format('.1f')(Math.abs(r.stop_pct))}%` : '—'),
+      block('Hedge fit', st ? `Correlation ${d3.format('+.2f')(st.corr_60d)}, beta ${d3.format('.2f')(st.beta_60d)} over ${st.sessions} sessions` : '—'),
+      block('Plan result', r.plan_bps != null ? `${fmtBp(r.plan_bps)} · ${r.plan_note}` : r.plan_so_far_bps != null ? `${fmtBp(r.plan_so_far_bps)} so far` : 'Not started'),
+      block('From', r.source));
+    if (r.trade_id) box.append(block('Paper trade', `${r.trade_id} · ${human(r.state)}${r.paper_bps != null ? ` · ${fmtBp(r.paper_bps)} after commissions` : ''}${r.exit_reason ? ` · ${r.exit_reason}` : ''}`));
+    if (r.preopen) box.append(block('Before the open', `${r.preopen.decision === 'stand_down' ? 'Stood down' : 'Stands'}: ${r.preopen.reason}`, true));
+    if (r.why) box.append(block('What the screen saw', r.why, true));
+    STEPS.forEach(([k, label]) => { if (r.reasoning && r.reasoning[k]) box.append(block(label, r.reasoning[k], true)); });
+    if (r.hedge_why) box.append(block('Why this hedge', r.hedge_why, true));
+    if (r.wrong_if) box.append(block('Wrong if', r.wrong_if, true));
+    if (r.tag) box.append(block('Post-mortem', `${human(r.tag)}: ${r.lesson}`, true));
+    const dt = h('tr', 'fr-detail'); const td = h('td'); td.colSpan = colSpan; td.append(box); dt.append(td);
+    return dt;
+  };
+  const toggleCell = (r, sub, open) => {
+    const tg = h('button', 'fr-toggle', pairTitle(r)); tg.type = 'button'; tg.setAttribute('aria-expanded', String(open)); tg.append(h('small', null, sub));
+    const td = h('td'); td.append(tg); return td;
+  };
+  const twoLine = (cls, top, sub) => { const td = h('td', cls, top); if (sub) td.append(h('small', 'fr-cellsub', sub)); return td; };
+  const paperTable = (el, cols, rows, makeRow, detail = paperDetail) => {
+    const table = h('table', 'fr-table'); const hr = h('tr');
+    cols.forEach(([t, c]) => { const th = h('th', c || null, t); th.scope = 'col'; hr.append(th); });
+    const thead = h('thead'); thead.append(hr); const tbody = h('tbody');
     rows.forEach((r) => {
       const open = paperUi.open.has(r.id);
       const tr = h('tr', `is-row${open ? ' is-open' : ''}`);
-      const tg = h('button', 'fr-toggle', r.name);
-      tg.type = 'button';
-      tg.setAttribute('aria-expanded', String(open));
-      tg.append(h('small', null, `${human(r.setup)} · ${r.direction}`));
-      const nameTd = h('td'); nameTd.append(tg);
-      const st = PAPER_STATE[r.state] || [r.pnl > 0 ? 'Won' : 'Lost', r.pnl > 0 ? 'is-ok' : 'is-bad'];
-      const stTd = h('td'); stTd.append(chip(st[0], st[1]));
-      const barTd = h('td', 'bar fr-hide-narrow'); if (r.bps != null) barTd.append(zbar(r.bps, mx));
-      tr.append(h('td', 'fr-num', day(r.entry_date, '%a %b %-d')), nameTd, h('td', 'fr-hide-narrow', human(r.book)), stTd, barTd,
-        h('td', `num fr-amt ${tone(r.bps)}`, fmtBp(r.bps)), h('td', `num fr-hide-narrow ${tone(r.slippage_bps)}`, fmtBp(r.slippage_bps)));
-      tr.addEventListener('click', () => { if (open) paperUi.open.delete(r.id); else paperUi.open.add(r.id); drawPaper(el); });
+      makeRow(tr, r, open);
+      tr.addEventListener('click', () => { if (open) paperUi.open.delete(r.id); else paperUi.open.add(r.id); drawPaperTables(); });
       tbody.append(tr);
-      if (open) {
-        const box = h('div', 'fr-open');
-        box.append(block('Legs', r.legs), block('Plan', `${r.horizon_days} session${r.horizon_days === 1 ? '' : 's'} at most · stop if ${r.stop}`),
-          block('Result', r.pnl == null ? 'No fills yet' : `${r.pnl < 0 ? '−' : ''}$${d3.format(',.2f')(Math.abs(r.pnl))} after $${d3.format(',.2f')(r.commission)} of commissions${r.state === 'closed' ? '' : ', marked at the last close'}`),
-          block('Exit', r.reason ? `${day(r.exit_date, '%a %b %-d')} · ${r.reason}` : 'Still held'), block('From', r.source), block('Why', r.why || '—', true));
-        const dt = h('tr', 'fr-detail'); const td = h('td'); td.colSpan = 7; td.append(box); dt.append(td); tbody.append(dt);
-      }
+      if (open) tbody.append(detail(r, cols.length));
     });
-    table.append(thead, tbody);
-    el.replaceChildren(table);
+    table.append(thead, tbody); el.replaceChildren(table);
   };
-  dash.draw('paper-table', drawPaper);
-  document.querySelectorAll('[data-pfilter]').forEach((b) => b.addEventListener('click', () => {
-    paperUi.filter = b.dataset.pfilter;
-    document.querySelectorAll('[data-pfilter]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
-    drawPaper(document.querySelector('[data-draw=paper-table]'));
-  }));
+  const drawPaperOpen = (el) => {
+    const d = ready(el, 'mkt_paper', true);
+    if (!d) return;
+    const rows = d.data.filter(isLive).sort((a, b) => (a.bps == null) - (b.bps == null) || a.bps - b.bps);
+    if (!rows.length) { el.replaceChildren(h('p', 'fr-empty', d.data.length ? 'No open trades.' : 'No paper trades yet. The next entries go out at 9:15 AM ET.')); return; }
+    const mx = Math.max(1, ...rows.filter((r) => r.bps != null).map((r) => Math.abs(r.bps)));
+    paperTable(el, [['Trade'], ['Held', 'fr-hide-narrow'], ['', 'fr-hide-narrow'], ['Result', 'num'], ['Room to stop', 'num']], rows, (tr, r, open) => {
+      const name = toggleCell(r, r.conviction ? `${human(r.setup)} · conviction ${r.conviction} of 5` : human(r.setup), open);
+      const state = isBroken(r) ? chip('One side missing', 'is-bad') : r.state === 'planned' ? chip('Order sent', 'is-fg') : r.state === 'closing' ? chip('Exit sent', 'is-warn') : null;
+      if (state) name.append(state);
+      const barTd = h('td', 'bar fr-hide-narrow'); if (r.bps != null) barTd.append(zbar(r.bps, mx));
+      const room = r.stop_room_pct; const near = room != null && r.stop_pct && room / Math.abs(r.stop_pct) < 0.25;
+      const roomTd = h('td', 'num', room == null ? '—' : `${d3.format('.1f')(Math.max(room, 0))}%`);
+      if (near) { roomTd.append(document.createElement('br'), chip(room <= 0 ? 'Past stop' : 'Near stop', room <= 0 ? 'is-bad' : 'is-warn')); } else if (room != null) roomTd.append(h('small', 'fr-cellsub', `stop −${d3.format('.1f')(Math.abs(r.stop_pct))}%`));
+      tr.append(name,
+        twoLine('fr-hide-narrow fr-num fr-held', r.session_number ? `Day ${r.session_number} of ${r.horizon_days}` : 'Not started', `exits by ${day(r.exit_by, '%a %b %-d')}`),
+        barTd, twoLine(`num fr-amt ${tone(r.bps)}`, fmtBp(r.bps), r.pnl == null ? null : fmtPnl(r.pnl)), roomTd);
+    });
+  };
+  const drawPaperClosed = (el) => {
+    const d = ready(el, 'mkt_paper', true);
+    if (!d) return;
+    const rows = d.data.filter((r) => !isLive(r)).sort((a, b) => String(b.exit_date || b.entry_date).localeCompare(String(a.exit_date || a.entry_date)) || a.id.localeCompare(b.id));
+    if (!rows.length) { el.replaceChildren(h('p', 'fr-empty', 'Nothing has closed yet. Trades leave at the 3:45 PM ET check: on a stop, at their time limit, or if a pair is missing a side.')); return; }
+    paperTable(el, [['Exited'], ['Trade'], ['Outcome'], ['Result', 'num'], ['Fills vs model', 'num fr-hide-narrow']], rows, (tr, r, open) => {
+      const st = r.state === 'unfilled' ? ['Never filled', 'is-bad'] : isBroken(r) ? ['One side missing', 'is-bad'] : r.pnl > 0 ? ['Won', 'is-ok'] : ['Lost', 'is-bad'];
+      const stTd = h('td'); stTd.append(chip(st[0], st[1]));
+      tr.append(h('td', 'fr-num', r.exit_date ? day(r.exit_date, '%a %b %-d') : '—'), toggleCell(r, r.conviction ? `${human(r.setup)} · conviction ${r.conviction} of 5` : human(r.setup), open), stTd,
+        twoLine(`num fr-amt ${tone(r.bps)}`, fmtBp(r.bps), r.pnl == null ? null : fmtPnl(r.pnl)), h('td', `num fr-hide-narrow ${tone(r.slippage_bps)}`, fmtBp(r.slippage_bps)));
+    });
+  };
+  const drawVerdicts = (el) => {
+    const d = ready(el, 'mkt_paper_proposals', true);
+    if (!d) return;
+    if (!d.data.length) { el.replaceChildren(h('p', 'fr-empty', 'No research verdicts yet. The evening pass records them for the next open, and the swing book takes nothing without them.')); return; }
+    paperTable(el, [['For'], ['Candidate'], ['Verdict'], ['Conviction', 'num fr-hide-narrow'], ['Plan result', 'num']], d.data, (tr, r, open) => {
+      const tg = h('button', 'fr-toggle', r.name); tg.type = 'button'; tg.setAttribute('aria-expanded', String(open)); tg.append(h('small', null, `${human(r.setup)} · ${r.legs || human(r.direction)}`));
+      const name = h('td'); name.append(tg);
+      const v = VERDICT[r.verdict] || [human(r.verdict), 'is-fg'];
+      const vTd = h('td'); vTd.append(chip(v[0], v[1]));
+      const live = r.plan_bps == null && r.plan_so_far_bps != null;
+      tr.append(h('td', 'fr-num', day(r.session, '%a %b %-d')), name, vTd, h('td', 'num fr-hide-narrow', r.conviction == null ? '—' : `${r.conviction} of 5`),
+        twoLine(`num fr-amt ${tone(r.plan_bps ?? r.plan_so_far_bps)}`, fmtBp(r.plan_bps ?? r.plan_so_far_bps), live ? 'so far' : r.paper_bps != null ? `paper ${fmtBp(r.paper_bps)}` : null));
+    }, verdictDetail);
+  };
+  dash.draw('paper-verdict-sum', (el) => {
+    const rows = (okData('mkt_paper_proposals') || []).filter((r) => r.plan_bps != null);
+    const avg = (v) => { const rs = rows.filter((r) => (r.verdict === 'take') === v); return rs.length ? `${fmtBp(d3.mean(rs, (r) => r.plan_bps))} over ${rs.length}` : 'none finished'; };
+    el.textContent = rows.length ? `Taken ${avg(true)} · not taken ${avg(false)}` : '';
+  });
+  const drawPaperTables = () => { drawPaperOpen(document.querySelector('[data-draw=paper-open]')); drawPaperClosed(document.querySelector('[data-draw=paper-closed]')); drawVerdicts(document.querySelector('[data-draw=paper-verdicts]')); };
+  dash.draw('paper-verdicts', drawVerdicts);
+  dash.draw('paper-open', drawPaperOpen);
+  dash.draw('paper-closed', drawPaperClosed);
 
-  dash.draw('movers', (el) => {
+  // Today's summary of the swing book: what the next open takes, what is open, what closed last.
+  const takeCard = (r) => {
+    const card = h('article', 'fr-idea');
+    const top = h('div', 'fr-ideatop');
+    const who = h('div');
+    who.append(h('p', 'fr-kicker', `${r.name} · ${human(r.setup)} · ${r.horizon_days} session${r.horizon_days === 1 ? '' : 's'} at most · stop at −${d3.format('.1f')(Math.abs(r.stop_pct))}%`), h('p', 'fr-legs', human(r.legs)));
+    const chips = h('div', 'fr-chips');
+    chips.append(pips(r.conviction));
+    top.append(who, chips);
+    const line = (label, text) => { const p = h('p'); p.append(h('b', null, `${label} `), text || '—'); return p; };
+    card.append(top, line('Why', r.reason), line('Wrong if', r.wrong_if));
+    if (r.preopen) card.append(line('Before the open', r.preopen.reason));
+    return card;
+  };
+  dash.draw('today-book', (el) => {
+    const d = ready(el, 'mkt_paper', true);
+    if (!d) return;
+    const now = nyNow();
+    const out = [];
+    // Verdicts for a session whose 9:15 AM ET entries haven't gone out yet.
+    const ahead = (okData('mkt_paper_proposals') || []).filter((r) => !r.trade_id && (r.session > now.date || (r.session === now.date && now.mins < JOBS[0][0])));
+    const session = ahead.reduce((m, r) => (!m || r.session < m ? r.session : m), '');
+    const judged = ahead.filter((r) => r.session === session);
+    const takes = judged.filter((r) => r.verdict === 'take').sort((a, b) => (b.conviction || 0) - (a.conviction || 0));
+    const head = h('div', 'fr-subhead');
+    if (!judged.length) {
+      head.append(h('b', null, 'Next open'), h('span', 'fr-sub', 'Nothing recorded yet'));
+      out.push(head, h('p', 'fr-empty', 'No research verdicts are recorded for the next open. The evening pass adds them after 7:30 PM ET, and the book takes nothing without them.'));
+    } else {
+      head.append(h('b', null, `Next open · ${day(session, '%A, %B %-d')}`), h('span', 'fr-sub', `${takes.length} taken of ${judged.length} judged`));
+      out.push(head, ...(takes.length ? takes.map(takeCard) : [h('p', 'fr-empty', 'The research pass judged the shortlist and took none of it.')]));
+    }
+    const rowsOf = (title, sub, rows, kicker) => {
+      const list = h('div', 'fr-sublist');
+      const hd = h('div', 'fr-subhead');
+      hd.append(h('b', null, title), h('span', 'fr-sub', sub));
+      list.append(hd);
+      const mx = Math.max(1, ...rows.filter((r) => r.bps != null).map((r) => Math.abs(r.bps)));
+      rows.forEach((r) => {
+        const row = h('button', 'fr-result');
+        row.type = 'button';
+        row.title = 'Open in Paper';
+        const who = h('div');
+        who.append(h('span', 'fr-legs', pairTitle(r)), h('span', 'fr-kicker', ` ${kicker(r)}`));
+        row.append(who, r.bps == null ? h('span') : zbar(r.bps, mx), h('span', `fr-amt ${tone(r.bps)}`, fmtBp(r.bps)));
+        row.addEventListener('click', () => { paperUi.open.add(r.id); setView('paper'); drawPaperTables(); });
+        list.append(row);
+      });
+      return list;
+    };
+    const live = d.data.filter(isLive).sort((a, b) => (a.bps == null) - (b.bps == null) || b.bps - a.bps);
+    if (live.length) {
+      out.push(rowsOf('Open trades', 'After commissions, at the latest prices', live, (r) => [
+        r.session_number ? `day ${r.session_number} of ${r.horizon_days}` : 'not started',
+        isBroken(r) ? 'one side missing' : r.stop_room_pct != null && r.stop_room_pct <= 0 ? 'past its stop' : r.stop_pct ? `stop −${d3.format('.1f')(Math.abs(r.stop_pct))}%` : null].filter(Boolean).join(' · ')));
+    }
+    const lastExit = d.data.filter((r) => !isLive(r) && r.exit_date).reduce((m, r) => (r.exit_date > m ? r.exit_date : m), '');
+    const closed = d.data.filter((r) => !isLive(r) && r.exit_date === lastExit && lastExit).sort((a, b) => (b.bps ?? 0) - (a.bps ?? 0));
+    if (closed.length) out.push(rowsOf(`Closed · ${day(lastExit, '%A, %B %-d')}`, 'After commissions', closed, (r) => r.reason || ''));
+    el.replaceChildren(...out);
+  });
+
+  
+dash.draw('movers', (el) => {
     const d = ready(el, 'mkt_basket', true);
     if (!d) return;
     const rows = d.data.filter((b) => b.spread_today_pct != null).sort((a, b) => b.spread_today_pct - a.spread_today_pct);
@@ -1161,181 +1302,6 @@
     const rows = d.data.filter((r) => r.kind === 'upcoming' && (r.tonight || (r.sessions_away != null && r.sessions_away <= 3)));
     if (!rows.length) { el.replaceChildren(h('p', 'fr-empty', 'No reports in the next three sessions.')); return; }
     el.replaceChildren(earningsTable(rows, true));
-  });
-
-  // ---- Ideas --------------------------------------------------------------------------------------
-  // The idea's return from the open through the session, drawn into a row's detail.
-  const pathChart = (el, path) => {
-    el.replaceChildren();
-    const W = Math.max(200, el.clientWidth || 280);
-    const H = 72;
-    const pts = path.map(([t, v]) => ({ t, v, m: Number(t.slice(0, 2)) * 60 + Number(t.slice(3, 5)) }));
-    const x = d3.scaleLinear([570, 960], [2, W - 48]);
-    const y = d3.scaleLinear(d3.extent([0, ...pts.map((p) => p.v)]), [H - 6, 6]).nice();
-    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img').attr('aria-label', 'Return through the day');
-    svg.append('line').attr('x1', 2).attr('x2', W - 48).attr('y1', y(0)).attr('y2', y(0)).style('stroke', 'var(--cds-chart-axis)');
-    const end = pts[pts.length - 1];
-    const color = end.v >= 0 ? 'var(--color-ok)' : 'var(--color-bad)';
-    svg.append('path').datum(pts).attr('d', d3.line((p) => x(p.m), (p) => y(p.v)))
-      .style('fill', 'none').style('stroke', color).style('stroke-width', 2).style('stroke-linejoin', 'round').style('stroke-linecap', 'round');
-    svg.append('circle').attr('cx', x(end.m)).attr('cy', y(end.v)).attr('r', 3).style('fill', color);
-    svg.append('text').attr('class', 'fr-strong').attr('x', x(end.m) + 6).attr('y', y(end.v)).attr('dy', '0.32em').text(fmtBp(end.v));
-    const tip = tooltip(el);
-    svg.append('rect').attr('width', W).attr('height', H).style('fill', 'transparent')
-      .on('pointermove', (event) => { const [mx] = d3.pointer(event); const p = pts[d3.leastIndex(pts, (q) => Math.abs(x(q.m) - mx))]; tip.show(event, [[`${p.t} ET`, 'dim'], [fmtBp(p.v)]]); })
-      .on('pointerleave', () => tip.hide());
-  };
-  const ideaDetail = (r) => {
-    const box = h('div', 'fr-open');
-    if (Array.isArray(r.path) && r.path.length > 1) {
-      const p = h('div', 'fr-wide');
-      const c = h('div', 'fr-chart');
-      c.style.minHeight = '72px';
-      p.append(h('p', 'fr-label', 'Through the day, bp from the open'), c);
-      box.append(p);
-      requestAnimationFrame(() => pathChart(c, r.path));
-    }
-    if (r.oc_bps != null) {
-      const legs = [];
-      if (r.long) legs.push(`${r.long} ${fmtBp(r.long_bps)}`);
-      if (r.short) legs.push(`${r.short} ${fmtBp(r.short_bps)}`);
-      if (r.long !== 'SPY' && r.short !== 'SPY') legs.push(`SPY ${fmtBp(r.spy_bps)}`);
-      box.append(block('Legs, open to close', legs.join(' · ')));
-    }
-    if (r.outcome_status && r.outcome_status !== 'Missing bars') {
-      const done = r.outcome_status !== 'Open';
-      box.append(block(done ? 'Whole trade' : 'Whole trade so far', r.outcome_bps == null ? r.outcome_note
-        : `${fmtBp(r.outcome_bps)} against SPY ${fmtBp(r.outcome_spy_bps)} over ${r.sessions_held} session${r.sessions_held === 1 ? '' : 's'}`
-          + ` · best ${fmtBp(r.best_bps)}, worst ${fmtBp(r.worst_bps)}${r.outcome_note ? `. ${r.outcome_note}` : ''}`));
-    }
-    if (basketText(r)) box.append(block('Baskets, equal weight', basketText(r)));
-    box.append(block(isNightly(r) ? 'Pre-open check' : 'Morning idea, reacts to', checkText(r)));
-    if (r.setup) {
-      box.append(block('Plan', [`Setup: ${human(r.setup)}`, `time limit ${r.horizon_days} session${r.horizon_days === 1 ? '' : 's'}`,
-        r.stop && `stop if ${r.stop}`, r.skip_if_open && `skip if it ${r.skip_if_open}`].filter(Boolean).join(' · ')));
-    }
-    box.append(block('Wrong if', r.invalidation || '—'));
-    if (r.drivers) box.append(block('Rested on', r.drivers.split(',').map(human).join(', ')));
-    // The five steps behind ideas recorded from November 2026 on.
-    [['why_what_changed', 'What changed'], ['why_story', 'The story'], ['why_chart', 'The chart'], ['why_coming', 'What’s coming'],
-      ['why_case_against', 'Case against']].forEach(([k, label]) => { if (r[k]) box.append(block(label, r[k], true)); });
-    box.append(block('Thesis', r.thesis || '—', true));
-    if (isNightly(r) && r.oc_bps == null) box.append(block('Stand down before the open if', r.stand_down_if || '—', true));
-    return box;
-  };
-  const drawLedger = (tb) => {
-    const d = dash.data('ledger');
-    if (d.status !== 'ok') { tb.replaceChildren(); return; }
-    const next = new Set(upcoming(d.data).map((r) => r.id));
-    const rows = [...d.data]
-      .filter((r) => ui.filter === 'all' || (ui.filter === 'waiting' ? next.has(r.id) : (r.book || 'Nightly') === ui.filter))
-      .sort((a, b) => b.trade_date.localeCompare(a.trade_date) || a.id.localeCompare(b.id));
-    const mx = Math.max(1, ...d.data.filter((r) => r.oc_bps != null).map((r) => Math.abs(r.oc_bps)));
-    if (!rows.length) { const tr = h('tr'); const td = h('td', 'fr-empty', 'No ideas match.'); td.colSpan = 8; tr.append(td); tb.replaceChildren(tr); return; }
-    tb.replaceChildren(...rows.flatMap((r) => {
-      const open = ui.openIdeas.has(r.id);
-      const tr = h('tr', `is-row${open ? ' is-open' : ''}`);
-      tr.dataset.key = r.id;
-      const tg = h('button', 'fr-toggle', legsOf(r));
-      tg.type = 'button';
-      tg.setAttribute('aria-expanded', String(open));
-      tg.append(h('small', null, human(r.factor)));
-      const ideaTd = h('td'); ideaTd.append(tg);
-      const confTd = h('td', 'fr-hide-narrow'); confTd.append(pips(r.confidence));
-      const stTd = h('td'); stTd.append(statusChip(r));
-      const barTd = h('td', 'bar fr-hide-narrow'); if (r.oc_bps != null) barTd.append(zbar(r.oc_bps, mx));
-      const whole = h('td', `num fr-hide-narrow ${tone(r.outcome_bps)}`, r.outcome_bps == null ? '—' : `${fmtBp(r.outcome_bps)}${r.outcome_status === 'Open' ? ' so far' : ''}`);
-      tr.append(h('td', 'fr-num', day(r.trade_date, '%a %b %-d')), ideaTd, h('td', 'fr-hide-narrow', r.book || 'Nightly'), confTd, stTd, barTd, h('td', `num fr-amt ${tone(r.oc_bps)}`, fmtBp(r.oc_bps)), whole);
-      tr.addEventListener('click', (ev) => { if (ev.target.closest('[data-chart]')) return; if (open) ui.openIdeas.delete(r.id); else ui.openIdeas.add(r.id); drawLedger(tb); });
-      if (!open) return [tr];
-      const dt = h('tr', 'fr-detail');
-      const td = h('td'); td.colSpan = 8; td.append(ideaDetail(r)); dt.append(td);
-      return [tr, dt];
-    }));
-  };
-  dash.draw('ledger-rows', drawLedger);
-  document.querySelectorAll('[data-filter]').forEach((b) => b.addEventListener('click', () => {
-    ui.filter = b.dataset.filter;
-    document.querySelectorAll('[data-filter]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
-    drawLedger(document.querySelector('[data-draw=ledger-rows]'));
-  }));
-
-  dash.draw('record-chart', (el) => {
-    const d = ready(el, 'by_day', true);
-    if (!d) return;
-    el.replaceChildren();
-    const rows = d.data;
-    if (!rows.length) { el.append(h('p', 'fr-empty', 'No scored sessions yet.')); return; }
-    const W = Math.max(280, el.clientWidth || 560);
-    const H = 220;
-    const m = { t: 28, r: 16, b: 28, l: 0 };
-    const vals = [0, ...rows.flatMap((r) => [r.mean_bps, r.cum_bps, r.spy_bps].filter((v) => v != null))];
-    const y = d3.scaleLinear(d3.extent(vals), [H - m.b, m.t]).nice(4);
-    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img').attr('aria-label', 'Book by session');
-    const ticks = svg.append('g');
-    ticks.selectAll('text').data(y.ticks(4)).join('text').attr('x', 0).attr('y', (v) => y(v)).attr('dy', '0.32em').text((v) => d3.format(',')(v));
-    let widest = 0;
-    ticks.selectAll('text').each(function () { widest = Math.max(widest, this.getComputedTextLength()); });
-    m.l = Math.ceil(widest) + 10;
-    svg.insert('g', ':first-child').selectAll('line').data(y.ticks(4)).join('line')
-      .attr('x1', m.l).attr('x2', W - m.r).attr('y1', (v) => y(v)).attr('y2', (v) => y(v))
-      .style('stroke', (v) => v === 0 ? 'var(--cds-chart-axis)' : 'var(--cds-chart-grid)');
-    svg.append('text').attr('x', 0).attr('y', 10).text('bp');
-    const x = d3.scaleBand(rows.map((r) => r.trade_date), [m.l, W - m.r]).paddingInner(0.3).paddingOuter(0.2);
-    const bw = Math.min(28, x.bandwidth() / 2 - 2);
-    const cx = (r) => x(r.trade_date) + x.bandwidth() / 2;
-    const bar = (v) => ({ y: Math.min(y(v), y(0)), h: Math.max(1, Math.abs(y(v) - y(0))) });
-    const g = svg.append('g');
-    g.selectAll('rect.book').data(rows).join('rect').attr('class', 'book').attr('rx', 2)
-      .attr('x', (r) => cx(r) - bw - 1).attr('width', bw).attr('y', (r) => bar(r.mean_bps).y).attr('height', (r) => bar(r.mean_bps).h)
-      .style('fill', dash.colors[0]);
-    g.selectAll('rect.spy').data(rows.filter((r) => r.spy_bps != null)).join('rect').attr('class', 'spy').attr('rx', 2)
-      .attr('x', (r) => cx(r) + 1).attr('width', bw).attr('y', (r) => bar(r.spy_bps).y).attr('height', (r) => bar(r.spy_bps).h)
-      .style('fill', 'var(--cds-chart-muted)');
-    svg.append('path').datum(rows).attr('d', d3.line((r) => cx(r), (r) => y(r.cum_bps)))
-      .style('fill', 'none').style('stroke', dash.colors[1]).style('stroke-width', 2).style('stroke-linecap', 'round').style('stroke-linejoin', 'round');
-    svg.append('g').selectAll('circle').data(rows).join('circle').attr('cx', cx).attr('cy', (r) => y(r.cum_bps)).attr('r', 3.5).style('fill', dash.colors[1]);
-    const last = rows[rows.length - 1];
-    const label = svg.append('text').attr('class', 'fr-strong').attr('y', y(last.cum_bps) - 10).text(`Book ${fmtBp(last.cum_bps)}`);
-    const lw = label.node().getComputedTextLength();
-    label.attr('x', Math.max(m.l, Math.min(W - m.r - lw, cx(last) - lw / 2)));
-    const every = Math.max(1, Math.ceil(rows.length / Math.max(1, Math.floor((W - m.l) / 64))));
-    svg.append('g').selectAll('text').data(rows.filter((_, i) => i % every === 0)).join('text')
-      .attr('x', cx).attr('y', H - 8).attr('text-anchor', 'middle').text((r) => day(r.trade_date));
-    const tip = tooltip(el);
-    svg.append('g').selectAll('rect').data(rows).join('rect')
-      .attr('x', (r) => x(r.trade_date)).attr('width', x.bandwidth()).attr('y', m.t).attr('height', H - m.t - m.b)
-      .style('fill', 'transparent')
-      .on('pointermove', (event, r) => tip.show(event, [
-        [day(r.trade_date, '%a, %b %-d'), 'dim'],
-        [`Average idea ${fmtBp(r.mean_bps)} (${r.ideas})`],
-        [`SPY ${fmtBp(r.spy_bps)}`],
-        [`Book, running total ${fmtBp(r.cum_bps)}`],
-        [r.final ? 'Final' : 'Intraday mark', 'dim'],
-      ]))
-      .on('pointerleave', () => tip.hide());
-  });
-
-  const resultBars = (el, rows, label) => hbars(el, rows.map((r) => ({ label: label(r), value: r.ideas ? r.mean_bps : 0, r })), {
-    diverging: true,
-    fmt: (it) => it.r.ideas ? `${fmtBp(it.value)} · ${it.r.ideas}` : 'No ideas yet',
-    color: (it) => it.value >= 0 ? 'var(--color-ok)' : 'var(--color-bad)',
-    tipLines: (it) => it.r.ideas ? [[label(it.r), 'dim'], [`Average ${fmtBp(it.value)}`], [`Hit rate ${pct(it.r.hit_rate)} of ${it.r.ideas}`]] : [[label(it.r), 'dim'], ['No ideas yet']],
-  });
-  dash.draw('calib-chart', (el) => { const d = ready(el, 'by_conf', true); if (d) resultBars(el, d.data, (r) => `Confidence ${r.confidence}`); });
-  dash.draw('type-chart', (el) => { const d = ready(el, 'by_type', true); if (d) resultBars(el, d.data, (r) => r.type); });
-  dash.draw('setup-chart', (el) => {
-    const d = ready(el, 'by_setup', true);
-    if (!d) return;
-    if (!d.data.length) { el.replaceChildren(h('p', 'fr-empty', 'Ideas carry a setup from now on; results show here as they finish.')); return; }
-    resultBars(el, d.data, (r) => human(r.setup));
-  });
-
-  dash.draw('driver-chart', (el) => {
-    const d = ready(el, 'by_driver', true);
-    if (!d) return;
-    if (!d.data.length) { el.replaceChildren(h('p', 'fr-empty', 'Ideas are tagged with their inputs from now on; results show here as they are scored.')); return; }
-    resultBars(el, d.data, (r) => human(r.driver));
   });
 
   // ---- Market -------------------------------------------------------------------------------------
@@ -1368,9 +1334,9 @@
     const head = h('div', 'fr-frow is-head');
     head.append(h('span', null, 'Pair'), h('span', null, 'Stretch, −3 to +3'), h('span', null, '20-day move'), h('span', null, '5-day'), h('span', null, 'RSI'));
     el.replaceChildren(head, ...rows.map((r) => {
-      const row = h('div', `fr-frow${r.in_idea ? ' is-idea' : ''}`);
+      const row = h('div', 'fr-frow');
       const name = h('span');
-      name.append(h('span', null, human(r.pair)), h('small', null, `${r.long} / ${r.short}${r.in_idea === 'long' ? ' · in tonight’s idea' : r.in_idea === 'short' ? ' · tonight’s idea is the reverse' : ''}`));
+      name.append(h('span', null, human(r.pair)), h('small', null, `${r.long} / ${r.short}`));
       const zt = h('span', 'fr-ztrack');
       zt.append(h('span', 'band'));
       const z = Math.max(-3, Math.min(3, r.z_50d || 0));
@@ -1520,7 +1486,7 @@
     if (!d) return;
     el.textContent = etTime((d.data[0] || {}).pulled_at, true);
   });
-  const erName = (r) => { const td = symCell(r.symbol); if (r.idea_leg) td.append(h('span', 'fr-tag', 'In an idea')); return td; };
+  const erName = (r) => { const td = symCell(r.symbol); if (r.held_leg) td.append(h('span', 'fr-tag', 'Held')); return td; };
   const earningsTable = (rows, compact) => {
     const table = h('table', 'fr-table');
     const head = h('tr');
@@ -1583,7 +1549,7 @@
         const res = await fetch('/api/refresh', { method: 'POST' });
         const body = await res.json();
         if (!res.ok) return fail(`Refresh failed: ${body.error}`);
-        const warn = [...body.failed.map((s) => `${s} failed`), ...body.suspect.map((s) => `${s} looks wrong`)];
+        const warn = [`Updated in ${Math.round(body.seconds)} s`, ...body.failed.map((s) => `${s} failed`), ...body.suspect.map((s) => `${s} looks wrong`), ...(body.paper ? [body.paper] : []), ...(body.earnings ? [body.earnings] : [])];
         try { sessionStorage.setItem('fr-refresh-note', warn.join(', ')); sessionStorage.setItem('fr-scroll', String(window.scrollY)); } catch (e) { /* only a convenience */ }
         location.reload();
       } catch (e) { fail('Refresh failed: the local server isn’t running. Start it with uv run fr serve.'); }
@@ -1593,9 +1559,471 @@
       const y = sessionStorage.getItem('fr-scroll');
       sessionStorage.removeItem('fr-refresh-note'); sessionStorage.removeItem('fr-scroll');
       if (warn) { refreshNote.textContent = warn; refreshNote.hidden = false; }
+      // A clean refresh only needs a moment's confirmation; a warning stays until the next one.
+      if (warn && !warn.includes(',')) setTimeout(() => { refreshNote.hidden = true; }, 6000);
       if (y) requestAnimationFrame(() => window.scrollTo(0, Number(y)));
     } catch (e) { /* only a convenience */ }
   }
+
+  // ---- Routine: each scheduled step and whether it left its record.
+  dash.calc('mkt_routine', { inputs: ['market'], title: 'Routine', description: 'Each scheduled job and research pass, last session and today, and whether it ran: done, late, failed, missed, running or upcoming.',
+    fn: (market) => market.filter((r) => r.section === 'routine') });
+  const RT_STATE = { done: ['Done', 'is-ok'], failed: ['Failed', 'is-bad'], missed: ['Missed', 'is-bad'], running: ['Due now', 'is-warn'], upcoming: ['Upcoming', ''], off: ['Not scheduled', ''] };
+  const todayBad = (rows) => { const last = rows.map((r) => r.day).sort().pop(); return rows.filter((r) => r.day === last && (r.state === 'failed' || r.state === 'missed')); };
+  dash.draw('routine-sum', (el) => {
+    const rows = okData('mkt_routine');
+    if (!rows || !rows.length) { el.textContent = '—'; return; }
+    const bad = rows.filter((r) => r.state === 'failed' || r.state === 'missed');
+    el.textContent = bad.length ? `${bad.length} step${bad.length > 1 ? 's' : ''} didn’t run as planned` : 'Everything so far ran as planned';
+    el.className = `fr-sub ${bad.length ? 'fr-neg' : 'fr-pos'}`;
+    // Opens itself once when a step of today's went wrong; after that the reader's choice stands.
+    const fold = el.closest('details');
+    if (fold && !fold.dataset.set) { fold.dataset.set = '1'; fold.open = todayBad(rows).length > 0; }
+  });
+  // The header chip stays quiet while today's steps run and speaks up when one doesn't.
+  dash.draw('routine-chip', (el) => {
+    const rows = okData('mkt_routine');
+    if (!rows || !rows.length) { el.hidden = true; return; }
+    const bad = todayBad(rows);
+    el.hidden = !bad.length;
+    el.textContent = `Routine: ${bad.length} missed`;
+    el.className = `fr-chip fr-rtchip ${bad.length ? 'is-bad' : 'is-ok'}`;
+    el.title = bad.length ? bad.map((r) => `${r.time} ${r.name}`).join(', ') : 'Every step due so far today left its record';
+  });
+  document.addEventListener('click', (ev) => {
+    if (!ev.target.closest('[data-routine-jump]')) return;
+    setView('today');
+    const fold = document.getElementById('routine');
+    fold.open = true;
+    requestAnimationFrame(() => fold.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+  });
+  dash.draw('routine', (el) => {
+    const d = ready(el, 'mkt_routine', true);
+    if (!d) return;
+    if (!d.data.length) { el.replaceChildren(h('p', 'fr-empty', 'No routine data.')); return; }
+    const days = [...new Set(d.data.map((r) => r.day))].sort();
+    const keys = [...new Set(d.data.map((r) => r.key))];
+    const by = Object.fromEntries(d.data.map((r) => [`${r.key}|${r.day}`, r]));
+    const table = h('table', 'fr-routine');
+    const head = h('tr');
+    head.append(h('th', null, 'Time'), h('th', null, 'Step'), ...days.map((x, i) => h('th', null, i === days.length - 1 ? `Today, ${day(x, '%a %b %-d')}` : day(x, '%a %b %-d'))));
+    table.append(h('thead'), h('tbody'));
+    table.tHead.append(head);
+    let marked = false;
+    keys.forEach((k) => {
+      const first = by[`${k}|${days[days.length - 1]}`] || by[`${k}|${days[0]}`];
+      const tr = h('tr');
+      if (!marked && first.state === 'upcoming') { tr.classList.add('is-now'); marked = true; }
+      const step = h('td'); step.append(h('b', null, first.name), h('span', 'fr-rt-detail', `${first.what}${first.who === 'research' ? ' Research pass in the Claude app.' : ''}`));
+      tr.append(h('td', 'fr-num', first.time), step);
+      days.forEach((x) => {
+        const r = by[`${k}|${x}`];
+        const td = h('td');
+        if (r) {
+          const [label, cls] = RT_STATE[r.state] || [r.state, ''];
+          td.append(chip(r.late_min ? `Done ${r.late_min} min late` : label, r.late_min ? 'is-warn' : cls));
+          const bits = [r.at && r.state === 'done' ? etTime(r.at) : null, r.detail].filter(Boolean);
+          if (bits.length) td.append(h('span', 'fr-rt-detail', bits.join(' · ')));
+        }
+        tr.append(td);
+      });
+      table.tBodies[0].append(tr);
+    });
+    el.replaceChildren(table);
+  });
+
+  // ---- Intraday book: the rehearsal's signals, the model's calls and the scoreboard.
+  dash.calc('mkt_intraday', { inputs: ['market'], title: 'Intraday book', description: 'The intraday rehearsal: each 15-minute signal, the model’s take or pass, and what each made by the same exit rules. Takes are traded on the paper account.',
+    fn: (market) => market.filter((r) => r.section === 'intraday') });
+  const IN_DECISION = { take: ['Take', 'is-solid'], pass: ['Pass', 'is-fg'], undecided: ['Undecided', 'is-warn'], 'not judged': ['Not judged', ''] };
+  const inSummary = () => (okData('mkt_intraday') || []).find((r) => r.kind === 'summary');
+  const inSignals = () => (okData('mkt_intraday') || []).filter((r) => r.kind === 'signal');
+  const inResult = (r) => r.exit ? r.exit.result_bp : r.so_far_bp;
+  dash.draw('in-head', (el) => {
+    const s = inSummary();
+    if (!s) { el.textContent = '—'; return; }
+    el.textContent = `${s.mode === 'paper' ? 'Takes are traded on the paper account, $10,000 a side; passes are only followed.' : 'Rehearsal: signals are judged and followed, and no orders are sent.'} ${s.last_tick ? `Last check ${etTime(s.last_tick, true)}, on the ${s.last_bar} bar.` : 'No check has run yet.'}${s.signed_in ? '' : ' The model has no login, so signals are recorded undecided.'}`;
+  });
+  dash.draw('in-band', (el) => {
+    const s = inSummary();
+    if (!s) { el.replaceChildren(); return; }
+    const stat = (label, value, cls, ...subs) => { const c = h('div', 'fr-stat'); c.append(h('p', 'fr-label', label), h('div', `fr-val ${cls || ''}`, value), ...subs.filter(Boolean).map((t) => h('p', 'fr-sub', t))); return c; };
+    const today = inSignals().filter((r) => r.date === s.last_day);
+    const n = (d) => today.filter((r) => r.decision === d).length;
+    const open = today.filter((r) => r.decision === 'take' && !r.exit);
+    const group = (label, g) => g.trades
+      ? stat(label, fmtBp(g.after_cost_bp), tone(g.after_cost_bp), `Average a trade after ${d3.format('.0f')(s.cost_bp)} bp of costs`, `${g.trades} finished · ${d3.format('.0%')(g.win_rate)} won · ${fmtBp(g.mean_bp)} before costs`)
+      : stat(label, '—', '', 'None finished yet');
+    el.replaceChildren(
+      stat(s.last_day ? day(s.last_day, '%a %b %-d') : 'Today', `${today.length} signal${today.length === 1 ? '' : 's'}`, '', `${n('take')} taken of ${s.max_takes} at most · ${n('pass')} passed · ${today.length - n('take') - n('pass')} not judged`, open.length ? `${open.length} take${open.length === 1 ? '' : 's'} open` : 'No takes open'),
+      group('Takes', s.score.take), group('Passes', s.score.pass),
+      stat('Rehearsal days', String(s.score.days), '', 'Judge it after about ten', `Model: ${s.model.replace('claude-', '').replace(/-(\d+)-(\d+)$/, ' $1.$2').replace(/^./, (c) => c.toUpperCase())}`));
+  });
+  dash.draw('in-count', (el) => {
+    const rows = inSignals();
+    el.textContent = rows.length ? `${rows.length} over ${new Set(rows.map((r) => r.date)).size} day${new Set(rows.map((r) => r.date)).size === 1 ? '' : 's'}` : '';
+  });
+  const inOpen = new Set();
+  const drawInSignals = (el) => {
+    const d = ready(el, 'mkt_intraday', true);
+    if (!d) return;
+    const rows = inSignals();
+    if (!rows.length) { el.replaceChildren(h('p', 'fr-empty', 'No signals yet. The first check of a session runs at 10:01 AM ET, and most signals come before noon.')); return; }
+    const table = h('table', 'fr-table');
+    table.append(h('thead'), h('tbody'));
+    const head = h('tr');
+    [['Signal'], ['Trade'], ['Call'], ['Why', 'fr-hide-narrow'], ['Result', 'num']].forEach(([t, c]) => head.append(h('th', c, t)));
+    table.tHead.append(head);
+    let last = null;
+    rows.forEach((r) => {
+      if (r.date !== last) { const tr = h('tr', 'day'); const td = h('td', null, day(r.date, '%A, %B %-d')); td.colSpan = 5; tr.append(td); table.tBodies[0].append(tr); last = r.date; }
+      const tr = h('tr', 'is-row');
+      const long = r.direction === 'long';
+      const trade = h('td', 'fr-nw'); trade.append(h('b', null, `${long ? 'Long' : 'Short'} ${r.symbol} / ${long ? 'short' : 'long'} ${r.hedge}`), h('span', 'fr-cellsub', human(r.setup)));
+      const [label, cls] = IN_DECISION[r.decision] || [human(r.decision), ''];
+      const call = h('td'); call.append(chip(label, cls));
+      if (r.conviction && r.decision === 'take') call.append(h('span', 'fr-cellsub', `Conviction ${r.conviction} of 5`));
+      if (r.paper) call.append(h('span', 'fr-cellsub', `Paper: ${human(r.paper.state)}${r.paper.result ? ` ${d3.format('+$,.0f')(r.paper.result.dollars)}` : ''}`));
+      const v = inResult(r);
+      const res = h('td', `num fr-amt ${tone(v)}`, fmtBp(v));
+      res.append(h('span', 'fr-cellsub', r.exit ? `${human(r.exit.reason)} · ${r.exit.at}` : r.entry ? 'open, so far' : 'not filled yet'));
+      tr.append(h('td', 'fr-num fr-nw', r.signal_at), trade, call, h('td', 'why fr-hide-narrow', r.why || '—'), res);
+      table.tBodies[0].append(tr);
+      const more = h('tr'); more.hidden = !inOpen.has(r.id);
+      const cell = h('td'); cell.colSpan = 5;
+      const box = h('div', 'fr-detail');
+      const n = r.numbers || {};
+      box.append(block('Why', r.why || '—', true));
+      if (r.against) box.append(block('The case against', r.against, true));
+      if (r.catalyst) box.append(block('Catalyst', r.catalyst, true));
+      box.append(block('At the signal', `${r.symbol} ${signed(n.name_day_pct, '.2f')}% on the day, ${r.hedge} ${signed(n.hedge_day_pct, '.2f')}% · opened ${signed(n.gap_atr, '.2f')} ATR from its hedge · ${d3.format('.1f')(n.rvol)}× usual volume · 15-minute RSI ${d3.format('.0f')(n.rsi)}`, true));
+      if (r.plan) box.append(block('Plan', `Stop ${d3.format('.2f')(r.plan.stop_pct)}% · target +${d3.format('.2f')(r.plan.target_pct)}%${r.plan.max_bars ? ` · ${r.plan.max_bars} bars at most` : ''} · flat by ${r.plan.flat_by} ET`));
+      if (r.entry) box.append(block('Fills', `In at ${r.entry.at}: ${r.symbol} ${d3.format(',.2f')(r.entry.name)}, ${r.hedge} ${d3.format(',.2f')(r.entry.hedge)}${r.exit ? ` · out at ${r.exit.at} after ${r.exit.bars} bar${r.exit.bars === 1 ? '' : 's'}, ${fmtBp(r.exit.after_costs_bp)} after costs` : ''}`));
+      const pp = r.paper;
+      if (pp) {
+        const legs = (pp.legs || []).map((l) => `${l.side === 'long' ? 'bought' : 'sold'} ${l.shares} ${l.symbol}`).join(', ');
+        const res = pp.result ? ` · ${d3.format('+$,.2f')(pp.result.dollars)} (${fmtBp(pp.result.bp)}) after $${d3.format(',.2f')(pp.result.commission)} of commissions` : '';
+        box.append(block('Paper account', `${human(pp.state)}${pp.why ? `: ${pp.why}` : ''}${legs ? ` · ${legs}` : ''}${pp.exit_reason ? ` · out on ${human(pp.exit_reason)}` : ''}${res}${(pp.warnings || []).length ? ` · ${pp.warnings.join(' ')}` : ''}`, true));
+      }
+      if ((r.headlines || []).length) { const hd = h('div', 'fr-wide'); hd.append(h('p', 'fr-label', 'Headlines the model saw')); const ul = h('ul', 'fr-inlist'); r.headlines.forEach((t) => ul.append(h('li', null, t))); hd.append(ul); box.append(hd); }
+      cell.append(box); more.append(cell); table.tBodies[0].append(more);
+      tr.addEventListener('click', () => { more.hidden = !more.hidden; if (more.hidden) inOpen.delete(r.id); else inOpen.add(r.id); });
+    });
+    el.replaceChildren(table);
+  };
+  dash.draw('in-signals', drawInSignals);
+  dash.draw('in-score', (el) => {
+    const d = ready(el, 'mkt_intraday', true);
+    if (!d) return;
+    const s = inSummary();
+    if (!s) { el.replaceChildren(h('p', 'fr-empty', 'No rehearsal data yet.')); return; }
+    const table = h('table', 'fr-table');
+    table.append(h('thead'), h('tbody'));
+    const head = h('tr');
+    [['Call'], ['Finished', 'num'], ['Won', 'num'], ['Average', 'num'], ['After costs', 'num']].forEach(([t, c]) => head.append(h('th', c, t)));
+    table.tHead.append(head);
+    [['take', 'Takes'], ['pass', 'Passes'], ['not judged', 'Not judged'], ['undecided', 'Undecided']].forEach(([k, label]) => {
+      const g = s.score[k]; const tr = h('tr');
+      tr.append(h('td', null, label), h('td', 'num', String(g.trades)), h('td', 'num', g.trades ? d3.format('.0%')(g.win_rate) : '—'),
+        h('td', `num ${g.trades ? tone(g.mean_bp) : ''}`, g.trades ? fmtBp(g.mean_bp) : '—'), h('td', `num ${g.trades ? tone(g.after_cost_bp) : ''}`, g.trades ? fmtBp(g.after_cost_bp) : '—'));
+      table.tBodies[0].append(tr);
+    });
+    el.replaceChildren(table);
+  });
+
+  // ---- Hormuz: ship traffic through the strait on a map, and the futures that price it.
+  dash.calc('mkt_hormuz', { inputs: ['market'], title: 'Strait of Hormuz', description: 'Daily ship transits through the Strait of Hormuz from IMF PortWatch, the last week against the 2025 average, and the crude and LNG futures that price it.',
+    fn: (market) => market.filter((r) => r.section === 'hormuz') });
+  const HZ = {
+    view: [[47.2, 22.3], [60.6, 31.0]],
+    gate: [56.42, 26.6],
+    countries: [['IRAN', 54.6, 29.5], ['SAUDI ARABIA', 48.7, 24.1], ['U.A.E.', 54.4, 23.6], ['OMAN', 57.5, 22.9], ['QATAR', 51.2, 25.25], ['KUWAIT', 47.75, 29.45], ['IRAQ', 46.6, 31.3], ['PAKISTAN', 63.0, 26.6]],
+    waters: [['PERSIAN GULF', 50.05, 27.5], ['GULF OF OMAN', 59.3, 23.9]],
+    oil: [[49.0, 29.35], [50.3, 28.3], [52.0, 27.05], [54.0, 26.38], [55.6, 26.32], [56.38, 26.66], [56.74, 26.34], [57.3, 25.62], [58.7, 24.98], [62.5, 24.3]],
+    oilFeeder: [[50.25, 26.75], [50.95, 27.25], [52.0, 27.05]],
+    gas: [[51.72, 26.02], [52.7, 26.5], [54.0, 26.2], [55.6, 26.14], [56.42, 26.52], [56.82, 26.2], [57.42, 25.44], [58.8, 24.8], [62.5, 24.12]],
+    pipes: [
+      { name: 'Habshan–Fujairah pipeline', note: 'Carries Abu Dhabi crude to the Gulf of Oman, past the strait. Capacity about 1.5 million barrels a day (EIA).', pts: [[53.61, 23.84], [55.1, 24.5], [56.33, 25.1]] },
+      { name: 'East–West pipeline to Yanbu', note: 'Carries Saudi crude to the Red Sea, past the strait. Capacity about 5 million barrels a day (EIA).', pts: [[49.68, 25.94], [47.0, 25.3], [43.0, 24.6]] },
+    ],
+    // name, lon, lat, kind, what it is, label offset x, y, anchor
+    nodes: [
+      ['Basra Oil Terminal', 48.82, 29.68, 'oil', 'Iraq’s main crude export terminal.', 8, -6, 'start'],
+      ['Mina al-Ahmadi', 48.16, 29.07, 'oil', 'Kuwait’s main crude export terminal.', -8, 12, 'end'],
+      ['Kharg Island', 50.33, 29.24, 'oil', 'Loads most of Iran’s crude exports.', 8, -6, 'start'],
+      ['Ras Tanura', 50.16, 26.64, 'oil', 'Saudi Arabia’s largest crude export terminal.', -9, 4, 'end'],
+      ['Ras Laffan', 51.55, 25.92, 'gas', 'Qatar’s LNG export hub, the largest in the world.', -9, 4, 'end'],
+      ['Das Island', 52.87, 25.15, 'gas', 'Abu Dhabi’s LNG plant and offshore crude.', 9, 4, 'start'],
+      ['Ruwais', 52.73, 24.11, 'oil', 'Abu Dhabi’s onshore crude and refining hub.', -9, 12, 'end'],
+      ['Asaluyeh', 52.61, 27.48, 'gas', 'Iran’s South Pars gas and condensate hub.', 9, -5, 'start'],
+      ['Bandar Abbas', 56.27, 27.19, 'port', 'Iran’s main port and naval base, on the strait.', 9, -5, 'start'],
+      ['Fujairah', 56.36, 25.13, 'pipe', 'Outside the strait: the UAE’s bypass pipeline ends here.', 9, 12, 'start'],
+    ],
+  };
+  const hzRow = () => (okData('mkt_hormuz') || [])[0] || null;
+  const hzShare = (v) => v == null ? '—' : d3.format(v < 0.1 ? '.1%' : '.0%')(v);
+  const hzState = (share) => share == null ? ['No data', 'var(--hz-dim)'] : share >= 0.75 ? ['Open', 'var(--hz-pipe)'] : share >= 0.25 ? ['Restricted', 'var(--hz-oil)'] : ['Near-closed', 'var(--hz-alert)'];
+  dash.draw('hz-time', (el) => {
+    const r = hzRow();
+    el.textContent = r ? `Live crossings ${r.live ? `as of ${etTime(r.live.last_poll, true)}` : 'not loaded yet'}. PortWatch counts through ${day(r.through, '%a %b %-d')}. Futures from Yahoo.`
+      : 'No transit data yet. It loads in the background when the local server starts: refresh in a minute.';
+  });
+  dash.draw('hz-map', (el) => {
+    const r = hzRow();
+    const geo = window.__HORMUZ_GEO__;
+    el.replaceChildren();
+    if (!r || !geo) { el.append(h('p', 'fr-hz-empty', geo ? 'Waiting for transit data.' : 'The map is drawn by the local dashboard (uv run fr serve).')); return; }
+    const s = r.summary;
+    const share = s.share;
+    const [stateName, stateColor] = hzState(share);
+    const W = Math.max(320, el.clientWidth);
+    const H = Math.round(Math.max(300, Math.min(640, W * 0.56)));
+    const proj = d3.geoMercator().fitExtent([[0, 0], [W, H]], { type: 'MultiPoint', coordinates: HZ.view });
+    const P = (p) => proj([p[0], p[1]]);
+    const curve = d3.line().curve(d3.curveCatmullRom.alpha(0.5));
+    const frame = h('div', 'fr-hz-frame');
+    frame.style.setProperty('--hz-state', stateColor);
+    el.append(frame);
+    const svg = d3.select(frame).append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('width', '100%').attr('height', H).attr('role', 'img')
+      .attr('aria-label', `Map of the Persian Gulf and the Strait of Hormuz. Tanker traffic over the last reported week is ${hzShare(share)} of its ${s.base_year} average.`);
+    const grid = svg.append('g').attr('class', 'hz-grid');
+    for (let lon = 42; lon <= 66; lon += 2) {
+      const x = P([lon, 26])[0];
+      if (x < 0 || x > W) continue;
+      grid.append('line').attr('x1', x).attr('x2', x).attr('y1', 0).attr('y2', H);
+      grid.append('text').attr('x', x + 3).attr('y', H - 5).text(`${lon}°E`);
+    }
+    for (let lat = 20; lat <= 34; lat += 2) {
+      const y = P([50, lat])[1];
+      if (y < 0 || y > H) continue;
+      grid.append('line').attr('x1', 0).attr('x2', W).attr('y1', y).attr('y2', y);
+      grid.append('text').attr('x', W - 4).attr('y', y - 3).attr('text-anchor', 'end').text(`${lat}°N`);
+    }
+    const land = svg.append('g').attr('class', 'hz-land');
+    geo.countries.forEach((c) => c.rings.forEach((ring) => {
+      land.append('path').attr('d', `M${ring.map((p) => { const q = P(p); return `${q[0].toFixed(1)},${q[1].toFixed(1)}`; }).join('L')}Z`);
+    }));
+    const place = svg.append('g').attr('class', 'hz-place');
+    HZ.countries.forEach(([name, lon, lat]) => { const q = P([lon, lat]); place.append('text').attr('class', 'hz-country').attr('x', q[0]).attr('y', q[1]).text(name); });
+    HZ.waters.forEach(([name, lon, lat]) => { const q = P([lon, lat]); place.append('text').attr('class', 'hz-water').attr('x', q[0]).attr('y', q[1]).text(name); });
+
+    // Lanes: a dim corridor always, and moving dashes whose brightness and speed follow traffic.
+    const flow = Math.max(0, Math.min(1, share == null ? 0 : share));
+    const lanes = svg.append('g');
+    const lane = (pts, color, width) => {
+      const d = curve(pts.map(P));
+      lanes.append('path').attr('class', 'hz-lane').attr('d', d).style('stroke', color).style('stroke-width', width + 4).style('opacity', 0.1);
+      lanes.append('path').attr('class', 'hz-lane').attr('d', d).style('stroke', color).style('stroke-width', 1).style('opacity', 0.45).style('stroke-dasharray', flow < 0.25 ? '1 5' : null);
+      if (flow >= 0.02) lanes.append('path').attr('class', 'hz-flow').attr('d', d).style('stroke', color).style('stroke-width', width).style('opacity', 0.3 + 0.7 * flow).style('--hz-dur', `${Math.round(5 / Math.max(flow, 0.15))}s`);
+    };
+    lane(HZ.oilFeeder, 'var(--hz-oil)', 2);
+    lane(HZ.oil, 'var(--hz-oil)', 3);
+    lane(HZ.gas, 'var(--hz-gas)', 3);
+    const tip = tooltip(frame);
+    const pipes = svg.append('g');
+    HZ.pipes.forEach((p) => {
+      const d = d3.line()(p.pts.map(P));
+      pipes.append('path').attr('class', 'hz-pipeline').attr('d', d);
+      pipes.append('path').attr('d', d).style('fill', 'none').style('stroke', 'transparent').style('stroke-width', 14)
+        .on('pointermove', (event) => tip.show(event, [[p.name], [p.note, 'dim']])).on('pointerleave', () => tip.hide());
+    });
+
+    // The strait itself: a pulse in the state's colour and what share of normal traffic is passing.
+    const g0 = P(HZ.gate);
+    const gate = svg.append('g').attr('class', 'hz-gate');
+    gate.append('circle').attr('cx', g0[0]).attr('cy', g0[1]).attr('r', Math.max(18, W * 0.03));
+    gate.append('circle').attr('cx', g0[0]).attr('cy', g0[1]).attr('r', Math.max(18, W * 0.03));
+    if (flow < 0.25) { gate.append('line').attr('x1', g0[0] - 7).attr('y1', g0[1] - 7).attr('x2', g0[0] + 7).attr('y2', g0[1] + 7); gate.append('line').attr('x1', g0[0] - 7).attr('y1', g0[1] + 7).attr('x2', g0[0] + 7).attr('y2', g0[1] - 7); }
+    if (W >= 560) gate.append('text').attr('x', g0[0] + 14).attr('y', g0[1] - 12).text(`STRAIT OF HORMUZ · ${hzShare(share)} OF NORMAL`);
+
+    const colors = { oil: 'var(--hz-oil)', gas: 'var(--hz-gas)', pipe: 'var(--hz-pipe)', port: 'var(--hz-dim)' };
+    const kinds = { oil: 'Crude oil', gas: 'Gas and LNG', pipe: 'Bypass terminal', port: 'Port' };
+    const nodes = svg.append('g').attr('class', 'hz-node');
+    HZ.nodes.forEach(([name, lon, lat, kind, note, dx, dy, anchor]) => {
+      const q = P([lon, lat]);
+      nodes.append('rect').attr('x', q[0] - 3.5).attr('y', q[1] - 3.5).attr('width', 7).attr('height', 7).attr('transform', `rotate(45 ${q[0]} ${q[1]})`).style('stroke', colors[kind]);
+      if (W >= 560) nodes.append('text').attr('x', q[0] + dx).attr('y', q[1] + dy).attr('text-anchor', anchor).text(name.toUpperCase());
+      nodes.append('circle').attr('cx', q[0]).attr('cy', q[1]).attr('r', 13).style('fill', 'transparent')
+        .on('pointermove', (event) => { event.stopPropagation(); tip.show(event, [[name], [kinds[kind], 'dim'], [note]]); }).on('pointerleave', () => tip.hide());
+    });
+
+    const cross = svg.append('g').attr('class', 'hz-cross').style('display', 'none');
+    const cx = cross.append('line').attr('y1', 0).attr('y2', H);
+    const cy = cross.append('line').attr('x1', 0).attr('x2', W);
+    const coord = h('div', 'fr-hz-coord', `${day(r.through, '%b %-d').toUpperCase()} · LATEST REPORTED WEEK`);
+    svg.on('pointermove', (event) => {
+      const [mx, my] = d3.pointer(event);
+      const [lon, lat] = proj.invert([mx, my]);
+      cross.style('display', null); cx.attr('x1', mx).attr('x2', mx); cy.attr('y1', my).attr('y2', my);
+      coord.textContent = `${d3.format('.2f')(lat)}°N  ${d3.format('.2f')(lon)}°E`;
+    }).on('pointerleave', () => { cross.style('display', 'none'); coord.textContent = `${day(r.through, '%b %-d').toUpperCase()} · LATEST REPORTED WEEK`; });
+
+    const hud = h('div', 'fr-hz-hud');
+    const status = h('div', 'fr-hz-status'); status.append(h('i'), h('span', null, `Transit ${hzShare(share)} of ${s.base_year} normal`));
+    const live = r.live;
+    const liveLine = live ? h('div', 'fr-hz-kicker', `Live AIS · last 24 h: ${live.last24.crossings ?? '—'} crossings · ${live.last24.oil} oil · ${live.last24.gas} gas · as of ${etTime(live.last_poll)}`) : null;
+    hud.append(h('div', 'fr-hz-kicker', 'Strait of Hormuz · 26.57°N 56.25°E'), status,
+      h('div', 'fr-hz-kicker', s.below_quarter_since && flow < 0.25 ? `${stateName} · under a quarter of normal since ${day(s.below_quarter_since, '%b %-d, %Y')} (PortWatch)` : stateName));
+    if (liveLine) hud.append(liveLine);
+    const legend = h('div', 'fr-hz-legend');
+    [['Crude and products lane', '--hz-oil'], ['LNG lane', '--hz-gas'], ['Bypass pipeline', '--hz-pipe']].forEach(([text, v]) => { const row = h('span', null, text); const i = h('i'); i.style.setProperty('--c', `var(${v})`); row.append(i); legend.append(row); });
+    { const row = h('span', null, 'Export terminal'); row.append(h('i', 'node')); legend.append(row); }
+    frame.append(hud, legend, coord);
+
+    const strip = h('div', 'fr-hz-strip');
+    const cell = (label, value, unit, sub) => { const c = h('div'); const b = h('b', null, value); if (unit) b.append(h('small', null, unit)); c.append(h('p', null, label), b, h('p', null, sub)); return c; };
+    const n1 = (v) => v == null ? '—' : d3.format(v < 10 ? '.1f' : '.0f')(v);
+    if (live) strip.append(
+      cell('Crossings, last 24 h · live', String(live.last24.crossings ?? '—'), null, `${live.last24.in} in · ${live.last24.out} out · ${live.last24.oil} oil, ${live.last24.gas} gas`),
+      cell('Oil exported, last 24 h · live', live.last24.oil_bbl == null ? '—' : d3.format('.2f')(live.last24.oil_bbl / 1e6), 'mb', `30-day average ${live.oil_avg_bbl ? d3.format('.2f')(live.oil_avg_bbl / 1e6) : '—'} mb a day, tracker estimate`));
+    strip.append(
+      cell('Tankers a day, 7-day avg', n1(s.tankers_7d), null, `${s.base_year} average ${n1(s.base_tankers)}`),
+      cell('All ships a day, 7-day avg', n1(s.ships_7d), null, `${s.base_year} average ${n1(s.base_ships)}`),
+      cell('Oil through, estimate', s.oil_mbd == null ? '—' : d3.format(s.oil_mbd < 1 ? '.2f' : '.1f')(s.oil_mbd), 'mb/d', `${n1(r.eia.oil_mbd)} mb/d in 2024, ${r.eia.oil_share}`),
+      cell('LNG through, estimate', s.lng_bcfd == null ? '—' : d3.format(s.lng_bcfd < 1 ? '.2f' : '.1f')(s.lng_bcfd), 'bcf/d', `${r.eia.lng_bcfd} bcf/d in 2024, ${r.eia.lng_share}`));
+    el.append(strip);
+  });
+  // The tanker chart's time frame. Week and month count back from the last reported day, not from today,
+  // because PortWatch reports with a lag; MTD and YTD start at that day's month and year.
+  const hzUi = { frame: 'YTD' };
+  const hzFrameStart = (frame, last) => {
+    const d = new Date(`${last}T00:00:00Z`);
+    if (frame === '1W') d.setUTCDate(d.getUTCDate() - 6);
+    else if (frame === '1M') d.setUTCMonth(d.getUTCMonth() - 1);
+    else if (frame === 'MTD') d.setUTCDate(1);
+    else if (frame === 'YTD') { d.setUTCMonth(0); d.setUTCDate(1); }
+    else return null;
+    return d.toISOString().slice(0, 10);
+  };
+  document.addEventListener('click', (ev) => {
+    const b = ev.target.closest('[data-hz-frame]');
+    if (!b) return;
+    hzUi.frame = b.dataset.hzFrame;
+    document.querySelectorAll('[data-draw="hz-transits"]').forEach(drawHzTransits);
+  });
+  const drawHzTransits = (el) => {
+    const r = hzRow();
+    document.querySelectorAll('[data-hz-frame]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.hzFrame === hzUi.frame)));
+    const avgNote = document.querySelector('[data-hz-avg]');
+    el.replaceChildren();
+    if (!r) { el.append(h('p', 'fr-empty', 'No transit data yet.')); return; }
+    const s = r.summary;
+    const all = r.days.map((d, i, rows) => { const w = rows.slice(Math.max(0, i - 6), i + 1); return { date: d[0], t: new Date(`${d[0]}T00:00:00Z`), tankers: d[1], ships: d[2], avg: d3.mean(w, (x) => x[1]) }; });
+    const from = hzFrameStart(hzUi.frame, r.through);
+    const days = from ? all.filter((d) => d.date >= from) : all;
+    if (!days.length) { el.append(h('p', 'fr-empty', 'No reported days in this time frame yet.')); if (avgNote) avgNote.textContent = ''; return; }
+    const short = days.length <= 45;
+    // The 2025 average sets the scale only where the drop is the story; in a short window it would flatten the days.
+    const showBase = s.base_tankers && (!short || d3.max(days, (d) => d.tankers) > s.base_tankers * 0.25);
+    if (avgNote) avgNote.textContent = `${day(days[0].date, days[0].date.slice(0, 4) === r.through.slice(0, 4) ? '%b %-d' : '%b %-d, %Y')} to ${day(days[days.length - 1].date, '%b %-d, %Y')}: ${d3.format('.1f')(d3.mean(days, (d) => d.tankers))} tankers a day on average${s.base_tankers ? `, against ${d3.format('.0f')(s.base_tankers)} in ${s.base_year}` : ''}.`;
+    const W = Math.max(280, el.clientWidth); const H = 230; const m = { l: 30, r: 12, t: 14, b: 22 };
+    const x = d3.scaleUtc(d3.extent(days, (d) => d.t), [m.l, W - m.r]);
+    const y = d3.scaleLinear([0, Math.max(d3.max(days, (d) => d.tankers), 2, showBase ? s.base_tankers * 1.1 : 0)], [H - m.b, m.t]).nice(4);
+    const color = dash.colors[0];
+    const svg = d3.select(el).append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('width', '100%').attr('height', H).attr('role', 'img')
+      .attr('aria-label', `Tanker transits a day since ${day(days[0].date, '%b %Y')}. The last week averaged ${d3.format('.1f')(s.tankers_7d)} against ${d3.format('.0f')(s.base_tankers)} in ${s.base_year}.`);
+    y.ticks(4).forEach((v) => {
+      svg.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(v)).attr('y2', y(v)).style('stroke', 'var(--fr-line)').style('stroke-width', 1);
+      svg.append('text').attr('x', m.l - 6).attr('y', y(v) + 4).attr('text-anchor', 'end').text(v);
+    });
+    const step = Math.max(1, Math.ceil(days.length / Math.max(3, Math.floor(W / 80))));
+    const ticks = short ? days.filter((d, i) => (days.length - 1 - i) % step === 0).map((d) => d.t) : x.ticks(Math.max(3, Math.floor(W / 110)));
+    ticks.forEach((t) => svg.append('text').attr('x', x(t)).attr('y', H - 5).attr('text-anchor', 'middle').text(d3.utcFormat(short ? '%b %-d' : t.getUTCMonth() ? '%b' : '%b %Y')(t)));
+    if (short) {
+      const bw = Math.max(2, Math.min(18, (W - m.l - m.r) / days.length - 2));
+      svg.append('g').selectAll('rect').data(days).join('rect').attr('x', (d) => x(d.t) - bw / 2).attr('width', bw).attr('y', (d) => y(d.tankers)).attr('height', (d) => y(0) - y(d.tankers))
+        .attr('rx', 2).style('fill', color).style('opacity', 0.35);
+    } else {
+      svg.append('path').datum(days).attr('d', d3.area((d) => x(d.t), y(0), (d) => y(d.tankers))).style('fill', color).style('opacity', 0.14);
+    }
+    svg.append('path').datum(days).attr('d', d3.line((d) => x(d.t), (d) => y(d.avg))).style('fill', 'none').style('stroke', color).style('stroke-width', 2).style('stroke-linejoin', 'round');
+    if (s.base_tankers && !showBase) {
+      svg.append('text').attr('x', W - m.r).attr('y', m.t + 4).attr('text-anchor', 'end').text(`${s.base_year} average ${d3.format('.0f')(s.base_tankers)}, off this scale`);
+    }
+    if (showBase) {
+      svg.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(s.base_tankers)).attr('y2', y(s.base_tankers)).style('stroke', 'var(--fr-muted)').style('stroke-dasharray', '4 4');
+      svg.append('text').attr('x', W - m.r).attr('y', y(s.base_tankers) - 5).attr('text-anchor', 'end').text(`${s.base_year} average ${d3.format('.0f')(s.base_tankers)}`);
+    }
+    if (s.below_quarter_since && s.below_quarter_since >= days[0].date) {
+      const bx = x(new Date(`${s.below_quarter_since}T00:00:00Z`));
+      svg.append('line').attr('x1', bx).attr('x2', bx).attr('y1', m.t).attr('y2', H - m.b).style('stroke', 'var(--color-bad)').style('stroke-width', 1);
+      svg.append('text').attr('x', bx + 6).attr('y', m.t + 26).text(`Under a quarter of normal since ${day(s.below_quarter_since, '%b %-d, %Y')}`);
+    }
+    const end = days[days.length - 1];
+    svg.append('circle').attr('cx', x(end.t)).attr('cy', y(end.avg)).attr('r', 4).style('fill', color).style('stroke', 'var(--color-panel)').style('stroke-width', 2);
+    const tip = tooltip(el);
+    const rule = svg.append('line').attr('y1', m.t).attr('y2', H - m.b).style('stroke', 'var(--fr-muted)').style('stroke-width', 1).style('display', 'none');
+    svg.append('rect').attr('x', m.l).attr('y', m.t).attr('width', W - m.l - m.r).attr('height', H - m.t - m.b).style('fill', 'transparent')
+      .on('pointermove', (event) => {
+        const [mx] = d3.pointer(event);
+        const d = days[d3.leastIndex(days, (q) => Math.abs(x(q.t) - mx))];
+        rule.style('display', null).attr('x1', x(d.t)).attr('x2', x(d.t));
+        tip.show(event, [[day(d.date, '%a %b %-d, %Y'), 'dim'], [`${d.tankers} tankers, ${d.ships} ships in all`], [`7-day average ${d3.format('.1f')(d.avg)} tankers`]]);
+      }).on('pointerleave', () => { tip.hide(); rule.style('display', 'none'); });
+  };
+  dash.draw('hz-live-time', (el) => {
+    const r = hzRow();
+    el.textContent = r && r.live ? `Polled ${etTime(r.live.last_poll)}` : 'Not loaded yet';
+  });
+  dash.draw('hz-live', (el) => {
+    const r = hzRow();
+    el.replaceChildren();
+    const live = r && r.live;
+    if (!live || !live.days.length) { el.append(h('p', 'fr-empty', 'The live tracker hasn’t loaded yet. It updates in the background: refresh in a minute.')); return; }
+    const days = live.days.map((d) => ({ ...d, t: new Date(`${d.day}T00:00:00Z`), total: d.oil + d.gas + d.other }));
+    const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York' }).format(new Date());
+    const keys = [['oil', 'Oil tankers', 1], ['gas', 'LNG and LPG carriers', 5], ['other', 'Other ships', 7]];
+    const W = Math.max(280, el.clientWidth); const H = 220; const m = { l: 30, r: 12, t: 26, b: 22 };
+    const x = d3.scaleBand(days.map((d) => d.day), [m.l, W - m.r]).padding(0.25);
+    const y = d3.scaleLinear([0, d3.max(days, (d) => d.total) || 1], [H - m.b, m.t]).nice(4);
+    const svg = d3.select(el).append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('width', '100%').attr('height', H).attr('role', 'img')
+      .attr('aria-label', `Daily crossings for the last ${days.length} days, by ship type. The last full day had ${days[days.length - 2]?.total ?? '—'} crossings.`);
+    y.ticks(4).forEach((v) => {
+      svg.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(v)).attr('y2', y(v)).style('stroke', 'var(--fr-line)');
+      svg.append('text').attr('x', m.l - 6).attr('y', y(v) + 4).attr('text-anchor', 'end').text(v);
+    });
+    const every = Math.ceil(days.length / Math.max(3, Math.floor(W / 80)));
+    days.forEach((d, i) => { if ((days.length - 1 - i) % every === 0) svg.append('text').attr('x', x(d.day) + x.bandwidth() / 2).attr('y', H - 5).attr('text-anchor', 'middle').text(day(d.day, '%b %-d')); });
+    const stack = d3.stack().keys(keys.map((k) => k[0]))(days);
+    stack.forEach((layer, li) => {
+      svg.append('g').selectAll('rect').data(layer).join('rect').attr('x', (p) => x(p.data.day)).attr('width', x.bandwidth())
+        .attr('y', (p) => y(p[1])).attr('height', (p) => Math.max(0, y(p[0]) - y(p[1]) - (p[1] > p[0] ? 1 : 0)))
+        .style('fill', dash.colors[keys[li][2]]).style('opacity', (p) => p.data.day === today ? 0.45 : 0.9);
+    });
+    const legend = svg.append('g');
+    let lx = m.l;
+    keys.forEach(([, label, c]) => { legend.append('rect').attr('x', lx).attr('y', 6).attr('width', 9).attr('height', 9).attr('rx', 2).style('fill', dash.colors[c]); const t = legend.append('text').attr('x', lx + 13).attr('y', 14).text(label); lx += 13 + t.node().getComputedTextLength() + 16; });
+    const tip = tooltip(el);
+    svg.append('g').selectAll('rect').data(days).join('rect').attr('x', (d) => x(d.day)).attr('width', x.bandwidth()).attr('y', m.t).attr('height', H - m.t - m.b).style('fill', 'transparent')
+      .on('pointermove', (event, d) => tip.show(event, [[`${day(d.day, '%a %b %-d')}${d.day === today ? ', so far' : ''}`, 'dim'], [`${d.total} crossings: ${d.in} in, ${d.out} out`], [`${d.oil} oil tankers · ${d.gas} LNG or LPG · ${d.other} other`]]))
+      .on('pointerleave', () => tip.hide());
+  });
+  dash.draw('hz-transits', drawHzTransits);
+  dash.draw('hz-prices', (el) => {
+    const r = hzRow();
+    if (!r || !r.contracts.length) { el.replaceChildren(h('p', 'fr-empty', 'No futures prices yet.')); return; }
+    const lead = new Set(['DCB=F', 'JKM=F']);
+    const cells = r.contracts.map((c) => {
+      const cellEl = h('div', 'fr-stat');
+      const top = h('div', 'fr-stattop'); top.append(h('p', 'fr-label', c.name)); if (lead.has(c.ticker)) top.append(chip('Most relevant', 'is-fg'));
+      const val = h('div', 'fr-val fr-hzprice', d3.format(',.2f')(c.last)); val.append(h('small', null, c.unit));
+      const when = c.as_of ? etTime(c.as_of, true) : (c.series.length ? `${day(c.series[c.series.length - 1][0], '%a %b %-d')} settle` : '');
+      const chg = h('p', 'fr-sub'); const d1 = h('span', tone(c.change_pct), pc(c.change_pct)); chg.append(d1, ` on the day · ${pc(c.ytd_pct, '.0f')} since Jan 1`);
+      const sp = h('div', 'fr-spark');
+      cellEl.append(top, val, chg, h('p', 'fr-sub', c.role), sp, h('p', 'fr-sub', `${c.ticker.replace('=F', '')} front month · ${when}`));
+      return [cellEl, sp, c];
+    });
+    el.replaceChildren(...cells.map((x) => x[0]));
+    cells.forEach(([, sp, c]) => spark(sp, c.series.map(([d, v]) => ({ date: d, t: new Date(`${d}T00:00:00Z`), v })), (v) => `${d3.format(',.2f')(v)} ${c.unit}`, dash.colors[c.kind === 'oil' ? 1 : 5]));
+  });
+  dash.draw('hz-spread', (el) => {
+    const r = hzRow();
+    const by = Object.fromEntries(((r && r.contracts) || []).map((c) => [c.ticker, c]));
+    const dubai = by['DCB=F']; const brent = by['BZ=F'];
+    if (!dubai || !brent) { el.textContent = ''; return; }
+    const gap = dubai.last - brent.last;
+    el.textContent = `Dubai is $${d3.format('.2f')(Math.abs(gap))} ${gap >= 0 ? 'above' : 'below'} Brent. It usually trades below, so a premium means Gulf barrels are the scarce ones. The two prices can be from different times.`;
+  });
 
   // ---- Chart (local only): one name's 15-minute bars and technicals, pulled through the local server.
   const CHART_LIB = 'https://cdn.jsdelivr.net/npm/lightweight-charts@5.0.9/dist/lightweight-charts.standalone.production.js';

@@ -5,7 +5,8 @@ knows local time. Each job starts deploy/run.sh with /bin/bash, and the script k
 it finishes. Keep the repo outside ~/Documents, which launchd jobs can't read without Full Disk Access.
 Logs go to ~/Library/Logs/factor-rotation/<job>.log.
 
-    python3 deploy/launchd/install.py              # install or reinstall
+    python3 deploy/launchd/install.py              # install or reinstall every job
+    python3 deploy/launchd/install.py paper-open   # only the jobs named; reinstalling stops a job that is running
     python3 deploy/launchd/install.py --dry-run    # print the plists, change nothing
     python3 deploy/launchd/install.py --uninstall
 """
@@ -32,11 +33,19 @@ SCHEDULE = {
     "options-etfs": ["11:00", "12:00", "13:00", "14:00"],
     "bars": ["16:30"],
     "nightly": ["19:00"],
-    # Paper trading: entries into the opening auction, exits into the closing auction, then the fills.
-    # Market-on-open orders must be in by 9:28 AM and market-on-close by 3:50 PM.
-    "paper-open": ["09:22"],
+    # Paper trading: entries into the opening auction, a check on their fills, exits into the closing auction,
+    # then the fills. Market-on-open orders must be in by 9:28 AM and market-on-close by 3:50 PM; the entry
+    # job starts at 9:15 AM so it can wait out a Mac that has just woken with no network.
+    "paper-open": ["09:15"],
+    "paper-check": ["09:40"],
     "paper-close": ["15:45"],
     "paper-sync": ["16:20"],
+    # The intraday book: a minute after each 15-minute bar closes, from the 10:00 AM bar to the 3:45 PM one,
+    # which is where every trade is out. Haiku's takes go to the paper account (intraday/orders.py).
+    # The swing book's pre-close review as a background job, on trial: it works on a copy of the journal, and the
+    # pass scheduled in the Claude app is still the one that counts.
+    "pass-pre-close": ["15:00"],
+    "intraday-tick": [f"{h:02d}:{m:02d}" for h in range(10, 16) for m in (1, 16, 31, 46)],
 }
 
 
@@ -74,11 +83,13 @@ def main() -> None:
     p = argparse.ArgumentParser()
     p.add_argument("--dry-run", action="store_true")
     p.add_argument("--uninstall", action="store_true")
+    p.add_argument("jobs", nargs="*", choices=[[], *SCHEDULE], help="only these jobs (default: all)")
     a = p.parse_args()
+    schedule = {job: times for job, times in SCHEDULE.items() if not a.jobs or job in a.jobs}
     domain = f"gui/{os.getuid()}"
 
     if a.uninstall:
-        for job in SCHEDULE:
+        for job in schedule:
             path = AGENTS / f"{LABEL.format(job)}.plist"
             subprocess.run(["launchctl", "bootout", domain, str(path)], capture_output=True)
             path.unlink(missing_ok=True)
@@ -96,7 +107,7 @@ def main() -> None:
                                        "/usr/sbin", "/sbin"]))
     LOGS.mkdir(parents=True, exist_ok=True)
     print(f"time zone {tz.key}; jobs scheduled in New York time")
-    for job, times in SCHEDULE.items():
+    for job, times in schedule.items():
         doc = plist(job, calendar(times, tz, date.today()), path_env)
         path = AGENTS / f"{doc['Label']}.plist"
         when = ", ".join(f"{e['Hour']:02d}:{e['Minute']:02d}" for e in doc["StartCalendarInterval"][: len(times)])

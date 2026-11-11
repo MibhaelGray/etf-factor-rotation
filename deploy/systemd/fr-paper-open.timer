@@ -2,7 +2,7 @@
 Description=factor-rotation: paper open
 
 [Timer]
-OnCalendar=Mon..Fri *-*-* 09:22:00 America/New_York
+OnCalendar=Mon..Fri *-*-* 09:15:00 America/New_York
 Persistent=false
 Unit=fr@paper-open.service
 

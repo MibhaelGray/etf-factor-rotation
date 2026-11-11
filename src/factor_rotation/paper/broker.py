@@ -3,11 +3,12 @@
 Before any order goes out, every one of these must hold, or the run stops:
 1. FR_PAPER_PORT is a paper gateway port (4002 for IB Gateway, 7497 for TWS), never a live one (4001, 7496)
    and never the collector's FR_IB_PORT.
-2. FR_PAPER_ACCOUNT is set and looks like a paper account (DU or DF and digits).
+2. FR_PAPER_ACCOUNT is set and looks like a paper account (DU, optionally one letter, or DF, then digits).
 3. After connecting, every account the gateway manages is a paper account and FR_PAPER_ACCOUNT is one of them.
 4. FR_PAPER_SEND=1. Without it every job is a dry run that prints the orders it would send.
-Orders can only be market-on-open or market-on-close, for whole shares of a US stock or ETF, and each carries
-FR_PAPER_ACCOUNT and an orderRef naming its trade and leg, so fills can be matched back.
+Orders can only be market-on-open entries, market-on-close exits, or a plain market order (the post-open check
+uses it to close the filled legs of a trade whose other legs never filled), for whole shares of a US stock or
+ETF, and each carries FR_PAPER_ACCOUNT and an orderRef naming its trade and leg, so fills can be matched back.
 """
 
 import asyncio
@@ -22,8 +23,14 @@ log = logging.getLogger(__name__)
 
 PAPER_PORTS = {4002, 7497}
 LIVE_PORTS = {4001, 7496}
-PAPER_ACCOUNT = re.compile(r"^D[UF]\d+$")
-KINDS = {"MOO", "MOC"}
+PAPER_ACCOUNT = re.compile(r"^(DU[A-Z]?|DF)\d+$")
+KINDS = {"MOO", "MOC", "MKT"}
+ORDER_TYPE = {"MOO": ("MKT", "OPG"), "MOC": ("MOC", "DAY"), "MKT": ("MKT", "DAY")}   # kind -> (orderType, tif)
+WAITING = {"", "PendingSubmit", "ApiPending"}       # an order the gateway hasn't answered for yet
+WORKING = {"PendingSubmit", "ApiPending", "PreSubmitted", "Submitted", "PendingCancel"}
+COMMISSION_WAITS = 40                               # of 0.05 s, so 2 s at most, as long as a report ever took
+CONNECT_TRIES, CONNECT_WAIT = 3, 10                 # the gateway may still be reconnecting when the Mac wakes
+REQUEST_TIMEOUT = 30  # seconds; while the gateway has lost IBKR's servers these requests never answer
 
 
 class GuardError(RuntimeError):
@@ -45,7 +52,7 @@ def check_settings(s: PaperSettings) -> None:
     if s.port == settings().ib_port:
         raise GuardError(f"FR_PAPER_PORT={s.port} is the collector's port; the paper gateway needs its own")
     if not PAPER_ACCOUNT.match(s.account):
-        raise GuardError("FR_PAPER_ACCOUNT must be the paper account number (DU followed by digits)")
+        raise GuardError("FR_PAPER_ACCOUNT must be the paper account number (it starts with DU)")
 
 
 def check_accounts(managed: list[str], account: str) -> None:
@@ -88,11 +95,21 @@ class IBPaper:
         from ib_async import IB, StartupFetch
 
         check_settings(self.s)
-        self.ib = IB()
-        self.ib.errorEvent += self._error
         self.errors: list[dict] = []
-        await self.ib.connectAsync(self.s.host, self.s.port, clientId=self.s.client_id, readonly=self.readonly,
-                                   timeout=20, account=self.s.account, fetchFields=StartupFetch.POSITIONS | StartupFetch.EXECUTIONS)
+        for attempt in range(1, CONNECT_TRIES + 1):
+            self.ib = IB()
+            self.ib.errorEvent += self._error
+            try:
+                await self.ib.connectAsync(self.s.host, self.s.port, clientId=self.s.client_id, readonly=self.readonly,
+                                           timeout=20, account=self.s.account,
+                                           fetchFields=StartupFetch.POSITIONS | StartupFetch.EXECUTIONS)
+                break
+            except Exception as e:  # refused, timed out, or the client id is still held by the last connection
+                self.ib.disconnect()
+                if attempt == CONNECT_TRIES:
+                    raise
+                log.warning("paper_connect_retry attempt=%d error=%r", attempt, e)
+                await asyncio.sleep(CONNECT_WAIT)
         try:
             check_accounts(self.ib.managedAccounts(), self.s.account)
         except GuardError:
@@ -113,7 +130,8 @@ class IBPaper:
         log.warning("paper_ib_error req_id=%s code=%s symbol=%s %s", req_id, code, sym, message)
 
     async def place(self, orders: list[dict]) -> list[dict]:
-        """Send each order; return its status a few seconds later. Never called on a dry run."""
+        """Send each order; return its status once the gateway has answered (up to 12 seconds). Never called on
+        a dry run."""
         from ib_async import Order, Stock
 
         if self.readonly or not self.s.send:
@@ -127,11 +145,14 @@ class IBPaper:
             if not q or not getattr(q[0], "conId", 0) or q[0].secType != "STK":
                 out.append({**o, "status": "not sent", "note": "no US stock or ETF by that symbol"})
                 continue
-            order = Order(action=o["action"], totalQuantity=o["shares"], orderType="MKT" if o["kind"] == "MOO" else "MOC",
-                          tif="OPG" if o["kind"] == "MOO" else "DAY", account=self.s.account, orderRef=ref(o["trade_id"], o["symbol"]),
-                          outsideRth=False, transmit=True)
+            order_type, tif = ORDER_TYPE[o["kind"]]
+            order = Order(action=o["action"], totalQuantity=o["shares"], orderType=order_type, tif=tif,
+                          account=self.s.account, orderRef=ref(o["trade_id"], o["symbol"]), outsideRth=False, transmit=True)
             placed.append((o, self.ib.placeOrder(q[0], order)))
-        await asyncio.sleep(4)
+        for second in range(12):  # rejections arrive a moment after the acknowledgement, so wait at least 4
+            await asyncio.sleep(1)
+            if second >= 3 and all(t.orderStatus.status not in WAITING for _, t in placed):
+                break
         for o, t in placed:
             msgs = [e.message for e in t.log if e.errorCode]
             out.append({**o, "order_id": t.order.orderId, "status": t.orderStatus.status, "note": "; ".join(msgs)})
@@ -139,8 +160,11 @@ class IBPaper:
 
     async def fills(self) -> list[dict]:
         """Today's executions on the paper account with their commissions."""
-        await self.ib.reqExecutionsAsync()
-        await asyncio.sleep(2)  # commission reports arrive just after the executions
+        await _answer(self.ib.reqExecutionsAsync(), "executions")
+        for _ in range(COMMISSION_WAITS):  # commission reports arrive just after the executions, usually at once
+            if all(f.commissionReport.execId for f in self.ib.fills()):
+                break
+            await asyncio.sleep(0.05)
         out = []
         for f in self.ib.fills():
             e = f.execution
@@ -151,13 +175,36 @@ class IBPaper:
                         "time": f.time.isoformat() if f.time else None, "exec_id": e.execId})
         return out
 
+    async def orders(self) -> list[dict]:
+        """Today's orders on the paper account with their latest status, finished and still working. The
+        gateway keeps no reason for a cancelled order, only that it was cancelled."""
+        done = await _answer(self.ib.reqCompletedOrdersAsync(False), "completed orders")
+        live = await _answer(self.ib.reqAllOpenOrdersAsync(), "open orders")
+        out = {}
+        for t in [*done, *live]:  # a working order's status wins over a finished one with the same ref and side
+            key = unref(t.order.orderRef)
+            if not key or (t.order.account and t.order.account != self.s.account):
+                continue
+            out[(*key, t.order.action)] = {"trade_id": key[0], "symbol": key[1], "action": t.order.action,
+                                           "shares": float(t.order.totalQuantity), "status": t.orderStatus.status}
+        return list(out.values())
+
     async def positions(self) -> dict[str, float]:
         return {p.contract.symbol.replace(" ", "."): float(p.position) for p in self.ib.positions(self.s.account) if p.position}
 
     async def net_liquidation(self) -> float | None:
-        rows = await self.ib.accountSummaryAsync(self.s.account)
+        rows = await _answer(self.ib.accountSummaryAsync(self.s.account), "account summary")
         v = next((r.value for r in rows if r.tag == "NetLiquidation" and r.currency == "USD"), None)
         return float(v) if v is not None else None
+
+
+
+async def _answer(request, what: str):
+    """Awaits a gateway request, or raises once REQUEST_TIMEOUT passes with no answer."""
+    try:
+        return await asyncio.wait_for(request, REQUEST_TIMEOUT)
+    except asyncio.TimeoutError:
+        raise TimeoutError(f"the gateway didn't answer the {what} request in {REQUEST_TIMEOUT} s") from None
 
 
 class DryRun:
@@ -179,6 +226,9 @@ class DryRun:
         return [{**o, "order_id": None, "status": "dry run", "note": ""} for o in orders]
 
     async def fills(self) -> list[dict]:
+        return []
+
+    async def orders(self) -> list[dict]:
         return []
 
     async def positions(self) -> dict[str, float]:

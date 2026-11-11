@@ -1,0 +1,10 @@
+[Unit]
+Description=factor-rotation: paper check
+
+[Timer]
+OnCalendar=Mon..Fri *-*-* 09:40:00 America/New_York
+Persistent=false
+Unit=fr@paper-check.service
+
+[Install]
+WantedBy=timers.target

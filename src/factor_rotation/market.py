@@ -2,7 +2,7 @@
 
 One JSON array; each row has a `section` saying what it is:
   meta        one row: as_of, when the brief was built, the options snapshot
-  factor      one row per factor pair: returns, z-scores, RSI, and whether tonight's ideas use it
+  factor      one row per factor pair: returns, z-scores and RSI
   regime      the last 60 sessions: breadth, sector correlation, SPY realized vol, VIX, VIX3M, 10y yield
   gamma       dealer gamma by strike for SPY and QQQ near spot, from the latest option snapshot
   gamma_sum   one row per underlying: spot, total gamma, flip, walls, next-expiry share
@@ -20,6 +20,8 @@ One JSON array; each row has a `section` saying what it is:
 """
 
 import json
+import logging
+from concurrent.futures import Future
 from datetime import date, datetime
 
 import numpy as np
@@ -31,6 +33,7 @@ from .bars import bars_path, load
 from .config import NY
 from .universe import INDEXES, SECTORS, idea_universe
 
+WORKER_WAIT = 30  # seconds before a stuck worker's calculation is redone in the server
 GAMMA_UNDERLYINGS = ["SPY", "QQQ"]
 GAMMA_BAND = 0.06
 REGIME_SESSIONS = 60
@@ -53,27 +56,12 @@ def _brief(as_of: date) -> dict:
     return json.loads(path.read_text())
 
 
-def _idea_legs(as_of: date) -> list[tuple[str, str]]:
-    """(long, short) for each idea recorded on as_of, for the next session."""
-    path = journal.JOURNAL / "ideas" / f"{journal.next_trading_day(as_of)}.json"
-    if not path.exists():
-        return []
-    return [(i.get("long") or "", i.get("short") or "") for i in json.loads(path.read_text())["ideas"]]
-
-
-def _factors(brief: dict, legs: list[tuple[str, str]]) -> list[dict]:
+def _factors(brief: dict) -> list[dict]:
     rows = []
     for p in brief.get("factor_pairs", []):
-        used = ""
-        for long, short in legs:
-            if (long, short) == (p["long"], p["short"]):
-                used = "long"
-            elif (long, short) == (p["short"], p["long"]):
-                used = "short"
         rows.append({"section": "factor", "pair": p["pair"], "long": p["long"], "short": p["short"],
                      "ret_1d": _num(p["ret_1d"]), "ret_5d": _num(p["ret_5d"]), "ret_20d": _num(p["ret_20d"]),
-                     "z_50d": _num(p["z_50d"], 2), "z_200d": _num(p["z_200d"], 2), "rsi14": _num(p["rsi14"], 1),
-                     "in_idea": used})
+                     "z_50d": _num(p["z_50d"], 2), "z_200d": _num(p["z_200d"], 2), "rsi14": _num(p["rsi14"], 1)})
     return rows
 
 
@@ -253,14 +241,9 @@ def _earnings(as_of: date) -> list[dict]:
     sessions = [d.date() for d in journal._calendar().valid_days(as_of - pd.Timedelta(days=12), as_of + pd.Timedelta(days=25))]
     i = sessions.index(as_of)
     window_end, recent_start = sessions[min(i + 10, len(sessions) - 1)], sessions[max(i - 4, 0)]
-    next_session = sessions[i + 1]
-    path = journal.JOURNAL / "ideas" / f"{next_session}.json"
-    legs = set()
-    if path.exists():
-        for idea in json.loads(path.read_text())["ideas"]:
-            for side in ("long", "short"):
-                v = idea.get(side) or []
-                legs.update(v if isinstance(v, list) else [v])
+    from .paper import book
+
+    legs = {leg["symbol"] for t in book.trades() if t["state"] != "closed" for leg in t["legs"]} if book.ROOT.exists() else set()
     rows = []
     for symbol, reports in lib.get("names", {}).items():
         groups = member_of.get(symbol, [])
@@ -274,7 +257,7 @@ def _earnings(as_of: date) -> list[dict]:
             row = {"section": "earnings", "kind": "recent" if done else "upcoming", "symbol": symbol, "date": r["date"],
                    "when": r["session"], "baskets": ", ".join(b["name"] for b in groups), "hedge": hedge,
                    "eps_estimate": r.get("eps_estimate"), "eps_reported": r.get("eps_reported"),
-                   "surprise_pct": r.get("surprise_pct"), "idea_leg": symbol in legs,
+                   "surprise_pct": r.get("surprise_pct"), "held_leg": symbol in legs,
                    "sessions_away": sum(1 for s in sessions if as_of < s <= d), "tonight": d == as_of,
                    "pulled_at": lib.get("pulled_at")}
             rows.append(row | _reaction(symbol, hedge, d, r["session"]) if done else row)
@@ -294,25 +277,119 @@ def _latest_session() -> date:
     return journal._calendar().valid_days(today - pd.Timedelta(days=10), today)[-1].date()
 
 
-def build(as_of: date) -> list[dict]:
-    brief = _brief(as_of)
+def _saved_dates(folder: str) -> list[date]:
+    return sorted(date.fromisoformat(p.stem) for p in (journal.JOURNAL / folder).glob("*.json"))
+
+
+def _newest_bar() -> date | None:
+    spy = load(["SPY"])
+    return None if spy.empty else spy["date"].max().date()
+
+
+def _routine() -> list[dict]:
+    """The daily routine and whether each step ran; a failure here never costs the rest of the page."""
+    try:
+        from . import routine
+
+        return routine.rows()
+    except Exception as e:
+        logging.getLogger(__name__).warning("routine_rows_failed error=%r", e)
+        return []
+
+
+def _intraday() -> list[dict]:
+    """The intraday book's rehearsal; a failure here never costs the rest of the page."""
+    try:
+        from .intraday import live
+
+        return live.rows()
+    except Exception as e:
+        logging.getLogger(__name__).warning("intraday_rows_failed error=%r", e)
+        return []
+
+
+def _hormuz() -> list[dict]:
+    """Strait of Hormuz traffic and prices, a side panel: a failure here never costs the rest of the page."""
+    try:
+        from . import hormuz
+
+        return hormuz.rows()
+    except Exception as e:
+        logging.getLogger(__name__).warning("hormuz_rows_failed error=%r", e)
+        return []
+
+
+def _unsaved_brief(day: date) -> dict:
+    return journal.build_brief(day, write=False)
+
+
+def _live_screen() -> dict:
+    from . import screen
+
+    return screen.build()
+
+
+def _start(workers, fn, *args) -> Future | None:
+    """Starts `fn` in a worker process, the only way these two heavy calculations can overlap under Python."""
+    try:
+        return workers.submit(fn, *args) if workers else None
+    except Exception as e:
+        logging.getLogger(__name__).warning("worker_start_failed error=%r", e)
+        return None
+
+
+def _finish(job: Future | None, fn, *args):
+    """The worker's result, or the same calculation done here if there is no worker or it failed."""
+    if job is not None:
+        try:
+            return job.result(timeout=WORKER_WAIT)
+        except Exception as e:
+            logging.getLogger(__name__).warning("worker_failed error=%r", e)
+    return fn(*args)
+
+
+def _screen_is_stale(newest: date | None) -> bool:
+    saved = _saved_dates("screens")
+    return newest is not None and (not saved or newest > saved[-1])
+
+
+def build(as_of: date | None = None, workers=None) -> list[dict]:
+    """The dashboard's rows. With no date they come from the latest stored bars: when those are newer than the last
+    saved brief or screen, an unsaved version is built from them and nothing is written. A date reads that night's
+    saved brief. `workers` is a process pool that takes the unsaved brief and screen, if the caller has one."""
+    from .paper import book
+
+    newest, briefs = _newest_bar(), _saved_dates("briefs")
+    live = as_of is None and newest is not None and (not briefs or newest > briefs[-1])
+    as_of = newest if live else (as_of or briefs[-1])
+    brief_job = _start(workers, _unsaved_brief, as_of) if live else None
+    screen_job = _start(workers, _live_screen) if _screen_is_stale(newest) else None
+    rows_first = [*_regime(as_of), *_baskets(), *_earnings(_latest_session()), *_paper()]
+    brief = _finish(brief_job, _unsaved_brief, as_of) if live else _brief(as_of)
     snapshot = latest_snapshot(as_of.isoformat())
     meta = {"section": "meta", "as_of": brief["as_of"], "built_at": brief["built_at"],
             "bars_through": brief.get("bars_through"), "options_snapshot": snapshot,
-            "next_session": journal.next_trading_day(as_of).isoformat()}
+            "next_session": journal.next_trading_day(as_of).isoformat(), **book.marks_info()}
     pairs = _live_pairs(brief, as_of)
     meta["factor_live"] = pairs is not brief
-    return [meta, *_factors(pairs, _idea_legs(as_of)), *_regime(as_of), *_gamma(as_of, brief),
-            *_flows(brief), *_baskets(), *_earnings(_latest_session()), *_screen(), *_paper()]
+    return [meta, *_factors(pairs), *_gamma(as_of, brief), *_flows(brief), *_screen(newest, screen_job), *rows_first, *_hormuz(), *_routine(), *_intraday()]
 
 
-def _screen() -> list[dict]:
-    """The latest screen's shortlist (`fr screen`), one row per candidate."""
+def _screen(newest: date | None = None, job: Future | None = None) -> list[dict]:
+    """The latest screen's shortlist, one row per candidate. When stored bars are newer than the last saved screen
+    it is rebuilt from them for display and not saved; the research passes read only the saved one."""
     paths = sorted((journal.JOURNAL / "screens").glob("*.json"))
-    if not paths:
-        return []
-    s = json.loads(paths[-1].read_text())
-    return [{"section": "screen", "rank": i, "as_of": s["as_of"], "built_at": s["built_at"], "name": c["name"],
+    s, live = None, False
+    if _screen_is_stale(newest):
+        try:
+            s, live = _finish(job, _live_screen), True
+        except Exception as e:
+            logging.getLogger(__name__).warning("live_screen_failed error=%r", e)
+    if s is None:
+        if not paths:
+            return []
+        s = json.loads(paths[-1].read_text())
+    return [{"section": "screen", "rank": i, "as_of": s["as_of"], "built_at": s["built_at"], "live": live, "name": c["name"],
              "kind": c["kind"], "setup": c["setup"], "direction": c["direction"], "score": c["score"], "why": c["why"],
              "chart": c["chart"], "hedge": c.get("hedge"), "basket_id": c.get("basket_id")}
             for i, c in enumerate(s["candidates"], 1)]
@@ -324,11 +401,25 @@ def _paper() -> list[dict]:
 
     if not book.ROOT.exists():
         return []
+    from .paper import learn
+
     rows = [{"section": "paper", **r} for r in book.rows()]
+    try:  # the verdicts need bars for every proposal's legs; the trades are still worth showing without them
+        rows += [{"section": "paper_proposal", **r} for r in learn.outcomes()]
+    except Exception as e:
+        logging.getLogger(__name__).warning("paper_proposals_failed error=%r", e)
+    try:
+        rows += [{"section": "paper_pnl", **r} for r in book.pnl_by_session()]
+    except Exception as e:
+        logging.getLogger(__name__).warning("paper_pnl_failed error=%r", e)
+    if not any(r["section"] == "paper" for r in rows):
+        return rows
     fills = sorted((book.ROOT / "fills").glob("*.json"))
-    if fills:
-        last = json.loads(fills[-1].read_text())
-        rows.append({"section": "paper_account", "session": last["session"], "pulled_at": last["pulled_at"],
-                     "net_liquidation": last.get("net_liquidation"), "positions": len(last.get("positions") or {}),
-                     "halted": book.HALT.read_text().strip() if book.HALT.exists() else None})
+    last = json.loads(fills[-1].read_text()) if fills else {}
+    today = datetime.now(NY).date()
+    rows.append({"section": "paper_account", "session": last.get("session"), "pulled_at": last.get("pulled_at"),
+                 "net_liquidation": last.get("net_liquidation"), "positions": len(last.get("positions") or {}),
+                 "mismatches": book.reconcile(last["positions"]) if last.get("positions") is not None else [],
+                 "halted": book.HALT.read_text().strip() if book.HALT.exists() else None, "alerts": book.alerts(),
+                 "sessions_ahead": [d.isoformat() for d in journal.sessions_from(today, 6)], **book.marks_info()})
     return rows

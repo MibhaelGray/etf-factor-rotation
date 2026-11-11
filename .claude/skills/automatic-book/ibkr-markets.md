@@ -25,6 +25,8 @@ Call `search_futures` with the underlying id, sort by `contract_month`, and take
 | Russell 2000 e-mini | RTY | 24771018 | CME | RTYZ6 780341989 |
 | WTI crude | CL | 17340715 | NYMEX | CLZ6 296574787 |
 | Brent crude | BZ | 45631501 | NYMEX | BZF7 339981246 |
+| NY Harbor diesel (ULSD) | HO | 36552987 | NYMEX | HOZ6 600696468 on 2026-11-09. Priced in $ a gallon: diesel crack = HO × 42 − WTI |
+| RBOB gasoline | RB | 36586917 | NYMEX | resolve. Gasoline crack = RB × 42 − WTI |
 | Gold | GC | 17340718 | COMEX | resolve |
 | US dollar index | DX | 49315275 | NYBOT | DXZ6 839021595 |
 | 2-year note (price) | ZT | 11160388 | CBOT | ZTZ6 869928219 |

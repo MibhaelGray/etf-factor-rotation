@@ -27,11 +27,12 @@ def load() -> dict:
 
 
 def symbols() -> list[str]:
-    """Every basket member, the largest stocks and any leg of an unscored idea that is a stock."""
+    """Every basket member, the largest stocks and any stock the paper book holds or has judged this month."""
     from .market import basket_library
+    from .paper import book
     from .universe import ETFS
     members = [m["symbol"] for b in basket_library()["baskets"] for m in b["members"]]
-    return sorted({*members, *CONSTITUENTS, *journal.pending_legs()} - set(ETFS))
+    return sorted({*members, *CONSTITUENTS, *(book.symbols_held() if book.ROOT.exists() else set())} - set(ETFS))
 
 
 def session(ts: pd.Timestamp) -> str:

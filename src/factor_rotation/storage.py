@@ -53,6 +53,13 @@ def modified(path: str) -> datetime | None:
     return info.mtime if info.type != fs.FileType.NotFound else None
 
 
+def stamp(path: str) -> int | None:
+    """The file's modified time in nanoseconds, None if it doesn't exist. Changes whenever the file is rewritten."""
+    filesystem, target = _resolve(path)
+    info = filesystem.get_file_info(target)
+    return info.mtime_ns if info.type != fs.FileType.NotFound else None
+
+
 def list_files(prefix: str) -> list[str]:
     filesystem, target = _resolve(prefix)
     _, root = _resolve("")

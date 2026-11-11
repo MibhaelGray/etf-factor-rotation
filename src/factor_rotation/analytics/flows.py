@@ -11,7 +11,7 @@ from datetime import date, timedelta
 
 import numpy as np
 import pandas as pd
-import pandas_market_calendars as mcal
+from ..calendars import NYSE
 
 from .. import storage
 from ..universe import LEVERAGED
@@ -38,7 +38,7 @@ def _num(x, digits: int = 5):
 # ---- calendar ---------------------------------------------------------------------------------------------
 
 def _sessions(start: date, end: date) -> list[date]:
-    return [d.date() for d in mcal.get_calendar("XNYS").valid_days(start, end)]
+    return [d.date() for d in NYSE.valid_days(start, end)]
 
 
 def _third_friday(year: int, month: int) -> date:
