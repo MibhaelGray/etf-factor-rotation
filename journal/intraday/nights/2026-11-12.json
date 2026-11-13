@@ -1,0 +1,1393 @@
+{
+  "night": "2026-11-12",
+  "ticks": [
+    {
+      "at": "2026-11-11T21:29:10-05:00",
+      "session": "overnight",
+      "prices": "IBKR",
+      "quoted": 249,
+      "signals": 3,
+      "judged": 3
+    },
+    {
+      "at": "2026-11-11T22:01:05-05:00",
+      "session": "overnight",
+      "prices": "IBKR",
+      "quoted": 249,
+      "signals": 8,
+      "judged": 4
+    },
+    {
+      "at": "2026-11-11T22:16:05-05:00",
+      "session": "overnight",
+      "prices": "IBKR",
+      "quoted": 249,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-11T22:31:05-05:00",
+      "session": "overnight",
+      "prices": "IBKR",
+      "quoted": 249,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-11T22:46:05-05:00",
+      "session": "overnight",
+      "prices": "IBKR",
+      "quoted": 249,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-11T23:01:06-05:00",
+      "session": "overnight",
+      "prices": "IBKR",
+      "quoted": 249,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-11T23:16:06-05:00",
+      "session": "overnight",
+      "prices": "IBKR",
+      "quoted": 249,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-11T23:31:06-05:00",
+      "session": "overnight",
+      "prices": "IBKR",
+      "quoted": 249,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-11T23:46:06-05:00",
+      "session": "overnight",
+      "prices": "IBKR",
+      "quoted": 249,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T00:01:05-05:00",
+      "session": "overnight",
+      "prices": "IBKR",
+      "quoted": 249,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T00:16:05-05:00",
+      "session": "overnight",
+      "prices": "IBKR",
+      "quoted": 249,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T00:31:02-05:00",
+      "session": "overnight",
+      "prices": "IBKR",
+      "quoted": 249,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T00:46:05-05:00",
+      "session": "overnight",
+      "prices": "IBKR",
+      "quoted": 249,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T01:01:05-05:00",
+      "session": "overnight",
+      "prices": "IBKR",
+      "quoted": 249,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T01:16:06-05:00",
+      "session": "overnight",
+      "prices": "IBKR",
+      "quoted": 249,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T01:31:06-05:00",
+      "session": "overnight",
+      "prices": "IBKR",
+      "quoted": 249,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T01:46:07-05:00",
+      "session": "overnight",
+      "prices": "IBKR",
+      "quoted": 249,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T02:01:06-05:00",
+      "session": "overnight",
+      "prices": "IBKR",
+      "quoted": 249,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T02:16:06-05:00",
+      "session": "overnight",
+      "prices": "IBKR",
+      "quoted": 249,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T02:31:06-05:00",
+      "session": "overnight",
+      "prices": "IBKR",
+      "quoted": 249,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T02:46:06-05:00",
+      "session": "overnight",
+      "prices": "IBKR",
+      "quoted": 249,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T03:01:06-05:00",
+      "session": "overnight",
+      "prices": "IBKR",
+      "quoted": 249,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T03:16:06-05:00",
+      "session": "overnight",
+      "prices": "IBKR",
+      "quoted": 249,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T03:31:06-05:00",
+      "session": "overnight",
+      "prices": "IBKR",
+      "quoted": 249,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T03:46:06-05:00",
+      "session": "overnight",
+      "prices": "IBKR",
+      "quoted": 249,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T04:16:06-05:00",
+      "session": "pre-market",
+      "prices": "Yahoo",
+      "quoted": 180,
+      "signals": 2,
+      "judged": 2
+    },
+    {
+      "at": "2026-11-12T04:31:06-05:00",
+      "session": "pre-market",
+      "prices": "Yahoo",
+      "quoted": 190,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T04:46:06-05:00",
+      "session": "pre-market",
+      "prices": "Yahoo",
+      "quoted": 192,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T05:01:06-05:00",
+      "session": "pre-market",
+      "prices": "Yahoo",
+      "quoted": 194,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T05:16:06-05:00",
+      "session": "pre-market",
+      "prices": "Yahoo",
+      "quoted": 200,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T05:31:06-05:00",
+      "session": "pre-market",
+      "prices": "Yahoo",
+      "quoted": 204,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T05:46:06-05:00",
+      "session": "pre-market",
+      "prices": "Yahoo",
+      "quoted": 206,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T06:01:05-05:00",
+      "session": "pre-market",
+      "prices": "Yahoo",
+      "quoted": 206,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T06:16:06-05:00",
+      "session": "pre-market",
+      "prices": "Yahoo",
+      "quoted": 207,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T06:31:06-05:00",
+      "session": "pre-market",
+      "prices": "Yahoo",
+      "quoted": 208,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T06:46:05-05:00",
+      "session": "pre-market",
+      "prices": "Yahoo",
+      "quoted": 210,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T07:01:06-05:00",
+      "session": "pre-market",
+      "prices": "Yahoo",
+      "quoted": 214,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T07:16:06-05:00",
+      "session": "pre-market",
+      "prices": "Yahoo",
+      "quoted": 218,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T07:31:06-05:00",
+      "session": "pre-market",
+      "prices": "Yahoo",
+      "quoted": 220,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T07:46:06-05:00",
+      "session": "pre-market",
+      "prices": "Yahoo",
+      "quoted": 221,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T08:01:06-05:00",
+      "session": "pre-market",
+      "prices": "Yahoo",
+      "quoted": 222,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T08:16:06-05:00",
+      "session": "pre-market",
+      "prices": "Yahoo",
+      "quoted": 223,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T08:31:06-05:00",
+      "session": "pre-market",
+      "prices": "Yahoo",
+      "quoted": 226,
+      "signals": 1,
+      "judged": 1
+    },
+    {
+      "at": "2026-11-12T08:46:06-05:00",
+      "session": "pre-market",
+      "prices": "Yahoo",
+      "quoted": 235,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T09:05:11-05:00",
+      "session": "pre-market",
+      "prices": "Yahoo",
+      "quoted": 240,
+      "signals": 0,
+      "judged": 0
+    },
+    {
+      "at": "2026-11-12T09:31:06-05:00",
+      "session": "open",
+      "prices": "Yahoo",
+      "quoted": 248,
+      "signals": 0,
+      "judged": 0
+    }
+  ],
+  "signals": [
+    {
+      "id": "X-1111-2129-GILD",
+      "symbol": "GILD",
+      "hedge": "XLV",
+      "beta": 1.222,
+      "setup": "news_mover",
+      "direction": "short",
+      "session": "overnight",
+      "signal_at": "9:29 PM ET (overnight)",
+      "numbers": {
+        "price": 164.33,
+        "hedge_price": 189.3,
+        "since_close_pct": -3.18,
+        "hedge_since_close_pct": 0.19,
+        "move_atr": -1.2,
+        "daily_atr_pct": 2.83,
+        "last_close": 169.73,
+        "session_dollars": null
+      },
+      "entry": {
+        "at": "9:29 PM",
+        "name": 164.32999999999998,
+        "hedge": 189.3
+      },
+      "plan": {
+        "stop_pct": -1.41,
+        "target_pct": 2.83,
+        "flat_by": "3:35 AM (overnight)",
+        "flat_at": "2026-11-12T03:35:00-05:00"
+      },
+      "headlines": [
+        "Nov 11, 10:39 AM ET \u00b7 Zacks \u00b7 ABBV Stock Rises More Than 4% in a Month: Time to Buy, Hold or Sell?",
+        "Nov 11, 10:10 AM ET \u00b7 Simply Wall St. \u00b7 Gilead (GILD) Stock Still Looks Undervalued On Its 205% Run",
+        "Nov 11, 9:12 AM ET \u00b7 Simply Wall St. \u00b7 Gilead Sciences (GILD) Posts PURPOSE 5 Win As HIV Shot Beats Daily Pills",
+        "Nov 11, 8:11 AM ET \u00b7 Simply Wall St. \u00b7 Gilead Sciences (GILD) After Trial Wins And Raised Guidance Looks Fully Valued",
+        "Nov 11, 6:04 AM ET \u00b7 GuruFocus.com \u00b7 iShares Biotechnology ETF (IBB) Adds Gilead and Amgen on Nov. 9",
+        "Nov 10, 3:18 PM ET \u00b7 Trefis \u00b7 Can Gilead\u2019s Cash Keep Growing?",
+        "Nov 10, 1:15 PM ET \u00b7 MarketBeat \u00b7 Gilead Sciences Targets 200 Treatment Centers for Potential Anito-Cel Launch",
+        "Nov 10, 12:57 PM ET \u00b7 TIKR \u00b7 Merck vs. Gilead Sciences: Which Dividend Stock Pays You More in 10 Years?"
+      ],
+      "verdict": {
+        "decision": "pass",
+        "conviction": 2,
+        "catalyst": "none found",
+        "why": "GILD leads XLV by about 3.4% after beta, roughly 1.2 daily ATR, but no headline explains the overnight drop. The feed's latest item is from 10:39 AM on Nov 11, and the rest are valuation recaps after a 205% run, so the move looks stretched with nothing behind it. The 1.41% stop is about half a daily ATR and sits inside overnight noise and wide spreads, and there is no volume figure to show backing",
+        "against": "The drop may reflect news the feed missed, and a 1.2 ATR lead with a stretched name could keep running into the 3:35 AM flat time.",
+        "model": "claude-haiku-5-5",
+        "prompt": 3
+      },
+      "exit": {
+        "at": "11:31 PM",
+        "reason": "stop",
+        "result_bp": -373.6,
+        "after_costs_bp": -381.6
+      }
+    },
+    {
+      "id": "X-1111-2129-COF",
+      "symbol": "COF",
+      "hedge": "XLF",
+      "beta": 0.788,
+      "setup": "news_mover",
+      "direction": "short",
+      "session": "overnight",
+      "signal_at": "9:29 PM ET (overnight)",
+      "numbers": {
+        "price": 190.64,
+        "hedge_price": 58.76,
+        "since_close_pct": -3.28,
+        "hedge_since_close_pct": 0.22,
+        "move_atr": -1.07,
+        "daily_atr_pct": 3.24,
+        "last_close": 197.11,
+        "session_dollars": null
+      },
+      "entry": {
+        "at": "9:29 PM",
+        "name": 190.64,
+        "hedge": 58.76
+      },
+      "plan": {
+        "stop_pct": -1.62,
+        "target_pct": 3.24,
+        "flat_by": "3:35 AM (overnight)",
+        "flat_at": "2026-11-12T03:35:00-05:00"
+      },
+      "headlines": [
+        "Nov 11, 7:13 PM ET \u00b7 MarketBeat \u00b7 Capital One Financial Blocks AI Agents, Bets on Premium Cards and Discover",
+        "Nov 11, 4:13 PM ET \u00b7 Simply Wall St. \u00b7 Capital One Financial (COF), Why Is This Latest Update Drawing Attention?",
+        "Nov 11, 2:15 PM ET \u00b7 Moby \u00b7 Goldman, Citi, and 19 Top Financial Firms Are Launching a Stablecoin",
+        "Nov 11, 8:49 AM ET \u00b7 24/7 Wall St. \u00b7 Retirees Updating Their Credit Card Income Shouldn\u2019t Forget Social Security, Retirement Income and Assets"
+      ],
+      "verdict": {
+        "decision": "pass",
+        "conviction": 2,
+        "catalyst": "none found; the closest is a Nov 11 7:13 PM MarketBeat piece on COF blocking AI agents, which is not an obvious negative and predates the drop by about two hours",
+        "why": "The lead is real (about -3.4% beta-adjusted, roughly 1.07 daily ATR) but unexplained, and there is no volume data to confirm it. The -1.62% stop is about half a daily ATR, which overnight thin trading with wide spreads can hit on noise alone.",
+        "against": "The lead over XLF is a full ATR with no visible catalyst, so this could be a real news event the feed missed that continues into the open, and the pass gives up that move.",
+        "model": "claude-haiku-5-5",
+        "prompt": 3
+      },
+      "exit": {
+        "at": "10:31 PM",
+        "reason": "stop",
+        "result_bp": -341.9,
+        "after_costs_bp": -349.9
+      }
+    },
+    {
+      "id": "X-1111-2129-RVTY",
+      "symbol": "RVTY",
+      "hedge": "IWM",
+      "beta": 1.048,
+      "setup": "news_mover",
+      "direction": "long",
+      "session": "overnight",
+      "signal_at": "9:29 PM ET (overnight)",
+      "numbers": {
+        "price": 166.2,
+        "hedge_price": 283.16,
+        "since_close_pct": 5.03,
+        "hedge_since_close_pct": 0.02,
+        "move_atr": 1.06,
+        "daily_atr_pct": 4.7,
+        "last_close": 158.25,
+        "session_dollars": null
+      },
+      "entry": {
+        "at": "9:29 PM",
+        "name": 166.20499999999998,
+        "hedge": 283.16
+      },
+      "plan": {
+        "stop_pct": -2.0,
+        "target_pct": 4.0,
+        "flat_by": "3:35 AM (overnight)",
+        "flat_at": "2026-11-12T03:35:00-05:00"
+      },
+      "headlines": [
+        "Nov 11, 10:40 AM ET \u00b7 Zacks \u00b7 ELV or RVTY: Which Is the Better Value Stock Right Now?"
+      ],
+      "verdict": {
+        "decision": "pass",
+        "conviction": 2,
+        "catalyst": "none found (the only headline, a Zacks 'ELV or RVTY: Which Is the Better Value Stock' piece from Nov 11, is a generic valuation comparison, not a move driver)",
+        "why": "The lead over IWM is real (+5.0% vs +0.02%), but there is no fresh company news and no relative volume data, so the overnight move has no visible backing. The -2.0% stop is under half of the 4.7% daily ATR and sits in thin overnight trading with wide spreads, where ordinary noise would likely hit it before the move can play out.",
+        "against": "The move is only about 1 ATR and is unexplained with no catalyst, so overnight thin liquidity can fade it back toward the close before the open.",
+        "model": "claude-haiku-5-5",
+        "prompt": 3
+      },
+      "exit": {
+        "at": "3:46 AM",
+        "reason": "flat",
+        "result_bp": 18.7,
+        "after_costs_bp": 10.7
+      }
+    },
+    {
+      "id": "X-1111-2201-TECH",
+      "symbol": "TECH",
+      "hedge": "XLV",
+      "beta": 0.054,
+      "setup": "news_mover",
+      "direction": "short",
+      "session": "overnight",
+      "signal_at": "10:01 PM ET (overnight)",
+      "numbers": {
+        "price": 72.35,
+        "hedge_price": 189.57,
+        "since_close_pct": -0.61,
+        "hedge_since_close_pct": 0.33,
+        "move_atr": -3.53,
+        "daily_atr_pct": 0.18,
+        "last_close": 72.8,
+        "session_dollars": 53877576
+      },
+      "entry": {
+        "at": "10:01 PM",
+        "name": 72.35499999999999,
+        "hedge": 189.57
+      },
+      "plan": {
+        "stop_pct": -0.4,
+        "target_pct": 0.8,
+        "flat_by": "3:35 AM (overnight)",
+        "flat_at": "2026-11-12T03:35:00-05:00"
+      },
+      "headlines": [],
+      "verdict": {
+        "decision": "pass",
+        "conviction": 2,
+        "catalyst": "none found",
+        "why": "TECH is about 0.94% below XLV since the close, roughly 5 daily ATRs of unexplained lead, with no headline and no relative-volume figure to confirm it. An overnight move that large with nothing behind it is the kind that reverses at the open, and the plan's 0.4% stop is not much wider than that open-reversal risk.",
+        "against": "The lead is large and the $53.9M session dollar volume could be heavy for an overnight print, so the continuation case could be stronger than I can verify from this data.",
+        "model": "claude-haiku-5-5",
+        "prompt": 3
+      },
+      "exit": {
+        "at": "3:46 AM",
+        "reason": "flat",
+        "result_bp": 33.2,
+        "after_costs_bp": 25.2
+      }
+    },
+    {
+      "id": "X-1111-2201-LIN",
+      "symbol": "LIN",
+      "hedge": "XLB",
+      "beta": 0.527,
+      "setup": "news_mover",
+      "direction": "short",
+      "session": "overnight",
+      "signal_at": "10:01 PM ET (overnight)",
+      "numbers": {
+        "price": 509.25,
+        "hedge_price": 53.16,
+        "since_close_pct": -3.29,
+        "hedge_since_close_pct": 0.26,
+        "move_atr": -1.95,
+        "daily_atr_pct": 1.76,
+        "last_close": 526.55,
+        "session_dollars": 195028096
+      },
+      "entry": {
+        "at": "10:01 PM",
+        "name": 509.245,
+        "hedge": 53.16
+      },
+      "plan": {
+        "stop_pct": -0.88,
+        "target_pct": 1.76,
+        "flat_by": "3:35 AM (overnight)",
+        "flat_at": "2026-11-12T03:35:00-05:00"
+      },
+      "headlines": [
+        "Nov 11, 7:20 PM ET \u00b7 Trefis \u00b7 Before You Buy Linde Stock, Settle This",
+        "Nov 11, 11:25 AM ET \u00b7 Insider Monkey \u00b7 What Linde\u2019s Customer Contracts Mean for This Jim Cramer Trust Holding\u2019s Dividend",
+        "Nov 11, 8:28 AM ET \u00b7 Trefis \u00b7 Why You Should Think About Bloom Energy Differently Now",
+        "Nov 10, 10:47 AM ET \u00b7 24/7 Wall St. \u00b7 I Bonds Pay 5.51%. Why Retirees Might Still Prefer Dividend Stocks"
+      ],
+      "verdict": {
+        "decision": "take",
+        "conviction": 2,
+        "catalyst": "none found; the headlines are generic valuation and dividend pieces, and none explains a -3.3% overnight drop with XLB flat",
+        "why": "LIN is about 2 daily ATRs behind XLB on $195M of overnight dollar volume, which is heavy for this session and argues the move is not just noise. With no news to explain it, the case rests on the volume and lead alone.",
+        "against": "The -0.88% stop is about half a daily ATR in a thin overnight market, so ordinary wiggle or a reversal before the open could hit it before any continuation.",
+        "model": "claude-haiku-5-5",
+        "prompt": 3
+      },
+      "paper": {
+        "state": "exiting",
+        "dry_run": false,
+        "legs": [
+          {
+            "symbol": "XLB",
+            "side": "long",
+            "shares": 188,
+            "ref_price": 53.16
+          },
+          {
+            "symbol": "LIN",
+            "side": "short",
+            "shares": 19,
+            "ref_price": 509.245
+          }
+        ],
+        "session": "overnight",
+        "warnings": [],
+        "orders": [
+          {
+            "trade_id": "X-1111-2201-LIN",
+            "symbol": "XLB",
+            "action": "BUY",
+            "shares": 188,
+            "kind": "LMT",
+            "limit": 53.43,
+            "venue": "overnight",
+            "order_id": 3,
+            "status": "Submitted",
+            "note": "Warning 2109, reqId 3: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.",
+            "at": "10:01 PM"
+          },
+          {
+            "trade_id": "X-1111-2201-LIN",
+            "symbol": "LIN",
+            "action": "SELL",
+            "shares": 19,
+            "kind": "LMT",
+            "limit": 506.7,
+            "venue": "overnight",
+            "order_id": 5,
+            "status": "Submitted",
+            "note": "Warning 2109, reqId 5: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.",
+            "at": "10:01 PM"
+          },
+          {
+            "trade_id": "X-1111-2201-LIN",
+            "symbol": "LIN",
+            "action": "BUY",
+            "shares": 3,
+            "kind": "LMT",
+            "limit": 511.79,
+            "venue": "overnight",
+            "order_id": 9,
+            "status": "Submitted",
+            "note": "Warning 2109, reqId 9: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.",
+            "at": "10:16 PM"
+          },
+          {
+            "trade_id": "X-1111-2201-LIN",
+            "symbol": "LIN",
+            "action": "BUY",
+            "shares": 3,
+            "kind": "LMT",
+            "limit": 511.92,
+            "venue": "overnight",
+            "order_id": 13,
+            "status": "Submitted",
+            "note": "Warning 2109, reqId 13: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.",
+            "at": "10:31 PM"
+          },
+          {
+            "trade_id": "X-1111-2201-LIN",
+            "symbol": "LIN",
+            "action": "BUY",
+            "shares": 3,
+            "kind": "LMT",
+            "limit": 512.46,
+            "venue": "overnight",
+            "order_id": 17,
+            "status": "Submitted",
+            "note": "Warning 2109, reqId 17: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.",
+            "at": "10:46 PM"
+          },
+          {
+            "trade_id": "X-1111-2201-LIN",
+            "symbol": "LIN",
+            "action": "BUY",
+            "shares": 3,
+            "kind": "LMT",
+            "limit": 512.46,
+            "venue": "overnight",
+            "order_id": 21,
+            "status": "Submitted",
+            "note": "Warning 2109, reqId 21: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.",
+            "at": "11:01 PM"
+          },
+          {
+            "trade_id": "X-1111-2201-LIN",
+            "symbol": "LIN",
+            "action": "BUY",
+            "shares": 3,
+            "kind": "LMT",
+            "limit": 512.46,
+            "venue": "overnight",
+            "order_id": 25,
+            "status": "Submitted",
+            "note": "Warning 2109, reqId 25: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.",
+            "at": "11:16 PM"
+          },
+          {
+            "trade_id": "X-1111-2201-LIN",
+            "symbol": "LIN",
+            "action": "BUY",
+            "shares": 3,
+            "kind": "LMT",
+            "limit": 512.46,
+            "venue": "overnight",
+            "order_id": 29,
+            "status": "Submitted",
+            "note": "Warning 2109, reqId 29: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.",
+            "at": "11:31 PM"
+          },
+          {
+            "trade_id": "X-1111-2201-LIN",
+            "symbol": "LIN",
+            "action": "BUY",
+            "shares": 3,
+            "kind": "LMT",
+            "limit": 512.46,
+            "venue": "overnight",
+            "order_id": 33,
+            "status": "Submitted",
+            "note": "Warning 2109, reqId 33: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.",
+            "at": "11:46 PM"
+          },
+          {
+            "trade_id": "X-1111-2201-LIN",
+            "symbol": "LIN",
+            "action": "BUY",
+            "shares": 3,
+            "kind": "LMT",
+            "limit": 512.49,
+            "venue": "overnight",
+            "order_id": 91,
+            "status": "Submitted",
+            "note": "Warning 2109, reqId 91: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.",
+            "at": "12:01 AM"
+          },
+          {
+            "trade_id": "X-1111-2201-LIN",
+            "symbol": "LIN",
+            "action": "BUY",
+            "shares": 3,
+            "kind": "LMT",
+            "limit": 512.49,
+            "venue": "overnight",
+            "order_id": 95,
+            "status": "Submitted",
+            "note": "Warning 2109, reqId 95: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.",
+            "at": "12:16 AM"
+          },
+          {
+            "trade_id": "X-1111-2201-LIN",
+            "symbol": "LIN",
+            "action": "BUY",
+            "shares": 3,
+            "kind": "LMT",
+            "limit": 512.49,
+            "venue": "overnight",
+            "order_id": 99,
+            "status": "Submitted",
+            "note": "Warning 2109, reqId 99: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.",
+            "at": "12:31 AM"
+          },
+          {
+            "trade_id": "X-1111-2201-LIN",
+            "symbol": "LIN",
+            "action": "BUY",
+            "shares": 3,
+            "kind": "LMT",
+            "limit": 512.49,
+            "venue": "overnight",
+            "order_id": 103,
+            "status": "Submitted",
+            "note": "Warning 2109, reqId 103: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.",
+            "at": "12:46 AM"
+          },
+          {
+            "trade_id": "X-1111-2201-LIN",
+            "symbol": "LIN",
+            "action": "BUY",
+            "shares": 3,
+            "kind": "LMT",
+            "limit": 512.49,
+            "venue": "overnight",
+            "order_id": 107,
+            "status": "Submitted",
+            "note": "Warning 2109, reqId 107: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.",
+            "at": "1:01 AM"
+          },
+          {
+            "trade_id": "X-1111-2201-LIN",
+            "symbol": "LIN",
+            "action": "BUY",
+            "shares": 3,
+            "kind": "LMT",
+            "limit": 512.49,
+            "venue": "overnight",
+            "order_id": 111,
+            "status": "Submitted",
+            "note": "Warning 2109, reqId 111: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.",
+            "at": "1:16 AM"
+          },
+          {
+            "trade_id": "X-1111-2201-LIN",
+            "symbol": "LIN",
+            "action": "BUY",
+            "shares": 3,
+            "kind": "LMT",
+            "limit": 529.0,
+            "venue": "overnight",
+            "order_id": 115,
+            "status": "Submitted",
+            "note": "Warning 2109, reqId 115: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.",
+            "at": "1:31 AM"
+          },
+          {
+            "trade_id": "X-1111-2201-LIN",
+            "symbol": "LIN",
+            "action": "BUY",
+            "shares": 3,
+            "kind": "LMT",
+            "limit": 529.95,
+            "venue": "overnight",
+            "order_id": 119,
+            "status": "Submitted",
+            "note": "Warning 2109, reqId 119: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.",
+            "at": "1:46 AM"
+          },
+          {
+            "trade_id": "X-1111-2201-LIN",
+            "symbol": "LIN",
+            "action": "BUY",
+            "shares": 3,
+            "kind": "LMT",
+            "limit": 529.95,
+            "venue": "overnight",
+            "order_id": 123,
+            "status": "Submitted",
+            "note": "Warning 2109, reqId 123: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.",
+            "at": "2:01 AM"
+          },
+          {
+            "trade_id": "X-1111-2201-LIN",
+            "symbol": "LIN",
+            "action": "BUY",
+            "shares": 3,
+            "kind": "LMT",
+            "limit": 529.95,
+            "venue": "overnight",
+            "order_id": 127,
+            "status": "Submitted",
+            "note": "Warning 2109, reqId 127: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.",
+            "at": "2:16 AM"
+          },
+          {
+            "trade_id": "X-1111-2201-LIN",
+            "symbol": "LIN",
+            "action": "BUY",
+            "shares": 3,
+            "kind": "LMT",
+            "limit": 529.95,
+            "venue": "overnight",
+            "order_id": 131,
+            "status": "Submitted",
+            "note": "Warning 2109, reqId 131: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.",
+            "at": "2:31 AM"
+          }
+        ],
+        "fills": [
+          {
+            "order_ref": "X-1111-2201-LIN|LIN",
+            "symbol": "LIN",
+            "side": "SLD",
+            "shares": 3.0,
+            "price": 522.6,
+            "commission": 1.032306,
+            "time": "2026-11-12T03:02:15+00:00",
+            "exec_id": "0000e511.6af5092a.01.01",
+            "note": "restored 2026-11-12 from journal/paper/fills: the pull after midnight had replaced it"
+          },
+          {
+            "order_ref": "X-1111-2201-LIN|LIN",
+            "symbol": "LIN",
+            "side": "BOT",
+            "shares": 3.0,
+            "price": 529.95,
+            "commission": 1.000009,
+            "time": "2026-11-12T07:37:33+00:00",
+            "exec_id": "0000e511.6af51029.01.01"
+          }
+        ],
+        "exit_reason": "broken: one side never filled"
+      },
+      "exit": {
+        "at": "1:31 AM",
+        "reason": "stop",
+        "result_bp": -336.3,
+        "after_costs_bp": -344.3
+      }
+    },
+    {
+      "id": "X-1111-2201-GD",
+      "symbol": "GD",
+      "hedge": "XLI",
+      "beta": 0.534,
+      "setup": "news_mover",
+      "direction": "long",
+      "session": "overnight",
+      "signal_at": "10:01 PM ET (overnight)",
+      "numbers": {
+        "price": 379.88,
+        "hedge_price": 170.01,
+        "since_close_pct": 3.45,
+        "hedge_since_close_pct": -0.56,
+        "move_atr": 1.68,
+        "daily_atr_pct": 2.23,
+        "last_close": 367.22,
+        "session_dollars": 70073536
+      },
+      "entry": {
+        "at": "10:01 PM",
+        "name": 379.875,
+        "hedge": 170.01
+      },
+      "plan": {
+        "stop_pct": -1.11,
+        "target_pct": 2.23,
+        "flat_by": "3:35 AM (overnight)",
+        "flat_at": "2026-11-12T03:35:00-05:00"
+      },
+      "headlines": [
+        "Nov 11, 3:08 PM ET \u00b7 Zacks \u00b7 Top Analyst Reports for NVIDIA, Walmart & AbbVie",
+        "Nov 11, 11:06 AM ET \u00b7 Zacks \u00b7 RTX Outperforms Industry in the Past Year: Should You Buy?"
+      ],
+      "verdict": {
+        "decision": "pass",
+        "conviction": 2,
+        "catalyst": "none found",
+        "why": "GD is up 3.45% since the 4:00 PM close against a hedge down 0.56%, a real lead of about 4%, but the only headlines are generic Zacks analyst roundups with no company-specific news, and no relative volume figure is given to show participation. A 1.68 ATR move with no identified catalyst, outside regular hours, is more likely a thin-liquidity overnight print than a continuation setup.",
+        "against": "The 1.11% stop is about half of the 2.23% daily ATR, so ordinary overnight noise in a thin tape is likely to stop the position out before any move plays out.",
+        "model": "claude-haiku-5-5",
+        "prompt": 3
+      },
+      "exit": {
+        "at": "11:46 PM",
+        "reason": "stop",
+        "result_bp": -224.0,
+        "after_costs_bp": -232.0
+      }
+    },
+    {
+      "id": "X-1111-2201-TECK",
+      "symbol": "TECK",
+      "hedge": "IWM",
+      "beta": 1.79,
+      "setup": "news_mover",
+      "direction": "long",
+      "session": "overnight",
+      "signal_at": "10:01 PM ET (overnight)",
+      "numbers": {
+        "price": 67.27,
+        "hedge_price": 283.31,
+        "since_close_pct": 5.66,
+        "hedge_since_close_pct": 0.08,
+        "move_atr": 1.41,
+        "daily_atr_pct": 3.91,
+        "last_close": 63.67,
+        "session_dollars": 6922044
+      },
+      "entry": {
+        "at": "10:01 PM",
+        "name": 67.27499999999999,
+        "hedge": 283.31
+      },
+      "plan": {
+        "stop_pct": -1.96,
+        "target_pct": 3.91,
+        "flat_by": "3:35 AM (overnight)",
+        "flat_at": "2026-11-12T03:35:00-05:00"
+      },
+      "headlines": [
+        "Nov 11, 11:29 AM ET \u00b7 Zacks \u00b7 Can Southern Copper's Peru Projects Drive Long-Term Output Growth?"
+      ],
+      "verdict": {
+        "decision": "pass",
+        "conviction": 2,
+        "catalyst": "none found",
+        "why": "TECK leads IWM by about 5.5% (roughly 1.4 daily ATR beta-adjusted), but the only headline is a generic Zacks piece on Southern Copper from the day before, and no name-specific news explains the overnight move. The 1.96% stop is about half a daily ATR and sits inside the spread and noise of an overnight session, so a normal give-back would hit it.",
+        "against": "Without a catalyst, this is an overnight move that may be a thin, sector-driven pop that gives back a third of its gain at the open and stops out the position before the target.",
+        "model": "claude-haiku-5-5",
+        "prompt": 3
+      },
+      "exit": {
+        "at": "2:16 AM",
+        "reason": "stop",
+        "result_bp": -595.8,
+        "after_costs_bp": -603.8
+      }
+    },
+    {
+      "id": "X-1111-2201-DE",
+      "symbol": "DE",
+      "hedge": "SPY",
+      "beta": 0.158,
+      "setup": "news_mover",
+      "direction": "long",
+      "session": "overnight",
+      "signal_at": "10:01 PM ET (overnight)",
+      "numbers": {
+        "price": 716.41,
+        "hedge_price": 757.37,
+        "since_close_pct": 3.56,
+        "hedge_since_close_pct": -0.32,
+        "move_atr": 1.28,
+        "daily_atr_pct": 2.82,
+        "last_close": 691.75,
+        "session_dollars": 126670010
+      },
+      "entry": {
+        "at": "10:01 PM",
+        "name": 716.4100000000001,
+        "hedge": 757.37
+      },
+      "plan": {
+        "stop_pct": -1.41,
+        "target_pct": 2.82,
+        "flat_by": "3:35 AM (overnight)",
+        "flat_at": "2026-11-12T03:35:00-05:00"
+      },
+      "verdict": {
+        "decision": "not judged",
+        "why": "more than 4 signals at this tick; the biggest moves went first"
+      },
+      "exit": {
+        "at": "1:31 AM",
+        "reason": "stop",
+        "result_bp": -288.7,
+        "after_costs_bp": -296.7
+      }
+    },
+    {
+      "id": "X-1111-2201-MDLZ",
+      "symbol": "MDLZ",
+      "hedge": "XLP",
+      "beta": 1.027,
+      "setup": "news_mover",
+      "direction": "short",
+      "session": "overnight",
+      "signal_at": "10:01 PM ET (overnight)",
+      "numbers": {
+        "price": 64.8,
+        "hedge_price": 91.5,
+        "since_close_pct": -2.86,
+        "hedge_since_close_pct": 0.05,
+        "move_atr": -1.28,
+        "daily_atr_pct": 2.27,
+        "last_close": 66.7,
+        "session_dollars": 72306527
+      },
+      "entry": {
+        "at": "10:01 PM",
+        "name": 64.795,
+        "hedge": 91.5
+      },
+      "plan": {
+        "stop_pct": -1.13,
+        "target_pct": 2.27,
+        "flat_by": "3:35 AM (overnight)",
+        "flat_at": "2026-11-12T03:35:00-05:00"
+      },
+      "verdict": {
+        "decision": "not judged",
+        "why": "more than 4 signals at this tick; the biggest moves went first"
+      },
+      "exit": {
+        "at": "10:16 PM",
+        "reason": "stop",
+        "result_bp": -187.5,
+        "after_costs_bp": -195.5
+      }
+    },
+    {
+      "id": "X-1111-2201-ABT",
+      "symbol": "ABT",
+      "hedge": "XRT",
+      "beta": 0.642,
+      "setup": "news_mover",
+      "direction": "long",
+      "session": "overnight",
+      "signal_at": "10:01 PM ET (overnight)",
+      "numbers": {
+        "price": 112.87,
+        "hedge_price": 92.31,
+        "since_close_pct": 3.27,
+        "hedge_since_close_pct": -0.07,
+        "move_atr": 1.24,
+        "daily_atr_pct": 2.68,
+        "last_close": 109.29,
+        "session_dollars": 229028707
+      },
+      "entry": {
+        "at": "10:01 PM",
+        "name": 112.86500000000001,
+        "hedge": 92.305
+      },
+      "plan": {
+        "stop_pct": -1.34,
+        "target_pct": 2.68,
+        "flat_by": "3:35 AM (overnight)",
+        "flat_at": "2026-11-12T03:35:00-05:00"
+      },
+      "verdict": {
+        "decision": "not judged",
+        "why": "more than 4 signals at this tick; the biggest moves went first"
+      },
+      "exit": {
+        "at": "1:46 AM",
+        "reason": "stop",
+        "result_bp": -249.6,
+        "after_costs_bp": -257.6
+      }
+    },
+    {
+      "id": "X-1111-2201-RCL",
+      "symbol": "RCL",
+      "hedge": "XLY",
+      "beta": 1.234,
+      "setup": "news_mover",
+      "direction": "short",
+      "session": "overnight",
+      "signal_at": "10:01 PM ET (overnight)",
+      "numbers": {
+        "price": 321.72,
+        "hedge_price": 120.95,
+        "since_close_pct": -4.02,
+        "hedge_since_close_pct": -0.03,
+        "move_atr": -1.14,
+        "daily_atr_pct": 3.49,
+        "last_close": 335.18,
+        "session_dollars": 86820695
+      },
+      "entry": {
+        "at": "10:01 PM",
+        "name": 321.72,
+        "hedge": 120.955
+      },
+      "plan": {
+        "stop_pct": -1.75,
+        "target_pct": 3.49,
+        "flat_by": "3:35 AM (overnight)",
+        "flat_at": "2026-11-12T03:35:00-05:00"
+      },
+      "verdict": {
+        "decision": "not judged",
+        "why": "more than 4 signals at this tick; the biggest moves went first"
+      },
+      "exit": {
+        "at": "3:46 AM",
+        "reason": "flat",
+        "result_bp": -58.6,
+        "after_costs_bp": -66.6
+      }
+    },
+    {
+      "id": "X-1112-0416-AMD",
+      "symbol": "AMD",
+      "hedge": "SMH",
+      "beta": 1.566,
+      "setup": "news_mover",
+      "direction": "long",
+      "session": "pre-market",
+      "signal_at": "4:16 AM ET (pre-market)",
+      "numbers": {
+        "price": 573.97,
+        "hedge_price": 495.0,
+        "since_close_pct": 3.81,
+        "hedge_since_close_pct": -2.36,
+        "move_atr": 1.04,
+        "daily_atr_pct": 7.25,
+        "last_close": 552.9
+      },
+      "entry": {
+        "at": "4:16 AM",
+        "name": 573.97,
+        "hedge": 495.0
+      },
+      "plan": {
+        "stop_pct": -2.0,
+        "target_pct": 4.0,
+        "flat_by": "9:20 AM (pre-market)",
+        "flat_at": "2026-11-12T09:20:00-05:00"
+      },
+      "headlines": [
+        "Nov 12, 3:44 AM ET \u00b7 Reuters \u00b7 Nvidia board meets to decide CEO Huang's future as leadership crisis deepens",
+        "Nov 12, 3:04 AM ET \u00b7 Stocktwits \u00b7 INTC, BABA Shares Slide Over Links To Firm Tied To Suspected Chinese Spy",
+        "Nov 12, 1:46 AM ET \u00b7 The Wall Street Journal \u00b7 Nvidia\u2019s Leadership Crisis Weighs on Asian Markets",
+        "Nov 12, 1:14 AM ET \u00b7 Investing.com \u00b7 Nvidia faces governance risks; watch these 2 chip stocks for buy opportunities",
+        "Nov 12, 12:06 AM ET \u00b7 Stocktwits \u00b7 NVDA Fallout Pressures Tech Trade As Investors Turn To Cerebras, Applied Materials For Chip Demand Cues",
+        "Nov 11, 11:08 PM ET \u00b7 Investor's Business Daily \u00b7 Dow Jones Futures Rise, Techs Fall As Nvidia May Oust CEO Huang After CoreWave Leads Rally",
+        "Nov 11, 10:52 PM ET \u00b7 Motley Fool \u00b7 Advanced Micro Devices vs. Marvell Technology: Which Artificial Intelligence Stock Is a Better Buy Going into 2027?",
+        "Nov 11, 10:31 PM ET \u00b7 Bloomberg \u00b7 What Could Come Next After Huang's Ouster?"
+      ],
+      "verdict": {
+        "decision": "pass",
+        "conviction": 3,
+        "catalyst": "none found for AMD itself. The likely driver is the Nvidia CEO probe (board investigation opened Nov 8, 2026), which may be pushing money out of Nvidia, about 20% of SMH, into AMD. That is unconfirmed; no AMD-specific news from Nov 10-12 turned up.",
+        "why": "The lead is real: AMD is about 6 points ahead of SMH since the close, roughly one daily ATR. Nothing AMD-specific explains it, though, and a rotation out of Nvidia can reverse if Nvidia steadies. The -2% stop is inside normal noise for a name with a 7.25% daily ATR trading thin pre-market, so an ordinary wobble could exit the trade before the move plays out.",
+        "against": "The -2% stop sits inside one hour of AMD's normal swing, so noise rather than the thesis is likely to decide the trade.",
+        "coming": "Nvidia Q3 earnings on Nov 17 and a proposed House briefing with Huang on Nov 18 both fall outside the 9:20 AM flat time. Nothing scheduled inside the window was found.",
+        "sources": [
+          "Fortune, Nov 9 2026, \"Nvidia power built around Jensen Huang scandal testing formula\"",
+          "Motley Fool, Nov 9 2026, \"Why Nvidia stock was falling today\"",
+          "247wallst, Nov 6 2026, \"Chip Stocks Just Had Their Second-Worst Day on Record\"",
+          "Finviz/StockStory, Nov 3-4 2026, \"AMD shares surge nearly 8 as Q3 earnings beat forecasts\"",
+          "Trefis, Nov 6 2026, \"What Just Happened To AMD Stock?\""
+        ],
+        "model": "claude-haiku-5-5",
+        "prompt": 4,
+        "turns": 10,
+        "seconds": 49
+      },
+      "exit": {
+        "at": "9:31 AM",
+        "reason": "flat",
+        "result_bp": -77.2,
+        "after_costs_bp": -85.2
+      }
+    },
+    {
+      "id": "X-1112-0416-AVGO",
+      "symbol": "AVGO",
+      "hedge": "SMH",
+      "beta": 0.868,
+      "setup": "news_mover",
+      "direction": "long",
+      "session": "pre-market",
+      "signal_at": "4:16 AM ET (pre-market)",
+      "numbers": {
+        "price": 355.16,
+        "hedge_price": 495.0,
+        "since_close_pct": 2.88,
+        "hedge_since_close_pct": -2.36,
+        "move_atr": 1.03,
+        "daily_atr_pct": 4.8,
+        "last_close": 345.22
+      },
+      "entry": {
+        "at": "4:16 AM",
+        "name": 355.16,
+        "hedge": 495.0
+      },
+      "plan": {
+        "stop_pct": -2.0,
+        "target_pct": 4.0,
+        "flat_by": "9:20 AM (pre-market)",
+        "flat_at": "2026-11-12T09:20:00-05:00"
+      },
+      "headlines": [
+        "Nov 12, 3:44 AM ET \u00b7 Reuters \u00b7 Nvidia board meets to decide CEO Huang's future as leadership crisis deepens",
+        "Nov 12, 3:00 AM ET \u00b7 Barrons.com \u00b7 The Chip Stock Rebound Is Just Getting Started",
+        "Nov 12, 1:46 AM ET \u00b7 The Wall Street Journal \u00b7 Nvidia\u2019s Leadership Crisis Weighs on Asian Markets",
+        "Nov 12, 1:14 AM ET \u00b7 Investing.com \u00b7 Nvidia faces governance risks; watch these 2 chip stocks for buy opportunities",
+        "Nov 12, 12:06 AM ET \u00b7 Stocktwits \u00b7 NVDA Fallout Pressures Tech Trade As Investors Turn To Cerebras, Applied Materials For Chip Demand Cues",
+        "Nov 11, 10:31 PM ET \u00b7 Bloomberg \u00b7 What Could Come Next After Huang's Ouster?",
+        "Nov 11, 9:56 PM ET \u00b7 Bloomberg \u00b7 Nvidia Turmoil Lifts AMD, Broadcom on Bets for Business Gains",
+        "Nov 11, 9:43 PM ET \u00b7 Stocktwits \u00b7 Jensen Huang\u2019s Future At Nvidia Hangs In Balance As Board Weighs Fallout: Analysts Warn Of Challenges Ahead"
+      ],
+      "verdict": {
+        "decision": "pass",
+        "conviction": 2,
+        "catalyst": "Nvidia's governance crisis: on Nov 8, 2026 Nvidia's board opened an independent investigation into reports that CEO Jensen Huang was targeted by a foreign intelligence effort (Nvidia press release, Nov 8). NVDA fell as much as 8.8% on Monday Nov 9, and AVGO rose about 8% that day, per a MarketWatch piece from Nov 9 that I saw only as a search summary and could not open (403). I could not verify the Reuters headline about a board meeting on Huang's future today, Nov 12, so I did not rely on it. No AVGO-specific news from Nov 10 to 12 turned up.",
+        "why": "The pair is a bet that AVGO gains share against Nvidia, and SMH carries Nvidia as a large weight, so the lead partly reflects the Nvidia shock. But the sector rotation already played out Monday, and nothing new on AVGO itself surfaced for today's 4:16 AM pre-market move. The stop is the deciding issue: at -2.0% it sits inside one pair ATR for a name with a 4.8% daily ATR, and pre-market spreads are wide, so ordinary noise is likely to stop the trade out before the target.",
+        "against": "The stop at -2.0% is inside normal pre-market noise for a 4.8% daily-ATR name, and a board decision on Huang, if it comes today, could reverse the Nvidia-driven rotation at once.",
+        "coming": "Nothing found inside the window. The House committee briefing with Huang is requested for Nov 18, and Broadcom reports fiscal Q4 after the close on Dec 9, 2026 (Broadcom notice, Nov 9); both are outside the window.",
+        "sources": [
+          "Nvidia Investor Relations, \"Statement from NVIDIA Board of Directors\", Nov 8, 2026",
+          "Broadcom via Finviz/PR Newswire, \"Broadcom Inc. to Announce Fourth Quarter and Fiscal Year 2026 Financial Results on Wednesday, December 9, 2026\", Nov 9, 2026",
+          "MarketWatch (Morningstar), \"Are AMD and Broadcom the real winners of the Nvidia spy scandal?\", Nov 9, 2026 (search summary only; page returned 403)",
+          "Newsweek, \"Nvidia spy drama sparks stock market shock\", Nov 2026 (search summary only)",
+          "Axios, \"Nvidia has no obvious successor to Jensen Huang \u2014 and that's a problem\", Nov 9, 2026 (search summary only)"
+        ],
+        "model": "claude-haiku-5-5",
+        "prompt": 4,
+        "turns": 13,
+        "seconds": 56
+      },
+      "exit": {
+        "at": "9:31 AM",
+        "reason": "flat",
+        "result_bp": 172.3,
+        "after_costs_bp": 164.3
+      }
+    },
+    {
+      "id": "X-1112-0831-NBIS",
+      "symbol": "NBIS",
+      "hedge": "SMH",
+      "beta": 1.708,
+      "setup": "news_mover",
+      "direction": "short",
+      "session": "pre-market",
+      "signal_at": "8:31 AM ET (pre-market)",
+      "numbers": {
+        "price": 128.3,
+        "hedge_price": 490.0,
+        "since_close_pct": -17.06,
+        "hedge_since_close_pct": -3.35,
+        "move_atr": -1.03,
+        "daily_atr_pct": 10.99,
+        "last_close": 154.69
+      },
+      "entry": {
+        "at": "8:31 AM",
+        "name": 128.3,
+        "hedge": 490.0
+      },
+      "plan": {
+        "stop_pct": -2.0,
+        "target_pct": 4.0,
+        "flat_by": "9:20 AM (pre-market)",
+        "flat_at": "2026-11-12T09:20:00-05:00"
+      },
+      "headlines": [
+        "Nov 12, 8:20 AM ET \u00b7 Investor's Business Daily \u00b7 Stock Market Today: Tech Futures Tumble As Nvidia Plunges On Latest Jensen Huang Reports (Live Coverage)",
+        "Nov 12, 8:19 AM ET \u00b7 Investor's Business Daily \u00b7 Dow Jones Futures Fall, Techs Tumble As Nvidia Board Mulls Ousting CEO Jensen Huang; CoreWeave Rival Nebius Dives On Results",
+        "Nov 12, 8:09 AM ET \u00b7 Investing.com \u00b7 Nebius shares fall despite beating Q3 estimates",
+        "Nov 12, 7:54 AM ET \u00b7 Investor's Business Daily \u00b7 Nebius Earnings, Revenue Top Estimates. But Neoclouds Sell Off Again.",
+        "Nov 12, 7:25 AM ET \u00b7 Associated Press \u00b7 Nebius Group: Q3 Earnings Snapshot",
+        "Nov 12, 7:24 AM ET \u00b7 TIKR \u00b7 Scott Galloway: If AI Is \u201cLike the Railroads,\u201d Alphabet and Microsoft \u201cWould Still Be Fine\u201d",
+        "Nov 12, 7:02 AM ET \u00b7 Trefis \u00b7 CoreWeave Stock Jumps 25%: Does The Anthropic IPO Help?",
+        "Nov 12, 5:27 AM ET \u00b7 Stocktwits \u00b7 NVDA Turmoil Weighs On Nasdaq Futures \u2014 INTC, BABA, NBIS, ONDS In Focus"
+      ],
+      "verdict": {
+        "decision": "pass",
+        "conviction": 1,
+        "catalyst": "Nebius Q3 results and outlook, Nov 12, 2026 (CNBC, 7:30 AM ET): revenue of $980.8M beat (~$907M expected), but 2026 revenue is guided to the low end of $3.0\u20133.4B and 2026 capex was raised to $27B from $20\u201325B, with 2027 capex at $40\u201345B against roughly $28.8B consensus. The stock had already rallied about 15% on Wednesday on peer news, so this reads as a sell-the-news reversal. The Nvidia board probe is a sector backdrop, not the cause of the Nebius move.",
+        "why": "The company-specific reason is real and the lead over SMH is large, so the move is not just sector drift. But the plan's -2% stop sits inside ordinary noise: with an 11% daily ATR, a typical intraday swing over the roughly 49 minutes before the 9:20 AM flat time is several percent, and the stop would likely be hit before the +4% target. Pre-market spreads are wide, and the regular open at 9:30 can reverse a gap like this, so the entry is also poorly priced. The edge is real, but the plan cannot hold it.",
+        "against": "A 2% stop on an 11%-ATR name inside a 49-minute window gets hit by ordinary noise, and a rebound from a 17% gap after a sharp Wednesday run is a common first move.",
+        "coming": "Nebius's conference call at 8:00 AM ET, already under way at the signal time. No lockup, share sale, convertible or index change was found in the window. The House Select Committee China briefing on Nov 18 is outside it.",
+        "sources": [
+          "CNBC, Nov 12, 2026 (7:30 AM ET): \"Nebius falls 10% as company expects increased 2026 capex spend, issues weak outlook\"",
+          "Investing.com, Nov 12, 2026 (7:39 AM): \"Nebius shares fall despite beating Q3 estimates\"",
+          "Investing.com/Yahoo-style search snippet, Nov 9, 2026 (Motley Fool): \"Why Nvidia stock was falling today\" (Nvidia board probe; snippet only, not opened)"
+        ],
+        "model": "claude-haiku-5-5",
+        "prompt": 4,
+        "turns": 11,
+        "seconds": 55
+      },
+      "exit": {
+        "at": "8:46 AM",
+        "reason": "stop",
+        "result_bp": -291.8,
+        "after_costs_bp": -299.8
+      }
+    }
+  ]
+}

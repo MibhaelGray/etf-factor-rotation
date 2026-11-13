@@ -1,0 +1,92 @@
+{
+ "postmortems": [
+  {
+   "trade_id": "2026-11-09-D02",
+   "proposal_id": null,
+   "name": "CVS",
+   "setup": "earnings_gap_faded",
+   "bps": -552.0,
+   "tag": "thesis_broke",
+   "what_happened": "The short (CVS against XLV, health care ETF) lost as CVS rose about 6.1% from the 11-09 open to the 11-12 close while XLV rose 0.8%. The 11-04 drop that read as good news sold was tied to the breakup announcement, and the market took it back: an EVP bought about $2.0M of stock on 11-06 (MarketBeat 11-11), Raymond James set a $103 target, and on 11-10 the stock rose 4.4% through its 200-day average. No downgrade was found.",
+   "lesson": "When a beat is sold because of a structural announcement (a split or breakup) rather than the numbers, the reaction can reverse once holders digest the deal; check what the reaction was about before fading it.",
+   "at": "2026-11-12T21:45:48.953749-05:00"
+  },
+  {
+   "trade_id": "2026-11-09-D04",
+   "proposal_id": null,
+   "name": "U",
+   "setup": "earnings_gap_held",
+   "bps": -635.9,
+   "tag": "thesis_broke",
+   "what_happened": "The long (U, Unity, against XLC, communication services ETF) lost as U fell about 3.8% while XLC rose 1.2%. The gap stopped holding after a 52-week high of $54.27 on 11-09. The CEO sold 100,000 shares, about $5.1M, on 11-06 (MarketBeat 11-10), and ad-tech peers weakened when Digital Turbine fell 23% on 11-10. All the target raises were dated 11-05 and 11-06, before entry.",
+   "lesson": "A gap that held for two sessions on target raises already published has no fresh buyer left; look for a catalyst after the raises before taking the hold.",
+   "at": "2026-11-12T21:45:48.953749-05:00"
+  },
+  {
+   "trade_id": "2026-11-09-D05",
+   "proposal_id": null,
+   "name": "OUST",
+   "setup": "earnings_gap_held",
+   "bps": 126.5,
+   "tag": "right_reason",
+   "what_happened": "The long (OUST, Ouster, against XLI, industrials ETF) made money as OUST rose about 4.7% against XLI +2.2%. The gap held and was backed by a contract win: on 11-10 Indra selected Ouster lidar for its global toll-collection projects (Ouster IR). Roth raised its target to $75. OUST gave back about 4% on 11-12 with no news.",
+   "lesson": "A held gap followed by a fresh, dated company win carried; that is the kind of follow-through to look for.",
+   "at": "2026-11-12T21:45:48.953749-05:00"
+  },
+  {
+   "trade_id": "2026-11-09-D06",
+   "proposal_id": null,
+   "name": "QCOM",
+   "setup": "earnings_gap_faded",
+   "bps": 522.8,
+   "tag": "right_reason",
+   "what_happened": "The long (QCOM, Qualcomm, against SPY, S&P 500 ETF) made money as QCOM rose about 7.4% against SPY +2.0%, closing 171.47, 173.53, 176.57 and 177.14. The rebound from the faded -13% gap continued on support published before entry (BofA $215 and Piper $200 targets, Morgan Stanley on the data-centre push, Alphabet's $548M stake in its 13F). One downgrade (Freedom Broker to hold, 11-09) didn't stop it.",
+   "lesson": "A large gap down that closes in the top third, with several brokers defending the name the same week, kept recovering for four sessions.",
+   "at": "2026-11-12T21:45:48.953749-05:00"
+  },
+  {
+   "trade_id": "2026-11-09-D07",
+   "proposal_id": null,
+   "name": "NVO",
+   "setup": "earnings_gap_faded",
+   "bps": 155.1,
+   "tag": "right_reason",
+   "what_happened": "The short (NVO, Novo Nordisk, against XLV) made a little as NVO fell about 1.2% while XLV rose 0.8%. No dated company news or rating change was found for 11-09 to 11-12; commentary (Motley Fool 11-11) called the Wegovy pill results in line and the company still in transition. The fade of the gap continued quietly, as the setup said.",
+   "lesson": "A faded gap on a large, de-rated name drifted lower with no news; the edge was small, about +155 bp over four sessions.",
+   "at": "2026-11-12T21:45:48.953749-05:00"
+  },
+  {
+   "trade_id": "2026-11-09-D09",
+   "proposal_id": null,
+   "name": "UBER",
+   "setup": "earnings_gap_faded",
+   "bps": -254.0,
+   "tag": "thesis_broke",
+   "what_happened": "The long (UBER against SPY) lost as UBER fell about 0.5% against SPY +2.0%. A name-specific negative arrived on 11-09 and 11-10: engineering VP Danny Guo, who covers robotaxi partnerships, is leaving 11-16 (Bloomberg via TT News), after the exits of Sarfraz Maredia and Jill Hazelbaker, and the stock fell 1.6% on 11-10. Bernstein had cut its target to $90 on 11-05.",
+   "lesson": "Bad news bought on one day isn't a floor when a run of senior departures is building; check management turnover before taking a miss that rose.",
+   "at": "2026-11-12T21:45:48.953749-05:00"
+  },
+  {
+   "trade_id": "2026-11-09-D10",
+   "proposal_id": null,
+   "name": "CGNX",
+   "setup": "earnings_gap_faded",
+   "bps": -307.6,
+   "tag": "noise",
+   "what_happened": "The short (CGNX, Cognex, against XLI) lost as CGNX rose about 4.5% against XLI +2.2%, with industrials strong on the 11-09 rally (SPY +2.4%). No Cognex news was found after entry; on 11-11 it opened about 5% higher and faded to 51.72. Ratings stayed Buy and Overweight after JPMorgan, Needham and Truist trimmed targets on 11-06, and Jefferies initiated at Buy. Nothing contradicted the good-news-sold read; the stock rose with a strong industrial tape that its hedge only half covered.",
+   "lesson": "A fade short in a beta-heavy industrial hedged with XLI loses on a broad risk-on rally even with no news; size the stop on that beta.",
+   "at": "2026-11-12T21:45:48.953749-05:00"
+  },
+  {
+   "trade_id": "2026-11-10-A01",
+   "proposal_id": "2026-11-10-P01",
+   "name": "NVDA",
+   "setup": "relative_weakness",
+   "bps": 742.7,
+   "tag": "right_reason",
+   "what_happened": "The short (NVDA, Nvidia, against QQQ, Nasdaq-100 ETF) made about 743 bp. The board probe the trade was waiting on ended as the thesis expected: at about 9:00 AM ET on 11-12 Nvidia said Jensen Huang had stepped down as CEO and director (CNBC; SEC filing 11-12). NVDA opened down more than 13% and the midday check closed it after the stock had bought back more than half of the fall (about -5.5% against a flat QQQ).",
+   "lesson": "A company-specific overhang that was still escalating paid when it resolved; taking the profit on the resolution, rather than waiting for the follow-on hearings, kept most of it.",
+   "at": "2026-11-12T21:45:48.953749-05:00"
+  }
+ ]
+}

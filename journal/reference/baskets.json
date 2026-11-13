@@ -1,6 +1,6 @@
 {
-  "note": "Themed baskets: equal-weight groups of stocks for ideas no single ETF captures. A watchlist, not recorded ideas. Members come from IBKR's theme data (search_investment_topics / get_theme_details) and the dossier; every member is checked with IBKR (search_contracts for a US listing, get_price_snapshot avg_90d_usd_volume of at least about $20M; names in the standard universe skip the volume check). The snapshot is IBKR's change from the prior close at the time shown; after 16:00 it includes after-hours trades.",
-  "updated": "2026-11-09",
+  "note": "Themed baskets: equal-weight groups of stocks for ideas no single ETF captures. A watchlist, not recorded ideas. Members come from IBKR's theme data (search_investment_topics / get_theme_details) and the dossier; every member is checked with IBKR (search_contracts for a US listing, get_price_snapshot avg_90d_usd_volume of at least about $20M; names in the standard universe skip the volume check). The snapshot is IBKR's change from the prior close at the time shown; after 16:00 it includes after-hours trades. Members added 2026-11-12 come from the widened universe (universe.INDEX_STOCKS: S&P 500 and 400 names trading at least $20M a day on our Yahoo bars), so like other universe names they skip the IBKR volume check and have no snapshot until the next refresh.",
+  "updated": "2026-11-12",
   "snapshot_at": "2026-11-05T16:00:00-05:00",
   "baskets": [
     {
@@ -132,6 +132,30 @@
           "avg_usd_volume_90d": 87416227,
           "change_pct": 7.25,
           "added": "2026-11-09"
+        },
+        {
+          "symbol": "PWR",
+          "why": "Quanta Services: builds the transmission lines and substations that connect new data-center load",
+          "avg_usd_volume_90d": null,
+          "change_pct": null
+        },
+        {
+          "symbol": "HUBB",
+          "why": "Hubbell: utility and electrical gear, grid connectors and data-center power distribution",
+          "avg_usd_volume_90d": null,
+          "change_pct": null
+        },
+        {
+          "symbol": "EME",
+          "why": "EMCOR: electrical and mechanical contractor with a growing data-center construction backlog",
+          "avg_usd_volume_90d": null,
+          "change_pct": null
+        },
+        {
+          "symbol": "FIX",
+          "why": "Comfort Systems USA: mechanical and electrical contractor whose backlog is led by data-center HVAC",
+          "avg_usd_volume_90d": null,
+          "change_pct": null
         }
       ],
       "hedge_change_pct": -4.12
@@ -230,6 +254,18 @@
           "avg_usd_volume_90d": 170093898,
           "change_pct": 3.72,
           "added": "2026-11-09"
+        },
+        {
+          "symbol": "CI",
+          "why": "Cigna: commercial insurance plus Evernorth pharmacy benefits; out of Medicare Advantage, so it trades on PBM and employer rules",
+          "avg_usd_volume_90d": null,
+          "change_pct": null
+        },
+        {
+          "symbol": "CVS",
+          "why": "CVS Health: owns Aetna, a large Medicare Advantage and commercial insurer, beside its PBM and pharmacies",
+          "avg_usd_volume_90d": null,
+          "change_pct": null
         }
       ],
       "hedge_change_pct": -2.5,
@@ -369,6 +405,30 @@
           "why": "Astera Labs: PCIe and CXL connectivity chips for AI servers",
           "change_pct": -19.62,
           "avg_usd_volume_90d": 882298977
+        },
+        {
+          "symbol": "MRVL",
+          "why": "Marvell: optical DSPs for data-center links and custom AI chips for hyperscalers",
+          "avg_usd_volume_90d": null,
+          "change_pct": null
+        },
+        {
+          "symbol": "APH",
+          "why": "Amphenol: high-speed connectors and cables inside AI racks",
+          "avg_usd_volume_90d": null,
+          "change_pct": null
+        },
+        {
+          "symbol": "GLW",
+          "why": "Corning: optical fiber and connectivity for data-center buildouts",
+          "avg_usd_volume_90d": null,
+          "change_pct": null
+        },
+        {
+          "symbol": "FN",
+          "why": "Fabrinet: contract maker of the optical transceivers used in AI clusters",
+          "avg_usd_volume_90d": null,
+          "change_pct": null
         }
       ],
       "caution": "ANET (+5.7%) and COHR (+1.2%) rose while the other four fell 4-9%, likely on their own news in earnings season; check before reading the basket.",
@@ -699,6 +759,36 @@
           "why": "10x Genomics: single-cell and spatial biology instruments and reagents for research labs; smaller and more exposed to academic funding than the rest of the group",
           "avg_usd_volume_90d": 245728148,
           "change_pct": 1.26
+        },
+        {
+          "symbol": "AVTR",
+          "why": "Avantor: lab consumables and bioprocessing materials for drug makers and academic labs",
+          "avg_usd_volume_90d": null,
+          "change_pct": null
+        },
+        {
+          "symbol": "BIO",
+          "why": "Bio-Rad: life science research instruments and clinical diagnostics",
+          "avg_usd_volume_90d": null,
+          "change_pct": null
+        },
+        {
+          "symbol": "MTD",
+          "why": "Mettler-Toledo: lab balances and analytical instruments for pharma and industry",
+          "avg_usd_volume_90d": null,
+          "change_pct": null
+        },
+        {
+          "symbol": "CRL",
+          "why": "Charles River: preclinical research services, tied to biotech funding and NIH budgets",
+          "avg_usd_volume_90d": null,
+          "change_pct": null
+        },
+        {
+          "symbol": "BRKR",
+          "why": "Bruker: high-end scientific instruments, heavily exposed to academic and government funding",
+          "avg_usd_volume_90d": null,
+          "change_pct": null
         }
       ],
       "hedge_change_pct": -2.5,
@@ -753,6 +843,12 @@
           "why": "Rubrik: data security and ransomware recovery",
           "avg_usd_volume_90d": 193966430,
           "change_pct": -11.14
+        },
+        {
+          "symbol": "QLYS",
+          "why": "Qualys: vulnerability management and cloud security software",
+          "avg_usd_volume_90d": null,
+          "change_pct": null
         }
       ],
       "hedge_change_pct": -4.39,
@@ -851,6 +947,24 @@
           "avg_usd_volume_90d": 283238430,
           "change_pct": 8.22,
           "added": "2026-11-09"
+        },
+        {
+          "symbol": "ENTG",
+          "why": "Entegris: materials and filtration consumed in every wafer, a volume read on fab output",
+          "avg_usd_volume_90d": null,
+          "change_pct": null
+        },
+        {
+          "symbol": "AEIS",
+          "why": "Advanced Energy: power subsystems for etch and deposition tools, plus data-center power",
+          "avg_usd_volume_90d": null,
+          "change_pct": null
+        },
+        {
+          "symbol": "FORM",
+          "why": "FormFactor: probe cards for wafer test, levered to HBM and advanced packaging",
+          "avg_usd_volume_90d": null,
+          "change_pct": null
         }
       ],
       "hedge_change_pct": -11.21,
@@ -901,6 +1015,12 @@
           "avg_usd_volume_90d": 55188298,
           "change_pct": 7.13,
           "added": "2026-11-09"
+        },
+        {
+          "symbol": "ZBRA",
+          "why": "Zebra: scanners, mobile computers and warehouse robots for logistics automation",
+          "avg_usd_volume_90d": null,
+          "change_pct": null
         }
       ],
       "hedge_change_pct": -4.12,
@@ -999,6 +1119,36 @@
           "why": "Booking: online travel, no fuel bill",
           "avg_usd_volume_90d": 749003983,
           "change_pct": -1.32
+        },
+        {
+          "symbol": "AAL",
+          "why": "American Airlines: large US network carrier with high fuel and debt leverage",
+          "avg_usd_volume_90d": null,
+          "change_pct": null
+        },
+        {
+          "symbol": "LUV",
+          "why": "Southwest: domestic airline, sensitive to jet fuel",
+          "avg_usd_volume_90d": null,
+          "change_pct": null
+        },
+        {
+          "symbol": "ALK",
+          "why": "Alaska Air: West Coast airline, now including Hawaiian",
+          "avg_usd_volume_90d": null,
+          "change_pct": null
+        },
+        {
+          "symbol": "EXPE",
+          "why": "Expedia: online travel bookings, a read on leisure demand",
+          "avg_usd_volume_90d": null,
+          "change_pct": null
+        },
+        {
+          "symbol": "ABNB",
+          "why": "Airbnb: short-term rentals, a read on leisure travel demand",
+          "avg_usd_volume_90d": null,
+          "change_pct": null
         }
       ],
       "hedge_change_pct": -3.83,
@@ -1184,6 +1334,24 @@
           "avg_usd_volume_90d": 60296495,
           "change_pct": -4.15,
           "added": "2026-11-09"
+        },
+        {
+          "symbol": "ADSK",
+          "why": "Autodesk: design software sold per seat to architects, engineers and builders",
+          "avg_usd_volume_90d": null,
+          "change_pct": null
+        },
+        {
+          "symbol": "DOCU",
+          "why": "DocuSign: e-signature and agreement software priced largely per user",
+          "avg_usd_volume_90d": null,
+          "change_pct": null
+        },
+        {
+          "symbol": "DBX",
+          "why": "Dropbox: file storage and collaboration sold per user to teams",
+          "avg_usd_volume_90d": null,
+          "change_pct": null
         }
       ],
       "hedge_change_pct": 2.47

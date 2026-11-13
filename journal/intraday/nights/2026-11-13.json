@@ -1,0 +1,328 @@
+{
+ "night": "2026-11-13",
+ "ticks": [
+  {
+   "at": "2026-11-12T16:46:02-05:00",
+   "session": "after-hours",
+   "prices": "Yahoo",
+   "quoted": 272,
+   "signals": 1,
+   "judged": 1
+  },
+  {
+   "at": "2026-11-12T17:01:03-05:00",
+   "session": "after-hours",
+   "prices": "Yahoo",
+   "quoted": 272,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-12T17:16:06-05:00",
+   "session": "after-hours",
+   "prices": "Yahoo",
+   "quoted": 272,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-12T17:31:06-05:00",
+   "session": "after-hours",
+   "prices": "Yahoo",
+   "quoted": 272,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-12T17:46:05-05:00",
+   "session": "after-hours",
+   "prices": "Yahoo",
+   "quoted": 272,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-12T18:01:04-05:00",
+   "session": "after-hours",
+   "prices": "Yahoo",
+   "quoted": 272,
+   "signals": 1,
+   "judged": 1
+  },
+  {
+   "at": "2026-11-12T18:16:02-05:00",
+   "session": "after-hours",
+   "prices": "Yahoo",
+   "quoted": 272,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-12T18:31:06-05:00",
+   "session": "after-hours",
+   "prices": "Yahoo",
+   "quoted": 272,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-12T18:46:06-05:00",
+   "session": "after-hours",
+   "prices": "Yahoo",
+   "quoted": 272,
+   "signals": 1,
+   "judged": 1
+  },
+  {
+   "at": "2026-11-12T21:37:04-05:00",
+   "session": "overnight",
+   "prices": "IBKR",
+   "quoted": 272,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-12T21:46:02-05:00",
+   "session": "overnight",
+   "prices": "IBKR",
+   "quoted": 272,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-12T22:17:37-05:00",
+   "session": "overnight",
+   "prices": "IBKR",
+   "quoted": 272,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-12T22:36:00-05:00",
+   "session": "overnight",
+   "prices": "IBKR",
+   "quoted": 286,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-12T23:01:06-05:00",
+   "session": "overnight",
+   "prices": "IBKR",
+   "quoted": 286,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-12T23:16:06-05:00",
+   "session": "overnight",
+   "prices": "IBKR",
+   "quoted": 286,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-12T23:31:06-05:00",
+   "session": "overnight",
+   "prices": "IBKR",
+   "quoted": 286,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-12T23:46:06-05:00",
+   "session": "overnight",
+   "prices": "IBKR",
+   "quoted": 286,
+   "signals": 0,
+   "judged": 0
+  }
+ ],
+ "signals": [
+  {
+   "id": "X-1112-1646-CBRS",
+   "symbol": "CBRS",
+   "hedge": "SMH",
+   "beta": 1.27,
+   "setup": "news_mover",
+   "direction": "long",
+   "session": "after-hours",
+   "signal_at": "4:46 PM ET (after-hours)",
+   "numbers": {
+    "price": 113.19,
+    "hedge_price": 503.5,
+    "since_close_pct": 15.8,
+    "hedge_since_close_pct": 0.35,
+    "move_atr": 1.41,
+    "daily_atr_pct": 10.91,
+    "last_close": 97.75
+   },
+   "entry": {
+    "at": "4:46 PM",
+    "name": 113.19,
+    "hedge": 503.5
+   },
+   "plan": {
+    "stop_pct": -2.0,
+    "target_pct": 4.0,
+    "flat_by": "7:45 PM (after-hours)",
+    "flat_at": "2026-11-12T19:45:00-05:00"
+   },
+   "headlines": [
+    "Nov 12, 4:28 PM ET \u00b7 Associated Press \u00b7 Cerebras: Q3 Earnings Snapshot",
+    "Nov 12, 4:20 PM ET \u00b7 Investor's Business Daily \u00b7 AI Chipmaker Cerebras Tops Q3 Views, Adds Big Customers",
+    "Nov 12, 4:18 PM ET \u00b7 The Wall Street Journal \u00b7 Cerebras Lifts Outlook as Cloud Revenue Surges in Third Quarter",
+    "Nov 12, 3:08 PM ET \u00b7 Barrons.com \u00b7 Cerebras Earnings Must Prove the Chip Maker Can Expand Beyond OpenAI",
+    "Nov 12, 2:00 PM ET \u00b7 Investor's Business Daily \u00b7 Nvidia Stock Hammered As CEO Resigns In Disgrace",
+    "Nov 12, 12:23 PM ET \u00b7 The Wall Street Journal \u00b7 Tech, Media & Telecom Roundup: Market Talk",
+    "Nov 12, 11:16 AM ET \u00b7 MT Newswires \u00b7 Nvidia's Valuation, Demand Outlook Mitigate Potential CEO Transition Risks, Wedbush Says",
+    "Nov 12, 8:17 AM ET \u00b7 TIKR \u00b7 Cathie Wood Bought Cerebras Before It Fell 54%. Is She Wrong, or Early?"
+   ],
+   "verdict": {
+    "decision": "pass",
+    "conviction": 4,
+    "catalyst": "Q3 beat and raised full-year outlook, reported after the close Nov 12, 2026 (WSJ 4:18 PM ET, IBD 4:20 PM ET, AP 4:28 PM ET). The SEC 8-K shows core Q3 revenue of $230.9M versus $214-216M guidance and FY2026 core revenue guidance of $940-960M, up from $880-890M in August. I did not open the 8-K page itself, only the search snippet.",
+    "why": "The catalyst is real and fresh, and CBRS is up 15.8% against a 0.35% move in SMH, a lead of about 15 points. But the plan's 2% stop is about 0.18 of the name's 10.9% daily ATR, so ordinary after-hours noise will hit it long before the 4% target. The thin after-hours tape, where the move can reverse at the open, makes that worse.",
+    "against": "A 2% stop sits well inside the roughly 11% daily range of a name that has already moved 1.4 ATR, so the trade would likely be stopped out by noise before the move could show whether it continues.",
+    "coming": "A main 180-day insider lockup is reported for mid-November 2026, though sources disagree on the exact date. I found no other scheduled event in the window.",
+    "sources": [
+     "AP, Nov 12 2026 4:28 PM ET: \"Cerebras: Q3 Earnings Snapshot\"",
+     "The Wall Street Journal, Nov 12 2026 4:18 PM ET: \"Cerebras Lifts Outlook as Cloud Revenue Surges in Third Quarter\"",
+     "Investor's Business Daily, Nov 12 2026 4:20 PM ET: \"AI Chipmaker Cerebras Tops Q3 Views, Adds Big Customers\"",
+     "SEC EDGAR, Cerebras Systems Inc. Form 8-K FY2026, \"Cerebras Announces Financial Results\" (date not confirmed in snippet)",
+     "Let's Data Science, undated: \"Cerebras Faces Fast IPO Lockup Release\" (lockup timing)"
+    ],
+    "model": "claude-haiku-5-5",
+    "prompt": 4,
+    "turns": 6,
+    "seconds": 18
+   },
+   "exit": {
+    "at": "9:37 PM",
+    "reason": "flat",
+    "result_bp": 226.9,
+    "after_costs_bp": 218.9
+   }
+  },
+  {
+   "id": "X-1112-1801-MTD",
+   "symbol": "MTD",
+   "hedge": "IWM",
+   "beta": 0.697,
+   "setup": "news_mover",
+   "direction": "short",
+   "session": "after-hours",
+   "signal_at": "6:01 PM ET (after-hours)",
+   "numbers": {
+    "price": 1595.76,
+    "hedge_price": 278.61,
+    "since_close_pct": -7.81,
+    "hedge_since_close_pct": 0.06,
+    "move_atr": -2.93,
+    "daily_atr_pct": 2.68,
+    "last_close": 1730.93
+   },
+   "entry": {
+    "at": "6:01 PM",
+    "name": 1595.7614,
+    "hedge": 278.61
+   },
+   "plan": {
+    "stop_pct": -1.34,
+    "target_pct": 2.68,
+    "flat_by": "7:45 PM (after-hours)",
+    "flat_at": "2026-11-12T19:45:00-05:00"
+   },
+   "headlines": [
+    "Nov 12, 2:14 AM ET \u00b7 Investing.com \u00b7 Biotech funding froze. Why has this lab instrument maker climbed 25% anyway?"
+   ],
+   "verdict": {
+    "decision": "pass",
+    "conviction": 1,
+    "catalyst": "none found for a Nov 12 move. The only recent MTD news I found is the Q3 2026 report on Nov 5 (beat, guidance raised a third time), which predates the signal by a week. The stockmarketwatch after-hours page shows MTD at 1,722.68, down 0.48% from the 1,730.93 close, undated, which does not match the signal's 1,595.76 (-7.81%). The Investing.com headline I was pointed to, about a lab instrument maker up 25%, does not match MTD's direction and I could not tie it to this name.",
+    "why": "The signal's -7.8% move against a flat IWM would be a real lead if it happened, but I could not confirm it: the only quote I could read shows essentially no move, and I found no company statement, analyst action, or filing behind any after-hours drop. The stop is -1.34% against a 2.68% daily ATR, which is inside normal after-hours noise for a $1,600 name with wide spreads, so the plan would likely be stopped out on ordinary quote flicker before any thesis could play out. No volume figure was supplied, so the volume argument for a take is unavailable.",
+    "against": "The move is unconfirmed and unexplained, and a stop at half the daily ATR in after-hours trading would probably be hit by noise or a reversal before the 2.68% target.",
+    "coming": "Nothing found inside the window. The Nov 9 investor meeting has already happened, and I found no scheduled MTD event, peer report, or data release for the next few hours.",
+    "sources": [
+     "StockMarketWatch, undated, 'MTD After Hours' quote page (price 1,722.68, -0.48%)",
+     "Mettler-Toledo via FinViz, 2026-11-05, 'Mettler-Toledo International Inc. Reports Third Quarter 2026 Results' (search snippet, not opened)",
+     "Mettler-Toledo via BioPharmaWatch, 2026-10-12, 'Mettler-Toledo to host investor meeting November 9' (search snippet, not opened)",
+     "Investing.com, 2026-11-12 02:14 ET, 'Biotech funding froze. Why has this lab instrument maker climbed 25% anyway?' (headline only; could not locate the article)"
+    ],
+    "model": "claude-haiku-5-5",
+    "prompt": 4,
+    "turns": 11,
+    "seconds": 52
+   },
+   "exit": {
+    "at": "9:37 PM",
+    "reason": "flat",
+    "result_bp": -837.3,
+    "after_costs_bp": -845.3
+   }
+  },
+  {
+   "id": "X-1112-1846-ELV",
+   "symbol": "ELV",
+   "hedge": "XLV",
+   "beta": 0.666,
+   "setup": "news_mover",
+   "direction": "short",
+   "session": "after-hours",
+   "signal_at": "6:46 PM ET (after-hours)",
+   "numbers": {
+    "price": 416.01,
+    "hedge_price": 187.74,
+    "since_close_pct": -3.23,
+    "hedge_since_close_pct": -0.05,
+    "move_atr": -1.11,
+    "daily_atr_pct": 2.89,
+    "last_close": 429.9
+   },
+   "entry": {
+    "at": "6:46 PM",
+    "name": 416.01,
+    "hedge": 187.74
+   },
+   "plan": {
+    "stop_pct": -1.45,
+    "target_pct": 2.89,
+    "flat_by": "7:45 PM (after-hours)",
+    "flat_at": "2026-11-12T19:45:00-05:00"
+   },
+   "headlines": [
+    "Nov 12, 8:14 PM ET \u00b7 Simply Wall St. \u00b7 Elevance Health (ELV) Stock Looks Reasonable After Raised Earnings Outlook",
+    "Nov 12, 7:24 PM ET \u00b7 Simply Wall St. \u00b7 Elevance Health (ELV) In Focus On AM Best Rating Action And A Fair Value Debate",
+    "Nov 12, 2:07 PM ET \u00b7 Trefis \u00b7 What Could Go Wrong At CVS Health From Here?",
+    "Nov 12, 6:04 AM ET \u00b7 GuruFocus.com \u00b7 What Avantis U.S. Large Cap Value ETF (AVLV) Bought: AT&T Leads on Tuesday",
+    "Nov 11, 12:13 PM ET \u00b7 Zacks \u00b7 Can HUM's New Oncology Model Strengthen Its Value-Based Care Strategy?",
+    "Nov 11, 10:40 AM ET \u00b7 Zacks \u00b7 ELV or RVTY: Which Is the Better Value Stock Right Now?"
+   ],
+   "verdict": {
+    "decision": "pass",
+    "conviction": 2,
+    "catalyst": "none found. The move is unexplained: the 6:46 PM after-hours drop to $416.01 (-3.23%) has no matching story in the sources I could open. The Nov 12 headlines are generic (Simply Wall St on a 'raised earnings outlook' and AM Best on a shelf registration, both 7:24-8:14 PM, after the move had started), and the outlook raise dates to Q3 results in October.",
+    "why": "The only evidence is the price move itself, with XLV flat, so the pair's lead is about 3.2% with no news behind it. The stop is -1.45%, about half of ELV's 2.89% daily ATR, and after-hours quotes in a $416 name routinely move that much on thin prints, so ordinary noise could hit the stop before any thesis plays out. The window is under an hour, and the brief says these moves can reverse at the open. I have no relative volume figure to offset the missing catalyst.",
+    "against": "An unexplained 3% after-hours drop in a large cap with a flat hedge is the kind of thin-print move that often reverses toward the prior close, and the 1.45% stop sits inside after-hours noise.",
+    "coming": "nothing found in the window. ELV's next dividend ex-date is Dec 4, 2026, outside the trade's window.",
+    "sources": [
+     "Yahoo Finance, ELV news page (fetched Nov 12, 2026), Simply Wall St: 'Elevance Health (ELV) In Focus On AM Best Rating Action And A Fair Value Debate', Nov 12, 7:24 PM ET",
+     "Yahoo Finance, ELV news page (fetched Nov 12, 2026), Simply Wall St: 'Elevance Health (ELV) Stock Looks Reasonable After Raised Earnings Outlook', Nov 12, 8:14 PM ET",
+     "Yahoo Finance, ELV quote page (fetched Nov 12, 2026): close $429.90 at 4:00 PM EST, after-hours $416.01 (-3.23%) at 7:56 PM EST",
+     "Becker's Payer, 'Elevance reports $1.4B in Q3 profit, names Carelon president', Oct 2026 (date from search index, not confirmed on page)",
+     "Business Wire, 'AM Best Takes Various Credit Rating Actions on Elevance Health', Dec 12, 2025 (most recent AM Best action found; no 2026 shelf action located)"
+    ],
+    "model": "claude-haiku-5-5",
+    "prompt": 4,
+    "turns": 10,
+    "seconds": 67
+   },
+   "exit": {
+    "at": "9:37 PM",
+    "reason": "flat",
+    "result_bp": -294.9,
+    "after_costs_bp": -302.9
+   }
+  }
+ ]
+}
