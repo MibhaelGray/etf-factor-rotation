@@ -1,0 +1,451 @@
+{
+ "session": "2026-11-12",
+ "pulled_at": "2026-11-12T16:55:29.043819-05:00",
+ "fills": [
+  {
+   "order_ref": "2026-11-09-D01|XLY",
+   "symbol": "XLY",
+   "side": "BOT",
+   "shares": 21.0,
+   "price": 120.95,
+   "commission": 1.000063,
+   "time": "2026-11-11T20:59:35+00:00",
+   "exec_id": "00025b47.6af445c7.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D01|ABNB",
+   "symbol": "ABNB",
+   "side": "SLD",
+   "shares": 13.0,
+   "price": 181.1,
+   "commission": 1.048538,
+   "time": "2026-11-11T20:59:41+00:00",
+   "exec_id": "0000e0d5.6af4d41b.01.01"
+  },
+  {
+   "order_ref": "X-1111-2201-LIN|LIN",
+   "symbol": "LIN",
+   "side": "SLD",
+   "shares": 3.0,
+   "price": 522.6,
+   "commission": 1.032306,
+   "time": "2026-11-12T03:02:15+00:00",
+   "exec_id": "0000e511.6af5092a.01.01"
+  },
+  {
+   "order_ref": "2026-11-12-A01|HUM",
+   "symbol": "HUM",
+   "side": "BOT",
+   "shares": 22.0,
+   "price": 449.09,
+   "commission": 1.000066,
+   "time": "2026-11-12T03:03:53+00:00",
+   "exec_id": "0000e511.6af50934.01.01"
+  },
+  {
+   "order_ref": "2026-11-12-A02|SMH",
+   "symbol": "SMH",
+   "side": "BOT",
+   "shares": 9.0,
+   "price": 493.14,
+   "commission": 1.000027,
+   "time": "2026-11-12T04:49:42.574173+00:00",
+   "exec_id": "0000e511.6af50b85.01.01"
+  },
+  {
+   "order_ref": "2026-11-12-A02|MU",
+   "symbol": "MU",
+   "side": "SLD",
+   "shares": 2.0,
+   "price": 785.05,
+   "commission": 1.03235,
+   "time": "2026-11-12T04:49:42.738529+00:00",
+   "exec_id": "0000e511.6af50b86.01.01"
+  },
+  {
+   "order_ref": "2026-11-12-A02|SMH",
+   "symbol": "SMH",
+   "side": "BOT",
+   "shares": 11.0,
+   "price": 493.15,
+   "commission": 1.0,
+   "time": "2026-11-12T04:49:43+00:00",
+   "exec_id": "manual-A02-SMH-2",
+   "note": "entered by hand: seen on the gateway at 11:52 PM ET, gone from its execution list after midnight"
+  },
+  {
+   "order_ref": "2026-11-12-A02|SNDK",
+   "symbol": "SNDK",
+   "side": "SLD",
+   "shares": 2.0,
+   "price": 947.03,
+   "commission": 1.0,
+   "time": "2026-11-12T05:02:00+00:00",
+   "exec_id": "manual-A02-SNDK",
+   "note": "entered by hand 12:10 AM ET 2026-11-12: the gateway's execution list reset at midnight; price from the account's average cost, which matches the order's limit"
+  },
+  {
+   "order_ref": "2026-11-12-A02|WDC",
+   "symbol": "WDC",
+   "side": "SLD",
+   "shares": 6.0,
+   "price": 304.07,
+   "commission": 1.0,
+   "time": "2026-11-12T05:02:00+00:00",
+   "exec_id": "manual-A02-WDC",
+   "note": "entered by hand 12:10 AM ET 2026-11-12: the gateway's execution list reset at midnight; price from the account's average cost, which matches the order's limit"
+  },
+  {
+   "order_ref": "2026-11-12-A02|STX",
+   "symbol": "STX",
+   "side": "SLD",
+   "shares": 3.0,
+   "price": 536.3,
+   "commission": 1.0,
+   "time": "2026-11-12T05:02:00+00:00",
+   "exec_id": "manual-A02-STX",
+   "note": "entered by hand 12:10 AM ET 2026-11-12: the gateway's execution list reset at midnight; price from the account's average cost, which matches the order's limit"
+  },
+  {
+   "order_ref": "2026-11-12-A02|SIMO",
+   "symbol": "SIMO",
+   "side": "SLD",
+   "shares": 11.0,
+   "price": 177.16,
+   "commission": 1.040177,
+   "time": "2026-11-12T05:02:32+00:00",
+   "exec_id": "0000e511.6af50bfb.01.01"
+  },
+  {
+   "order_ref": "X-1111-2201-LIN|LIN",
+   "symbol": "LIN",
+   "side": "BOT",
+   "shares": 3.0,
+   "price": 529.95,
+   "commission": 1.000009,
+   "time": "2026-11-12T07:37:33+00:00",
+   "exec_id": "0000e511.6af51029.01.01"
+  },
+  {
+   "order_ref": "I-1112-XRT|SPY",
+   "symbol": "SPY",
+   "side": "BOT",
+   "shares": 13.0,
+   "price": 757.32,
+   "commission": 1.000039,
+   "time": "2026-11-12T15:34:07+00:00",
+   "exec_id": "00025b49.6af9a6f9.01.01"
+  },
+  {
+   "order_ref": "I-1112-XRT|XRT",
+   "symbol": "XRT",
+   "side": "SLD",
+   "shares": 100.0,
+   "price": 91.73,
+   "commission": 1.189264,
+   "time": "2026-11-12T15:34:07+00:00",
+   "exec_id": "00025b47.6af55774.01.01"
+  },
+  {
+   "order_ref": "I-1112-XRT|XRT",
+   "symbol": "XRT",
+   "side": "SLD",
+   "shares": 9.0,
+   "price": 91.73,
+   "commission": 0.017034,
+   "time": "2026-11-12T15:34:07+00:00",
+   "exec_id": "00025b47.6af55775.01.01"
+  },
+  {
+   "order_ref": "I-1112-GOOGL|XLC",
+   "symbol": "XLC",
+   "side": "SLD",
+   "shares": 92.0,
+   "price": 108.38,
+   "commission": 1.205678,
+   "time": "2026-11-12T16:02:00+00:00",
+   "exec_id": "00025b47.6af55b43.01.01"
+  },
+  {
+   "order_ref": "I-1112-GOOGL|GOOGL",
+   "symbol": "GOOGL",
+   "side": "BOT",
+   "shares": 33.0,
+   "price": 297.18,
+   "commission": 1.000099,
+   "time": "2026-11-12T16:02:00+00:00",
+   "exec_id": "0000dc8f.6c0cc132.01.01"
+  },
+  {
+   "order_ref": "2026-11-10-A01|QQQ",
+   "symbol": "QQQ",
+   "side": "SLD",
+   "shares": 14.0,
+   "price": 690.28,
+   "commission": 1.199119,
+   "time": "2026-11-12T18:15:07+00:00",
+   "exec_id": "00025b49.6afa6230.01.01"
+  },
+  {
+   "order_ref": "2026-11-10-A01|NVDA",
+   "symbol": "NVDA",
+   "side": "BOT",
+   "shares": 57.0,
+   "price": 165.44,
+   "commission": 1.000171,
+   "time": "2026-11-12T18:15:07+00:00",
+   "exec_id": "0000dc8f.6c0cf1f2.01.01"
+  },
+  {
+   "order_ref": "I-1112-XRT|XRT",
+   "symbol": "XRT",
+   "side": "BOT",
+   "shares": 100.0,
+   "price": 90.7,
+   "commission": 1.0003,
+   "time": "2026-11-12T20:46:14+00:00",
+   "exec_id": "00025b47.6af581ce.01.01"
+  },
+  {
+   "order_ref": "I-1112-GOOGL|GOOGL",
+   "symbol": "GOOGL",
+   "side": "SLD",
+   "shares": 30.0,
+   "price": 298.65,
+   "commission": 1.184656,
+   "time": "2026-11-12T20:46:14+00:00",
+   "exec_id": "00025b44.6af67ed2.01.01"
+  },
+  {
+   "order_ref": "I-1112-GOOGL|GOOGL",
+   "symbol": "GOOGL",
+   "side": "SLD",
+   "shares": 3.0,
+   "price": 298.65,
+   "commission": 0.018466,
+   "time": "2026-11-12T20:46:14+00:00",
+   "exec_id": "00025b44.6af67ed3.01.01"
+  },
+  {
+   "order_ref": "I-1112-GOOGL|XLC",
+   "symbol": "XLC",
+   "side": "BOT",
+   "shares": 92.0,
+   "price": 107.58,
+   "commission": 1.000276,
+   "time": "2026-11-12T20:46:15+00:00",
+   "exec_id": "00025b47.6af581cf.01.01"
+  },
+  {
+   "order_ref": "I-1112-XRT|XRT",
+   "symbol": "XRT",
+   "side": "BOT",
+   "shares": 9.0,
+   "price": 90.7,
+   "commission": 2.7e-05,
+   "time": "2026-11-12T20:46:16+00:00",
+   "exec_id": "00025b47.6af581d2.01.01"
+  },
+  {
+   "order_ref": "I-1112-XRT|SPY",
+   "symbol": "SPY",
+   "side": "SLD",
+   "shares": 6.0,
+   "price": 756.85,
+   "commission": 1.093565,
+   "time": "2026-11-12T20:46:19+00:00",
+   "exec_id": "00025b49.6afaa85c.01.01"
+  },
+  {
+   "order_ref": "I-1112-XRT|SPY",
+   "symbol": "SPY",
+   "side": "SLD",
+   "shares": 7.0,
+   "price": 756.85,
+   "commission": 0.109159,
+   "time": "2026-11-12T20:46:19+00:00",
+   "exec_id": "00025b49.6afaa85d.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D06|SPY",
+   "symbol": "SPY",
+   "side": "BOT",
+   "shares": 3.0,
+   "price": 757.13,
+   "commission": 1.000009,
+   "time": "2026-11-12T20:59:30+00:00",
+   "exec_id": "00025b49.6afabba5.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D09|SPY",
+   "symbol": "SPY",
+   "side": "BOT",
+   "shares": 3.0,
+   "price": 757.13,
+   "commission": 1.000009,
+   "time": "2026-11-12T20:59:30+00:00",
+   "exec_id": "00025b49.6afabba7.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D05|OUST",
+   "symbol": "OUST",
+   "side": "SLD",
+   "shares": 71.0,
+   "price": 36.6,
+   "commission": 1.053744,
+   "time": "2026-11-12T20:59:30+00:00",
+   "exec_id": "00025b49.6afabc7f.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D09|UBER",
+   "symbol": "UBER",
+   "side": "SLD",
+   "shares": 36.0,
+   "price": 69.13,
+   "commission": 1.051375,
+   "time": "2026-11-12T20:59:31+00:00",
+   "exec_id": "00025b46.6af5b9af.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D04|U",
+   "symbol": "U",
+   "side": "SLD",
+   "shares": 48.0,
+   "price": 50.25,
+   "commission": 1.049831,
+   "time": "2026-11-12T20:59:31+00:00",
+   "exec_id": "00025b46.6af5ba2e.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D06|QCOM",
+   "symbol": "QCOM",
+   "side": "SLD",
+   "shares": 15.0,
+   "price": 177.13,
+   "commission": 1.054778,
+   "time": "2026-11-12T20:59:31+00:00",
+   "exec_id": "00025b49.6afabfb8.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D07|NVO",
+   "symbol": "NVO",
+   "side": "BOT",
+   "shares": 62.0,
+   "price": 40.67,
+   "commission": 1.000186,
+   "time": "2026-11-12T20:59:31+00:00",
+   "exec_id": "00025b45.6af81332.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D10|XLI",
+   "symbol": "XLI",
+   "side": "SLD",
+   "shares": 15.0,
+   "price": 169.44,
+   "commission": 1.052402,
+   "time": "2026-11-12T20:59:31+00:00",
+   "exec_id": "00025b47.6af58670.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D05|XLI",
+   "symbol": "XLI",
+   "side": "BOT",
+   "shares": 15.0,
+   "price": 169.45,
+   "commission": 1.000045,
+   "time": "2026-11-12T20:59:32+00:00",
+   "exec_id": "00025b47.6af58699.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D02|XLV",
+   "symbol": "XLV",
+   "side": "SLD",
+   "shares": 13.0,
+   "price": 187.9,
+   "commission": 1.050359,
+   "time": "2026-11-12T20:59:32+00:00",
+   "exec_id": "00025b47.6af586ab.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D07|XLV",
+   "symbol": "XLV",
+   "side": "SLD",
+   "shares": 13.0,
+   "price": 187.9,
+   "commission": 1.050359,
+   "time": "2026-11-12T20:59:32+00:00",
+   "exec_id": "00025b47.6af586ac.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D10|CGNX",
+   "symbol": "CGNX",
+   "side": "BOT",
+   "shares": 52.0,
+   "price": 50.77,
+   "commission": 1.000156,
+   "time": "2026-11-12T20:59:32+00:00",
+   "exec_id": "00025b44.6af696bd.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D04|XLC",
+   "symbol": "XLC",
+   "side": "BOT",
+   "shares": 23.0,
+   "price": 107.58,
+   "commission": 1.000069,
+   "time": "2026-11-12T20:59:41+00:00",
+   "exec_id": "00025b47.6af586bb.01.01"
+  },
+  {
+   "order_ref": "2026-11-09-D02|CVS",
+   "symbol": "CVS",
+   "side": "BOT",
+   "shares": 29.0,
+   "price": 89.79,
+   "commission": 1.000087,
+   "time": "2026-11-12T20:59:42+00:00",
+   "exec_id": "00025b44.6af696a1.01.01"
+  }
+ ],
+ "positions": {
+  "WDC": -6.0,
+  "HUBS": -6.0,
+  "XLK": 59.0,
+  "MNDY": -15.0,
+  "NOVT": -80.0,
+  "ASAN": -123.0,
+  "IGV": 99.0,
+  "MU": -2.0,
+  "ADBE": -5.0,
+  "SNDK": -2.0,
+  "HUM": 22.0,
+  "TEAM": -8.0,
+  "SMH": 20.0,
+  "SIMO": -11.0,
+  "NOW": -12.0,
+  "STX": -3.0,
+  "CRM": -5.0,
+  "WDAY": -6.0
+ },
+ "net_liquidation": 1028212.24,
+ "marks": {
+  "ADBE": 238.5399933,
+  "ASAN": 9.67974665,
+  "CRM": 217.0,
+  "HUBS": 215.5935211,
+  "HUM": 443.8444519,
+  "IGV": 101.44649505,
+  "MNDY": 76.9654846,
+  "MU": 802.6699829,
+  "NOVT": 117.310524,
+  "NOW": 100.75,
+  "SIMO": 179.80000305,
+  "SMH": 502.7000122,
+  "SNDK": 942.96002195,
+  "STX": 546.44000245,
+  "TEAM": 152.2400055,
+  "WDAY": 190.6499939,
+  "WDC": 311.2200012,
+  "XLK": 174.0062866
+ }
+}

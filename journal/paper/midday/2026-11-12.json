@@ -1,0 +1,112 @@
+{
+ "session": "2026-11-12",
+ "reviewed_at": "2026-11-12T12:12:27.665670-05:00",
+ "summary": "Nvidia's CEO resigned before the open (NVDA -5.5% vs QQQ flat after opening -13%); the overhang short is exited as played out. Twelve holds, no other wrong_if has happened.",
+ "reviews": [
+  {
+   "trade_id": "2026-11-10-A01",
+   "action": "exit",
+   "thesis": "played_out",
+   "reason": "The board probe the trade was waiting on has ended: at about 9:00 AM ET NVIDIA announced Huang stepped down as CEO and director (CNBC live blog; SEC filing 11-12). NVDA opened down more than 13% and has bought back more than half of it (about -5.5% at midday vs QQQ flat), so the move the overhang was meant to bring has happened. Remaining items (House testimony, DOJ) are follow-on, not the reason for the trade."
+  },
+  {
+   "trade_id": "2026-11-10-A02",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "At BMO (10:00 AM ET, Investing.com) ServiceNow's SVP Josh Kahn, not the CFO, said seats grew year on year; no raise or reaffirmation of cRPO or subscription guidance, so wrong_if has not happened. No upgrades on seat growth found; KeyBanc downgraded WDAY. Pre-close should check why HUBS is +7.3% today (no news found) and whether the basket is regaining its loss against IGV."
+  },
+  {
+   "trade_id": "2026-11-10-A03",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "NOVT -3.1% vs XLK -0.2%. Baird cut its target to $175 from $194 (MarketBeat, 11-12); no coverage found of the 11-11 Baird conference. The CFO's 'conservative' remark and the Stockport margin hit were on the 11-10 call, before the take, with no revenue figure for the shortfall. Pre-close: check for any Baird-conference write-up quantifying the shortfall."
+  },
+  {
+   "trade_id": "2026-11-12-A01",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "HUM -0.1% vs UNH +0.6%. No CY2028 payment or star-rating rule (CMS-4214-P of 10-16 has neither; the second rule is not out); no peer cost-trend warning found. Form 144s: officer Joseph Ventura 5,495 vested shares ($2.35M, 11-09) and a director's 440 shares; routine vested-unit sales, not judged large. Pre-close may confirm Ventura's role."
+  },
+  {
+   "trade_id": "2026-11-12-A02",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "Memory fading as planned: MU -3.2%, SNDK -4.2%, WDC/STX/SIMO about -1% vs SMH -1.0% (24/7 Wall St. ties it to the Nvidia news). Spot DRAM and NAND still slipping per TrendForce (latest 11-03/11-11 readings). AMAT reports after today's close; the wrong_if test is tomorrow's session."
+  },
+  {
+   "trade_id": "2026-11-09-D02",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "CVS flat vs XLV +0.4%; no news checked beyond price. Last session; the time limit closes it today."
+  },
+  {
+   "trade_id": "2026-11-09-D04",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "U -1.0% vs XLC flat; losing is not a reason. Last session; the stop and time limit decide."
+  },
+  {
+   "trade_id": "2026-11-09-D05",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "OUST -2.0% vs XLI flat, gain still held. Last session; the time limit closes it today."
+  },
+  {
+   "trade_id": "2026-11-09-D06",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "QCOM +1.7% vs SPY +0.2%, rebound running. Last session; the time limit closes it today."
+  },
+  {
+   "trade_id": "2026-11-09-D07",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "NVO -1.2% vs XLV +0.4%, in the short's favour. Last session; the time limit closes it today."
+  },
+  {
+   "trade_id": "2026-11-09-D09",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "UBER -1.4% vs SPY +0.2%; losing is not a reason. Last session; the stop and time limit decide."
+  },
+  {
+   "trade_id": "2026-11-09-D10",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "CGNX -1.2% vs XLI flat, in the short's favour. Last session; the time limit closes it today."
+  }
+ ],
+ "exits": [
+  {
+   "trade_id": "2026-11-10-A01",
+   "book": "dynamic",
+   "session_number": 3,
+   "intraday": true,
+   "at": "1:15 PM",
+   "reason": "midday check: The board probe the trade was waiting on has ended: at about 9:00 AM ET NVIDIA announced Huang stepped down as CEO and director (CNBC live blog; SEC filing 11-12). NVDA opened down more than 13% and has bought back more than half of it (about -5.5% at midday vs QQQ flat), so the move the overhang was meant to bring has happened. Remaining items (House testimony, DOJ) are follow-on, not the reason for the trade."
+  }
+ ],
+ "orders": [
+  {
+   "trade_id": "2026-11-10-A01",
+   "symbol": "QQQ",
+   "action": "SELL",
+   "shares": 14,
+   "kind": "MKT",
+   "order_id": 94,
+   "status": "Filled",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-10-A01",
+   "symbol": "NVDA",
+   "action": "BUY",
+   "shares": 57,
+   "kind": "MKT",
+   "order_id": 96,
+   "status": "Filled",
+   "note": ""
+  }
+ ],
+ "warnings": []
+}

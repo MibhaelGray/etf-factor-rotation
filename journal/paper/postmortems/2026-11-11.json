@@ -1,0 +1,15 @@
+{
+ "postmortems": [
+  {
+   "trade_id": "2026-11-09-D01",
+   "proposal_id": null,
+   "name": "ABNB",
+   "setup": "earnings_gap_held",
+   "bps": -740.7,
+   "tag": "thesis_broke",
+   "what_happened": "ABNB (long against XLY, consumer discretionary ETF) was stopped on its third session, down 7.0% at 3:45 PM ET. The setup was a post-earnings gap that held; instead ABNB gave the gap back, from 189.99 at entry to about 181.5, below the signal day's midpoint (188.28), while XLY rose about 3%. One report (StockStory, 11-08) put the selling on a next-quarter guide below estimates despite faster bookings growth; other reports conflict and no fresh ABNB news on 11-10 or 11-11 was found. The gap failing to hold is the reason itself failing.",
+   "lesson": "A gap-held long needs the next-quarter guide to be clean, not just the quarter; when reports disagree on the guide, check consensus against it before taking the gap.",
+   "at": "2026-11-11T19:42:16.156697-05:00"
+  }
+ ]
+}

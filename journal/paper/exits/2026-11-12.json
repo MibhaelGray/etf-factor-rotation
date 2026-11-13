@@ -1,0 +1,239 @@
+{
+ "session": "2026-11-12",
+ "built_at": "2026-11-12T15:45:09.281981-05:00",
+ "dry_run": false,
+ "prices": {
+  "ADBE": 238.6649932861328,
+  "ASAN": 9.579999923706055,
+  "CGNX": 50.7400016784668,
+  "CRM": 216.69000244140625,
+  "CVS": 89.90499877929688,
+  "HUBS": 214.27999877929688,
+  "HUM": 441.6300048828125,
+  "IGV": 101.21150207519531,
+  "MNDY": 76.38500213623047,
+  "MU": 794.3699951171875,
+  "NOVT": 117.58999633789062,
+  "NOW": 100.33999633789062,
+  "NVO": 40.5,
+  "OUST": 36.70500183105469,
+  "QCOM": 177.11000061035156,
+  "SIMO": 178.44000244140625,
+  "SMH": 499.75,
+  "SNDK": 932.52001953125,
+  "SPY": 756.9000244140625,
+  "STX": 544.7130737304688,
+  "TEAM": 151.44000244140625,
+  "U": 50.06999969482422,
+  "UBER": 69.0999984741211,
+  "WDAY": 190.1750030517578,
+  "WDC": 309.8299865722656,
+  "XLC": 107.66500091552734,
+  "XLI": 169.7100067138672,
+  "XLK": 173.1300048828125,
+  "XLV": 188.27999877929688
+ },
+ "exits": [
+  {
+   "trade_id": "2026-11-09-D02",
+   "book": "dynamic",
+   "session_number": 4,
+   "reason": "time limit: session 4 of 4"
+  },
+  {
+   "trade_id": "2026-11-09-D04",
+   "book": "dynamic",
+   "session_number": 4,
+   "reason": "time limit: session 4 of 4"
+  },
+  {
+   "trade_id": "2026-11-09-D05",
+   "book": "dynamic",
+   "session_number": 4,
+   "reason": "time limit: session 4 of 4"
+  },
+  {
+   "trade_id": "2026-11-09-D06",
+   "book": "dynamic",
+   "session_number": 4,
+   "reason": "time limit: session 4 of 4"
+  },
+  {
+   "trade_id": "2026-11-09-D07",
+   "book": "dynamic",
+   "session_number": 4,
+   "reason": "time limit: session 4 of 4"
+  },
+  {
+   "trade_id": "2026-11-09-D09",
+   "book": "dynamic",
+   "session_number": 4,
+   "reason": "time limit: session 4 of 4"
+  },
+  {
+   "trade_id": "2026-11-09-D10",
+   "book": "dynamic",
+   "session_number": 4,
+   "reason": "time limit: session 4 of 4"
+  }
+ ],
+ "extended": [],
+ "retried": [],
+ "stops_not_checked": [],
+ "reviewed": [
+  "2026-11-09-D02",
+  "2026-11-09-D04",
+  "2026-11-09-D05",
+  "2026-11-09-D06",
+  "2026-11-09-D07",
+  "2026-11-09-D09",
+  "2026-11-09-D10",
+  "2026-11-10-A02",
+  "2026-11-10-A03",
+  "2026-11-12-A01",
+  "2026-11-12-A02"
+ ],
+ "orders": [
+  {
+   "trade_id": "2026-11-09-D02",
+   "symbol": "XLV",
+   "action": "SELL",
+   "shares": 13,
+   "kind": "MOC",
+   "order_id": 101,
+   "status": "PendingSubmit",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D02",
+   "symbol": "CVS",
+   "action": "BUY",
+   "shares": 29,
+   "kind": "MOC",
+   "order_id": 103,
+   "status": "PendingSubmit",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D04",
+   "symbol": "U",
+   "action": "SELL",
+   "shares": 48,
+   "kind": "MOC",
+   "order_id": 105,
+   "status": "PendingSubmit",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D04",
+   "symbol": "XLC",
+   "action": "BUY",
+   "shares": 23,
+   "kind": "MOC",
+   "order_id": 107,
+   "status": "PendingSubmit",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D05",
+   "symbol": "OUST",
+   "action": "SELL",
+   "shares": 71,
+   "kind": "MOC",
+   "order_id": 109,
+   "status": "PendingSubmit",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D05",
+   "symbol": "XLI",
+   "action": "BUY",
+   "shares": 15,
+   "kind": "MOC",
+   "order_id": 111,
+   "status": "PendingSubmit",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D06",
+   "symbol": "QCOM",
+   "action": "SELL",
+   "shares": 15,
+   "kind": "MOC",
+   "order_id": 113,
+   "status": "PendingSubmit",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D06",
+   "symbol": "SPY",
+   "action": "BUY",
+   "shares": 3,
+   "kind": "MOC",
+   "order_id": 115,
+   "status": "PendingSubmit",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D07",
+   "symbol": "XLV",
+   "action": "SELL",
+   "shares": 13,
+   "kind": "MOC",
+   "order_id": 117,
+   "status": "PendingSubmit",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D07",
+   "symbol": "NVO",
+   "action": "BUY",
+   "shares": 62,
+   "kind": "MOC",
+   "order_id": 119,
+   "status": "PendingSubmit",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D09",
+   "symbol": "UBER",
+   "action": "SELL",
+   "shares": 36,
+   "kind": "MOC",
+   "order_id": 121,
+   "status": "PendingSubmit",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D09",
+   "symbol": "SPY",
+   "action": "BUY",
+   "shares": 3,
+   "kind": "MOC",
+   "order_id": 123,
+   "status": "PendingSubmit",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D10",
+   "symbol": "XLI",
+   "action": "SELL",
+   "shares": 15,
+   "kind": "MOC",
+   "order_id": 125,
+   "status": "PendingSubmit",
+   "note": ""
+  },
+  {
+   "trade_id": "2026-11-09-D10",
+   "symbol": "CGNX",
+   "action": "BUY",
+   "shares": 52,
+   "kind": "MOC",
+   "order_id": 127,
+   "status": "PendingSubmit",
+   "note": ""
+  }
+ ],
+ "warnings": []
+}

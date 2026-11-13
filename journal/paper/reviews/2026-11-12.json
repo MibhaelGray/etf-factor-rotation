@@ -1,0 +1,73 @@
+{
+ "session": "2026-11-12",
+ "reviewed_at": "2026-11-12T15:01:41.137962-05:00",
+ "summary": "Soft tape (SPY -0.3%, QQQ -0.4%, SMH -1.2%) after Nvidia's CEO resignation. No trade's wrong_if has happened and no news changes a story: eleven holds, no exits, no extensions. Seven trades are on their last session and close on the time limit.",
+ "reviews": [
+  {
+   "trade_id": "2026-11-09-D02",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "CVS +0.5% vs XLV -0.4%; Wells Fargo trimmed its target to $112 and kept Overweight (MarketBeat, 11-12), no guidance news. Losing is not a reason; last session, the time limit closes it."
+  },
+  {
+   "trade_id": "2026-11-09-D04",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "U +0.3% vs XLC -0.7%; StoneX raised its target to $56 (Investing.com). A Reuters takeover-talks item surfaced undated and unverified. Nothing against the long; at its stop, and the stop and time limit decide."
+  },
+  {
+   "trade_id": "2026-11-09-D05",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "OUST -3.8% vs XLI -0.6% with no news since the Indra selection (11-11); still in profit. Nothing dated ahead that the time limit missed, so no extension; it closes today."
+  },
+  {
+   "trade_id": "2026-11-09-D06",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "QCOM +0.2% vs SPY -0.3%; India layoff reports (11-11, unconfirmed) and the CEO's summit remarks (11-12) change no guidance. The rebound has run its four sessions and nothing dated is ahead, so no extension; it closes today."
+  },
+  {
+   "trade_id": "2026-11-09-D07",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "NVO -1.3% vs XLV -0.4%, in the short's favour; only a foundation pledge (11-11). Nothing dated ahead, so no extension; it closes today."
+  },
+  {
+   "trade_id": "2026-11-09-D09",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "UBER -2.3% vs SPY -0.3% with no company news on 11-11 or 11-12; price only. Losing is not a reason; last session, the stop and time limit decide."
+  },
+  {
+   "trade_id": "2026-11-09-D10",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "CGNX -1.3% vs XLI -0.6%, in the short's favour today; Jefferies started it at Buy (11-11), an opinion, not a change to the report. Last session, the time limit closes it."
+  },
+  {
+   "trade_id": "2026-11-10-A02",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "No wrong_if: no ServiceNow raise or reaffirmation found from the BMO chat (no transcript indexed; NOW -2.0%), no upgrades of any member on 11-11 or 11-12, and the basket has not regained its loss (NOW, TEAM, MNDY, ASAN down 2-4.5% since 11-09 vs IGV flat). HUBS +6.2% is a named event: co-founder Halligan returns as CEO and guidance was reaffirmed (Seeking Alpha, Benzinga, 11-12), one member's news, not seat growth."
+  },
+  {
+   "trade_id": "2026-11-10-A03",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "NOVT -3.5% vs XLK -0.5%. No Baird conference write-up or analyst note quantifies the Q4 shortfall as a one-off or calls the guide conservative; the Stockport halt runs to Q1 2027 (Finviz, 11-10), which is not a one-quarter slip. Two sessions left for the drift."
+  },
+  {
+   "trade_id": "2026-11-12-A01",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "HUM -1.2% vs UNH +0.6% on no news. No CY2028 payment or star-rating rule in the CMS newsroom through 11-12; no peer cost-trend warning found. The Form 144 filer, Ventura, is Chief Legal Officer: 5,495 vested units, $2.35M, about a fifth of his direct holding as of May, not judged a large sale. First session; price alone is the stop's job."
+  },
+  {
+   "trade_id": "2026-11-12-A02",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "Fade running: MU -2.0%, SNDK -4.9%, SIMO -3.2%, WDC and STX about -1.5% vs SMH -1.2%. Spot DRAM and NAND still slipping on the latest TrendForce readings (11-03/11-04); TrendForce on 11-12 reports planned contract price hikes, which is contract, not spot. Applied reports after the close (call 4:30 PM ET); the wrong_if test is tomorrow's session."
+  }
+ ]
+}

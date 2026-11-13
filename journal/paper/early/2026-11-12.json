@@ -1,0 +1,252 @@
+{
+ "session": "2026-11-12",
+ "trades": [
+  {
+   "id": "2026-11-12-A01",
+   "book": "dynamic",
+   "source": "proposal 2026-11-12-P01",
+   "proposal_id": "2026-11-12-P01",
+   "conviction": 3,
+   "name": "HUM",
+   "setup": "breakout",
+   "direction": "long",
+   "why": "A fresh 52-week closing high on 1.7x volume, on a day UNH fell, five days after a beat and raise that followed the best star-ratings result in managed care.",
+   "wrong_if": "CMS publishes a contract-year 2028 Medicare Advantage proposed rule that cuts payments or changes star-rating methodology against Humana; or Humana or a peer (UNH, ELV, CVS, CNC) says Medicare Advantage cost trend is running above plan; or the Form 144 turns out to be a large sale by a senior executive.",
+   "entry_date": "2026-11-12",
+   "horizon_days": 5,
+   "stop": {
+    "spread_pct": -6.0
+   },
+   "notional": 10000,
+   "legs": [
+    {
+     "symbol": "HUM",
+     "side": "long",
+     "shares": 22,
+     "ref_price": 448.0
+    }
+   ],
+   "hedge": null
+  },
+  {
+   "id": "2026-11-12-A02",
+   "book": "dynamic",
+   "source": "proposal 2026-11-12-P15",
+   "proposal_id": "2026-11-12-P15",
+   "conviction": 3,
+   "name": "Memory and storage fade vs SMH",
+   "setup": "other",
+   "direction": "short",
+   "why": "Memory beat SMH by 5.7 points on 11-11 on CoreWeave's capex, a read-across, while the pair is in a 20% 60-session downtrend; the last four such jumps (6-25, 7-21, 7-30, 10-28) gave back 7.6-12.3 points inside five sessions, and spot DRAM and NAND are still slipping.",
+   "wrong_if": "Memory beats SMH again on 11-13, the session after Applied's report, or TrendForce or DRAMeXchange show DRAM and NAND spot prices turning up inside the window.",
+   "entry_date": "2026-11-12",
+   "horizon_days": 4,
+   "stop": {
+    "spread_pct": -8.0
+   },
+   "notional": 10000,
+   "legs": [
+    {
+     "symbol": "SMH",
+     "side": "long",
+     "shares": 20,
+     "ref_price": 493.1577
+    },
+    {
+     "symbol": "MU",
+     "side": "short",
+     "shares": 2,
+     "ref_price": 788.5711
+    },
+    {
+     "symbol": "SNDK",
+     "side": "short",
+     "shares": 2,
+     "ref_price": 951.7856
+    },
+    {
+     "symbol": "WDC",
+     "side": "short",
+     "shares": 6,
+     "ref_price": 305.5945
+    },
+    {
+     "symbol": "STX",
+     "side": "short",
+     "shares": 3,
+     "ref_price": 539.0
+    },
+    {
+     "symbol": "SIMO",
+     "side": "short",
+     "shares": 11,
+     "ref_price": 178.5
+    }
+   ],
+   "hedge": "SMH"
+  }
+ ],
+ "runs": [
+  {
+   "at": "2026-11-11T22:03:50-05:00",
+   "venue": "overnight",
+   "dry_run": false,
+   "new": [
+    "2026-11-12-A01"
+   ],
+   "stood_down": [],
+   "cancelled": 0,
+   "orders": [
+    {
+     "trade_id": "2026-11-12-A01",
+     "symbol": "HUM",
+     "action": "BUY",
+     "shares": 22,
+     "kind": "LMT",
+     "limit": 450.24,
+     "venue": "overnight",
+     "ref_price": 448.0,
+     "order_id": 73,
+     "status": "Filled",
+     "note": "Warning 2109, reqId 73: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed."
+    }
+   ],
+   "skipped": [],
+   "warnings": [
+    "2026-11-12-A01: BUY 22 HUM went in with a message from the gateway: Warning 2109, reqId 73: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed."
+   ]
+  },
+  {
+   "at": "2026-11-11T23:12:11-05:00",
+   "venue": "overnight",
+   "dry_run": false,
+   "new": [],
+   "stood_down": [],
+   "cancelled": 0,
+   "orders": [],
+   "skipped": [],
+   "warnings": []
+  },
+  {
+   "at": "2026-11-11T23:49:39-05:00",
+   "venue": "overnight",
+   "dry_run": false,
+   "new": [
+    "2026-11-12-A02"
+   ],
+   "stood_down": [],
+   "cancelled": 0,
+   "orders": [
+    {
+     "trade_id": "2026-11-12-A02",
+     "symbol": "SMH",
+     "action": "BUY",
+     "shares": 20,
+     "kind": "LMT",
+     "limit": 495.62,
+     "venue": "overnight",
+     "ref_price": 493.1577,
+     "order_id": 78,
+     "status": "Submitted",
+     "note": "Warning 2109, reqId 78: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed."
+    },
+    {
+     "trade_id": "2026-11-12-A02",
+     "symbol": "MU",
+     "action": "SELL",
+     "shares": 2,
+     "kind": "LMT",
+     "limit": 784.63,
+     "venue": "overnight",
+     "ref_price": 788.5711,
+     "order_id": 80,
+     "status": "Filled",
+     "note": "Warning 2109, reqId 80: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed."
+    },
+    {
+     "trade_id": "2026-11-12-A02",
+     "symbol": "SNDK",
+     "action": "SELL",
+     "shares": 2,
+     "kind": "LMT",
+     "limit": 947.03,
+     "venue": "overnight",
+     "ref_price": 951.7856,
+     "order_id": 82,
+     "status": "Submitted",
+     "note": "Warning 2109, reqId 82: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed."
+    },
+    {
+     "trade_id": "2026-11-12-A02",
+     "symbol": "WDC",
+     "action": "SELL",
+     "shares": 6,
+     "kind": "LMT",
+     "limit": 304.07,
+     "venue": "overnight",
+     "ref_price": 305.5945,
+     "order_id": 84,
+     "status": "Submitted",
+     "note": "Warning 2109, reqId 84: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed."
+    },
+    {
+     "trade_id": "2026-11-12-A02",
+     "symbol": "STX",
+     "action": "SELL",
+     "shares": 3,
+     "kind": "LMT",
+     "limit": 536.3,
+     "venue": "overnight",
+     "ref_price": 539.0,
+     "order_id": 86,
+     "status": "Submitted",
+     "note": "Warning 2109, reqId 86: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed."
+    },
+    {
+     "trade_id": "2026-11-12-A02",
+     "symbol": "SIMO",
+     "action": "SELL",
+     "shares": 11,
+     "kind": "LMT",
+     "limit": 177.61,
+     "venue": "overnight",
+     "ref_price": 178.5,
+     "order_id": 88,
+     "status": "Submitted",
+     "note": "Warning 2109, reqId 88: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed."
+    }
+   ],
+   "skipped": [],
+   "warnings": [
+    "2026-11-12-A02: BUY 20 SMH went in with a message from the gateway: Warning 2109, reqId 78: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.",
+    "2026-11-12-A02: SELL 2 MU went in with a message from the gateway: Warning 2109, reqId 80: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.",
+    "2026-11-12-A02: SELL 2 SNDK went in with a message from the gateway: Warning 2109, reqId 82: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.",
+    "2026-11-12-A02: SELL 6 WDC went in with a message from the gateway: Warning 2109, reqId 84: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.",
+    "2026-11-12-A02: SELL 3 STX went in with a message from the gateway: Warning 2109, reqId 86: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.",
+    "2026-11-12-A02: SELL 11 SIMO went in with a message from the gateway: Warning 2109, reqId 88: Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed."
+   ]
+  },
+  {
+   "at": "2026-11-12T04:05:05-05:00",
+   "venue": "extended",
+   "dry_run": false,
+   "new": [],
+   "stood_down": [],
+   "cancelled": 0,
+   "orders": [],
+   "skipped": [],
+   "warnings": []
+  },
+  {
+   "at": "2026-11-12T08:50:00-05:00",
+   "venue": "extended",
+   "dry_run": false,
+   "new": [],
+   "stood_down": [],
+   "cancelled": 0,
+   "orders": [],
+   "skipped": [],
+   "warnings": []
+  }
+ ]
+}
