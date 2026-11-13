@@ -19,7 +19,7 @@ from . import bars, earnings, journal
 from .analytics.technicals import atr, rsi
 from .config import NY
 from .market import _regime, basket_library
-from .universe import BARS_ONLY, BROAD, CONSTITUENTS, ETFS, FACTOR_PAIRS, INDUSTRIES, SECTORS
+from .universe import BARS_ONLY, BROAD, ETFS, FACTOR_PAIRS, INDUSTRIES, SECTORS, screen_universe
 
 MIN_DOLLAR_VOLUME = 20e6
 TOP = 20
@@ -440,7 +440,7 @@ def _spread_hits(name: str, spread: pd.Series, stretched_setup: str, big_setup: 
 def build() -> dict:
     groups = _groups()
     baskets = basket_library()["baskets"]
-    names = sorted({*ETFS, *CONSTITUENTS, *groups, *earnings.symbols()} - set(BARS_ONLY))
+    names = sorted({*screen_universe(), *groups, *earnings.symbols()} - set(BARS_ONLY))
     frame = bars.load(names)
     as_of_ts = frame.loc[frame["symbol"] == "SPY", "date"].max()
     as_of = as_of_ts.date()

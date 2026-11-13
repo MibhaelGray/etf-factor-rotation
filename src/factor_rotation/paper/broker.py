@@ -6,9 +6,11 @@ Before any order goes out, every one of these must hold, or the run stops:
 2. FR_PAPER_ACCOUNT is set and looks like a paper account (DU, optionally one letter, or DF, then digits).
 3. After connecting, every account the gateway manages is a paper account and FR_PAPER_ACCOUNT is one of them.
 4. FR_PAPER_SEND=1. Without it every job is a dry run that prints the orders it would send.
-Orders can only be market-on-open entries, market-on-close exits, or a plain market order (the post-open check
-uses it to close the filled legs of a trade whose other legs never filled), for whole shares of a US stock or
-ETF, and each carries FR_PAPER_ACCOUNT and an orderRef naming its trade and leg, so fills can be matched back.
+Orders can only be market-on-open entries, market-on-close exits, a plain market order (the post-open check
+uses it to close the filled legs of a trade whose other legs never filled), or a day limit order outside regular
+hours (the early entries, paper/early.py: pre-market and after-hours on SMART, the overnight session on IBKR's
+OVERNIGHT venue), for whole shares of a US stock or ETF, and each carries FR_PAPER_ACCOUNT and an orderRef naming
+its trade and leg, so fills can be matched back.
 """
 
 import asyncio
@@ -24,8 +26,9 @@ log = logging.getLogger(__name__)
 PAPER_PORTS = {4002, 7497}
 LIVE_PORTS = {4001, 7496}
 PAPER_ACCOUNT = re.compile(r"^(DU[A-Z]?|DF)\d+$")
-KINDS = {"MOO", "MOC", "MKT"}
-ORDER_TYPE = {"MOO": ("MKT", "OPG"), "MOC": ("MOC", "DAY"), "MKT": ("MKT", "DAY")}   # kind -> (orderType, tif)
+KINDS = {"MOO", "MOC", "MKT", "LMT"}
+ORDER_TYPE = {"MOO": ("MKT", "OPG"), "MOC": ("MOC", "DAY"), "MKT": ("MKT", "DAY"), "LMT": ("LMT", "DAY")}   # kind -> (orderType, tif)
+VENUES = {"extended", "overnight"}  # a limit order's session: pre-market or after-hours, or 8:00 PM-3:50 AM ET
 WAITING = {"", "PendingSubmit", "ApiPending"}       # an order the gateway hasn't answered for yet
 WORKING = {"PendingSubmit", "ApiPending", "PreSubmitted", "Submitted", "PendingCancel"}
 COMMISSION_WAITS = 40                               # of 0.05 s, so 2 s at most, as long as a report ever took
@@ -72,6 +75,11 @@ def check_order(o: dict) -> None:
         raise GuardError(f"order action {o['action']}")
     if not isinstance(o["shares"], int) or o["shares"] < 1:
         raise GuardError(f"order shares {o['shares']}")
+    if o["kind"] == "LMT":
+        if not isinstance(o.get("limit"), (int, float)) or not o["limit"] > 0:
+            raise GuardError(f"a limit order needs a positive limit price, not {o.get('limit')}")
+        if o.get("venue") not in VENUES:
+            raise GuardError(f"a limit order's venue must be one of {sorted(VENUES)}, not {o.get('venue')}")
 
 
 def ref(trade_id: str, symbol: str) -> str:
@@ -132,7 +140,7 @@ class IBPaper:
     async def place(self, orders: list[dict]) -> list[dict]:
         """Send each order; return its status once the gateway has answered (up to 12 seconds). Never called on
         a dry run."""
-        from ib_async import Order, Stock
+        from ib_async import Contract, Order, Stock
 
         if self.readonly or not self.s.send:
             raise GuardError("this connection may not send orders (read-only or FR_PAPER_SEND is not 1)")
@@ -148,7 +156,14 @@ class IBPaper:
             order_type, tif = ORDER_TYPE[o["kind"]]
             order = Order(action=o["action"], totalQuantity=o["shares"], orderType=order_type, tif=tif,
                           account=self.s.account, orderRef=ref(o["trade_id"], o["symbol"]), outsideRth=False, transmit=True)
-            placed.append((o, self.ib.placeOrder(q[0], order)))
+            contract = q[0]
+            if o["kind"] == "LMT":
+                order.lmtPrice, order.outsideRth = round(float(o["limit"]), 2), True
+                if o["venue"] == "overnight":   # only day limit orders trade overnight, routed to that venue
+                    contract = Contract(conId=q[0].conId, exchange="OVERNIGHT")
+                elif o.get("good_till"):        # a pre-market order must not run on into the regular session
+                    order.tif, order.goodTillDate = "GTD", o["good_till"]
+            placed.append((o, self.ib.placeOrder(contract, order)))
         for second in range(12):  # rejections arrive a moment after the acknowledgement, so wait at least 4
             await asyncio.sleep(1)
             if second >= 3 and all(t.orderStatus.status not in WAITING for _, t in placed):
@@ -157,6 +172,21 @@ class IBPaper:
             msgs = [e.message for e in t.log if e.errorCode]
             out.append({**o, "order_id": t.order.orderId, "status": t.orderStatus.status, "note": "; ".join(msgs)})
         return out
+
+    async def cancel(self, trade_ids: set[str]) -> int:
+        """Cancel the working orders of these trades on the paper account; returns how many were asked to cancel."""
+        if self.readonly or not self.s.send:
+            raise GuardError("this connection may not cancel orders (read-only or FR_PAPER_SEND is not 1)")
+        live = await _answer(self.ib.reqAllOpenOrdersAsync(), "open orders")
+        mine = [t for t in live if (key := unref(t.order.orderRef)) and key[0] in trade_ids
+                and t.orderStatus.status in WORKING and (not t.order.account or t.order.account == self.s.account)]
+        for t in mine:
+            self.ib.cancelOrder(t.order)
+        for _ in range(10):  # cancellations are confirmed a moment later
+            if all(t.orderStatus.status not in WORKING for t in mine):
+                break
+            await asyncio.sleep(0.5)
+        return len(mine)
 
     async def fills(self) -> list[dict]:
         """Today's executions on the paper account with their commissions."""
@@ -170,7 +200,9 @@ class IBPaper:
             e = f.execution
             if e.acctNumber != self.s.account:
                 continue
-            out.append({"order_ref": e.orderRef, "symbol": f.contract.symbol.replace(" ", "."), "side": e.side,
+            # An order sent to the OVERNIGHT venue by contract id comes back with no symbol: take it from the order's ref.
+            sym = f.contract.symbol or (e.orderRef.rsplit("|", 1)[-1] if "|" in (e.orderRef or "") else "")
+            out.append({"order_ref": e.orderRef, "symbol": sym.replace(" ", "."), "side": e.side,
                         "shares": float(e.shares), "price": e.price, "commission": getattr(f.commissionReport, "commission", None),
                         "time": f.time.isoformat() if f.time else None, "exec_id": e.execId})
         return out
@@ -191,6 +223,17 @@ class IBPaper:
 
     async def positions(self) -> dict[str, float]:
         return {p.contract.symbol.replace(" ", "."): float(p.position) for p in self.ib.positions(self.s.account) if p.position}
+
+    async def marks(self) -> dict[str, float]:
+        """symbol -> IBKR's own price for each position the account holds, the prices its account value uses.
+        {} if the gateway won't say: the books' accounts then fall back to the latest daily close."""
+        try:
+            await _answer(self.ib.reqAccountUpdatesAsync(self.s.account), "account updates")
+            return {p.contract.symbol.replace(" ", "."): float(p.marketPrice) for p in self.ib.portfolio(self.s.account)
+                    if p.position and p.marketPrice and p.marketPrice > 0}
+        except Exception as e:  # noqa: BLE001 - the marks are a nicety, never a failed sync
+            log.warning("paper_marks_failed %r", e)
+            return {}
 
     async def net_liquidation(self) -> float | None:
         rows = await _answer(self.ib.accountSummaryAsync(self.s.account), "account summary")
@@ -225,6 +268,9 @@ class DryRun:
             check_order(o)
         return [{**o, "order_id": None, "status": "dry run", "note": ""} for o in orders]
 
+    async def cancel(self, trade_ids: set[str]) -> int:
+        return 0
+
     async def fills(self) -> list[dict]:
         return []
 
@@ -232,6 +278,9 @@ class DryRun:
         return []
 
     async def positions(self) -> dict[str, float]:
+        return {}
+
+    async def marks(self) -> dict[str, float]:
         return {}
 
     async def net_liquidation(self) -> float | None:

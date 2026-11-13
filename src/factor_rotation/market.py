@@ -297,6 +297,17 @@ def _routine() -> list[dict]:
         return []
 
 
+def _portfolio() -> list[dict]:
+    """Both books as one portfolio; a failure here never costs the rest of the page."""
+    try:
+        from . import portfolio
+
+        return portfolio.rows()
+    except Exception as e:
+        logging.getLogger(__name__).warning("portfolio_rows_failed error=%r", e)
+        return []
+
+
 def _intraday() -> list[dict]:
     """The intraday book's rehearsal; a failure here never costs the rest of the page."""
     try:
@@ -372,7 +383,7 @@ def build(as_of: date | None = None, workers=None) -> list[dict]:
             "next_session": journal.next_trading_day(as_of).isoformat(), **book.marks_info()}
     pairs = _live_pairs(brief, as_of)
     meta["factor_live"] = pairs is not brief
-    return [meta, *_factors(pairs), *_gamma(as_of, brief), *_flows(brief), *_screen(newest, screen_job), *rows_first, *_hormuz(), *_routine(), *_intraday()]
+    return [meta, *_factors(pairs), *_gamma(as_of, brief), *_flows(brief), *_screen(newest, screen_job), *rows_first, *_hormuz(), *_routine(), *_intraday(), *_portfolio()]
 
 
 def _screen(newest: date | None = None, job: Future | None = None) -> list[dict]:
@@ -421,5 +432,6 @@ def _paper() -> list[dict]:
                  "net_liquidation": last.get("net_liquidation"), "positions": len(last.get("positions") or {}),
                  "mismatches": book.reconcile(last["positions"]) if last.get("positions") is not None else [],
                  "halted": book.HALT.read_text().strip() if book.HALT.exists() else None, "alerts": book.alerts(),
+                 "paused": [p.read_text().strip() for p in sorted(book.ROOT.glob("PAUSE-*"))],
                  "sessions_ahead": [d.isoformat() for d in journal.sessions_from(today, 6)], **book.marks_info()})
     return rows

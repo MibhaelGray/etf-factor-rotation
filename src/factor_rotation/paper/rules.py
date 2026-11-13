@@ -26,6 +26,32 @@ MAX_SYMBOL = 30_000        # dollars of net exposure to one symbol
 MIN_CONVICTION = 3         # a take below this is a pass
 # The outer limits on a plan the research pass writes. Inside them the plan is the pass's call; the pass can
 # end a trade early at the pre-close review but can never widen a stop, and can extend only a winner, once.
+# How every order outside the regular session is priced, in both books (the user's rule, 2026-11-12): to fill at
+# once, a buy goes in at the ask and a sell at the bid, with the limit a little beyond so it fills even if the
+# quote moves. The one exception is a book wider than a limit, as a share of the midpoint (see crossable).
+# Crossing costs about half the spread on the way in. The swing book's exits are in regular hours, where spreads
+# are tiny, so a 2% spread costs it about 1% against stops of 4-8% and moves over days. The intraday book's
+# overnight trades pay on the way out too, so its limit is half that (intraday/extended.py).
+# The user's numbers, 2026-11-12: swing 2%, intraday 1%. (Briefly 1% and 0.5% that day, which on IBKR's quotes
+# would have held back all three of the night's off-hours entries, sending two to the open.)
+MAX_CROSS_SPREAD = 0.02
+
+
+def spread_pct(book_: tuple[float, float] | None) -> float | None:
+    """The bid-ask spread as a share of the midpoint, or None without a usable book."""
+    if not book_:
+        return None
+    bid, ask = book_
+    mid = (bid + ask) / 2
+    return (ask - bid) / mid if bid > 0 and ask >= bid else None
+
+
+def crossable(book_: tuple[float, float] | None, limit: float = MAX_CROSS_SPREAD) -> bool:
+    """Whether an order should cross this book: a usable quote no wider than `limit`."""
+    s = spread_pct(book_)
+    return s is not None and s <= limit
+
+
 MAX_HORIZON = 10           # sessions, counting the first
 STOP_LIMITS = (1.0, 8.0)   # percent loss from entry: no tighter than the first, no wider than the second
 MAX_EXTENSION = 3          # sessions
@@ -109,18 +135,20 @@ def _hedge(longs: list[str], shorts: list[str]) -> str | None:
     return None
 
 
-def proposal_trades(proposals: list[dict], entry_date: str, prices: dict[str, float], held: set[str]) -> tuple[list[dict], list[dict]]:
+def proposal_trades(proposals: list[dict], entry_date: str, prices: dict[str, float], held: set[str],
+                    start: int = 1, room: int = MAX_NEW) -> tuple[list[dict], list[dict]]:
     """The research pass's takes as trades, strongest conviction first, up to MAX_NEW, each with the plan
     the pass wrote. Skips a take stood down before the open, one whose stock, basket members or pair funds are
     already in an open automatic trade or one taken today (`held` is those core symbols), and anything it
-    can't size. Returns (trades, skipped with reasons)."""
+    can't size. `start` numbers the ids after trades already made for the session (the early entries), and
+    `room` is how many of the session's MAX_NEW are left. Returns (trades, skipped with reasons)."""
     trades, skipped, used = [], [], set(held)
     takes = [p for p in proposals if p["decision"] == "take"]
     for p in sorted(takes, key=lambda p: -p["conviction"]):  # a stable sort: the pass's own order within a conviction
         if (p.get("preopen") or {}).get("decision") == "stand_down":
             skipped.append({"name": p["id"], "reason": f"stood down before the open: {p['preopen']['reason']}"})
             continue
-        if len(trades) >= MAX_NEW:
+        if len(trades) >= room:
             skipped.append({"name": p["id"], "reason": f"the {MAX_NEW} takes with the most conviction came first"})
             continue
         longs, shorts = p["long"], p["short"]
@@ -134,7 +162,7 @@ def proposal_trades(proposals: list[dict], entry_date: str, prices: dict[str, fl
             skipped.append({"name": p["id"], "reason": "no price, or a share costs more than its side's notional"})
             continue
         trades.append({
-            "id": f"{entry_date}-A{len(trades) + 1:02d}", "book": "dynamic", "source": f"proposal {p['id']}", "proposal_id": p["id"],
+            "id": f"{entry_date}-A{len(trades) + start:02d}", "book": "dynamic", "source": f"proposal {p['id']}", "proposal_id": p["id"],
             "conviction": p["conviction"], "name": p["name"], "setup": p["setup"], "direction": p["direction"], "why": p["reason"],
             "wrong_if": p["wrong_if"], "entry_date": entry_date, "horizon_days": p["plan"]["horizon_days"], "stop": p["plan"]["stop"],
             "notional": NOTIONAL, "legs": legs, "hedge": hedge,

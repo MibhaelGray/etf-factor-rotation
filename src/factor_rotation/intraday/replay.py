@@ -20,7 +20,7 @@ from ..analytics.technicals import atr, rsi
 from ..config import NY
 from ..market import basket_library
 from ..screen import HEDGE_FUNDS, KEEP_BASKET_WITHIN, MIN_HEDGE_CORR
-from ..universe import BARS_ONLY, CONSTITUENTS, ETFS
+from ..universe import BARS_ONLY, CONSTITUENTS, CORE_ETFS, ETFS, INDEX_STOCKS
 from . import bars15, signals
 
 PATH = journal.JOURNAL / "intraday" / "replay.json"
@@ -32,8 +32,13 @@ MAX_PER_DAY = 5
 
 
 def universe() -> list[str]:
+    """The intraday book's names: the core tier, basket members and held names. The wider swing tier
+    (universe.INDEX_STOCKS, the newer industry funds) stays out until it is chosen for this book."""
+    from ..paper import book
     members = {m["symbol"] for b in basket_library()["baskets"] for m in b["members"]}
-    return sorted({*ETFS, *CONSTITUENTS, *members, *earnings.symbols()} - set(BARS_ONLY))
+    held = book.symbols_held() if book.ROOT.exists() else set()
+    earn = set(earnings.symbols()) - set(INDEX_STOCKS)
+    return sorted({*CORE_ETFS, *CONSTITUENTS, *members, *held, *earn} - set(BARS_ONLY))
 
 
 def basket_hedges() -> dict[str, str]:

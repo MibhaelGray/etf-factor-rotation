@@ -183,8 +183,9 @@
   .fr-open p { margin: 0; font-size: var(--cds-font-size-caption); line-height: 1.55; }
   .fr-open .fr-wide { grid-column: 1 / -1; }
   @media (max-width: 40rem) { .fr-tabs { flex-wrap: wrap; } }
-  .fr-paperband { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  @media (max-width: 52rem) { .fr-paperband { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .fr-paperband { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .fr-paperband .fr-val { font-size: clamp(1.15rem, 2.2vw, 1.6rem); }
+  @media (max-width: 52rem) { .fr-paperband { grid-template-columns: repeat(2, minmax(0, 1fr)); } .fr-paperband > :last-child:nth-child(odd) { grid-column: span 2; } }
   .fr-held { white-space: nowrap; }
   .fr-papernotes { display: grid; gap: var(--cds-gap-xs); }
   .fr-cellsub { display: block; font-weight: 400; color: var(--fr-muted); font-size: var(--cds-font-size-caption); }
@@ -289,6 +290,38 @@
   .fr-hzchart text { fill: var(--fr-muted); font-size: 11px; }
   .fr-hzprice { display: flex; align-items: baseline; gap: .4rem; flex-wrap: wrap; }
   .fr-hzprice small { font-size: var(--cds-font-size-caption); color: var(--fr-muted); font-weight: 400; }
+  /* Portfolio page: summary strip, help hovers, sortable headers, exposure bars. */
+  .fr-pfstrip { grid-template-columns: repeat(auto-fit, minmax(min(100%, 9.5rem), 1fr)); }
+  .fr-pfstrip .fr-val { font-size: clamp(1.15rem, 2.2vw, 1.6rem); }
+  .fr-statbtn { border: 0; font: inherit; color: inherit; text-align: left; cursor: pointer; }
+  .fr-statbtn:hover { background: color-mix(in srgb, var(--color-fg) 5%, var(--color-panel)); }
+  .fr-statbtn[aria-pressed=true] { box-shadow: inset 0 -2px 0 var(--color-fg); }
+  .fr-pfmore { margin-top: calc(var(--cds-gap-sm) * -1); }
+  .fr-pfmore > summary { cursor: pointer; font-size: var(--cds-font-size-caption); color: var(--fr-muted); width: fit-content; }
+  .fr-pfmore > summary:hover { color: var(--color-fg); }
+  .fr-pfmore[open] > summary { margin-bottom: var(--cds-gap-sm); }
+  .fr-pfmore .fr-table th:first-child, .fr-pfmore .fr-table td:first-child { color: var(--fr-muted); }
+  .fr-pfmore .fr-note { margin-top: var(--cds-gap-sm); }
+  .fr-pfctl { display: flex; flex-wrap: wrap; align-items: center; gap: var(--cds-gap-sm) var(--cds-gap-md); }
+  .fr-btn[aria-pressed=true] { background: var(--color-fg); color: var(--color-bg); border-color: var(--color-fg); }
+  .fr-help { display: inline-grid; place-items: center; width: 1.05rem; height: 1.05rem; margin-left: .4rem; padding: 0; border-radius: 50%; border: 1px solid var(--fr-line);
+    background: none; color: var(--fr-muted); font-size: .7rem; font-weight: 400; line-height: 1; cursor: help; position: relative; vertical-align: .12em; }
+  .fr-help:hover, .fr-help:focus-visible { color: var(--color-fg); border-color: var(--fr-muted); }
+  .fr-help:hover::after, .fr-help:focus-visible::after { content: attr(data-tip); position: absolute; top: calc(100% + 6px); left: -.5rem; z-index: 6; width: max-content; max-width: min(24rem, 72vw);
+    padding: .55rem .7rem; border-radius: 6px; background: var(--color-bg); border: 1px solid var(--fr-line); color: var(--color-fg); font-size: var(--cds-font-size-caption);
+    line-height: 1.45; text-align: left; white-space: normal; box-shadow: 0 6px 20px rgb(0 0 0 / .28); }
+  .fr-sort:hover, .fr-sort.is-on { color: var(--color-fg); }
+  .fr-expo { display: flex; gap: 2px; height: .4rem; border-radius: 999px; overflow: hidden; min-width: 4rem; }
+  .fr-expo i { display: block; height: 100%; min-width: 2px; }
+  .fr-expo i.long { background: var(--color-fg); }
+  .fr-expo i.short { background: var(--fr-muted); opacity: .6; }
+  .fr-expocap { display: block; margin-top: .3rem; font-size: var(--cds-font-size-caption); color: var(--fr-muted); }
+  .fr-table .fr-expocap { white-space: nowrap; }
+  .fr-table td.fr-expocell { min-width: 8.5rem; vertical-align: middle; }
+  .fr-table tr.fr-detail { display: table-row; }
+  .fr-table td.fr-pfname { min-width: 12rem; }
+  .fr-caret { display: inline-block; width: 1.1em; color: var(--fr-muted); }
+  .fr-swatch { display: inline-block; width: .9rem; height: 2px; border-radius: 1px; }
 </style>
 
 <div class="fr" id="top">
@@ -296,8 +329,9 @@
     <h1 class="fr-name">Factor Rotation Ledger</h1>
     <nav class="fr-tabs" aria-label="Views">
       <button type="button" data-view-to="today" aria-current="page">Today</button>
-      <button type="button" data-view-to="paper">Swing book</button>
-      <button type="button" data-view-to="intraday">Intraday</button>
+      <button type="button" data-view-to="portfolio">Portfolio</button>
+      <button type="button" data-view-to="paper">Swing research</button>
+      <button type="button" data-view-to="intraday">Intraday signals</button>
       <span class="fr-tabsep" aria-hidden="true"></span>
       <button type="button" data-view-to="market">Market</button>
       <button type="button" data-view-to="baskets">Baskets</button>
@@ -320,7 +354,7 @@
 
     <div class="fr-cols">
       <div class="fr-panel">
-        <div class="fr-phead"><h3>Swing book</h3><button type="button" class="fr-link" data-view-to="paper">All trades</button></div>
+        <div class="fr-phead"><h3>Swing book</h3><button type="button" class="fr-link" data-view-to="portfolio">All trades</button></div>
         <div class="fr-ideas" data-draw="today-book" data-source="mkt_paper mkt_paper_proposals"></div>
       </div>
       <div class="fr-panel">
@@ -360,6 +394,69 @@
   </section>
 
   <!-- MARKET -->
+  <section class="fr-view" id="portfolio" data-view="portfolio" hidden>
+    <div class="fr-viewhead"><h2>Portfolio</h2>
+      <div class="fr-seg" role="group" aria-label="Book">
+        <button type="button" data-pf-book="all" aria-pressed="true">Both books</button>
+        <button type="button" data-pf-book="swing" aria-pressed="false">Swing</button>
+        <button type="button" data-pf-book="intraday" aria-pressed="false">Intraday</button>
+      </div>
+      <p data-draw="pf-asof" data-source="mkt_paper_account">—</p></div>
+    <div class="fr-band fr-pfstrip" aria-label="Summary" data-draw="pf-summary" data-source="mkt_portfolio_accounts mkt_portfolio_pos"></div>
+    <details class="fr-pfmore">
+      <summary>Returns, money at work and pause levels</summary>
+      <div class="fr-tablewrap" data-draw="pf-details" data-source="mkt_portfolio_accounts mkt_portfolio_book"></div>
+    </details>
+    <div class="fr-panel">
+      <div class="fr-phead"><h3>Profit and loss<button type="button" class="fr-help" data-tip="Paper profit and loss after commissions, closed and open positions together, from zero at the start of the time frame. The percentage is of the whole account's value when the books began. The S&amp;P 500 figure is the index fund SPY over the same time." aria-label="About this chart">?</button></h3>
+        <div class="fr-pfctl">
+          <button type="button" class="fr-btn" data-pf-split aria-pressed="false" title="Draw the swing and intraday books as their own lines">Split by book</button>
+          <div class="fr-seg" role="group" aria-label="Time frame">
+            <button type="button" data-pf-frame="1D" aria-pressed="false">1D</button>
+            <button type="button" data-pf-frame="1W" aria-pressed="false">1W</button>
+            <button type="button" data-pf-frame="1M" aria-pressed="false">1M</button>
+            <button type="button" data-pf-frame="MTD" aria-pressed="false">MTD</button>
+            <button type="button" data-pf-frame="3M" aria-pressed="false">3M</button>
+            <button type="button" data-pf-frame="YTD" aria-pressed="false">YTD</button>
+            <button type="button" data-pf-frame="All" aria-pressed="false">All</button>
+          </div>
+        </div></div>
+      <div class="fr-pnlhead"><div class="fr-val" data-pf-total>—</div><p class="fr-sub" data-pf-sub></p></div>
+      <div class="fr-chart" data-draw="pf-pnl" data-source="mkt_portfolio_pnl"></div>
+      <ul class="fr-legend" data-pf-legend hidden></ul>
+    </div>
+    <div class="fr-panel">
+      <div class="fr-phead"><h3>Positions<button type="button" class="fr-help" data-tip="By trade: one row per open trade; click a row for its legs, plan and reasoning. Long and Short go by the idea’s direction, so a hedged short counts as short. By symbol: one row per symbol a book holds. Today is the change since the last close, or since the fill for a position opened today. Click a column to sort and a ticker to chart it." aria-label="About this table">?</button></h3>
+        <div class="fr-pfctl">
+          <span class="fr-sub" data-draw="pf-count" data-source="mkt_portfolio_pos mkt_paper">—</span>
+          <div class="fr-seg" role="group" aria-label="Show">
+            <button type="button" data-pf-filter="all" aria-pressed="true">All</button>
+            <button type="button" data-pf-filter="long" aria-pressed="false">Long</button>
+            <button type="button" data-pf-filter="short" aria-pressed="false">Short</button>
+            <button type="button" data-pf-filter="win" aria-pressed="false">Winners</button>
+            <button type="button" data-pf-filter="lose" aria-pressed="false">Losers</button>
+          </div>
+          <div class="fr-seg" role="group" aria-label="Group">
+            <button type="button" data-pf-view="trade" aria-pressed="true">By trade</button>
+            <button type="button" data-pf-view="symbol" aria-pressed="false">By symbol</button>
+          </div>
+        </div></div>
+      <div class="fr-tablewrap" data-draw="pf-positions" data-source="mkt_portfolio_pos mkt_paper"></div>
+    </div>
+    <div class="fr-panel">
+      <div class="fr-phead"><h3>Closed trades<button type="button" class="fr-help" data-tip="Every trade that has finished, after commissions, newest first. Click a swing trade for its legs, plan and reasoning. Fills vs model is the paper result minus the same shares scored on daily bars from the first open to the last close, so it shows what real fills cost. Intraday takes are listed for the last five sessions; the totals at the top count all of them." aria-label="About this list">?</button></h3>
+        <div class="fr-pfctl">
+          <span class="fr-sub" data-draw="pf-closed-day" data-source="mkt_portfolio_accounts mkt_paper mkt_intraday">—</span>
+          <div class="fr-seg" role="group" aria-label="Range">
+            <button type="button" data-pf-range="day" aria-pressed="true">Latest session</button>
+            <button type="button" data-pf-range="week" aria-pressed="false">Week</button>
+            <button type="button" data-pf-range="all" aria-pressed="false">All</button>
+          </div>
+        </div></div>
+      <div class="fr-tablewrap" data-draw="pf-closed" data-source="mkt_portfolio_accounts mkt_paper mkt_intraday"></div>
+    </div>
+  </section>
+
   <section class="fr-view" id="market" data-view="market" hidden>
     <div class="fr-viewhead"><h2>Market</h2><p>Data through <span data-draw="mkt-asof" data-source="mkt_meta">—</span>. Flow figures are model estimates of trading that has to happen, not anyone's positions.</p></div>
     <div class="fr-band" aria-label="Regime">
@@ -432,32 +529,9 @@
 
   <!-- PAPER -->
   <section class="fr-view" id="paper" data-view="paper" hidden>
-    <div class="fr-viewhead"><h2>Swing book</h2><p data-draw="paper-acct" data-source="mkt_paper_account">—</p></div>
+    <div class="fr-viewhead"><h2>Swing research</h2><p>What the research pass judged and how its calls did. Positions and dollar results are on <button type="button" class="fr-link" data-view-to="portfolio">Portfolio</button>.</p></div>
     <div class="fr-papernotes" data-draw="paper-notes" data-source="mkt_paper mkt_paper_account"></div>
-    <div class="fr-band fr-paperband" aria-label="Paper results" data-draw="paper-band" data-source="mkt_paper mkt_paper_account"></div>
-    <div class="fr-panel">
-      <div class="fr-phead"><h3>Profit and loss</h3>
-        <div class="fr-seg" role="group" aria-label="Time frame">
-          <button type="button" data-pnl-frame="1D" aria-pressed="false" hidden>1D</button>
-          <button type="button" data-pnl-frame="1W" aria-pressed="false">1W</button>
-          <button type="button" data-pnl-frame="1M" aria-pressed="false">1M</button>
-          <button type="button" data-pnl-frame="3M" aria-pressed="false">3M</button>
-          <button type="button" data-pnl-frame="All" aria-pressed="false">All</button>
-        </div>
-        <p>The whole book after commissions, closed trades and open ones together, starting from zero at the beginning of the time frame.</p></div>
-      <div class="fr-pnlhead"><div class="fr-val" data-pnl-total>—</div><p class="fr-sub" data-pnl-sub></p></div>
-      <div class="fr-chart" data-draw="paper-pnl" data-source="mkt_paper_pnl"></div>
-    </div>
-    <div class="fr-panel">
-      <div class="fr-phead"><h3>Open trades</h3><span class="fr-sub" data-draw="paper-marks" data-source="mkt_paper_account">—</span>
-        <p>Worst first. Results are in bp of one side of the trade, after commissions. Room to stop is how much more the trade can lose, as a percent of one side, before the 3:45 PM ET check closes it.</p></div>
-      <div class="fr-tablewrap" data-draw="paper-open" data-source="mkt_paper mkt_paper_account"></div>
-    </div>
-    <div class="fr-panel">
-      <div class="fr-phead"><h3>Closed trades</h3>
-        <p>Newest first. "Fills vs model" is the paper result minus the same shares scored from the first open to the last close on daily bars, so it shows what real fills cost.</p></div>
-      <div class="fr-tablewrap" data-draw="paper-closed" data-source="mkt_paper"></div>
-    </div>
+    <div class="fr-band fr-paperband" aria-label="Research record" data-draw="paper-band" data-source="mkt_paper mkt_paper_proposals mkt_paper_account"></div>
     <div class="fr-panel">
       <div class="fr-phead"><h3>Research verdicts</h3><span class="fr-sub" data-draw="paper-verdict-sum" data-source="mkt_paper_proposals">—</span>
         <p>Every candidate the research pass judged for the swing book, newest first. "Plan result" scores each one's own plan on daily bars, from the first open to its stop or time limit, before costs, whether or not it was taken. If the takes don't beat the passes, the research isn't adding anything.</p></div>
@@ -465,7 +539,7 @@
     </div>
     <details class="fr-method"><summary>How the swing book works</summary>
       <p>The swing book trades on an IBKR paper account, never a live one. It starts from the nightly screen: a research pass judges every candidate on it and writes a verdict, take or pass, with a conviction from 1 to 5 and its reasoning. Only the takes are traded, up to 5 a session, strongest conviction first, at $10,000 a side. Each take carries the plan the pass wrote for it: a time limit of up to 10 sessions and a stop between 1% and 8%. A name already in an open automatic trade isn't taken again.</p>
-      <p>The research pass runs three times a day. In the evening it writes the verdicts for the next open. Before the open it lets each take stand or stands it down on what happened overnight. Before the close it reviews every open automatic trade and can close one early for a stated reason, or ask for a winner on its last session to run up to 3 sessions longer, once. It can never widen a stop or hold a loser past its time limit. Every verdict, taken or passed, is scored against its own plan on daily bars, so the passes are the control for the takes.</p>
+      <p>The research pass runs four times a day. In the evening it writes the verdicts for the next open. Before the open it lets each take stand or stands it down on what happened overnight. At midday it checks the open trades and can close one at the market when its reason has gone. Before the close it reviews every open automatic trade and can close one early for a stated reason, or ask for a winner on its last session to run up to 3 sessions longer, once. It can never widen a stop or hold a loser past its time limit. Every verdict, taken or passed, is scored against its own plan on daily bars, so the passes are the control for the takes.</p>
       <p>Entries go into the opening auction as market-on-open orders sent at 9:15 AM ET. At 9:40 AM ET the fills are checked: a trade with one side filled and the other not has its filled side closed at the market. At 3:45 PM ET every open trade is checked against its stop and time limit on current prices, and the ones leaving are sent as market-on-close orders. A pair whose other leg never filled leaves at that day's close. Caps: 60 open trades, $900,000 gross and $30,000 net in any one symbol.</p>
     </details>
   </section>
@@ -473,7 +547,7 @@
   
   <!-- HORMUZ: ship traffic through the strait and the futures that price it -->
   <section class="fr-view" id="intraday" data-view="intraday" hidden>
-    <div class="fr-viewhead"><h2>Intraday book</h2><p data-draw="in-head" data-source="mkt_intraday">—</p></div>
+    <div class="fr-viewhead"><h2>Intraday signals</h2><p data-draw="in-head" data-source="mkt_intraday">—</p></div>
     <div class="fr-band" aria-label="Intraday results" data-draw="in-band" data-source="mkt_intraday"></div>
     <div class="fr-panel">
       <div class="fr-phead"><h3>Signals</h3><span class="fr-sub" data-draw="in-count" data-source="mkt_intraday">—</span>
@@ -558,6 +632,8 @@
   const h = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
   const fmtBp = (v) => (v == null || Number.isNaN(v)) ? '—' : `${v > 0 ? '+' : v < 0 ? '−' : ''}${d3.format(',.0f')(Math.abs(v))} bp`;
   const signed = (v, f) => v == null || Number.isNaN(v) ? '—' : `${v > 0 ? '+' : v < 0 ? '−' : ''}${d3.format(f)(Math.abs(v))}`;
+  // A profit and loss with its share of the whole account's value when the books began (portfolio.accounts).
+  const withAcctPct = (v) => { const a = (okData('mkt_portfolio_accounts') || [])[0]; return a && a.start_value ? `${fmtPnl(v)} (${signed(v / a.start_value * 100, '.2f')}%)` : fmtPnl(v); };
   const pc = (v, f = '.1f') => v == null ? '—' : `${signed(v, f)}%`;
   const pts = (v) => v == null ? '—' : `${signed(v, '.1f')} pts`;
   const tone = (v) => (v == null || v === 0 || Number.isNaN(v)) ? '' : (v > 0 ? 'fr-pos' : 'fr-neg');
@@ -664,10 +740,16 @@
     fn: (market) => market.filter((r) => r.section === 'paper').sort((a, b) => b.entry_date.localeCompare(a.entry_date) || a.id.localeCompare(b.id)) });
   dash.calc('mkt_paper_proposals', { inputs: ['market'], title: 'Research verdicts', description: 'Every candidate the research pass judged for the swing book: take or pass, conviction, reasoning, and the result of its own plan on daily bars.',
     fn: (market) => market.filter((r) => r.section === 'paper_proposal').sort((a, b) => b.session.localeCompare(a.session) || a.id.localeCompare(b.id)) });
-  dash.calc('mkt_paper_pnl', { inputs: ['market'], title: 'Paper profit and loss', description: 'The swing book’s running profit and loss after commissions at each session’s close.',
-    fn: (market) => market.filter((r) => r.section === 'paper_pnl').sort((a, b) => a.date.localeCompare(b.date)) });
   dash.calc('mkt_paper_account', { inputs: ['market'], title: 'Paper account', description: 'The paper account’s value and positions at the last sync.',
     fn: (market) => market.filter((r) => r.section === 'paper_account') });
+  dash.calc('mkt_portfolio_pos', { inputs: ['market'], title: 'Portfolio positions', description: 'Each symbol a paper book holds: shares, average cost, latest price, market value, today’s change and total profit and loss.',
+    fn: (market) => market.filter((r) => r.section === 'portfolio_position') });
+  dash.calc('mkt_portfolio_pnl', { inputs: ['market'], title: 'Portfolio profit and loss', description: 'Running paper profit and loss after commissions at each session’s close, for each book and both together.',
+    fn: (market) => market.filter((r) => r.section === 'portfolio_pnl') });
+  dash.calc('mkt_portfolio_accounts', { inputs: ['market'], title: 'Accounts', description: 'The paper account’s value, each book’s share of it (its capital plus its own profit and loss), and what no book accounts for.',
+    fn: (market) => market.filter((r) => r.section === 'portfolio_accounts') });
+  dash.calc('mkt_portfolio_book', { inputs: ['market'], title: 'Portfolio books', description: 'Each book’s fills, realized profit and loss, commissions and total.',
+    fn: (market) => market.filter((r) => r.section === 'portfolio_book') });
   dash.calc('mkt_screen', { inputs: ['market'], title: 'Screen shortlist', description: 'The latest screen’s candidates: setup, direction, score, what triggered it and a one-line chart verdict.',
     fn: (market) => market.filter((r) => r.section === 'screen').sort((a, b) => a.rank - b.rank) });
   dash.calc('mkt_meta', { inputs: ['market'], title: 'Brief details', description: 'The session and build time behind tonight’s market rows.',
@@ -687,7 +769,7 @@
     fn: (market) => market.filter((r) => r.section === 'trend') });
 
   // ---- Views --------------------------------------------------------------------------------------
-  const VIEWS = ['today', 'market', 'baskets', 'earnings', 'paper', 'intraday', 'hormuz', 'chart'];
+  const VIEWS = ['today', 'portfolio', 'market', 'baskets', 'earnings', 'paper', 'intraday', 'hormuz', 'chart'];
   // Links from before the idea books were retired open the swing book.
   const ALIAS = { top: 'today', next: 'today', last: 'paper', ledger: 'paper', ideas: 'paper', record: 'paper', factors: 'market' };
   const ui = { view: 'today', openBaskets: new Set(), basketSort: { key: 'spread_today_pct', dir: -1 } };
@@ -935,16 +1017,11 @@
     const name = (p) => p.replace(/^[+−-]\d+\s+/, '');
     return parts.length === 2 && lg && sh ? `Long ${name(lg)} / short ${name(sh)}` : `${r.name} · ${r.direction}`;
   };
-  dash.draw('paper-acct', (el) => {
-    const a = paperAcct();
-    if (!a) { el.textContent = 'No paper trades yet.'; return; }
-    el.textContent = [a.net_liquidation == null ? null : `Account ${d3.format('$,.0f')(a.net_liquidation)}`,
-      a.pulled_at ? `${a.positions} positions` : null, a.pulled_at ? `fills as of ${whenEt(a.pulled_at)}` : 'Fills not loaded yet'].filter(Boolean).join(' · ');
-  });
   dash.draw('paper-notes', (el) => {
     const rows = okData('mkt_paper') || []; const a = paperAcct();
     const notes = [];
     if (a && a.halted) notes.push(`Paper trading is halted: ${a.halted}. No new trades open, and exits still go out.`);
+    ((a && a.paused) || []).forEach((p) => notes.push(`Paused: ${p}. Exits still go out.`));
     if (rows.some((r) => r.state === 'planned')) notes.push(`${rows.filter((r) => r.state === 'planned').length} trades have orders in, but their fills aren't loaded yet. Results appear after the next refresh or the 3:45 PM ET check.`);
     rows.filter((r) => r.state === 'open' && r.stop_room_pct != null && r.stop_room_pct <= 0).forEach((r) => notes.push(`${pairTitle(r)} is past its stop. Stops only count at the 3:45 PM ET check: if it's still past then, it closes at today's close.`));
     rows.filter((r) => isLive(r) && isBroken(r)).forEach((r) => notes.push(`${pairTitle(r)}: ${r.missing.join(', ')} never filled, so the other side closes at the 9:40 AM ET fill check, or the 3:45 PM ET check if that has passed.`));
@@ -953,76 +1030,39 @@
     el.replaceChildren(...notes.map((t) => h('p', 'fr-note is-warn', t)));
     el.hidden = !notes.length;
   });
-  dash.draw('paper-marks', (el) => {
-    const a = paperAcct();
-    el.textContent = !a || !a.marks_at ? '' : a.marks_intraday ? `Prices as of ${whenEt(a.marks_at)}` : 'Marked at the last close';
-  });
   dash.draw('paper-band', (el) => {
-    const rows = okData('mkt_paper');
-    if (!rows) { el.replaceChildren(); return; }
-    const filled = rows.filter((r) => r.pnl != null);
-    const sum = (rs) => rs.reduce((s, r) => s + r.pnl, 0);
-    const stat = (label, value, cls, ...subs) => { const c = h('div', 'fr-stat'); c.append(h('p', 'fr-label', label), h('div', `fr-val ${cls}`, value), ...subs.filter(Boolean).map((t) => h('p', 'fr-sub', t))); return c; };
-    const openRows = filled.filter((r) => r.state !== 'closed'); const closedRows = filled.filter((r) => r.state === 'closed');
-    const total = filled.length ? sum(filled) : null;
-    const cells = [stat('Total result', fmtPnl(total), tone(total), filled.length ? `Open ${fmtPnl(sum(openRows))} · closed ${fmtPnl(sum(closedRows))}` : 'No fills loaded yet', 'After commissions')];
-    {
-      const rs = rows;
-      const held = rs.filter((r) => r.pnl != null); const open = held.filter((r) => r.state !== 'closed');
-      const closed = held.filter((r) => r.state === 'closed' && !isBroken(r));
-      const slip = closed.filter((r) => r.slippage_bps != null);
-      const v = held.length ? sum(held) : null;
-      cells.push(stat('Trades', String(rs.length), '',
-        !rs.length ? 'No trades yet' : `${rs.filter(isLive).length} open${open.length ? ` · average ${fmtBp(d3.mean(open, (r) => r.bps))}` : ''}`,
-        closed.length ? `${closed.filter((r) => r.pnl > 0).length} of ${closed.length} won · average ${fmtBp(d3.mean(closed, (r) => r.bps))}${slip.length ? ` · fills vs model ${fmtBp(d3.mean(slip, (r) => r.slippage_bps))}` : ''}` : (rs.length ? 'Nothing closed yet' : null)));
-    }
+    const rows = okData('mkt_paper'); const props = okData('mkt_paper_proposals');
+    if (!rows || !props) { el.replaceChildren(); return; }
+    const stat = (label, value, cls, ...subs) => { const c = h('div', 'fr-stat'); c.append(h('p', 'fr-label', label), h('div', `fr-val ${cls}`, value), ...subs.filter(Boolean).map((x) => h('p', 'fr-sub', x))); return c; };
+    const done = props.filter((r) => r.plan_bps != null);
+    const side = (label, take) => {
+      const rs = done.filter((r) => (r.verdict === 'take') === take);
+      if (!rs.length) return stat(label, '—', '', 'None finished yet');
+      const avg = d3.mean(rs, (r) => r.plan_bps);
+      return stat(label, fmtBp(avg), tone(avg), `Average plan result over ${rs.length} finished`, `${rs.filter((r) => r.plan_bps > 0).length} of ${rs.length} made money, before costs`);
+    };
+    const takes = props.filter((r) => r.verdict === 'take').length;
+    const sessions = new Set(props.map((r) => r.session)).size;
+    const closed = rows.filter((r) => r.state === 'closed' && r.pnl != null && !isBroken(r));
+    const slip = closed.filter((r) => r.slippage_bps != null);
     const next = paperNext(paperAcct());
-    cells.push(next ? stat('Next step', next.time, '', `${next.day}: ${next.name.toLowerCase()}`, next.what) : stat('Next step', '—', ''));
-    el.replaceChildren(...cells);
+    el.replaceChildren(
+      stat('Verdicts', String(props.length), '', `${takes} taken · ${props.length - takes} not taken`, `Over ${sessions} session${sessions === 1 ? '' : 's'}`),
+      side('Taken', true), side('Not taken', false),
+      stat('Closed trades', closed.length ? `${closed.filter((r) => r.pnl > 0).length} of ${closed.length} won` : '—', '',
+        closed.length ? `Average ${fmtBp(d3.mean(closed, (r) => r.bps))} after commissions` : 'Nothing closed yet', slip.length ? `Fills vs model ${fmtBp(d3.mean(slip, (r) => r.slippage_bps))}` : null),
+      next ? stat('Next step', next.time, '', `${next.day}: ${next.name.toLowerCase()}`, next.what) : stat('Next step', '—', ''));
   });
-  // The P/L chart. Daily closes come with the page; 1D and 1W use 15-minute bars from the local server.
-  const pnlUi = { frame: isLocal ? '1W' : 'All', intraday: window.__PNL_INTRADAY__ || null, loading: false, failed: false };
+  // The P/L chart: one main line and, when asked, a line for each book.
   const fmtDollars = (v) => `${v < 0 ? '−' : ''}$${d3.format(',.0f')(Math.abs(v))}`;
-  const FRAME_NAME = { '1D': 'the day', '1W': 'the week', '1M': 'the month', '3M': 'three months', All: 'all time' };
-  const dailyPts = (rows, frame) => {
-    let from = 0;
-    if (frame === '1W') from = Math.max(0, rows.length - 6);
-    if (frame === '1M' || frame === '3M') {
-      const start = new Date(`${rows[rows.length - 1].date}T00:00:00Z`);
-      start.setUTCMonth(start.getUTCMonth() - (frame === '1M' ? 1 : 3));
-      const iso = start.toISOString().slice(0, 10);
-      from = Math.max(0, d3.bisectRight(rows.map((r) => r.date), iso) - 1);
-    }
-    const shown = rows.slice(from);
-    return shown.map((r, i) => ({ v: r.pnl - shown[0].pnl, total: r.pnl, when: `${day(r.date, '%a, %b %-d')}${r.final ? '' : ', so far'}`, tick: day(r.date), day: i ? r.pnl - shown[i - 1].pnl : null }));
-  };
-  // 15-minute points for the last session or the whole pull, from the close before them.
-  const intradayPts = (rows, frame) => {
-    const all = pnlUi.intraday.points;
-    const sessions = [...new Set(all.map((p) => p.session))];
-    const use = frame === '1D' ? sessions.slice(-1) : sessions;
-    const points = all.filter((p) => use.includes(p.session));
-    if (!points.length) return [];
-    const base = (d3.findLast ? d3.findLast(rows, (r) => r.date < use[0]) : [...rows].reverse().find((r) => r.date < use[0])) || { pnl: 0 };
-    const open = { t: new Date(new Date(points[0].t).getTime() - 15 * 60000).toISOString(), session: use[0], pnl: base.pnl };
-    const timeOf = (t) => new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit' }).format(new Date(t));
-    let seen = '';
-    return [open, ...points].map((p) => {
-      const first = p.session !== seen;
-      seen = p.session;
-      const label = timeOf(p.t);
-      const tick = frame === '1D' ? (/:00/.test(label) || /:30/.test(label) ? label.replace(':00', '') : null) : first ? day(p.session, '%a %-d') : null;
-      return { v: p.pnl - base.pnl, total: p.pnl, when: `${day(p.session, '%a, %b %-d')}, ${label} ET`, tick, day: null };
-    });
-  };
-  const drawPnlChart = (el, pts) => {
+  const drawPnlChart = (el, pts, frameName, extra = []) => {
     el.replaceChildren();
     const W = Math.max(280, el.clientWidth || 640);
     const H = 240;
     const m = { t: 12, r: 12, b: 26, l: 0 };
-    const y = d3.scaleLinear(d3.extent([0, ...pts.map((p) => p.v)]), [H - m.b, m.t]).nice(4);
+    const y = d3.scaleLinear(d3.extent([0, ...pts.map((p) => p.v), ...extra.flatMap((s) => s.values)]), [H - m.b, m.t]).nice(4);
     const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img')
-      .attr('aria-label', `Profit and loss over ${FRAME_NAME[pnlUi.frame]}: ${fmtPnl(pts[pts.length - 1].v)}`);
+      .attr('aria-label', `Profit and loss over ${frameName}: ${fmtPnl(pts[pts.length - 1].v)}`);
     const labels = svg.append('g');
     labels.selectAll('text').data(y.ticks(4)).join('text').attr('x', 0).attr('y', (v) => y(v)).attr('dy', '0.32em').text(fmtDollars);
     let widest = 0;
@@ -1036,6 +1076,7 @@
     const at = (_, i) => x(i);
     svg.append('path').datum(pts).attr('d', d3.area(at, y(0), (p) => y(p.v))).style('fill', color).style('opacity', 0.1);
     svg.append('path').datum(pts).attr('d', d3.line(at, (p) => y(p.v))).style('fill', 'none').style('stroke', color).style('stroke-width', 2).style('stroke-linejoin', 'round').style('stroke-linecap', 'round');
+    extra.forEach((s) => svg.append('path').datum(s.values).attr('d', d3.line(at, (v) => y(v))).style('fill', 'none').style('stroke', s.color).style('stroke-width', 1.5).style('stroke-linejoin', 'round'));
     svg.append('circle').attr('cx', x(pts.length - 1)).attr('cy', y(pts[pts.length - 1].v)).attr('r', 4).style('fill', color);
     // Date labels at least 64px apart.
     let lastX = -Infinity;
@@ -1052,54 +1093,423 @@
         const p = pts[i];
         cross.attr('x1', x(i)).attr('x2', x(i)).style('visibility', 'visible');
         dot.attr('cx', x(i)).attr('cy', y(p.v)).style('visibility', 'visible');
-        tip.show(event, [[p.when, 'dim'], [`${fmtPnl(p.v)} in this time frame`], ...(p.day != null ? [[`${fmtPnl(p.day)} on the day`]] : []), [`${fmtPnl(p.total)} since the start`, 'dim']]);
+        tip.show(event, [[p.when, 'dim'], [`${fmtPnl(p.v)} in this time frame`], ...(p.day != null ? [[`${fmtPnl(p.day)} on the day`]] : []), ...extra.map((s) => [`${s.name} ${fmtPnl(s.values[i])}`]), [`${fmtPnl(p.total)} since the start`, 'dim']]);
       })
       .on('pointerleave', () => { tip.hide(); cross.style('visibility', 'hidden'); dot.style('visibility', 'hidden'); });
   };
-  const drawPnl = (el) => {
-    const total = document.querySelector('[data-pnl-total]');
-    const sub = document.querySelector('[data-pnl-sub]');
-    const frames = document.querySelectorAll('[data-pnl-frame]');
-    frames.forEach((b) => { b.setAttribute('aria-pressed', String(b.dataset.pnlFrame === pnlUi.frame)); if (b.dataset.pnlFrame === '1D') b.hidden = !isLocal; });
-    const say = (text) => { el.replaceChildren(h('p', 'fr-empty', text)); total.textContent = '—'; total.classList.remove('fr-pos', 'fr-neg'); sub.textContent = ''; };
-    const d = ready(el, 'mkt_paper_pnl', true);
-    if (!d || ui.view !== 'paper') return;
-    const rows = d.data;
-    if (!rows.length) return say('No fills yet. The line starts with the book’s first trade.');
-    const wantsBars = isLocal && (pnlUi.frame === '1D' || pnlUi.frame === '1W');
-    if (wantsBars && !pnlUi.intraday && !pnlUi.failed) {
-      if (!pnlUi.loading) {
-        pnlUi.loading = true;
-        fetch('/api/paper/pnl').then((r) => r.ok ? r.json() : Promise.reject(new Error('refused')))
-          .then((b) => { pnlUi.intraday = b; }).catch(() => { pnlUi.failed = true; })
-          .finally(() => { pnlUi.loading = false; drawPnl(el); });
-      }
-      return say('Loading 15-minute prices…');
+  // ---- Portfolio: one summary strip, the P/L history, open positions by trade or by symbol, and what closed in the latest session.
+  const PF_BOOK = { all: 'Both books', swing: 'Swing', intraday: 'Intraday' };
+  const PF_FRAME = { '1D': 'the day', '1W': 'the week', '1M': 'the month', MTD: 'the month to date', '3M': 'three months', YTD: 'the year to date', All: 'all time' };
+  const pfUi = { book: 'all', frame: isLocal ? '1D' : 'All', split: false, bars: {}, loading: {}, failed: {}, view: 'trade', filter: 'all', range: 'day', open: new Set(), closedOpen: new Set(),
+    sort: { trade: { key: 'gross', dir: -1 }, symbol: { key: 'value', dir: -1 } } };
+  const pfUsd = (v) => v == null ? '—' : `${v < 0 ? '−' : ''}$${d3.format(',.0f')(Math.abs(v))}`;
+  const pfPct = (v) => v == null ? '—' : `${signed(v, '.2f')}%`;
+  const pfAcct = () => (okData('mkt_portfolio_accounts') || [])[0] || null;
+  const pfRows = (id) => (okData(id) || []).filter((r) => pfUi.book === 'all' || r.book === pfUi.book);
+  const pfHistory = (book) => (okData('mkt_portfolio_pnl') || []).filter((r) => r.book === (book || pfUi.book));
+  const pfClose = (date) => Date.parse(`${date}T21:00:00Z`);
+  // Where a daily time frame starts in the history.
+  const pfFrom = (rows, frame) => {
+    const dates = rows.map((r) => r.date);
+    const lastDate = dates[dates.length - 1];
+    const back = (months) => { const d = new Date(`${lastDate}T00:00:00Z`); d.setUTCMonth(d.getUTCMonth() - months); return d.toISOString().slice(0, 10); };
+    const fromDate = (iso) => Math.max(0, d3.bisectRight(dates, iso) - 1);
+    return frame === '1D' ? Math.max(0, rows.length - 2) : frame === '1W' ? Math.max(0, rows.length - 6)
+      : frame === '1M' ? fromDate(back(1)) : frame === '3M' ? fromDate(back(3))
+      : frame === 'MTD' ? Math.max(0, d3.bisectLeft(dates, `${lastDate.slice(0, 7)}-01`) - 1)
+      : frame === 'YTD' ? Math.max(0, d3.bisectLeft(dates, `${lastDate.slice(0, 4)}-01-01`) - 1) : 0;
+  };
+  const pfDaily = (rows, frame) => {
+    const shown = rows.slice(pfFrom(rows, frame));
+    return shown.map((r, i) => ({ v: r.pnl - shown[0].pnl, total: r.pnl, when: `${day(r.date, '%a, %b %-d')}${r.final ? '' : ', so far'}`, tick: day(r.date),
+      day: i ? r.pnl - shown[i - 1].pnl : null, spy: r.spy, ts: pfClose(r.date) }));
+  };
+  const pfBars = (rows, frame) => {
+    const all = pfUi.bars[pfUi.book].points;
+    const sessions = [...new Set(all.map((q) => q.session))];
+    const use = frame === '1D' ? sessions.slice(-1) : sessions;
+    const points = all.filter((q) => use.includes(q.session));
+    if (!points.length) return [];
+    const base = [...rows].reverse().find((r) => r.date < use[0]) || { pnl: 0 };
+    const open = { t: new Date(new Date(points[0].t).getTime() - 15 * 60000).toISOString(), session: use[0], pnl: base.pnl, spy: base.spy };
+    const timeOf = (x) => new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit' }).format(new Date(x));
+    let seen = '';
+    return [open, ...points].map((q) => {
+      const first = q.session !== seen; seen = q.session;
+      const label = timeOf(q.t);
+      const tick = frame === '1D' ? (/:00|:30/.test(label) ? label.replace(':00', '') : null) : first ? day(q.session, '%a %-d') : null;
+      return { v: q.pnl - base.pnl, total: q.pnl, when: `${day(q.session, '%a, %b %-d')}, ${label} ET`, tick, day: null, spy: q.spy, ts: Date.parse(q.t) };
+    });
+  };
+  // One book's running total over time, for its own line beside the combined one.
+  const pfTotals = (book, usingBars) => {
+    const rows = pfHistory(book);
+    const points = usingBars && pfUi.bars[book] ? pfUi.bars[book].points : [];
+    const first = points.length ? points[0].session : null;
+    return [...rows.filter((r) => !first || r.date < first).map((r) => ({ ts: pfClose(r.date), total: r.pnl })), ...points.map((q) => ({ ts: Date.parse(q.t), total: q.pnl }))];
+  };
+  const pfAt = (list, ts) => { let v = 0; for (const p of list) { if (p.ts <= ts) v = p.total; else break; } return v; };
+  const pfNeed = (key) => {
+    if (pfUi.bars[key] || pfUi.failed[key]) return true;
+    if (!pfUi.loading[key]) {
+      pfUi.loading[key] = true;
+      fetch(`/api/portfolio/pnl?book=${key}`).then((r) => r.ok ? r.json() : Promise.reject(new Error('refused')))
+        .then((b) => { pfUi.bars[key] = b; }).catch(() => { pfUi.failed[key] = true; })
+        .finally(() => { pfUi.loading[key] = false; drawPf(); });
     }
-    if (pnlUi.frame === '1D' && pnlUi.failed) return say('The 15-minute prices didn’t load. The other time frames use daily closes.');
-    const usingBars = wantsBars && !pnlUi.failed;
-    const pts = usingBars ? intradayPts(rows, pnlUi.frame) : dailyPts(rows, pnlUi.frame);
+    return false;
+  };
+  const pfSync = () => {
+    const press = (sel, key, want) => document.querySelectorAll(sel).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset[key] === want)));
+    press('[data-pf-book]', 'pfBook', pfUi.book); press('[data-pf-frame]', 'pfFrame', pfUi.frame);
+    press('[data-pf-filter]', 'pfFilter', pfUi.filter); press('[data-pf-view]', 'pfView', pfUi.view); press('[data-pf-range]', 'pfRange', pfUi.range);
+    const split = document.querySelector('[data-pf-split]');
+    split.hidden = pfUi.book !== 'all';
+    split.setAttribute('aria-pressed', String(pfUi.split));
+  };
+  const drawPf = (el) => {
+    el = el || document.querySelector('[data-draw=pf-pnl]');
+    const total = document.querySelector('[data-pf-total]'); const subEl = document.querySelector('[data-pf-sub]');
+    const legend = document.querySelector('[data-pf-legend]');
+    const say = (text) => { el.replaceChildren(h('p', 'fr-empty', text)); total.textContent = '—'; total.classList.remove('fr-pos', 'fr-neg'); subEl.textContent = ''; legend.hidden = true; };
+    const d = ready(el, 'mkt_portfolio_pnl', true);
+    if (!d || ui.view !== 'portfolio') { pfSync(); return; }
+    const rows = pfHistory();
+    if (!rows.length) { pfSync(); return say(pfUi.book === 'intraday' ? 'The intraday book has no fills yet. The line starts with its first trade.' : 'No fills yet. The line starts with the first trade.'); }
+    pfSync();
+    const key = pfUi.book;
+    const split = pfUi.split && key === 'all';
+    const wantsBars = isLocal && (pfUi.frame === '1D' || pfUi.frame === '1W');
+    if (wantsBars) {
+      const got = [key, ...(split ? ['swing', 'intraday'] : [])].map(pfNeed);
+      if (!got.every(Boolean)) return say('Loading 15-minute prices…');
+    }
+    const loaded = (k) => pfUi.bars[k] && !pfUi.failed[k];
+    const usingBars = wantsBars && loaded(key) && pfUi.bars[key].points.length > 0 && (!split || (loaded('swing') && loaded('intraday')));
+    const pts = usingBars ? pfBars(rows, pfUi.frame) : pfDaily(rows, pfUi.frame);
     if (pts.length < 2) return say('Not enough history for this time frame yet.');
     const change = pts[pts.length - 1].v;
-    total.textContent = fmtPnl(change);
+    total.textContent = withAcctPct(change);
     total.classList.remove('fr-pos', 'fr-neg');
     if (tone(change)) total.classList.add(tone(change));
-    const notes = [usingBars ? '15-minute prices from Yahoo' : pnlUi.frame === '1W' && pnlUi.failed ? 'Daily closes; the 15-minute prices didn’t load' : 'Daily closes'];
-    if (pnlUi.frame !== 'All') notes.unshift(`Over ${FRAME_NAME[pnlUi.frame]}`); else notes.unshift(`Since ${day(rows[1].date, '%b %-d')}`);
-    if (usingBars && pnlUi.intraday.missing.length) notes.push(`no bars for ${pnlUi.intraday.missing.join(', ')}, marked at the last fill`);
-    // Daily and 15-minute prices are pulled at different times, so each says how fresh it is.
-    const marksAt = (paperAcct() || {}).marks_at;
-    const lastRow = rows[rows.length - 1];
-    if (usingBars) notes.push(`prices as of ${whenEt(pnlUi.intraday.points[pnlUi.intraday.points.length - 1].t)}`);
-    else if (!lastRow.final && marksAt) notes.push(`prices as of ${whenEt(marksAt)}`);
-    sub.textContent = notes.join(' · ');
-    drawPnlChart(el, pts);
+    const notes = [pfUi.frame === 'All' ? `${PF_BOOK[key]} since ${day((rows[1] || rows[0]).date, '%b %-d')}` : `${PF_BOOK[key]} over ${PF_FRAME[pfUi.frame]}`];
+    const spy0 = pts[0].spy; const spy1 = pts[pts.length - 1].spy;
+    if (spy0 && spy1) notes.push(`S&P 500 ${pfPct((spy1 / spy0 - 1) * 100)} over the same time`);
+    notes.push(usingBars ? '15-minute prices from Yahoo' : 'daily closes');
+    if (usingBars && pfUi.bars[key].missing.length) notes.push(`no bars for ${pfUi.bars[key].missing.join(', ')}, marked at the last fill`);
+    subEl.textContent = notes.join(' · ');
+    const extra = !split ? [] : ['swing', 'intraday'].map((b, i) => {
+      const tot = pfTotals(b, usingBars); const base = pfAt(tot, pts[0].ts + 60000);
+      return { name: PF_BOOK[b], color: dash.colors[i + 1] || 'var(--fr-muted)', values: pts.map((p) => pfAt(tot, p.ts + 60000) - base) };
+    });
+    legend.hidden = !split;
+    if (split) {
+      legend.replaceChildren(...[{ name: 'Both books', color: dash.colors[0], v: change }, ...extra.map((s) => ({ ...s, v: s.values[s.values.length - 1] }))].map((s) => {
+        const li = h('li'); const sw = h('span', 'fr-swatch'); sw.style.background = s.color;
+        li.append(sw, h('span', null, `${s.name} ${fmtPnl(s.v)}`)); return li;
+      }));
+    }
+    drawPnlChart(el, pts, PF_FRAME[pfUi.frame], extra);
   };
-  dash.draw('paper-pnl', drawPnl);
-  document.querySelectorAll('[data-pnl-frame]').forEach((b) => b.addEventListener('click', () => {
-    pnlUi.frame = b.dataset.pnlFrame;
-    drawPnl(document.querySelector('[data-draw=paper-pnl]'));
-  }));
+  dash.draw('pf-pnl', drawPf);
+  const PF_PARTS = ['pf-summary', 'pf-details', 'pf-count', 'pf-positions', 'pf-closed-day', 'pf-closed'];
+  const pfPart = (names) => names.forEach((n) => { const e = document.querySelector(`[data-draw=${n}]`); if (e && e.__pf) e.__pf(e); });
+  const pfRedraw = () => { drawPf(); pfPart(PF_PARTS); };
+  const pfTable = () => { pfSync(); pfPart(['pf-count', 'pf-positions']); };
+  const pfSetBook = (b) => { pfUi.book = b; pfRedraw(); };
+  document.querySelectorAll('[data-pf-frame]').forEach((b) => b.addEventListener('click', () => { pfUi.frame = b.dataset.pfFrame; drawPf(); }));
+  document.querySelectorAll('[data-pf-book]').forEach((b) => b.addEventListener('click', () => pfSetBook(b.dataset.pfBook)));
+  document.querySelector('[data-pf-split]').addEventListener('click', () => { pfUi.split = !pfUi.split; drawPf(); });
+  document.querySelectorAll('[data-pf-filter]').forEach((b) => b.addEventListener('click', () => { pfUi.filter = b.dataset.pfFilter; pfTable(); }));
+  document.querySelectorAll('[data-pf-view]').forEach((b) => b.addEventListener('click', () => { pfUi.view = b.dataset.pfView; pfTable(); }));
+  document.querySelectorAll('[data-pf-range]').forEach((b) => b.addEventListener('click', () => { pfUi.range = b.dataset.pfRange; pfSync(); pfPart(['pf-closed-day', 'pf-closed']); }));
+  const pfDraw = (name, fn) => dash.draw(name, (el) => { el.__pf = fn; fn(el); });
+  pfDraw('pf-asof', (el) => { const a = paperAcct(); el.textContent = a && a.marks_at ? `IBKR paper account · prices as of ${whenEt(a.marks_at)}` : 'IBKR paper account'; });
+  // Long against short as one bar, with the dollars under it. `short` is a positive amount.
+  const pfExpo = (long, short) => {
+    const wrap = h('div'); const bar = h('div', 'fr-expo');
+    [['long', long], ['short', short]].forEach(([cls, v]) => { if (v > 0) { const i = h('i', cls); i.style.flex = `${v} 1 0px`; bar.append(i); } });
+    bar.setAttribute('role', 'img'); bar.setAttribute('aria-label', `Long ${fmtUsd(long)}, short ${fmtUsd(short)}`);
+    wrap.append(bar, h('span', 'fr-expocap', `Long ${fmtUsd(long)} · short ${fmtUsd(short)}`));
+    return wrap;
+  };
+  pfDraw('pf-summary', (el) => {
+    const a = pfAcct();
+    if (!a) { el.replaceChildren(h('div', 'fr-stat', 'No account data yet.')); return; }
+    const cell = (tag, label, value, cls, ...subs) => {
+      const c = h(tag, `fr-stat${tag === 'button' ? ' fr-statbtn' : ''}`);
+      c.append(h('span', 'fr-label', label), h('span', `fr-val ${cls || ''}`, value), ...subs.filter(Boolean).map((x) => typeof x === 'string' ? h('span', 'fr-sub', x) : x));
+      return c;
+    };
+    const one = a.books.find((b) => b.book === pfUi.book);
+    const scope = one || a;
+    const today = a.day_session === nyNow().date ? 'Today' : a.day_session ? day(a.day_session, '%a %b %-d') : 'Today';
+    const pos = pfRows('mkt_portfolio_pos');
+    const longs = d3.sum(pos.filter((r) => r.side === 'long'), (r) => r.value); const shorts = -d3.sum(pos.filter((r) => r.side === 'short'), (r) => r.value);
+    const books = a.books.map((b) => {
+      const c = cell('button', `${PF_BOOK[b.book]} book`, pfUsd(b.value), '', `${fmtPnl(b.pnl)} · ${pfPct(b.return_pct)}`, b.paused ? chip('Paused', 'is-bad') : null);
+      c.type = 'button'; c.setAttribute('aria-pressed', String(pfUi.book === b.book));
+      c.title = pfUi.book === b.book ? 'Show both books' : `Show only the ${b.book} book`;
+      c.addEventListener('click', () => pfSetBook(pfUi.book === b.book ? 'all' : b.book));
+      return c;
+    });
+    el.replaceChildren(
+      cell('div', 'Paper account', pfUsd(a.net_liquidation), '', a.pulled_at ? `IBKR, ${whenEt(a.pulled_at)}` : 'Not synced yet'),
+      cell('div', 'Profit', fmtPnl(scope.pnl), tone(scope.pnl),
+        one ? `${PF_BOOK[one.book]} book · ${pfPct(one.return_pct)} on its ${fmtUsd(one.capital)}` : `Both books · ${pfPct(a.account_pct)} of the account`, a.start_session ? `Since ${day(a.start_session, '%b %-d')}` : null),
+      cell('div', today, fmtPnl(scope.day_pnl), tone(scope.day_pnl), 'Since the last close'),
+      ...books,
+      cell('div', 'Net exposure', pos.length ? fmtUsd(longs - shorts) : '—', '', pos.length ? pfExpo(longs, shorts) : 'Nothing held'));
+  });
+  pfDraw('pf-details', (el) => {
+    const a = pfAcct();
+    if (!a) { el.replaceChildren(h('p', 'fr-empty', 'No account data yet.')); return; }
+    const by = Object.fromEntries(a.books.map((b) => [b.book, b]));
+    const fills = Object.fromEntries((okData('mkt_portfolio_book') || []).map((r) => [r.book, r]));
+    const sum = (k) => d3.sum(a.books, (b) => b[k]);
+    const cents = (v) => v == null ? '—' : `$${d3.format(',.2f')(v)}`;
+    // [label, each book's figure, both books' figure, shown in profit colors]
+    const lines = [
+      ['Value', (b) => pfUsd(b.value), pfUsd(a.capital + a.pnl)],
+      ['Profit, after commissions', (b) => fmtPnl(b.pnl), fmtPnl(a.pnl), (b) => b.pnl, a.pnl],
+      ['Since the last close', (b) => fmtPnl(b.day_pnl), fmtPnl(a.day_pnl), (b) => b.day_pnl, a.day_pnl],
+      ['Closed trades, before commissions', (b) => fmtPnl(b.realized), fmtPnl(sum('realized'))],
+      ['Open positions', (b) => fmtPnl(b.open), fmtPnl(sum('open'))],
+      ['Commissions', (b) => cents(b.commission), cents(sum('commission'))],
+      ['Fills', (b) => (fills[b.book] ? String(fills[b.book].fills) : '—'), fills.all ? String(fills.all.fills) : '—'],
+      ['Return on its capital', (b) => `${pfPct(b.return_pct)} on ${fmtUsd(b.capital)}`, `${pfPct(a.pnl / a.capital * 100)} on ${fmtUsd(a.capital)}`],
+      ['Return on the whole account', (b) => pfPct(b.account_pct), pfPct(a.account_pct)],
+      ['Return on money at work', (b) => b.deployed_avg ? `${pfPct(b.deployed_pct)} on ${fmtUsd(b.deployed_avg)}` : '—', '—'],
+      ['At work now', (b) => pfUsd(b.deployed_now), pfUsd(sum('deployed_now'))],
+      ['At work at most', (b) => pfUsd(b.deployed_peak), '—'],
+      ['Pauses below', (b) => b.paused ? 'Paused now' : b.pause_at == null ? '—' : `${pfUsd(b.pause_at)} (high ${pfUsd(b.peak)})`, '—'],
+    ];
+    const table = h('table', 'fr-table'); const head = h('tr');
+    [['', null], ['Swing', 'num'], ['Intraday', 'num'], ['Both books', 'num']].forEach(([t, c]) => { const th = h('th', c, t); th.scope = 'col'; head.append(th); });
+    const thead = h('thead'); thead.append(head); const tbody = h('tbody');
+    lines.forEach(([label, each, both, val, bothVal]) => {
+      const tr = h('tr'); tr.append(h('td', null, label));
+      ['swing', 'intraday'].forEach((k) => tr.append(h('td', `num ${val && by[k] ? tone(val(by[k])) : ''}`, by[k] ? each(by[k]) : '—')));
+      tr.append(h('td', `num ${val ? tone(bothVal) : ''}`, both));
+      tbody.append(tr);
+    });
+    table.append(thead, tbody);
+    const notes = [`Money at work is each book’s long plus short exposure at cost, averaged over the time since its first fill. A book pauses when it falls 10% of its capital below its high, and is restarted by hand.`,
+      `Unassigned ${pfUsd(a.unassigned)}: the rest of the account’s ${pfUsd(a.net_liquidation)}, which is what it held before the books began plus interest and borrow fees. A jump means something is off the books.`];
+    a.books.filter((b) => b.marked_at_close.length).forEach((b) => notes.push(`${PF_BOOK[b.book]}: ${b.marked_at_close.join(', ')} marked at the last close, not IBKR’s price.`));
+    el.replaceChildren(table, ...notes.map((t) => h('p', 'fr-note', t)));
+  });
+  // Open trades: the swing book's from its own records, the intraday book's from the positions its takes hold.
+  const pfTrades = () => {
+    const out = [];
+    const sides = (legs) => { const long = d3.sum(legs.filter((l) => l.side === 'long'), (l) => l.value); const short = -d3.sum(legs.filter((l) => l.side === 'short'), (l) => l.value); return { long, short, gross: long + short }; };
+    if (pfUi.book !== 'intraday') (okData('mkt_paper') || []).filter((r) => isLive(r) && (r.leg_detail || []).length).forEach((r) => {
+      out.push({ id: r.id, book: 'swing', title: pairTitle(r), name: r.name, sub: `${human(r.setup)} · day ${r.session_number} of ${r.horizon_days}`, direction: r.direction,
+        legs: r.leg_detail, ...sides(r.leg_detail), day_pnl: r.day_pnl, pnl: r.pnl, bps: r.bps, room: r.stop_room_pct, row: r });
+    });
+    if (pfUi.book !== 'swing') {
+      const groups = d3.group((okData('mkt_portfolio_pos') || []).filter((p) => p.book === 'intraday'), (p) => p.trades[0] || p.symbol);
+      groups.forEach((ps, name) => {
+        const legs = ps.map((p) => ({ symbol: p.symbol, side: p.side, shares: p.shares, entry: p.avg_cost, last: p.last, value: p.value, day_pnl: p.day_pnl, pnl: p.pnl }));
+        out.push({ id: `intraday:${name}`, book: 'intraday', title: name, name, sub: 'Flat by the close', direction: /^short/i.test(name) ? 'short' : 'long',
+          legs, ...sides(legs), day_pnl: d3.sum(legs, (l) => l.day_pnl), pnl: d3.sum(legs, (l) => l.pnl), bps: null, room: null, row: null });
+      });
+    }
+    return out;
+  };
+  const pfKeep = (side, pnl) => pfUi.filter === 'all' || (pfUi.filter === 'long' && side === 'long') || (pfUi.filter === 'short' && side === 'short')
+    || (pfUi.filter === 'win' && pnl > 0) || (pfUi.filter === 'lose' && pnl < 0);
+  // A header row whose labels are buttons: click to sort, click again to reverse.
+  const pfHead = (cols, view) => {
+    const { key, dir } = pfUi.sort[view]; const tr = h('tr');
+    cols.forEach(([k, label, cls, text]) => {
+      const th = h('th', cls || null); th.scope = 'col';
+      const on = k === key;
+      th.setAttribute('aria-sort', on ? (dir > 0 ? 'ascending' : 'descending') : 'none');
+      const b = h('button', `fr-sort${on ? ' is-on' : ''}`, label); b.type = 'button'; b.title = `Sort by ${label.toLowerCase()}`;
+      b.addEventListener('click', () => { pfUi.sort[view] = { key: k, dir: on ? -dir : (text ? 1 : -1) }; pfTable(); });
+      th.append(b); tr.append(th);
+    });
+    return tr;
+  };
+  const pfSorted = (rows, view, val) => {
+    const { key, dir } = pfUi.sort[view];
+    return [...rows].sort((a, b) => { const x = val(a, key); const y = val(b, key); if (x == null) return y == null ? 0 : 1; if (y == null) return -1; return (typeof x === 'string' ? d3.ascending(x, y) : x - y) * dir; });
+  };
+  const pfScrollTo = (sel) => setTimeout(() => { const row = document.querySelector(sel); if (row) row.scrollIntoView({ block: 'center' }); }, 250);
+  // A trade's research verdict, opened on the Swing research page.
+  const pfOpenVerdict = (r) => { paperUi.open.add(r.proposal_id); setView('paper'); drawPaperTables(); pfScrollTo(`[data-view=paper] tr[data-trade="${r.proposal_id}"]`); };
+  // A swing trade, opened where Portfolio lists it: among the open trades, or in the closed history.
+  const pfShowTrade = (r) => {
+    pfUi.book = 'all';
+    const live = isLive(r);
+    if (live) { pfUi.view = 'trade'; pfUi.filter = 'all'; pfUi.open.add(r.id); } else {
+      pfUi.closedOpen.add(r.id);
+      const a = pfAcct(); if (!(a && r.exit_date === a.day_session)) pfUi.range = 'all';
+    }
+    setView('portfolio'); pfRedraw();
+    pfScrollTo(`[data-draw=${live ? 'pf-positions' : 'pf-closed'}] tr[data-trade="${r.id}"]`);
+  };
+  const pfTradeDetail = (t, colSpan) => {
+    const box = h('div', 'fr-open');
+    const wrap = h('div', 'fr-wide'); const table = h('table', 'fr-table fr-legs'); const hr = h('tr');
+    [['Leg'], ['Shares', 'num'], ['Entry', 'num'], ['Last', 'num'], ['Value', 'num'], ['Today', 'num'], ['Total', 'num']].forEach(([x, c]) => { const th = h('th', c || null, x); th.scope = 'col'; hr.append(th); });
+    const thead = h('thead'); thead.append(hr); const tbody = h('tbody'); const px = d3.format(',.2f');
+    t.legs.forEach((l) => {
+      const tr = h('tr'); const leg = h('td', 'fr-nw'); leg.append(`${human(l.side)} `, symBtn(l.symbol));
+      tr.append(leg, h('td', 'num', d3.format(',')(l.shares)), h('td', 'num', px(l.entry)), h('td', 'num', px(l.last)), h('td', 'num', fmtUsd(l.value)),
+        h('td', `num ${tone(l.day_pnl)}`, fmtPnl(l.day_pnl)), h('td', `num ${tone(l.pnl)}`, fmtPnl(l.pnl)));
+      tbody.append(tr);
+    });
+    table.append(thead, tbody); wrap.append(table); box.append(wrap);
+    const r = t.row;
+    const go = h('div', 'fr-wide'); const link = h('button', 'fr-link'); link.type = 'button';
+    if (r) {
+      if (isBroken(r)) box.append(block('Missing side', `${r.missing.join(', ')} never filled`));
+      box.append(block('Plan', `${r.horizon_days} session${r.horizon_days === 1 ? '' : 's'} at most${r.extended ? ` (extended from ${r.planned_horizon_days})` : ''} · stop if ${r.stop}`),
+        block('Exit by', `The close on ${day(r.exit_by, '%a %b %-d')}`), block('From', r.conviction ? `${r.source} · conviction ${r.conviction} of 5` : r.source), block('Why', r.why || '—', true));
+      if (r.wrong_if) box.append(block('Wrong if', r.wrong_if, true));
+      link.textContent = 'See the research verdict behind this trade'; link.addEventListener('click', () => pfOpenVerdict(r)); link.hidden = !r.proposal_id;
+    } else {
+      box.append(block('Plan', 'An intraday take: out at its stop, its target or the close, whichever comes first.'));
+      link.textContent = 'See its reasoning on the Intraday signals page'; link.addEventListener('click', () => setView('intraday'));
+    }
+    go.append(link); box.append(go);
+    const dt = h('tr', 'fr-detail'); const td = h('td'); td.colSpan = colSpan; td.append(box); dt.append(td);
+    return dt;
+  };
+  const pfBookChip = (book) => pfUi.book === 'all' ? chip(PF_BOOK[book]) : null;
+  const pfEmpty = (el, text) => el.replaceChildren(h('p', 'fr-empty', text));
+  const pfNothing = () => pfUi.filter !== 'all' ? 'Nothing matches this filter.' : pfUi.book === 'intraday' ? 'The intraday book holds nothing. It is flat by the end of each session.' : 'No open positions.';
+  const PF_TRADE_COLS = [['title', 'Trade', '', true], ['gross', 'Exposure', ''], ['day_pnl', 'Today', 'num'], ['pnl', 'Total', 'num'], ['bps', 'Result', 'num'], ['room', 'Room to stop', 'num']];
+  const pfByTrade = (el) => {
+    const trades = pfSorted(pfTrades().filter((t) => pfKeep(t.direction, t.pnl)), 'trade', (t, k) => t[k]);
+    if (!trades.length) return pfEmpty(el, pfNothing());
+    const table = h('table', 'fr-table'); const thead = h('thead'); thead.append(pfHead(PF_TRADE_COLS, 'trade')); const tbody = h('tbody');
+    trades.forEach((t) => {
+      const open = pfUi.open.has(t.id);
+      const tr = h('tr', `is-row${open ? ' is-open' : ''}`); tr.dataset.trade = t.id;
+      const name = h('td', 'fr-pfname'); const top = h('b'); top.append(h('span', 'fr-caret', open ? '▾' : '▸'), t.title);
+      const sub = h('span', 'fr-cellsub', t.sub); sub.style.paddingLeft = '1.1em';
+      name.append(top, sub);
+      const tag = pfBookChip(t.book); if (tag) { tag.style.marginLeft = '1.1em'; name.append(tag); }
+      const expo = h('td', 'fr-expocell'); expo.append(pfExpo(t.long, t.short));
+      tr.append(name, expo, h('td', `num fr-amt ${tone(t.day_pnl)}`, fmtPnl(t.day_pnl)), h('td', `num fr-amt ${tone(t.pnl)}`, fmtPnl(t.pnl)),
+        h('td', `num ${tone(t.bps)}`, t.bps == null ? '—' : fmtBp(t.bps)),
+        h('td', `num ${t.room != null && t.room <= 0 ? 'fr-neg' : ''}`, t.room == null ? '—' : t.room <= 0 ? 'Past its stop' : `${d3.format('.1f')(t.room)}%`));
+      tr.tabIndex = 0; tr.setAttribute('aria-expanded', String(open));
+      const flip = () => { if (open) pfUi.open.delete(t.id); else pfUi.open.add(t.id); pfTable(); };
+      tr.addEventListener('click', (ev) => { if (!ev.target.closest('[data-chart], button')) flip(); });
+      tr.addEventListener('keydown', (ev) => { if (ev.target === tr && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); flip(); } });
+      tbody.append(tr);
+      if (open) tbody.append(pfTradeDetail(t, PF_TRADE_COLS.length));
+    });
+    const foot = h('tr', 'day'); const expo = h('td', 'fr-expocell'); expo.append(pfExpo(d3.sum(trades, (t) => t.long), d3.sum(trades, (t) => t.short)));
+    const dayPnl = d3.sum(trades, (t) => t.day_pnl); const pnl = d3.sum(trades, (t) => t.pnl);
+    foot.append(h('td', null, `${trades.length} trade${trades.length === 1 ? '' : 's'}`), expo, h('td', `num ${tone(dayPnl)}`, fmtPnl(dayPnl)), h('td', `num ${tone(pnl)}`, fmtPnl(pnl)), h('td'), h('td'));
+    tbody.append(foot);
+    table.append(thead, tbody); el.replaceChildren(table);
+  };
+  const PF_COLS = [['symbol', 'Symbol', '', true], ['side', 'Side', '', true], ['shares', 'Shares', 'num'], ['avg_cost', 'Avg cost', 'num'], ['last', 'Last', 'num'],
+    ['value', 'Market value', 'num'], ['day_pnl', 'Today', 'num'], ['pnl', 'Total', 'num'], ['pnl_pct', 'Return', 'num']];
+  const pfBySymbol = (el) => {
+    const rows = pfSorted(pfRows('mkt_portfolio_pos').filter((r) => pfKeep(r.side, r.pnl)), 'symbol', (r, k) => k === 'value' ? Math.abs(r.value) : r[k]);
+    if (!rows.length) return pfEmpty(el, pfNothing());
+    const ids = new Map(pfTrades().map((t) => [`${t.book}:${t.name}`, t.id]));
+    const table = h('table', 'fr-table'); const thead = h('thead'); thead.append(pfHead(PF_COLS, 'symbol')); const tbody = h('tbody');
+    const money = d3.format(',.2f');
+    rows.forEach((r) => {
+      const tr = h('tr');
+      const sym = h('td', 'fr-nw'); sym.append(symBtn(r.symbol));
+      const sub = h('span', 'fr-cellsub');
+      if (pfUi.book === 'all') sub.append(`${PF_BOOK[r.book]}${r.trades.length ? ' · ' : ''}`);
+      r.trades.forEach((name, i) => {
+        if (i) sub.append(', ');
+        const id = ids.get(`${r.book}:${name}`);
+        if (!id) { sub.append(name); return; }
+        const b = h('button', 'fr-link', name); b.type = 'button'; b.title = 'Show this trade';
+        b.addEventListener('click', () => { pfUi.view = 'trade'; pfUi.filter = 'all'; pfUi.open.add(id); pfTable(); });
+        sub.append(b);
+      });
+      sym.append(sub);
+      const side = h('td'); side.append(chip(r.side === 'long' ? 'Long' : 'Short', r.side === 'long' ? 'is-solid' : 'is-fg'));
+      tr.append(sym, side, h('td', 'num', d3.format(',')(r.shares)), h('td', 'num', money(r.avg_cost)), h('td', 'num', money(r.last)),
+        h('td', 'num', fmtUsd(r.value)), h('td', `num fr-amt ${tone(r.day_pnl)}`, fmtPnl(r.day_pnl)), h('td', `num fr-amt ${tone(r.pnl)}`, fmtPnl(r.pnl)),
+        h('td', `num ${tone(r.pnl_pct)}`, pfPct(r.pnl_pct)));
+      tbody.append(tr);
+    });
+    const foot = h('tr', 'day'); const lab = h('td', null, `${rows.length} symbol${rows.length === 1 ? '' : 's'}`); lab.colSpan = 5;
+    const dayPnl = d3.sum(rows, (r) => r.day_pnl); const pnl = d3.sum(rows, (r) => r.pnl);
+    foot.append(lab, h('td', 'num', fmtUsd(d3.sum(rows, (r) => r.value))), h('td', `num ${tone(dayPnl)}`, fmtPnl(dayPnl)), h('td', `num ${tone(pnl)}`, fmtPnl(pnl)), h('td'));
+    tbody.append(foot);
+    table.append(thead, tbody); el.replaceChildren(table);
+  };
+  pfDraw('pf-positions', (el) => {
+    if (!ready(el, 'mkt_portfolio_pos', true)) return;
+    if (pfUi.view === 'trade') pfByTrade(el); else pfBySymbol(el);
+  });
+  pfDraw('pf-count', (el) => {
+    const t = pfTrades().length; const s = pfRows('mkt_portfolio_pos').length;
+    el.textContent = s ? `${t} open trade${t === 1 ? '' : 's'} · ${s} symbol${s === 1 ? '' : 's'}` : '';
+  });
+  // Finished trades: the swing book's closed trades and the intraday book's takes, newest first.
+  const pfClosed = () => {
+    const all = [];
+    if (pfUi.book !== 'intraday') (okData('mkt_paper') || []).filter((r) => r.state === 'closed' && r.exit_date && r.pnl != null).forEach((r) => {
+      all.push({ id: r.id, book: 'swing', date: r.exit_date, title: pairTitle(r), sub: r.conviction ? `${human(r.setup)} · conviction ${r.conviction} of 5` : human(r.setup),
+        reason: isBroken(r) ? `One side never filled. ${r.reason || ''}` : r.reason, pnl: r.pnl, bps: r.bps, slip: r.slippage_bps, row: r });
+    });
+    if (pfUi.book !== 'swing') (okData('mkt_intraday') || []).filter((r) => r.kind === 'signal' && r.paper && r.paper.result).forEach((r) => {
+      all.push({ id: `intraday:${r.date}:${r.id}`, book: 'intraday', date: r.date, title: `${r.direction === 'long' ? 'Long' : 'Short'} ${r.symbol}${r.hedge ? ` vs ${r.hedge}` : ''}`, sub: human(r.setup),
+        reason: r.paper.exit_reason || (r.exit || {}).reason, pnl: r.paper.result.dollars, bps: r.paper.result.bp, slip: null, row: null });
+    });
+    all.sort((x, y) => y.date.localeCompare(x.date) || y.pnl - x.pnl);
+    const a = pfAcct();
+    const last = (a && a.day_session) || (all[0] && all[0].date) || null;
+    const from = pfUi.range === 'all' || !last ? '' : pfUi.range === 'day' ? last : new Date(Date.parse(`${last}T00:00:00Z`) - 6 * 864e5).toISOString().slice(0, 10);
+    const label = !last ? '' : pfUi.range === 'all' ? 'Every session' : pfUi.range === 'day' ? day(last, '%a %b %-d') : `${day(from, '%a %b %-d')} to ${day(last, '%a %b %-d')}`;
+    return { last, label, rows: all.filter((r) => r.date >= from) };
+  };
+  pfDraw('pf-closed-day', (el) => {
+    const { label, rows } = pfClosed(); const sum = d3.sum(rows, (r) => r.pnl);
+    el.textContent = rows.length ? `${label} · ${rows.filter((r) => r.pnl > 0).length} of ${rows.length} won · ${fmtPnl(sum)}` : label;
+  });
+  pfDraw('pf-closed', (el) => {
+    const { last, label, rows } = pfClosed();
+    const where = pfUi.book === 'all' ? '' : ` in the ${pfUi.book} book`;
+    if (!rows.length) return pfEmpty(el, !last ? 'Nothing has closed yet.' : pfUi.range === 'day' ? `Nothing closed on ${label}${where}. Week and All show earlier sessions.` : `Nothing has closed${where} yet.`);
+    const dated = pfUi.range !== 'day';
+    const cols = [...(dated ? [['Exited']] : []), ['Trade'], ['Why it closed'], ['Result', 'num'], ['Fills vs model', 'num fr-hide-narrow']];
+    const table = h('table', 'fr-table'); const hr = h('tr');
+    cols.forEach(([x, c]) => { const th = h('th', c || null, x); th.scope = 'col'; hr.append(th); });
+    const thead = h('thead'); thead.append(hr); const tbody = h('tbody');
+    rows.forEach((r) => {
+      const open = r.row && pfUi.closedOpen.has(r.id);
+      const tr = h('tr', `is-row${open ? ' is-open' : ''}`); tr.dataset.trade = r.id; tr.tabIndex = 0;
+      const name = h('td', 'fr-pfname'); const top = h('b'); top.append(h('span', 'fr-caret', r.row ? (open ? '▾' : '▸') : ''), r.title);
+      const sub = h('span', 'fr-cellsub', r.sub); sub.style.paddingLeft = '1.1em';
+      name.append(top, sub);
+      const tag = pfBookChip(r.book); if (tag) { tag.style.marginLeft = '1.1em'; name.append(tag); }
+      const text = human(r.reason || '—'); const why = h('td', 'why', text.length > 150 ? `${text.slice(0, 147).trimEnd()}…` : text);
+      if (dated) tr.append(h('td', 'fr-nw', day(r.date, '%a %b %-d')));
+      tr.append(name, why, twoLine(`num fr-amt ${tone(r.pnl)}`, fmtPnl(r.pnl), r.bps == null ? null : fmtBp(r.bps)), h('td', `num fr-hide-narrow ${tone(r.slip)}`, fmtBp(r.slip)));
+      let go;
+      if (r.row) { tr.setAttribute('aria-expanded', String(open)); go = () => { if (open) pfUi.closedOpen.delete(r.id); else pfUi.closedOpen.add(r.id); pfPart(['pf-closed']); }; } else { tr.title = 'Open the Intraday signals page'; go = () => setView('intraday'); }
+      tr.addEventListener('click', (ev) => { if (!ev.target.closest('[data-chart], button')) go(); });
+      tr.addEventListener('keydown', (ev) => { if (ev.target === tr && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); go(); } });
+      tbody.append(tr);
+      if (open) {
+        const dt = paperDetail(r.row, cols.length);
+        if (r.row.proposal_id) { const more = h('div', 'fr-wide'); const b = h('button', 'fr-link', 'See the research verdict behind this trade'); b.type = 'button'; b.addEventListener('click', () => pfOpenVerdict(r.row)); more.append(b); dt.querySelector('.fr-open').append(more); }
+        tbody.append(dt);
+      }
+    });
+    const foot = h('tr', 'day'); const lab = h('td', null, `${rows.length} trade${rows.length === 1 ? '' : 's'}`); lab.colSpan = cols.length - 2;
+    const sum = d3.sum(rows, (r) => r.pnl);
+    foot.append(lab, h('td', `num ${tone(sum)}`, fmtPnl(sum)), h('td', 'fr-hide-narrow'));
+    tbody.append(foot);
+    table.append(thead, tbody); el.replaceChildren(table);
+  });
   const paperUi = { open: new Set() };
   const paperDetail = (r, colSpan) => {
     const box = h('div', 'fr-open');
@@ -1139,10 +1549,6 @@
     const dt = h('tr', 'fr-detail'); const td = h('td'); td.colSpan = colSpan; td.append(box); dt.append(td);
     return dt;
   };
-  const toggleCell = (r, sub, open) => {
-    const tg = h('button', 'fr-toggle', pairTitle(r)); tg.type = 'button'; tg.setAttribute('aria-expanded', String(open)); tg.append(h('small', null, sub));
-    const td = h('td'); td.append(tg); return td;
-  };
   const twoLine = (cls, top, sub) => { const td = h('td', cls, top); if (sub) td.append(h('small', 'fr-cellsub', sub)); return td; };
   const paperTable = (el, cols, rows, makeRow, detail = paperDetail) => {
     const table = h('table', 'fr-table'); const hr = h('tr');
@@ -1151,43 +1557,13 @@
     rows.forEach((r) => {
       const open = paperUi.open.has(r.id);
       const tr = h('tr', `is-row${open ? ' is-open' : ''}`);
+      tr.dataset.trade = r.id;
       makeRow(tr, r, open);
       tr.addEventListener('click', () => { if (open) paperUi.open.delete(r.id); else paperUi.open.add(r.id); drawPaperTables(); });
       tbody.append(tr);
       if (open) tbody.append(detail(r, cols.length));
     });
     table.append(thead, tbody); el.replaceChildren(table);
-  };
-  const drawPaperOpen = (el) => {
-    const d = ready(el, 'mkt_paper', true);
-    if (!d) return;
-    const rows = d.data.filter(isLive).sort((a, b) => (a.bps == null) - (b.bps == null) || a.bps - b.bps);
-    if (!rows.length) { el.replaceChildren(h('p', 'fr-empty', d.data.length ? 'No open trades.' : 'No paper trades yet. The next entries go out at 9:15 AM ET.')); return; }
-    const mx = Math.max(1, ...rows.filter((r) => r.bps != null).map((r) => Math.abs(r.bps)));
-    paperTable(el, [['Trade'], ['Held', 'fr-hide-narrow'], ['', 'fr-hide-narrow'], ['Result', 'num'], ['Room to stop', 'num']], rows, (tr, r, open) => {
-      const name = toggleCell(r, r.conviction ? `${human(r.setup)} · conviction ${r.conviction} of 5` : human(r.setup), open);
-      const state = isBroken(r) ? chip('One side missing', 'is-bad') : r.state === 'planned' ? chip('Order sent', 'is-fg') : r.state === 'closing' ? chip('Exit sent', 'is-warn') : null;
-      if (state) name.append(state);
-      const barTd = h('td', 'bar fr-hide-narrow'); if (r.bps != null) barTd.append(zbar(r.bps, mx));
-      const room = r.stop_room_pct; const near = room != null && r.stop_pct && room / Math.abs(r.stop_pct) < 0.25;
-      const roomTd = h('td', 'num', room == null ? '—' : `${d3.format('.1f')(Math.max(room, 0))}%`);
-      if (near) { roomTd.append(document.createElement('br'), chip(room <= 0 ? 'Past stop' : 'Near stop', room <= 0 ? 'is-bad' : 'is-warn')); } else if (room != null) roomTd.append(h('small', 'fr-cellsub', `stop −${d3.format('.1f')(Math.abs(r.stop_pct))}%`));
-      tr.append(name,
-        twoLine('fr-hide-narrow fr-num fr-held', r.session_number ? `Day ${r.session_number} of ${r.horizon_days}` : 'Not started', `exits by ${day(r.exit_by, '%a %b %-d')}`),
-        barTd, twoLine(`num fr-amt ${tone(r.bps)}`, fmtBp(r.bps), r.pnl == null ? null : fmtPnl(r.pnl)), roomTd);
-    });
-  };
-  const drawPaperClosed = (el) => {
-    const d = ready(el, 'mkt_paper', true);
-    if (!d) return;
-    const rows = d.data.filter((r) => !isLive(r)).sort((a, b) => String(b.exit_date || b.entry_date).localeCompare(String(a.exit_date || a.entry_date)) || a.id.localeCompare(b.id));
-    if (!rows.length) { el.replaceChildren(h('p', 'fr-empty', 'Nothing has closed yet. Trades leave at the 3:45 PM ET check: on a stop, at their time limit, or if a pair is missing a side.')); return; }
-    paperTable(el, [['Exited'], ['Trade'], ['Outcome'], ['Result', 'num'], ['Fills vs model', 'num fr-hide-narrow']], rows, (tr, r, open) => {
-      const st = r.state === 'unfilled' ? ['Never filled', 'is-bad'] : isBroken(r) ? ['One side missing', 'is-bad'] : r.pnl > 0 ? ['Won', 'is-ok'] : ['Lost', 'is-bad'];
-      const stTd = h('td'); stTd.append(chip(st[0], st[1]));
-      tr.append(h('td', 'fr-num', r.exit_date ? day(r.exit_date, '%a %b %-d') : '—'), toggleCell(r, r.conviction ? `${human(r.setup)} · conviction ${r.conviction} of 5` : human(r.setup), open), stTd,
-        twoLine(`num fr-amt ${tone(r.bps)}`, fmtBp(r.bps), r.pnl == null ? null : fmtPnl(r.pnl)), h('td', `num fr-hide-narrow ${tone(r.slippage_bps)}`, fmtBp(r.slippage_bps)));
-    });
   };
   const drawVerdicts = (el) => {
     const d = ready(el, 'mkt_paper_proposals', true);
@@ -1201,17 +1577,23 @@
       const live = r.plan_bps == null && r.plan_so_far_bps != null;
       tr.append(h('td', 'fr-num', day(r.session, '%a %b %-d')), name, vTd, h('td', 'num fr-hide-narrow', r.conviction == null ? '—' : `${r.conviction} of 5`),
         twoLine(`num fr-amt ${tone(r.plan_bps ?? r.plan_so_far_bps)}`, fmtBp(r.plan_bps ?? r.plan_so_far_bps), live ? 'so far' : r.paper_bps != null ? `paper ${fmtBp(r.paper_bps)}` : null));
-    }, verdictDetail);
+    }, (r, n) => {
+      const dt = verdictDetail(r, n);
+      const trade = (okData('mkt_paper') || []).find((x) => x.proposal_id === r.id && x.pnl != null);
+      if (trade) {
+        const go = h('div', 'fr-wide'); const b = h('button', 'fr-link', isLive(trade) ? 'See this trade on Portfolio' : 'See how this trade closed on Portfolio'); b.type = 'button';
+        b.addEventListener('click', () => pfShowTrade(trade)); go.append(b); dt.querySelector('.fr-open').append(go);
+      }
+      return dt;
+    });
   };
   dash.draw('paper-verdict-sum', (el) => {
     const rows = (okData('mkt_paper_proposals') || []).filter((r) => r.plan_bps != null);
     const avg = (v) => { const rs = rows.filter((r) => (r.verdict === 'take') === v); return rs.length ? `${fmtBp(d3.mean(rs, (r) => r.plan_bps))} over ${rs.length}` : 'none finished'; };
     el.textContent = rows.length ? `Taken ${avg(true)} · not taken ${avg(false)}` : '';
   });
-  const drawPaperTables = () => { drawPaperOpen(document.querySelector('[data-draw=paper-open]')); drawPaperClosed(document.querySelector('[data-draw=paper-closed]')); drawVerdicts(document.querySelector('[data-draw=paper-verdicts]')); };
+  const drawPaperTables = () => drawVerdicts(document.querySelector('[data-draw=paper-verdicts]'));
   dash.draw('paper-verdicts', drawVerdicts);
-  dash.draw('paper-open', drawPaperOpen);
-  dash.draw('paper-closed', drawPaperClosed);
 
   // Today's summary of the swing book: what the next open takes, what is open, what closed last.
   const takeCard = (r) => {
@@ -1254,11 +1636,11 @@
       rows.forEach((r) => {
         const row = h('button', 'fr-result');
         row.type = 'button';
-        row.title = 'Open in Paper';
+        row.title = 'Open on Portfolio';
         const who = h('div');
         who.append(h('span', 'fr-legs', pairTitle(r)), h('span', 'fr-kicker', ` ${kicker(r)}`));
         row.append(who, r.bps == null ? h('span') : zbar(r.bps, mx), h('span', `fr-amt ${tone(r.bps)}`, fmtBp(r.bps)));
-        row.addEventListener('click', () => { paperUi.open.add(r.id); setView('paper'); drawPaperTables(); });
+        row.addEventListener('click', () => pfShowTrade(r));
         list.append(row);
       });
       return list;
@@ -1696,6 +2078,8 @@ dash.draw('movers', (el) => {
       box.append(block('Why', r.why || '—', true));
       if (r.against) box.append(block('The case against', r.against, true));
       if (r.catalyst) box.append(block('Catalyst', r.catalyst, true));
+      if (r.coming) box.append(block('What’s coming', r.coming, true));
+      if ((r.sources || []).length) box.append(block(r.researched ? `Sources · ${r.researched} s of research` : 'Sources', r.sources.join(' · '), true));
       box.append(block('At the signal', `${r.symbol} ${signed(n.name_day_pct, '.2f')}% on the day, ${r.hedge} ${signed(n.hedge_day_pct, '.2f')}% · opened ${signed(n.gap_atr, '.2f')} ATR from its hedge · ${d3.format('.1f')(n.rvol)}× usual volume · 15-minute RSI ${d3.format('.0f')(n.rsi)}`, true));
       if (r.plan) box.append(block('Plan', `Stop ${d3.format('.2f')(r.plan.stop_pct)}% · target +${d3.format('.2f')(r.plan.target_pct)}%${r.plan.max_bars ? ` · ${r.plan.max_bars} bars at most` : ''} · flat by ${r.plan.flat_by} ET`));
       if (r.entry) box.append(block('Fills', `In at ${r.entry.at}: ${r.symbol} ${d3.format(',.2f')(r.entry.name)}, ${r.hedge} ${d3.format(',.2f')(r.entry.hedge)}${r.exit ? ` · out at ${r.exit.at} after ${r.exit.bars} bar${r.exit.bars === 1 ? '' : 's'}, ${fmtBp(r.exit.after_costs_bp)} after costs` : ''}`));

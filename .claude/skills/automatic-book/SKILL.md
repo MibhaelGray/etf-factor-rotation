@@ -1,13 +1,15 @@
 ---
 name: automatic-book
-description: The automatic paper book's three daily research passes. Evening pass (about 7:30 PM ET) judges every candidate on the screen and records take-or-pass proposals for the next open; pre-open pass (about 8:30 AM ET) lets each take stand or stands it down on the overnight session; pre-close review (about 3:00 PM ET) decides hold, exit or extend for each open automatic trade. Use when asked for the automatic book's evening pass, pre-open pass, pre-close review, proposals, post-mortems or lessons, or when a scheduled task names one of the three passes.
+description: The automatic paper book's daily research passes. Evening pass (about 7:30 PM ET) judges every candidate on the screen and records take-or-pass proposals for the next open; pre-open pass (about 8:30 AM ET) lets each take stand or stands it down on the overnight session; midday check (about 12:15 PM ET) holds each open trade or closes one whose reason has gone; pre-close review (about 3:00 PM ET) decides hold, exit or extend for each open automatic trade. Use when asked for the automatic book's evening pass, pre-open pass, midday check, pre-close review, proposals, post-mortems or lessons, or when a scheduled task names one of the passes.
 ---
 
 # The automatic book
 
 The automatic book trades on the IBKR **paper** account. A program screens every stock, ETF, basket and factor pair each night; you judge its shortlist; only what you take is traded. Everything you decide is written down before the trade happens, and every proposal is scored afterwards, taken or passed, so the record shows whether your judgment adds anything to the screen.
 
-**Who does what.** You research, decide and write. Your only outputs are the files the `fr paper propose`, `fr paper review` and `fr paper postmortem` commands write, a research note, and `journal/paper/lessons.md`. Code sizes every trade, enforces the limits and sends every order. Never run `fr paper open`, `check`, `close` or `sync`, never call a job function yourself, and never use the IBKR connector's order tools: `.env` turns real paper orders on for anything run by hand.
+**Who does what.** You research, decide and write. Your only outputs are the files the `fr paper propose`, `fr paper midday-check`, `fr paper review` and `fr paper postmortem` commands write, a research note, and `journal/paper/lessons.md`. Code sizes every trade, enforces the limits and sends every order. Never run `fr paper open`, `early`, `check`, `midday`, `close` or `sync`, never call a job function yourself, and never use the IBKR connector's order tools: `.env` turns real paper orders on for anything run by hand.
+
+**Scheduled runs trade; a run by hand doesn't.** A pass started by its own schedule records its verdicts and lets the book trade the takes. A pass you run by hand, because the user asked for one in chat or you wanted to look, records nothing and sends nothing: do the research, report what you found, and stop. Only an explicit instruction in chat ("record it", "buy it", "go ahead") makes a manual run write or trade, and it covers only what the user named. For a manual run, work on a scratch journal (`FR_JOURNAL_DIR`) with `FR_PAPER_SEND=0`. The jobs that send orders (`fr paper early`, `open`, `check`, `close`) enforce this themselves: run by hand they print what they would send and send nothing, unless `--execute` is passed. If the session's proposals already hold verdicts, never write a second set over them.
 
 **The passes run unattended.** Don't wait for the user's OK to record, and don't ask questions. If something blocks you (no screen, the connector is down, a command refuses and you can't fix the draft), record what you can and say plainly in your final message what didn't happen. Don't commit or push: the nightly job commits `journal/paper`.
 
@@ -22,7 +24,7 @@ The automatic book trades on the IBKR **paper** account. A program screens every
 
 ## 1. Evening pass (about 7:30 PM ET, for the next session's open)
 
-The nightly job writes the screen at 7:00 PM ET. Proposals must be recorded by 9:14 AM ET; the entry job runs at 9:15.
+The nightly job writes the screen at 7:00 PM ET. Proposals must be recorded by 9:14 AM ET; the entry job runs at 9:15. Takes recorded before 9:00 PM ET are entered that night with limit orders in IBKR's overnight session, and again at 4:05 AM and 9:00 AM ET for what didn't fill, so a take can be filled before the pre-open pass sees it.
 
 1. `uv run fr paper learn`.
 2. Find the screen: the newest `journal/screens/<as_of>.json`. It must have `bars_settled: true` and `next_session` equal to the session you're proposing for. If tonight's isn't there yet, the nightly job may still be running: look again every few minutes for up to 20 minutes. If it still hasn't appeared, run `uv run fr screen` yourself; if the bars aren't settled, stop and say so.
@@ -72,7 +74,7 @@ The nightly job writes the screen at 7:00 PM ET. Proposals must be recorded by 9
 
 1. `uv run fr paper learn`, then read `journal/paper/proposals/<today>.json`. If it doesn't exist, the evening pass didn't run: with the time left, judge the screen's top candidates as in the evening pass (steps 6-9, `"pass": "preopen"`), strongest first, and say in your final message that last night's pass was missed.
 2. For each take: the pre-market price against yesterday's close in percent and in ATRs (IBKR connector; ATR is in the proposal's `signal.numbers`), and the overnight news on its mechanism. Check macro releases at 8:30 AM ET.
-3. Each take **stands** unless one of these is true, in which case **stand it down**: its `wrong_if` has happened; a leg has gapped more than about one ATR in the trade's direction, so the move happened before the open; overnight news hits the specific reason for the trade. General nervousness and "futures are down" are not reasons.
+3. Each take **stands** unless one of these is true, in which case **stand it down**: its `wrong_if` has happened; a leg has gapped more than about one ATR in the trade's direction, so the move happened before the open; overnight news hits the specific reason for the trade. General nervousness and "futures are down" are not reasons. A take may already be partly or fully filled from the overnight session (`journal/paper/early/<session>.json` and the fills): standing it down then closes those shares at the open, so stand it down only for a reason that would also justify exiting a trade you hold.
 4. Add a verdict for anything new: a candidate left "not reviewed" last night, a name the screen held back because it reported overnight, or your own idea from the overnight session. The same rules as the evening pass apply.
 5. Record before 9:14 AM ET:
    ```json
@@ -82,6 +84,22 @@ The nightly job writes the screen at 7:00 PM ET. Proposals must be recorded by 9
     "proposals": []}
    ```
    A take with no check stands.
+
+## 2b. Midday check (about 12:15 PM ET, recorded by 1:10 PM, never after 2:45 PM)
+
+A short look at the open trades only, so one whose reason has visibly gone doesn't sit until the close. It opens nothing, adds nothing and extends nothing. Keep it to about 20 minutes.
+
+1. `uv run fr paper learn` lists the open trades with each one's `wrong_if`. If there are none, say so and stop.
+2. For each one: the morning's news on the name, its group and its hedge, and how it has traded today against the hedge. Research agents only where a trade has news to run down.
+3. Decide, for **every** open trade:
+   - `hold`: the default, with the thesis `intact` or `weakened`. A trade that is losing, or near its stop, is a hold; the stop is checked at 3:45 PM and the pre-close review comes after you.
+   - `exit`: closed at the market by the next exit job (1:15 PM and 2:15 PM ET). Only when `wrong_if` has happened or the news has removed the reason (`thesis: "broken"`), or the whole expected move has happened (`"played_out"`). Name the event, its time and its source in the reason. If you aren't sure it has happened, hold and say what the pre-close review should check.
+   ```json
+   {"session": "2026-11-12", "summary": "one line",
+    "reviews": [{"trade_id": "2026-11-10-A01", "action": "hold", "thesis": "intact", "reason": "No news; +0.4 points against QQQ today."},
+                {"trade_id": "2026-11-10-A03", "action": "exit", "thesis": "broken", "reason": "At Baird at 10:30 AM ET the CFO called the Q4 shortfall a one-off shipment slip, quantified at $9M (transcript)."}]}
+   ```
+4. `uv run fr paper midday-check <draft>`. It refuses after 2:45 PM ET. Never run `fr paper midday` yourself: that is the job that sends the orders.
 
 ## 3. Pre-close review (about 3:00 PM ET, recorded by 3:44 PM)
 

@@ -2,21 +2,22 @@ import argparse
 import asyncio
 import json
 import logging
+import os
 import sys
 from datetime import date, datetime
 from pathlib import Path
 
-from . import bars, journal
+from . import bars, drawdown, journal
 from .analytics.compute import compute_exposures, latest_snapshot
 from .config import NY
 from .ib import options
-from .universe import ETFS, OPTION_INDEXES, OPTION_STOCKS, bar_universe, option_universe
+from .universe import CORE_ETFS, OPTION_INDEXES, OPTION_STOCKS, bar_universe, option_universe
 
 
 def _universe(group: str, symbols: str | None) -> list[str]:
     if symbols:
         return [s.strip().upper() for s in symbols.split(",")]
-    return {"etfs": list(OPTION_INDEXES) + ETFS, "stocks": OPTION_STOCKS, "all": option_universe()}[group]
+    return {"etfs": list(OPTION_INDEXES) + CORE_ETFS, "stocks": OPTION_STOCKS, "all": option_universe()}[group]
 
 
 def _today() -> date:
@@ -63,18 +64,26 @@ def main(argv: list[str] | None = None) -> None:
     sub.add_parser("screen", help="check every name, basket and factor pair against the setups; write the shortlist")
 
     c = sub.add_parser("paper", help="paper-trading jobs on the IBKR paper account (see paper/__init__.py)")
-    c.add_argument("job", choices=["open", "check", "close", "sync", "status", "report", "halt", "resume",
-                                   "propose", "review", "postmortem", "learn", "hedges"])
-    c.add_argument("args", nargs="*", help="propose, review, postmortem: the draft JSON file; hedges: the symbols on one side")
+    c.add_argument("--execute", action="store_true",
+                   help="a job that sends orders only looks when it is run by hand: it prints what it would send "
+                        "and sends nothing. This makes it count, as the scheduled job does")
+    c.add_argument("job", choices=["open", "early", "check", "midday", "close", "sync", "status", "report", "halt", "resume",
+                                   "propose", "review", "midday-check", "postmortem", "learn", "hedges"])
+    c.add_argument("args", nargs="*", help="propose, review, midday-check, postmortem: the draft JSON file; hedges: the symbols on one side")
     c.add_argument("--flatten", action="store_true", help="close: exit every open trade at today's close")
     c.add_argument("--reason", default="", help="halt: why, kept in the HALT file")
+    c.add_argument("--book", choices=["swing", "intraday"],
+                   help="resume: lift that book's 10%% pause (drawdown.py) instead of the HALT file")
     c = sub.add_parser("pass", help="run one of the swing book's research passes as a background job (see passes.py)")
     c.add_argument("name", choices=["pre-close"])
     c.add_argument("--shadow", action="store_true", help="work on a copy of the journal, so the app's pass stays the one that counts")
     c = sub.add_parser("quotes", help="current prices from Yahoo for stocks, ETFs, indexes (VIX, TNX) and futures (ES=F, CL=F)")
     c.add_argument("names", nargs="+")
     c = sub.add_parser("intraday", help="the intraday book: 15-minute bars and the replay of its setups (see intraday/__init__.py)")
-    c.add_argument("job", choices=["bars", "replay", "tick", "report"])
+    c.add_argument("job", choices=["bars", "replay", "tick", "ext", "report"])
+    c.add_argument("--execute", action="store_true",
+                   help="a tick run by hand only looks: it writes nothing and sends no orders. This makes it count, "
+                        "as the scheduled job does. The scheduled jobs set FR_SCHEDULED=1 and need no flag")
     c = sub.add_parser("dashboard", help="build a local copy of the dashboard (dashboard/local.html) and open it")
     c.add_argument("--as-of", default=None, help="brief date for tonight's market rows (default: the latest brief)")
     c.add_argument("--out", type=Path, default=None)
@@ -141,8 +150,10 @@ def main(argv: list[str] | None = None) -> None:
             print(json.dumps(bars15.collect(replay.universe())))
         elif a.job == "tick":
             from .intraday import live
-            out = live.tick()
-            print(f"intraday tick {out['date']}: " + (out.get("skipped") or f"bar closed {out['bar_closed']}, {len(out['new'])} new, {out['open']} open, {out['total']} today"))
+            dry = _looking(a)
+            out = live.tick(dry=dry)
+            print(f"intraday tick {out['date']}{' (a look: nothing written or sent)' if dry else ''}: "
+                  + (out.get("skipped") or f"bar closed {out['bar_closed']}, {len(out['new'])} new, {out['open']} open, {out['total']} today"))
             for x in out.get("new", []):
                 v = x["verdict"]
                 print(f"  {x['symbol']:<6} vs {x['hedge']:<5} {x['setup']:<12} {x['direction']:<5} {v['decision']:<10} {v.get('why') or v.get('error') or ''}")
@@ -150,9 +161,23 @@ def main(argv: list[str] | None = None) -> None:
                 r = x.get("result")
                 print(f"  paper {x['id']:<16} {x['state']:<9} {x.get('exit_reason') or ''}" + (f"  {r['dollars']:+.2f} ({r['bp']:+.1f} bp)" if r else ""))
             _notify("intraday", out.get("warnings", []))
+        elif a.job == "ext":
+            from .intraday import extended
+            dry = _looking(a)
+            out = extended.tick(dry=dry)
+            print(f"intraday ext {out.get('night', '')}{' (a look: nothing written or sent)' if dry else ''}: "
+                  + (out.get("skipped") or f"{out['session']}, {out['quoted']} prices from {out['prices']}, "
+                                           f"{len(out['new'])} new"))
+            for x in out.get("new", []):
+                v = x["verdict"]
+                print(f"  {x['symbol']:<6} vs {x['hedge']:<5} {x['direction']:<5} {x['numbers']['move_atr']:+.1f} ATR  {v['decision']:<10} {v.get('why') or v.get('error') or ''}")
+            for x in out.get("paper", []):
+                r = x.get("result")
+                print(f"  paper {x['id']:<24} {x['state']:<9} {x.get('exit_reason') or ''}" + (f"  {r['dollars']:+.2f} ({r['bp']:+.1f} bp)" if r else ""))
+            _notify("intraday ext", out.get("warnings", []))
         elif a.job == "report":
-            from .intraday import live
-            print(json.dumps(live.report(), indent=1))
+            from .intraday import extended, live
+            print(json.dumps({"day": live.report(), "extended_hours": extended.report()}, indent=1))
         else:
             path, payload = replay.write()
             print(path)
@@ -190,6 +215,18 @@ def main(argv: list[str] | None = None) -> None:
             webbrowser.open(out.resolve().as_uri())
     elif a.cmd == "paper":
         _paper(a)
+
+
+def _looking(a) -> bool:
+    """True when this run only looks. A tick started by deploy/run.sh is a scheduled one and counts; a tick run
+    by hand writes nothing and sends nothing unless --execute says so."""
+    return not (os.environ.get("FR_SCHEDULED") == "1" or getattr(a, "execute", False))
+
+
+def _dry_tag(dry: bool, looking: bool) -> str:
+    if looking:
+        return " (a look: nothing sent; add --execute to trade)"
+    return " (dry run: set FR_PAPER_SEND=1 to send)" if dry else ""
 
 
 def _notify(job: str, warnings: list[str]) -> None:
@@ -237,6 +274,11 @@ def _research(a) -> None:
             for r in json.loads(path.read_text())["reviews"]:
                 print(f"  {r['trade_id']}: {r['action']}" + (f" {r['sessions']} sessions" if r["action"] == "extend" else "") + f" ({r['thesis']}): {r['reason']}")
             print(f"{path}: the 3:45 PM ET exit check will read it")
+        elif a.job == "midday-check":
+            path = learn.record_midday(draft())
+            for r in json.loads(path.read_text())["reviews"]:
+                print(f"  {r['trade_id']}: {r['action']} ({r['thesis']}): {r['reason']}")
+            print(f"{path}: the next midday job (1:15 PM and 2:15 PM ET) closes the exits at the market")
         elif a.job == "postmortem":
             print(learn.record_postmortems(draft()))
         elif a.job == "learn":
@@ -255,10 +297,10 @@ def _paper(a) -> None:
     from .paper import book
     from .paper.broker import IBPaper, PaperSettings
 
-    if a.job in ("propose", "review", "postmortem", "learn", "hedges"):
+    if a.job in ("propose", "review", "midday-check", "postmortem", "learn", "hedges"):
         return _research(a)
     today = _today()
-    if a.job in ("open", "check", "close", "sync") and not journal.is_trading_day(today):
+    if a.job in ("open", "check", "midday", "close", "sync") and not journal.is_trading_day(today):
         logging.info("market_closed date=%s", today)
         return
     # A job that starts late (the Mac woke from sleep, say) must not send orders after the auction cutoffs:
@@ -267,13 +309,26 @@ def _paper(a) -> None:
     now = datetime.now(NY).strftime("%H:%M")
     # The post-open check closes half-filled trades at the market, so it runs only while the market is open
     # and before the 3:45 PM exits, which deal with whatever is left.
-    window = {"open": ("09:00", "09:27"), "check": ("09:33", "15:29"), "close": ("15:30", "15:49")}.get(a.job)
+    window = {"open": ("09:00", "09:27"), "check": ("09:33", "15:29"), "midday": ("10:00", "15:29"),
+              "close": ("15:30", "15:49")}.get(a.job)
     if window and not (window[0] <= now <= window[1]) and PaperSettings().send:
         print(f"paper {a.job}: {now} ET is outside {window[0]}-{window[1]} ET, so nothing was sent")
         sys.exit(1)
-    if a.job == "open":
-        plan = asyncio.run(book.open_session(today))
-        tag = " (dry run: set FR_PAPER_SEND=1 to send)" if plan["dry_run"] else ""
+    looking = _looking(a) if a.job in ("early", "open", "check", "midday", "close") else False
+    if a.job == "early":
+        from .paper import early
+        r = asyncio.run(early.run(dry=looking))
+        tag = _dry_tag(r["dry_run"], looking)
+        print(f"paper early {r['at']}{tag}: " + (r.get("note") or f"{r['venue']} session, {len(r['new'])} new takes, "
+                                                 f"{r['cancelled']} cancelled, {len(r['orders'])} limit orders"))
+        for o in r["orders"]:
+            print(f"  {o['trade_id']:<16} {o['action']:<4} {o['shares']:>6} {o['symbol']:<6} limit {o['limit']:.2f}  {o.get('status', '')}")
+        for k in r["skipped"]:
+            print(f"  skipped {k['name']}: {k['reason']}")
+        _notify("early", r["warnings"])
+    elif a.job == "open":
+        plan = asyncio.run(book.open_session(today, dry=looking))
+        tag = _dry_tag(plan["dry_run"], looking)
         print(f"paper open {today}{tag}: {len(plan['trades'])} trades, {len(plan['orders'])} orders, {len(plan['skipped'])} skipped"
               + (f"; HALTED: {plan['halted']}" if plan.get("halted") else ""))
         for t in plan["trades"]:
@@ -282,13 +337,20 @@ def _paper(a) -> None:
             print(f"  skipped {k['name']}: {k['reason']}")
         _notify("open", plan.get("warnings", []))
     elif a.job == "check":
-        out = asyncio.run(book.check_session(today))
+        out = asyncio.run(book.check_session(today, dry=looking))
         print(f"paper check {today}: " + (out.get("note") or f"{len(out['unfilled'])} trades never filled, {len(out['exits'])} broken trades "
                                           f"closed with {len(out['orders'])} orders, {len(out['waiting'])} still waiting"))
         _notify("check", out["warnings"])
+    elif a.job == "midday":
+        out = asyncio.run(book.midday_session(today, dry=looking))
+        tag = _dry_tag(out["dry_run"], looking)
+        print(f"paper midday {today}{tag}: " + (out.get("note") or f"{len(out['exits'])} exits, {len(out['orders'])} market orders"))
+        for e in out["exits"]:
+            print(f"  {e['trade_id']}: {e['reason']}")
+        _notify("midday", out["warnings"])
     elif a.job == "close":
-        out = asyncio.run(book.close_session(today, flatten=a.flatten))
-        tag = " (dry run)" if out["dry_run"] else ""
+        out = asyncio.run(book.close_session(today, flatten=a.flatten, dry=looking))
+        tag = _dry_tag(out["dry_run"], looking)
         print(f"paper close {today}{tag}: {len(out['exits'])} exits, {len(out['orders'])} orders")
         for e in [*out["exits"], *out["retried"]]:
             print(f"  {e['trade_id']}: {e['reason']}")
@@ -306,6 +368,10 @@ def _paper(a) -> None:
         print(f"paper account {account} on port {PaperSettings().port}: net liquidation {nav}, {len(positions)} positions")
         print(f"orders {'ON (FR_PAPER_SEND=1)' if PaperSettings().send else 'off: dry runs only'}; "
               f"{'HALTED: ' + book.HALT.read_text().strip() if book.HALT.exists() else 'not halted'}")
+        for name in ("swing", "intraday"):
+            d = drawdown.status(name)
+            print(f"  {name} book ${d['value']:,.0f}, high ${d['peak']:,.0f}, pauses at ${d['pause_at']:,.0f}"
+                  + (f"; PAUSED: {d['paused']}" if d["paused"] else ""))
         for m in book.reconcile(positions):
             print(f"  ! {m}")
     elif a.job == "report":
@@ -318,6 +384,9 @@ def _paper(a) -> None:
         book.HALT.parent.mkdir(parents=True, exist_ok=True)
         book.HALT.write_text((a.reason or "halted by hand") + "\n")
         print(f"{book.HALT} written: no new paper trades until fr paper resume")
+    elif a.job == "resume" and a.book:
+        d = drawdown.resume(a.book)
+        print(f"{a.book} book resumed at ${d['value']:,.0f}; it pauses again at ${d['value'] - d['limit']:,.0f}")
     elif a.job == "resume":
         book.HALT.unlink(missing_ok=True)
         print("paper trading resumed")

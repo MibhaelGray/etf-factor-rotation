@@ -14,7 +14,7 @@ import pandas as pd
 
 from . import journal
 from .config import NY
-from .universe import CONSTITUENTS
+from .universe import CONSTITUENTS, INDEX_STOCKS
 
 log = logging.getLogger(__name__)
 
@@ -27,12 +27,12 @@ def load() -> dict:
 
 
 def symbols() -> list[str]:
-    """Every basket member, the largest stocks and any stock the paper book holds or has judged this month."""
+    """Every basket member, every stock the swing screen covers and any stock the paper book holds."""
     from .market import basket_library
     from .paper import book
     from .universe import ETFS
     members = [m["symbol"] for b in basket_library()["baskets"] for m in b["members"]]
-    return sorted({*members, *CONSTITUENTS, *(book.symbols_held() if book.ROOT.exists() else set())} - set(ETFS))
+    return sorted({*members, *CONSTITUENTS, *INDEX_STOCKS, *(book.symbols_held() if book.ROOT.exists() else set())} - set(ETFS))
 
 
 def session(ts: pd.Timestamp) -> str:
@@ -66,15 +66,67 @@ def _dates(symbol: str) -> list[dict] | None:
     return rows
 
 
-def pull() -> dict:
+# Yahoo starts refusing after about 500 quick calls (2026-11-12), so a night's pull is kept near 400:
+# - the core names (the largest stocks, basket members, anything the paper book holds) every night, as before;
+# - from the wider swing tier (universe.INDEX_STOCKS), any name with no dates yet or a report within REPORT_WINDOW
+#   days either side of today, then the names pulled longest ago, up to WIDE_PER_NIGHT in all.
+# Each name's last good pull is kept in `pulled`; a name that fails keeps its last good dates. Names that fail are
+# tried again, fewer at a time, after a pause.
+WORKERS = 4
+RETRIES = ((30, 2), (90, 1))   # (seconds to wait, workers) for each retry pass
+WIDE_PER_NIGHT = 150
+REPORT_WINDOW = (3, 10)        # days before today, days after
+
+
+def _due(names: list[str], kept: dict, pulled: dict, today) -> list[str]:
+    """The names to pull tonight, core first (see above)."""
+    from datetime import date, timedelta
+    wide = set(INDEX_STOCKS) - set(_core())
+    core = [s for s in names if s not in wide]
+    lo, hi = today - timedelta(days=REPORT_WINDOW[0]), today + timedelta(days=REPORT_WINDOW[1])
+
+    def near(s: str) -> bool:
+        return any(lo <= date.fromisoformat(r["date"]) <= hi for r in kept.get(s, []))
+
+    rest = [s for s in names if s in wide]
+    urgent = [s for s in rest if s not in kept or near(s)]
+    stale = sorted((s for s in rest if s not in urgent), key=lambda s: (pulled.get(s, ""), s))
+    return core + (urgent + stale)[:WIDE_PER_NIGHT]
+
+
+def _core() -> set[str]:
+    from .market import basket_library
+    from .paper import book
+    members = {m["symbol"] for b in basket_library()["baskets"] for m in b["members"]}
+    return {*members, *CONSTITUENTS, *(book.symbols_held() if book.ROOT.exists() else set())}
+
+
+def pull(sleep=None, now=None) -> dict:
+    from time import sleep as _sleep
+    sleep = sleep or _sleep
+    now = now or datetime.now(NY)
+    old = load()
+    kept, pulled = old.get("names", {}), old.get("pulled", {})
     names = symbols()
-    with ThreadPoolExecutor(max_workers=4) as pool:
-        got = dict(zip(names, pool.map(_dates, names)))
-    kept = load().get("names", {})
+    todo = _due(names, kept, pulled, now.date())
+    with ThreadPoolExecutor(max_workers=WORKERS) as pool:
+        got = dict(zip(todo, pool.map(_dates, todo)))
+    for wait, workers in RETRIES:
+        again = [s for s, rows in got.items() if rows is None]
+        if not again:
+            break
+        log.info("earnings_retry names=%d wait=%ds", len(again), wait)
+        sleep(wait)
+        with ThreadPoolExecutor(max_workers=workers) as pool:
+            got.update(dict(zip(again, pool.map(_dates, again))))
     failed = sorted(s for s, rows in got.items() if rows is None)
-    payload = {"pulled_at": datetime.now(NY).isoformat(timespec="seconds"), "source": "Yahoo Finance via yfinance",
-               "names": {s: rows if rows is not None else kept[s] for s, rows in got.items()
-                         if rows is not None or s in kept},
+    stamp = now.isoformat(timespec="seconds")
+    wanted = set(names)
+    payload = {"pulled_at": stamp, "source": "Yahoo Finance via yfinance",
+               "names": {s: got[s] if got.get(s) is not None else kept[s] for s in sorted(wanted)
+                         if got.get(s) is not None or s in kept},
+               "pulled": {s: stamp if got.get(s) is not None else pulled[s] for s in sorted(wanted)
+                          if got.get(s) is not None or s in pulled},
                "failed": failed}
     PATH.write_text(json.dumps(payload, indent=1) + "\n")
-    return {"path": str(PATH), "names": len(payload["names"]), "failed": failed}
+    return {"path": str(PATH), "names": len(payload["names"]), "pulled": len(todo), "failed": failed}

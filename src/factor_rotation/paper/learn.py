@@ -1,6 +1,7 @@
 """What the automatic book learns from: the pre-close review, post-mortems, and every proposal's result.
 
     journal/paper/reviews/<session>.json      the pre-close review: hold, exit early or extend, per open automatic trade
+    journal/paper/midday/<session>.json       the midday check: hold or exit now, per open trade (book.midday_session acts)
     journal/paper/postmortems/<date>.json     a tag and a one-line lesson for each finished trade
     journal/paper/lessons.md                  the standing lessons, kept by the research pass and read at its start
 
@@ -31,6 +32,9 @@ TAGS = {
     "noise": "lost money though the reasoning held: the stop, the tape or the timing",
 }
 REVIEW_CUTOFF = time(15, 44)  # the exit check runs at 3:45 PM ET
+MIDDAY_WINDOW = (time(10, 0), time(14, 45))  # after the open has settled; later than this the pre-close review decides
+MIDDAY_ACTIONS = ("hold", "exit")
+MIDDAY_EXIT_THESIS = ("broken", "played_out")
 SMALL = 30                    # below this many results a group's average is an anecdote
 LESSONS = "lessons.md"
 
@@ -94,6 +98,46 @@ def record_review(draft: dict, now: datetime | None = None) -> Path:
         raise ValueError(f"review every open trade; missing: {', '.join(missing)}")
     return _write("reviews", str(session), {"session": session.isoformat(), "reviewed_at": now.isoformat(),
                                              "summary": str(draft.get("summary", "")), "reviews": out})
+
+
+# ---- The midday check -------------------------------------------------------------------------------------
+def record_midday(draft: dict, now: datetime | None = None) -> Path:
+    """Record the midday check: hold or exit now for every open trade. It exists so a trade whose reason has
+    visibly gone doesn't sit until the close. An exit is closed at the market by the next `fr paper midday` job
+    (book.midday_session), so it needs the thesis broken or played out, not just weakened. It can't extend, add
+    or open anything, and the pre-close review still runs on what is left.
+
+    draft: {"session": "2026-11-12", "summary": "...",
+            "reviews": [{"trade_id": "...", "action": "hold" | "exit", "thesis": "intact" | "weakened" | "broken" |
+                         "played_out", "reason": "..."}]}
+    """
+    now = now or datetime.now(NY)
+    session = date.fromisoformat(draft["session"])
+    if session != now.date() or not journal.is_trading_day(session):
+        raise ValueError(f"the midday check is recorded during the session it is for, not for {session}")
+    if not MIDDAY_WINDOW[0] <= now.time() <= MIDDAY_WINDOW[1]:
+        raise ValueError("the midday check is recorded between 10:00 AM and 2:45 PM ET; after that the pre-close review decides")
+    path = proposals.root() / "midday" / f"{session}.json"
+    if path.exists():
+        raise FileExistsError(f"{path} exists; today's midday check is already recorded")
+    open_auto = {t["id"]: t for t in book.open_trades()}
+    out = []
+    for r in draft.get("reviews", []):
+        who = str(r.get("trade_id"))
+        if who not in open_auto:
+            raise ValueError(f"{who} is not an open trade")
+        if who in {x["trade_id"] for x in out}:
+            raise ValueError(f"{who} is reviewed twice")
+        if r.get("action") not in MIDDAY_ACTIONS or r.get("thesis") not in THESIS or not _text(r.get("reason")):
+            raise ValueError(f"{who}: needs action ({'/'.join(MIDDAY_ACTIONS)}), thesis ({'/'.join(THESIS)}) and a reason")
+        if r["action"] == "exit" and r["thesis"] not in MIDDAY_EXIT_THESIS:
+            raise ValueError(f"{who}: a midday exit needs the thesis {' or '.join(MIDDAY_EXIT_THESIS)}; otherwise hold, "
+                             "and let the pre-close review and the stop do their jobs")
+        out.append({"trade_id": who, "action": r["action"], "thesis": r["thesis"], "reason": r["reason"].strip()})
+    if missing := sorted(set(open_auto) - {r["trade_id"] for r in out}):
+        raise ValueError(f"check every open trade; missing: {', '.join(missing)}")
+    return _write("midday", str(session), {"session": session.isoformat(), "reviewed_at": now.isoformat(),
+                                            "summary": str(draft.get("summary", "")), "reviews": out})
 
 
 # ---- Post-mortems -----------------------------------------------------------------------------------------
@@ -169,7 +213,7 @@ def outcomes() -> list[dict]:
         done = bool(plan) and plan["status"] in ("time", "stopped")
         r = paper.get(p["id"])
         reason = (r or {}).get("reason") or ""
-        managed = "early exit" if reason.startswith("review:") else "extended" if (r or {}).get("extended") else None
+        managed = "early exit" if reason.startswith(("review:", "midday check:")) else "extended" if (r or {}).get("extended") else None
         m = tags.get((r or {}).get("id"))
         out.append({
             "id": p["id"], "session": p["session"], "name": p["name"], "kind": p["kind"], "setup": p["setup"], "direction": p["direction"],

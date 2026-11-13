@@ -42,6 +42,14 @@ class Broker:
                 self._positions[o["symbol"]] = self._positions.get(o["symbol"], 0) + (o["shares"] if side == "BOT" else -o["shares"])
         return [{**o, "order_id": i, "status": "PreSubmitted", "note": ""} for i, o in enumerate(orders)]
 
+    async def cancel(self, trade_ids):
+        """Every sent order of these trades that didn't fill counts as working, once."""
+        filled = {(f["order_ref"], f["side"]) for f in self._fills}
+        working = [o for o in self.sent if o["trade_id"] in trade_ids and o not in getattr(self, "cancelled", [])
+                   and (f"{o['trade_id']}|{o['symbol']}", "BOT" if o["action"] == "BUY" else "SLD") not in filled]
+        self.cancelled = [*getattr(self, "cancelled", []), *working]
+        return len(working)
+
     async def fills(self):
         return list(self._fills)
 
@@ -589,3 +597,59 @@ class Pnl(Case):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class SwingFillsOnly(unittest.TestCase):
+    def test_the_intraday_books_fills_are_not_the_swing_books(self):
+        from unittest import mock
+        from factor_rotation.paper import book
+        f = lambda ref: {"order_ref": ref, "symbol": ref.split("|")[1], "side": "SLD", "shares": 1.0, "price": 1.0,
+                         "time": "2026-11-12T03:00:00+00:00", "exec_id": ref, "session": "2026-11-12"}
+        by_ref = {("X-1111-2201-LIN", "LIN"): [f("X-1111-2201-LIN|LIN")], ("I-1112-AMD", "AMD"): [f("I-1112-AMD|AMD")],
+                  ("2026-11-12-A02", "MU"): [f("2026-11-12-A02|MU")]}
+        with mock.patch.object(book, "_fills_by_ref", lambda: by_ref):
+            self.assertEqual([x["symbol"] for x in book._book_fills()], ["MU"])
+
+
+class Midday(Review):
+    def midday(self, hour=12, **r):
+        return learn.record_midday({"session": DAY.isoformat(), "reviews": [{"trade_id": "T1", "thesis": "intact", "reason": "why", **r}]},
+                                   datetime(DAY.year, DAY.month, DAY.day, hour, 20, tzinfo=NY))
+
+    def test_an_exit_is_closed_at_the_market_once_and_the_close_leaves_it_alone(self):
+        self.midday(action="exit", thesis="broken", reason="guidance was withdrawn at 11:00 AM")
+        out = asyncio.run(book.midday_session(DAY, broker=self.broker))
+        self.assertEqual(out["exits"][0]["reason"], "midday check: guidance was withdrawn at 11:00 AM")
+        self.assertEqual(sorted((o["symbol"], o["action"], o["kind"], o["shares"]) for o in self.broker.sent),
+                         [("AAA", "SELL", "MKT", 100), ("HHH", "BUY", "MKT", 100)])
+        self.assertEqual(self.state("T1"), "closed")
+        again = asyncio.run(book.midday_session(DAY, broker=self.broker))
+        self.assertEqual((again["orders"], len(self.broker.sent)), ([], 2))
+        self.assertEqual(self.close(DAY, {"AAA": 90.0, "HHH": 100.0})["exits"], [])
+
+    def test_an_exit_that_does_not_fill_goes_again_into_the_close(self):
+        self.midday(action="exit", thesis="played_out", reason="the move is done")
+        self.broker.fill = lambda o: o["kind"] != "MKT"
+        asyncio.run(book.midday_session(DAY, broker=self.broker))
+        self.assertEqual(self.state("T1"), "closing")
+        out = self.close(DAY, {"AAA": 100.0, "HHH": 100.0})
+        self.assertEqual([r["trade_id"] for r in out["retried"]], ["T1"])
+        asyncio.run(book.sync(DAY, self.broker))
+        self.assertEqual(self.state("T1"), "closed")
+
+    def test_a_hold_sends_nothing_and_no_check_is_a_note(self):
+        self.assertIn("no midday check", asyncio.run(book.midday_session(DAY, broker=self.broker))["note"])
+        self.midday(action="hold")
+        out = asyncio.run(book.midday_session(DAY, broker=self.broker))
+        self.assertEqual((out["orders"], self.broker.sent, self.state("T1")), ([], [], "open"))
+
+    def test_the_check_is_refused_outside_its_window_or_without_a_broken_thesis(self):
+        with self.assertRaisesRegex(ValueError, "between 10:00 AM and 2:45 PM"):
+            self.midday(hour=15, action="hold")
+        with self.assertRaisesRegex(ValueError, "broken or played_out"):
+            self.midday(action="exit", thesis="weakened", reason="it is losing")
+        with self.assertRaisesRegex(ValueError, "missing: T1"):
+            learn.record_midday({"session": DAY.isoformat(), "reviews": []}, datetime(2026, 11, 9, 12, 0, tzinfo=NY))
+        self.midday(action="hold")
+        with self.assertRaises(FileExistsError):
+            self.midday(action="hold")

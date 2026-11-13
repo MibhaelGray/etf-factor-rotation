@@ -8,7 +8,6 @@ The one outside dependency is d3 from a CDN, so charts need a network connection
 
 import json
 import logging
-from concurrent.futures import Future
 from datetime import date, datetime
 from pathlib import Path
 
@@ -47,7 +46,7 @@ def _embed(obj) -> str:
     return json.dumps(obj, separators=(",", ":"), default=journal._json_default).replace("</", "<\\/")
 
 
-def build(out: Path = DEFAULT_OUT, as_of: date | None = None, pnl_intraday: Future | None = None, workers=None) -> dict:
+def build(out: Path = DEFAULT_OUT, as_of: date | None = None, workers=None) -> dict:
     market, market_note = _market_rows(as_of, workers)
     page = (DASHBOARD / "page.html").read_text()
     geo = (DASHBOARD / "hormuz-geo.json").read_text().replace("</", "<\\/") if (DASHBOARD / "hormuz-geo.json").exists() else "null"
@@ -62,7 +61,7 @@ def build(out: Path = DEFAULT_OUT, as_of: date | None = None, pnl_intraday: Futu
 {(DASHBOARD / "tokens.css").read_text()}
 </style>
 <script src="{D3}"></script>
-<script>window.__DASH_DATA__ = {{"market": {_embed(market)}}}; window.__PNL_INTRADAY__ = {_embed(pnl_intraday.result() if pnl_intraday else None)}; window.__HORMUZ_GEO__ = {geo};</script>
+<script>window.__DASH_DATA__ = {{"market": {_embed(market)}}}; window.__HORMUZ_GEO__ = {geo};</script>
 <script>
 {(DASHBOARD / "shim.js").read_text()}
 </script>

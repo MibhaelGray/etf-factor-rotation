@@ -7,7 +7,10 @@ the outer limits in rules.py. The pass reviews open trades before the close and 
 
 Orders are market-on-open entries and market-on-close exits, so paper results line up with the
 open-to-close scoring. The one exception closes a trade that only half filled:
-- 9:15 AM ET  `fr paper open`   plans today's entries and sends them as market-on-open orders. It asks for
+- 9:00 PM, 4:05 AM, 9:00 AM ET  `fr paper early`  enters the takes outside regular hours with limit orders,
+                                after-hours, overnight or pre-market (early.py), as soon as a pass has recorded them.
+- 9:15 AM ET  `fr paper open`   plans today's entries and sends them as market-on-open orders, for the shares
+                                that didn't fill early. It asks for
                                 pre-market prices up to four times, and says so if it had to size on the last close.
 - 9:40 AM ET  `fr paper check`  pulls the fills. A trade with no fills wasn't taken; a trade with one side
                                 filled and the other dead has its filled side closed at the market.

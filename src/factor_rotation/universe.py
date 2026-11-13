@@ -3,9 +3,18 @@ largest constituents behind them.
 
 Constituent lists are a seed. Refresh them from issuer holdings files
 periodically; weights drift and index reconstitutions change the top names.
+
+Two tiers (widened 2026-11-12):
+- CORE_ETFS and CONSTITUENTS: the original 46 funds and 110 largest stocks. Option chains and the intraday
+  book's universe stay on these. The daily brief and the market regime use every fund but only these stocks.
+- ETFS adds more industry funds, and INDEX_STOCKS (index_stocks.json) adds the rest of the S&P 500 and
+  S&P 400 that trades at least $20M a day. The swing screen, the nightly bars and earnings dates, and the
+  hedge choices cover both tiers.
 """
 
+import json
 from dataclasses import dataclass
+from pathlib import Path
 
 BROAD = ["SPY", "QQQ", "IWM", "DIA", "RSP", "MDY"]
 
@@ -14,12 +23,37 @@ SECTORS = [
     "XLP", "XLU", "XLB", "XLRE", "XLC",
 ]
 
-INDUSTRIES = ["SMH", "IGV", "KRE", "XBI", "ITB", "XOP", "XRT", "ARKK"]
+CORE_INDUSTRIES = ["SMH", "IGV", "KRE", "XBI", "ITB", "XOP", "XRT", "ARKK"]
+
+# Added 2026-11-12, each trading at least $50M a day: more industry signals for the screen and closer hedges.
+MORE_INDUSTRIES = [
+    "SOXX",  # semiconductors (cap-weighted, beside SMH)
+    "XSD",   # semiconductors, equal weight
+    "CIBR",  # cybersecurity
+    "IBB",   # biotech, large caps (XBI is equal weight)
+    "IHI",   # medical devices
+    "KBE",   # banks, equal weight
+    "KIE",   # insurance
+    "IYT",   # transports
+    "JETS",  # airlines
+    "XHB",   # home builders and building products
+    "PAVE",  # US infrastructure
+    "XAR",   # aerospace and defense
+    "OIH",   # oil services
+    "XME",   # metals and mining
+    "COPX",  # copper miners
+    "GDX",   # gold miners
+    "URA",   # uranium
+    "TAN",   # solar
+]
+
+INDUSTRIES = CORE_INDUSTRIES + MORE_INDUSTRIES
 
 FACTORS = ["MTUM", "QUAL", "USMV", "VLUE", "IWF", "IWD", "SPHB", "SPLV", "IJR"]
 
 CROSS_ASSET = ["TLT", "IEF", "HYG", "LQD", "GLD", "SLV", "USO", "UUP", "EFA", "EEM", "FXI", "IBIT"]
 
+CORE_ETFS = BROAD + SECTORS + CORE_INDUSTRIES + FACTORS + CROSS_ASSET
 ETFS = BROAD + SECTORS + INDUSTRIES + FACTORS + CROSS_ASSET
 
 CONSTITUENTS = [
@@ -35,6 +69,12 @@ CONSTITUENTS = [
     "DUK", "CEG", "VST", "HON", "UNP", "DE", "BA", "LMT", "ETN", "GEV",
     "PLD", "AMT", "EQIX", "WELL", "SHW", "APD", "FCX", "NEM", "COIN", "MSTR",
 ]
+
+
+# The rest of the S&P 500 and S&P 400 above the $20M volume floor, with each name's index, GICS sector and
+# sub-industry (index_stocks.json).
+INDEX_STOCK_INFO: dict[str, dict] = json.loads((Path(__file__).with_name("index_stocks.json")).read_text())["stocks"]
+INDEX_STOCKS = sorted(s for s in INDEX_STOCK_INFO if s not in CONSTITUENTS)
 
 
 @dataclass(frozen=True)
@@ -61,6 +101,11 @@ FACTOR_PAIRS = [
     FactorPair("quality", "QUAL", "SPY", "quality vs market"),
     FactorPair("value", "VLUE", "SPY", "value vs market"),
     FactorPair("credit", "HYG", "IEF", "high yield vs treasuries"),
+    # Added 2026-11-12 with the wider industry funds.
+    FactorPair("transports", "IYT", "SPY", "transports vs market"),
+    FactorPair("gold_miners", "GDX", "GLD", "gold miners vs gold"),
+    FactorPair("biotech_size", "XBI", "IBB", "small biotech vs large biotech"),
+    FactorPair("metals", "XME", "SPY", "metals and mining vs market"),
 ]
 
 
@@ -114,12 +159,18 @@ AM_SETTLED_CLASSES = {"SPX"}
 
 
 def option_universe() -> list[str]:
-    return list(OPTION_INDEXES) + ETFS + OPTION_STOCKS
+    return list(OPTION_INDEXES) + CORE_ETFS + OPTION_STOCKS
 
 
 def idea_universe() -> list[str]:
+    """The daily brief's and the market regime's names: every fund, and the largest stocks only."""
     return ETFS + CONSTITUENTS
 
 
+def screen_universe() -> list[str]:
+    """Every fund and stock the swing screen checks, before basket members and earnings names are added."""
+    return ETFS + CONSTITUENTS + INDEX_STOCKS
+
+
 def bar_universe() -> list[str]:
-    return ETFS + CONSTITUENTS + BARS_ONLY
+    return ETFS + CONSTITUENTS + INDEX_STOCKS + BARS_ONLY

@@ -23,7 +23,7 @@ import os
 from dataclasses import replace
 from datetime import date
 
-from .. import journal
+from .. import drawdown, journal
 from ..paper import rules
 from ..paper.broker import WORKING, DryRun, IBPaper, PaperSettings
 from . import signals
@@ -120,6 +120,11 @@ def step(doc: dict, slot: int, save, make_broker=broker) -> list[str]:
     if new and HALT.exists():
         for sig in new:
             sig["paper"] = {"state": "not sent", "why": f"halted: {HALT.read_text().strip() or 'journal/paper/HALT exists'}"}
+        new = []
+    if new and (why := drawdown.paused("intraday")):
+        for sig in new:
+            sig["paper"] = {"state": "not sent", "why": f"paused: {why}"}
+        warnings.append(f"Haiku took {len(new)} trade{'' if len(new) == 1 else 's'}, but the intraday book is paused, so nothing went out: {why}.")
         new = []
     if new and slot >= FLAT_CHECK:
         for sig in new:
@@ -220,12 +225,16 @@ async def _session(doc, new, live, slot, save, make_broker, warnings) -> None:
 
 
 async def _pull_fills(b, sigs: list[dict]) -> None:
-    """Today's executions for each signal, matched by order ref; replaces what was stored."""
+    """The executions for each signal, matched by order ref, added to what was stored. Never a replacement: the
+    gateway's list of executions starts again at midnight ET, so an overnight trade's evening fills are gone from
+    it by the time its exit fills. (Until 2026-11-12 it replaced them, and LIN's short sale of 11-11 at 10:02 PM ET
+    vanished from the book when its cover filled at 2:37 AM.)"""
     fills = await b.fills()
     for sig in sigs:
         mine = [f for f in fills if (f.get("order_ref") or "").startswith(sig["id"] + "|")]
-        if mine or "fills" not in sig["paper"]:
-            sig["paper"]["fills"] = mine
+        stored = {f["exec_id"]: f for f in sig["paper"].get("fills", [])}
+        stored.update({f["exec_id"]: f for f in mine})
+        sig["paper"]["fills"] = sorted(stored.values(), key=lambda f: f.get("time") or "")
 
 
 def held_now(day: date) -> dict[str, float]:

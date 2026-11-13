@@ -122,14 +122,6 @@ def _hormuz_quotes() -> None:
         log.warning("hormuz_quotes_failed error=%r", e)
 
 
-def _intraday_pnl() -> dict | None:
-    try:
-        return book.pnl_intraday()
-    except Exception as e:  # the chart falls back to asking for it when the page opens
-        log.warning("paper_pnl_failed error=%r", e)
-        return None
-
-
 def _daily_check_in_background(symbols: list[str]) -> None:
     """Once a day, behind a refresh: the 5-day pull that catches past prices Yahoo has re-based for a dividend or
     split, and replaces today's bar from the chart feed. The page is rebuilt only if a name needed its full history."""
@@ -166,7 +158,7 @@ def refresh() -> dict:
         _hormuz_in_background()
         note = _earnings_in_background()
         paper = synced.result()  # the book's panels, the shortlist and the P/L all count today's fills
-        info = localdash.build(pnl_intraday=pool.submit(_intraday_pnl), workers=_workers)
+        info = localdash.build(workers=_workers)
     _daily_check_in_background(symbols)
     return {"failed": pulled["failed"], "suspect": pulled["suspect"], "market": info["market"], "paper": paper,
             "earnings": note, "seconds": round(perf_counter() - started, 1)}
@@ -198,13 +190,15 @@ class Handler(SimpleHTTPRequestHandler):
             log.exception("chart_failed symbol=%s", symbol)
             self._json(502, {"error": str(e)})
 
-    def _paper_pnl(self):
-        from .paper import book
+    def _portfolio_pnl(self, query: str):
+        from urllib.parse import parse_qs
+
+        from . import portfolio
 
         try:
-            self._json(200, book.pnl_intraday())
+            self._json(200, portfolio.pnl_intraday((parse_qs(query).get("book") or ["all"])[0]))
         except Exception as e:
-            log.exception("paper_pnl_failed")
+            log.exception("portfolio_pnl_failed")
             self._json(502, {"error": str(e)})
 
     def do_GET(self):
@@ -218,8 +212,8 @@ class Handler(SimpleHTTPRequestHandler):
             return self._json(200, {"names": _chart_names()})
         if url.path == "/api/chart":
             return self._chart(url.query)
-        if url.path == "/api/paper/pnl":
-            return self._paper_pnl()
+        if url.path == "/api/portfolio/pnl":
+            return self._portfolio_pnl(url.query)
         super().do_GET()
 
     def do_POST(self):

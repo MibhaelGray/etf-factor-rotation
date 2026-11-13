@@ -1,0 +1,5194 @@
+{
+ "note": "S&P 500 and S&P 400 members not already in universe.CONSTITUENTS or a themed basket, with a median daily dollar volume of at least $20M over 20 sessions. Membership, GICS sector and sub-industry from Wikipedia's S&P 500 and S&P 400 company lists; volume from our Yahoo daily bars. Refresh when the indexes reconstitute.",
+ "updated": "2026-11-12",
+ "floor_usd": 20000000,
+ "stocks": {
+  "AA": {
+   "index": "sp400",
+   "name": "Alcoa",
+   "sector": "Materials",
+   "industry": "Aluminum",
+   "usd_volume_20d": 183679361
+  },
+  "AAL": {
+   "index": "sp400",
+   "name": "American Airlines Group",
+   "sector": "Industrials",
+   "industry": "Passenger Airlines",
+   "usd_volume_20d": 756954556
+  },
+  "AAON": {
+   "index": "sp400",
+   "name": "AAON",
+   "sector": "Industrials",
+   "industry": "Building Products",
+   "usd_volume_20d": 80521466
+  },
+  "ABNB": {
+   "index": "sp500",
+   "name": "Airbnb",
+   "sector": "Consumer Discretionary",
+   "industry": "Hotels, Resorts & Cruise Lines",
+   "usd_volume_20d": 626534731
+  },
+  "ACGL": {
+   "index": "sp500",
+   "name": "Arch Capital Group",
+   "sector": "Financials",
+   "industry": "Property & Casualty Insurance",
+   "usd_volume_20d": 227541284
+  },
+  "ACI": {
+   "index": "sp400",
+   "name": "Albertsons",
+   "sector": "Consumer Staples",
+   "industry": "Food Retail",
+   "usd_volume_20d": 101604309
+  },
+  "ACM": {
+   "index": "sp400",
+   "name": "AECOM",
+   "sector": "Industrials",
+   "industry": "Construction & Engineering",
+   "usd_volume_20d": 68928215
+  },
+  "ACN": {
+   "index": "sp500",
+   "name": "Accenture",
+   "sector": "Information Technology",
+   "industry": "IT Consulting & Other Services",
+   "usd_volume_20d": 1478795465
+  },
+  "ADC": {
+   "index": "sp400",
+   "name": "Agree Realty",
+   "sector": "Real Estate",
+   "industry": "Retail REITs",
+   "usd_volume_20d": 112792589
+  },
+  "ADI": {
+   "index": "sp500",
+   "name": "Analog Devices",
+   "sector": "Information Technology",
+   "industry": "Semiconductors",
+   "usd_volume_20d": 1735511503
+  },
+  "ADM": {
+   "index": "sp500",
+   "name": "Archer Daniels Midland",
+   "sector": "Consumer Staples",
+   "industry": "Agricultural Products & Services",
+   "usd_volume_20d": 212460258
+  },
+  "ADP": {
+   "index": "sp500",
+   "name": "Automatic Data Processing",
+   "sector": "Industrials",
+   "industry": "Human Resource & Employment Services",
+   "usd_volume_20d": 702859798
+  },
+  "ADSK": {
+   "index": "sp500",
+   "name": "Autodesk",
+   "sector": "Information Technology",
+   "industry": "Application Software",
+   "usd_volume_20d": 433344357
+  },
+  "AEE": {
+   "index": "sp500",
+   "name": "Ameren",
+   "sector": "Utilities",
+   "industry": "Multi-Utilities",
+   "usd_volume_20d": 178688375
+  },
+  "AEIS": {
+   "index": "sp400",
+   "name": "Advanced Energy",
+   "sector": "Information Technology",
+   "industry": "Semiconductor Materials & Equipment",
+   "usd_volume_20d": 156831730
+  },
+  "AEP": {
+   "index": "sp500",
+   "name": "American Electric Power",
+   "sector": "Utilities",
+   "industry": "Electric Utilities",
+   "usd_volume_20d": 453975898
+  },
+  "AES": {
+   "index": "sp500",
+   "name": "AES Corporation",
+   "sector": "Utilities",
+   "industry": "Independent Power Producers & Energy Traders",
+   "usd_volume_20d": 132285738
+  },
+  "AFG": {
+   "index": "sp400",
+   "name": "American Financial Group",
+   "sector": "Financials",
+   "industry": "Multi-line Insurance",
+   "usd_volume_20d": 68778849
+  },
+  "AFL": {
+   "index": "sp500",
+   "name": "Aflac",
+   "sector": "Financials",
+   "industry": "Life & Health Insurance",
+   "usd_volume_20d": 199829190
+  },
+  "AGCO": {
+   "index": "sp400",
+   "name": "AGCO",
+   "sector": "Industrials",
+   "industry": "Agricultural & Farm Machinery",
+   "usd_volume_20d": 78398419
+  },
+  "AGNC": {
+   "index": "sp400",
+   "name": "AGNC Investment",
+   "sector": "Financials",
+   "industry": "Mortgage REITs",
+   "usd_volume_20d": 222040612
+  },
+  "AHR": {
+   "index": "sp400",
+   "name": "American Healthcare REIT",
+   "sector": "Real Estate",
+   "industry": "Health Care REITs",
+   "usd_volume_20d": 155304035
+  },
+  "AIG": {
+   "index": "sp500",
+   "name": "American International Group",
+   "sector": "Financials",
+   "industry": "Multi-line Insurance",
+   "usd_volume_20d": 336586287
+  },
+  "AIT": {
+   "index": "sp400",
+   "name": "Applied Industrial Technologies",
+   "sector": "Industrials",
+   "industry": "Trading Companies & Distributors",
+   "usd_volume_20d": 93346777
+  },
+  "AIZ": {
+   "index": "sp500",
+   "name": "Assurant",
+   "sector": "Financials",
+   "industry": "Multi-line Insurance",
+   "usd_volume_20d": 107161018
+  },
+  "AJG": {
+   "index": "sp500",
+   "name": "Arthur J. Gallagher & Co.",
+   "sector": "Financials",
+   "industry": "Insurance Brokers",
+   "usd_volume_20d": 475383984
+  },
+  "AKAM": {
+   "index": "sp500",
+   "name": "Akamai Technologies",
+   "sector": "Information Technology",
+   "industry": "Internet Services & Infrastructure",
+   "usd_volume_20d": 405499689
+  },
+  "ALGM": {
+   "index": "sp400",
+   "name": "Allegro MicroSystems",
+   "sector": "Information Technology",
+   "industry": "Semiconductors",
+   "usd_volume_20d": 96449141
+  },
+  "ALGN": {
+   "index": "sp500",
+   "name": "Align Technology",
+   "sector": "Health Care",
+   "industry": "Health Care Supplies",
+   "usd_volume_20d": 145776699
+  },
+  "ALK": {
+   "index": "sp400",
+   "name": "Alaska Air Group",
+   "sector": "Industrials",
+   "industry": "Passenger Airlines",
+   "usd_volume_20d": 136771342
+  },
+  "ALL": {
+   "index": "sp500",
+   "name": "Allstate",
+   "sector": "Financials",
+   "industry": "Property & Casualty Insurance",
+   "usd_volume_20d": 378647323
+  },
+  "ALLE": {
+   "index": "sp500",
+   "name": "Allegion",
+   "sector": "Industrials",
+   "industry": "Building Products",
+   "usd_volume_20d": 211372515
+  },
+  "ALLY": {
+   "index": "sp400",
+   "name": "Ally Financial",
+   "sector": "Financials",
+   "industry": "Consumer Finance",
+   "usd_volume_20d": 164643518
+  },
+  "ALSN": {
+   "index": "sp400",
+   "name": "Allison Transmission",
+   "sector": "Industrials",
+   "industry": "Construction Machinery & Heavy Transportation Equipment",
+   "usd_volume_20d": 72019075
+  },
+  "ALV": {
+   "index": "sp400",
+   "name": "Autoliv",
+   "sector": "Consumer Discretionary",
+   "industry": "Automotive Parts & Equipment",
+   "usd_volume_20d": 98249889
+  },
+  "AM": {
+   "index": "sp400",
+   "name": "Antero Midstream",
+   "sector": "Energy",
+   "industry": "Oil & Gas Storage & Transportation",
+   "usd_volume_20d": 57996785
+  },
+  "AMCR": {
+   "index": "sp500",
+   "name": "Amcor",
+   "sector": "Materials",
+   "industry": "Paper & Plastic Packaging Products & Materials",
+   "usd_volume_20d": 152772337
+  },
+  "AME": {
+   "index": "sp500",
+   "name": "Ametek",
+   "sector": "Industrials",
+   "industry": "Electrical Components & Equipment",
+   "usd_volume_20d": 379572699
+  },
+  "AMG": {
+   "index": "sp400",
+   "name": "Affiliated Managers Group",
+   "sector": "Financials",
+   "industry": "Asset Management & Custody Banks",
+   "usd_volume_20d": 115023685
+  },
+  "AMH": {
+   "index": "sp400",
+   "name": "American Homes 4 Rent",
+   "sector": "Real Estate",
+   "industry": "Single-Family Residential REITs",
+   "usd_volume_20d": 80062225
+  },
+  "AMKR": {
+   "index": "sp400",
+   "name": "Amkor Technology",
+   "sector": "Information Technology",
+   "industry": "Semiconductors",
+   "usd_volume_20d": 192558770
+  },
+  "AMP": {
+   "index": "sp500",
+   "name": "Ameriprise Financial",
+   "sector": "Financials",
+   "industry": "Asset Management & Custody Banks",
+   "usd_volume_20d": 287385428
+  },
+  "AN": {
+   "index": "sp400",
+   "name": "AutoNation",
+   "sector": "Consumer Discretionary",
+   "industry": "Automotive Retail",
+   "usd_volume_20d": 92198298
+  },
+  "ANF": {
+   "index": "sp400",
+   "name": "Abercrombie & Fitch",
+   "sector": "Consumer Discretionary",
+   "industry": "Apparel Retail",
+   "usd_volume_20d": 153373536
+  },
+  "AON": {
+   "index": "sp500",
+   "name": "Aon plc",
+   "sector": "Financials",
+   "industry": "Insurance Brokers",
+   "usd_volume_20d": 478265432
+  },
+  "AOS": {
+   "index": "sp500",
+   "name": "A. O. Smith",
+   "sector": "Industrials",
+   "industry": "Building Products",
+   "usd_volume_20d": 103940572
+  },
+  "APA": {
+   "index": "sp500",
+   "name": "APA Corporation",
+   "sector": "Energy",
+   "industry": "Oil & Gas Exploration & Production",
+   "usd_volume_20d": 261995719
+  },
+  "APG": {
+   "index": "sp400",
+   "name": "APi Group",
+   "sector": "Industrials",
+   "industry": "Construction & Engineering",
+   "usd_volume_20d": 138343330
+  },
+  "APH": {
+   "index": "sp500",
+   "name": "Amphenol",
+   "sector": "Information Technology",
+   "industry": "Electronic Components",
+   "usd_volume_20d": 1287696207
+  },
+  "APO": {
+   "index": "sp500",
+   "name": "Apollo Global Management",
+   "sector": "Financials",
+   "industry": "Asset Management & Custody Banks",
+   "usd_volume_20d": 390953035
+  },
+  "APP": {
+   "index": "sp500",
+   "name": "AppLovin",
+   "sector": "Communication Services",
+   "industry": "Advertising",
+   "usd_volume_20d": 965861005
+  },
+  "APPF": {
+   "index": "sp400",
+   "name": "AppFolio",
+   "sector": "Information Technology",
+   "industry": "Application Software",
+   "usd_volume_20d": 69508436
+  },
+  "APTV": {
+   "index": "sp500",
+   "name": "Aptiv",
+   "sector": "Consumer Discretionary",
+   "industry": "Automotive Parts & Equipment",
+   "usd_volume_20d": 120223677
+  },
+  "AR": {
+   "index": "sp400",
+   "name": "Antero Resources",
+   "sector": "Energy",
+   "industry": "Oil & Gas Exploration & Production",
+   "usd_volume_20d": 169377520
+  },
+  "ARE": {
+   "index": "sp500",
+   "name": "Alexandria Real Estate Equities",
+   "sector": "Real Estate",
+   "industry": "Office REITs",
+   "usd_volume_20d": 106590303
+  },
+  "ARES": {
+   "index": "sp500",
+   "name": "Ares Management",
+   "sector": "Financials",
+   "industry": "Asset Management & Custody Banks",
+   "usd_volume_20d": 290715471
+  },
+  "ARMK": {
+   "index": "sp400",
+   "name": "Aramark",
+   "sector": "Consumer Discretionary",
+   "industry": "Distributors",
+   "usd_volume_20d": 154726112
+  },
+  "ARW": {
+   "index": "sp400",
+   "name": "Arrow Electronics",
+   "sector": "Information Technology",
+   "industry": "Technology Distributors",
+   "usd_volume_20d": 90886759
+  },
+  "ARWR": {
+   "index": "sp400",
+   "name": "Arrowhead Pharmaceuticals",
+   "sector": "Health Care",
+   "industry": "Biotechnology",
+   "usd_volume_20d": 79991386
+  },
+  "ASB": {
+   "index": "sp400",
+   "name": "Associated Bank",
+   "sector": "Financials",
+   "industry": "Regional Banks",
+   "usd_volume_20d": 66793973
+  },
+  "ASH": {
+   "index": "sp400",
+   "name": "Ashland Global",
+   "sector": "Materials",
+   "industry": "Diversified Chemicals",
+   "usd_volume_20d": 39159403
+  },
+  "ATI": {
+   "index": "sp400",
+   "name": "ATI Inc.",
+   "sector": "Industrials",
+   "industry": "Aerospace & Defense",
+   "usd_volume_20d": 318057027
+  },
+  "ATO": {
+   "index": "sp500",
+   "name": "Atmos Energy",
+   "sector": "Utilities",
+   "industry": "Gas Utilities",
+   "usd_volume_20d": 172839345
+  },
+  "ATR": {
+   "index": "sp400",
+   "name": "AptarGroup",
+   "sector": "Materials",
+   "industry": "Metal, Glass & Plastic Containers",
+   "usd_volume_20d": 65593961
+  },
+  "AVNT": {
+   "index": "sp400",
+   "name": "Avient",
+   "sector": "Materials",
+   "industry": "Specialty Chemicals",
+   "usd_volume_20d": 29476253
+  },
+  "AVT": {
+   "index": "sp400",
+   "name": "Avnet",
+   "sector": "Information Technology",
+   "industry": "Technology Distributors",
+   "usd_volume_20d": 132210027
+  },
+  "AVTR": {
+   "index": "sp400",
+   "name": "Avantor",
+   "sector": "Health Care",
+   "industry": "Life Sciences Tools & Services",
+   "usd_volume_20d": 149263128
+  },
+  "AVY": {
+   "index": "sp500",
+   "name": "Avery Dennison",
+   "sector": "Materials",
+   "industry": "Paper & Plastic Packaging Products & Materials",
+   "usd_volume_20d": 107832252
+  },
+  "AWK": {
+   "index": "sp500",
+   "name": "American Water Works",
+   "sector": "Utilities",
+   "industry": "Water Utilities",
+   "usd_volume_20d": 290643211
+  },
+  "AXON": {
+   "index": "sp500",
+   "name": "Axon Enterprise",
+   "sector": "Industrials",
+   "industry": "Aerospace & Defense",
+   "usd_volume_20d": 395067349
+  },
+  "AXTA": {
+   "index": "sp400",
+   "name": "Axalta",
+   "sector": "Materials",
+   "industry": "Specialty Chemicals",
+   "usd_volume_20d": 60031411
+  },
+  "AYI": {
+   "index": "sp400",
+   "name": "Acuity Brands",
+   "sector": "Industrials",
+   "industry": "Electrical Components & Equipment",
+   "usd_volume_20d": 92568479
+  },
+  "AZO": {
+   "index": "sp500",
+   "name": "AutoZone",
+   "sector": "Consumer Discretionary",
+   "industry": "Automotive Retail",
+   "usd_volume_20d": 504876148
+  },
+  "BAH": {
+   "index": "sp400",
+   "name": "Booz Allen Hamilton",
+   "sector": "Industrials",
+   "industry": "Research & Consulting Services",
+   "usd_volume_20d": 200824011
+  },
+  "BALL": {
+   "index": "sp500",
+   "name": "Ball Corporation",
+   "sector": "Materials",
+   "industry": "Metal, Glass & Plastic Containers",
+   "usd_volume_20d": 140232831
+  },
+  "BAX": {
+   "index": "sp500",
+   "name": "Baxter International",
+   "sector": "Health Care",
+   "industry": "Health Care Equipment",
+   "usd_volume_20d": 135198679
+  },
+  "BBWI": {
+   "index": "sp400",
+   "name": "Bath & Body Works, Inc.",
+   "sector": "Consumer Discretionary",
+   "industry": "Other Specialty Retail",
+   "usd_volume_20d": 133564705
+  },
+  "BBY": {
+   "index": "sp500",
+   "name": "Best Buy",
+   "sector": "Consumer Discretionary",
+   "industry": "Computer & Electronics Retail",
+   "usd_volume_20d": 270788209
+  },
+  "BC": {
+   "index": "sp400",
+   "name": "Brunswick",
+   "sector": "Consumer Discretionary",
+   "industry": "Leisure Products",
+   "usd_volume_20d": 57072986
+  },
+  "BCO": {
+   "index": "sp400",
+   "name": "Brink's",
+   "sector": "Industrials",
+   "industry": "Security & Alarm Services",
+   "usd_volume_20d": 59245155
+  },
+  "BDC": {
+   "index": "sp400",
+   "name": "Belden Inc.",
+   "sector": "Information Technology",
+   "industry": "Electronic Components",
+   "usd_volume_20d": 43539229
+  },
+  "BDX": {
+   "index": "sp500",
+   "name": "Becton Dickinson",
+   "sector": "Health Care",
+   "industry": "Health Care Equipment",
+   "usd_volume_20d": 345433343
+  },
+  "BEN": {
+   "index": "sp500",
+   "name": "Franklin Resources",
+   "sector": "Financials",
+   "industry": "Asset Management & Custody Banks",
+   "usd_volume_20d": 120415186
+  },
+  "BF B": {
+   "index": "sp500",
+   "name": "Brown\u2013Forman",
+   "sector": "Consumer Staples",
+   "industry": "Distillers & Vintners",
+   "usd_volume_20d": 68748396
+  },
+  "BG": {
+   "index": "sp500",
+   "name": "Bunge Global",
+   "sector": "Consumer Staples",
+   "industry": "Agricultural Products & Services",
+   "usd_volume_20d": 177707796
+  },
+  "BHF": {
+   "index": "sp400",
+   "name": "Brighthouse Financial",
+   "sector": "Financials",
+   "industry": "Life & Health Insurance",
+   "usd_volume_20d": 34151070
+  },
+  "BIIB": {
+   "index": "sp500",
+   "name": "Biogen",
+   "sector": "Health Care",
+   "industry": "Biotechnology",
+   "usd_volume_20d": 290757994
+  },
+  "BILL": {
+   "index": "sp400",
+   "name": "Bill Holdings",
+   "sector": "Information Technology",
+   "industry": "Application Software",
+   "usd_volume_20d": 72464529
+  },
+  "BIO": {
+   "index": "sp400",
+   "name": "Bio-Rad Laboratories",
+   "sector": "Health Care",
+   "industry": "Life Sciences Tools & Services",
+   "usd_volume_20d": 80963994
+  },
+  "BJ": {
+   "index": "sp400",
+   "name": "BJ's Wholesale Club",
+   "sector": "Consumer Staples",
+   "industry": "Consumer Staples Merchandise Retail",
+   "usd_volume_20d": 193254464
+  },
+  "BKH": {
+   "index": "sp400",
+   "name": "Black Hills Corporation",
+   "sector": "Utilities",
+   "industry": "Multi-Utilities",
+   "usd_volume_20d": 99169986
+  },
+  "BKR": {
+   "index": "sp500",
+   "name": "Baker Hughes",
+   "sector": "Energy",
+   "industry": "Oil & Gas Equipment & Services",
+   "usd_volume_20d": 496288077
+  },
+  "BMRN": {
+   "index": "sp400",
+   "name": "BioMarin Pharmaceutical",
+   "sector": "Health Care",
+   "industry": "Biotechnology",
+   "usd_volume_20d": 136042818
+  },
+  "BNY": {
+   "index": "sp500",
+   "name": "BNY Mellon",
+   "sector": "Financials",
+   "industry": "Asset Management & Custody Banks",
+   "usd_volume_20d": 458814575
+  },
+  "BR": {
+   "index": "sp500",
+   "name": "Broadridge Financial Solutions",
+   "sector": "Industrials",
+   "industry": "Data Processing & Outsourced Services",
+   "usd_volume_20d": 187421113
+  },
+  "BRKR": {
+   "index": "sp400",
+   "name": "Bruker",
+   "sector": "Health Care",
+   "industry": "Health Care Equipment",
+   "usd_volume_20d": 135898052
+  },
+  "BRO": {
+   "index": "sp500",
+   "name": "Brown & Brown",
+   "sector": "Financials",
+   "industry": "Insurance Brokers",
+   "usd_volume_20d": 183118022
+  },
+  "BROS": {
+   "index": "sp400",
+   "name": "Dutch Bros Inc.",
+   "sector": "Consumer Discretionary",
+   "industry": "Restaurants",
+   "usd_volume_20d": 194152797
+  },
+  "BRX": {
+   "index": "sp400",
+   "name": "Brixmor Property Group",
+   "sector": "Real Estate",
+   "industry": "Retail REITs",
+   "usd_volume_20d": 86180666
+  },
+  "BSX": {
+   "index": "sp500",
+   "name": "Boston Scientific",
+   "sector": "Health Care",
+   "industry": "Health Care Equipment",
+   "usd_volume_20d": 721318837
+  },
+  "BSY": {
+   "index": "sp400",
+   "name": "Bentley Systems",
+   "sector": "Information Technology",
+   "industry": "Application Software",
+   "usd_volume_20d": 119641783
+  },
+  "BTSG": {
+   "index": "sp400",
+   "name": "BrightSpring Health Services",
+   "sector": "Health Care",
+   "industry": "Health Care Services",
+   "usd_volume_20d": 141640640
+  },
+  "BURL": {
+   "index": "sp400",
+   "name": "Burlington Stores",
+   "sector": "Consumer Discretionary",
+   "industry": "Apparel Retail",
+   "usd_volume_20d": 310399901
+  },
+  "BWA": {
+   "index": "sp400",
+   "name": "BorgWarner",
+   "sector": "Consumer Discretionary",
+   "industry": "Automotive Parts & Equipment",
+   "usd_volume_20d": 145516817
+  },
+  "BX": {
+   "index": "sp500",
+   "name": "Blackstone Inc.",
+   "sector": "Financials",
+   "industry": "Asset Management & Custody Banks",
+   "usd_volume_20d": 623054743
+  },
+  "BXP": {
+   "index": "sp500",
+   "name": "BXP, Inc.",
+   "sector": "Real Estate",
+   "industry": "Office REITs",
+   "usd_volume_20d": 88565046
+  },
+  "BYD": {
+   "index": "sp400",
+   "name": "Boyd Gaming",
+   "sector": "Consumer Discretionary",
+   "industry": "Casinos & Gaming",
+   "usd_volume_20d": 76468252
+  },
+  "CACI": {
+   "index": "sp400",
+   "name": "CACI International",
+   "sector": "Industrials",
+   "industry": "Diversified Support Services",
+   "usd_volume_20d": 147730388
+  },
+  "CAH": {
+   "index": "sp500",
+   "name": "Cardinal Health",
+   "sector": "Health Care",
+   "industry": "Health Care Distributors",
+   "usd_volume_20d": 424552537
+  },
+  "CAR": {
+   "index": "sp400",
+   "name": "Avis Budget Group",
+   "sector": "Industrials",
+   "industry": "Passenger Ground Transportation",
+   "usd_volume_20d": 45248906
+  },
+  "CARR": {
+   "index": "sp500",
+   "name": "Carrier Global",
+   "sector": "Industrials",
+   "industry": "Building Products",
+   "usd_volume_20d": 350188299
+  },
+  "CART": {
+   "index": "sp400",
+   "name": "Maplebear Inc.",
+   "sector": "Consumer Staples",
+   "industry": "Food Retail",
+   "usd_volume_20d": 300995270
+  },
+  "CASY": {
+   "index": "sp500",
+   "name": "Casey's",
+   "sector": "Consumer Staples",
+   "industry": "Food Retail",
+   "usd_volume_20d": 310360062
+  },
+  "CAVA": {
+   "index": "sp400",
+   "name": "Cava Group",
+   "sector": "Consumer Discretionary",
+   "industry": "Restaurants",
+   "usd_volume_20d": 172247961
+  },
+  "CB": {
+   "index": "sp500",
+   "name": "Chubb Limited",
+   "sector": "Financials",
+   "industry": "Property & Casualty Insurance",
+   "usd_volume_20d": 586705405
+  },
+  "CBOE": {
+   "index": "sp500",
+   "name": "Cboe Global Markets",
+   "sector": "Financials",
+   "industry": "Financial Exchanges & Data",
+   "usd_volume_20d": 371535484
+  },
+  "CBRE": {
+   "index": "sp500",
+   "name": "CBRE Group",
+   "sector": "Real Estate",
+   "industry": "Real Estate Services",
+   "usd_volume_20d": 322187283
+  },
+  "CBSH": {
+   "index": "sp400",
+   "name": "Commerce Bancshares",
+   "sector": "Financials",
+   "industry": "Regional Banks",
+   "usd_volume_20d": 55377318
+  },
+  "CBT": {
+   "index": "sp400",
+   "name": "Cabot Corp",
+   "sector": "Materials",
+   "industry": "Diversified Chemicals",
+   "usd_volume_20d": 25564451
+  },
+  "CCI": {
+   "index": "sp500",
+   "name": "Crown Castle",
+   "sector": "Real Estate",
+   "industry": "Telecom Tower REITs",
+   "usd_volume_20d": 390771250
+  },
+  "CCK": {
+   "index": "sp400",
+   "name": "Crown Holdings",
+   "sector": "Materials",
+   "industry": "Paper & Plastic Packaging Products & Materials",
+   "usd_volume_20d": 90144840
+  },
+  "CDE": {
+   "index": "sp400",
+   "name": "Coeur Mining",
+   "sector": "Materials",
+   "industry": "Gold",
+   "usd_volume_20d": 543718378
+  },
+  "CDNS": {
+   "index": "sp500",
+   "name": "Cadence Design Systems",
+   "sector": "Information Technology",
+   "industry": "Application Software",
+   "usd_volume_20d": 721448051
+  },
+  "CDP": {
+   "index": "sp400",
+   "name": "COPT Defense Properties",
+   "sector": "Real Estate",
+   "industry": "Office REITs",
+   "usd_volume_20d": 26111305
+  },
+  "CDW": {
+   "index": "sp500",
+   "name": "CDW Corporation",
+   "sector": "Information Technology",
+   "industry": "Technology Distributors",
+   "usd_volume_20d": 260254672
+  },
+  "CELH": {
+   "index": "sp400",
+   "name": "Celsius Holdings",
+   "sector": "Consumer Staples",
+   "industry": "Soft Drinks & Non-alcoholic Beverages",
+   "usd_volume_20d": 150642172
+  },
+  "CF": {
+   "index": "sp500",
+   "name": "CF Industries",
+   "sector": "Materials",
+   "industry": "Fertilizers & Agricultural Chemicals",
+   "usd_volume_20d": 216328540
+  },
+  "CFG": {
+   "index": "sp500",
+   "name": "Citizens Financial Group",
+   "sector": "Financials",
+   "industry": "Regional Banks",
+   "usd_volume_20d": 269815256
+  },
+  "CFR": {
+   "index": "sp400",
+   "name": "Frost Bank",
+   "sector": "Financials",
+   "industry": "Regional Banks",
+   "usd_volume_20d": 75352996
+  },
+  "CG": {
+   "index": "sp400",
+   "name": "Carlyle Group (The)",
+   "sector": "Financials",
+   "industry": "Asset Management & Custody Banks",
+   "usd_volume_20d": 114639319
+  },
+  "CHD": {
+   "index": "sp500",
+   "name": "Church & Dwight",
+   "sector": "Consumer Staples",
+   "industry": "Household Products",
+   "usd_volume_20d": 208401772
+  },
+  "CHDN": {
+   "index": "sp400",
+   "name": "Churchill Downs Inc.",
+   "sector": "Consumer Discretionary",
+   "industry": "Casinos & Gaming",
+   "usd_volume_20d": 92893007
+  },
+  "CHE": {
+   "index": "sp400",
+   "name": "Chemed Corp.",
+   "sector": "Health Care",
+   "industry": "Health Care Services",
+   "usd_volume_20d": 75921275
+  },
+  "CHH": {
+   "index": "sp400",
+   "name": "Choice Hotels",
+   "sector": "Consumer Discretionary",
+   "industry": "Hotels, Resorts & Cruise Lines",
+   "usd_volume_20d": 64819092
+  },
+  "CHRD": {
+   "index": "sp400",
+   "name": "Chord Energy",
+   "sector": "Energy",
+   "industry": "Oil & Gas Exploration & Production",
+   "usd_volume_20d": 112227477
+  },
+  "CHRW": {
+   "index": "sp500",
+   "name": "C.H. Robinson",
+   "sector": "Industrials",
+   "industry": "Air Freight & Logistics",
+   "usd_volume_20d": 195927788
+  },
+  "CHTR": {
+   "index": "sp500",
+   "name": "Charter Communications",
+   "sector": "Communication Services",
+   "industry": "Cable & Satellite",
+   "usd_volume_20d": 280609311
+  },
+  "CHWY": {
+   "index": "sp400",
+   "name": "Chewy",
+   "sector": "Consumer Discretionary",
+   "industry": "Other Specialty Retail",
+   "usd_volume_20d": 152305440
+  },
+  "CI": {
+   "index": "sp500",
+   "name": "Cigna",
+   "sector": "Health Care",
+   "industry": "Health Care Services",
+   "usd_volume_20d": 459206822
+  },
+  "CINF": {
+   "index": "sp500",
+   "name": "Cincinnati Financial",
+   "sector": "Financials",
+   "industry": "Property & Casualty Insurance",
+   "usd_volume_20d": 134765795
+  },
+  "CLF": {
+   "index": "sp400",
+   "name": "Cleveland-Cliffs",
+   "sector": "Materials",
+   "industry": "Steel",
+   "usd_volume_20d": 285302268
+  },
+  "CLH": {
+   "index": "sp400",
+   "name": "Clean Harbors",
+   "sector": "Industrials",
+   "industry": "Environmental & Facilities Services",
+   "usd_volume_20d": 176649857
+  },
+  "CLX": {
+   "index": "sp500",
+   "name": "Clorox",
+   "sector": "Consumer Staples",
+   "industry": "Household Products",
+   "usd_volume_20d": 248099018
+  },
+  "CMC": {
+   "index": "sp400",
+   "name": "Commercial Metals",
+   "sector": "Materials",
+   "industry": "Steel",
+   "usd_volume_20d": 73334237
+  },
+  "CMCSA": {
+   "index": "sp500",
+   "name": "Comcast",
+   "sector": "Communication Services",
+   "industry": "Cable & Satellite",
+   "usd_volume_20d": 687898621
+  },
+  "CME": {
+   "index": "sp500",
+   "name": "CME Group",
+   "sector": "Financials",
+   "industry": "Financial Exchanges & Data",
+   "usd_volume_20d": 596919268
+  },
+  "CMG": {
+   "index": "sp500",
+   "name": "Chipotle Mexican Grill",
+   "sector": "Consumer Discretionary",
+   "industry": "Restaurants",
+   "usd_volume_20d": 592158360
+  },
+  "CMI": {
+   "index": "sp500",
+   "name": "Cummins",
+   "sector": "Industrials",
+   "industry": "Construction Machinery & Heavy Transportation Equipment",
+   "usd_volume_20d": 677098630
+  },
+  "CMS": {
+   "index": "sp500",
+   "name": "CMS Energy",
+   "sector": "Utilities",
+   "industry": "Multi-Utilities",
+   "usd_volume_20d": 285264839
+  },
+  "CNH": {
+   "index": "sp400",
+   "name": "CNH Industrial",
+   "sector": "Industrials",
+   "industry": "Agricultural & Farm Machinery",
+   "usd_volume_20d": 187175314
+  },
+  "CNM": {
+   "index": "sp400",
+   "name": "Core & Main",
+   "sector": "Industrials",
+   "industry": "Trading Companies & Distributors",
+   "usd_volume_20d": 71207762
+  },
+  "CNO": {
+   "index": "sp400",
+   "name": "CNO Financial Group",
+   "sector": "Financials",
+   "industry": "Life & Health Insurance",
+   "usd_volume_20d": 39829269
+  },
+  "CNP": {
+   "index": "sp500",
+   "name": "CenterPoint Energy",
+   "sector": "Utilities",
+   "industry": "Multi-Utilities",
+   "usd_volume_20d": 296055712
+  },
+  "CNX": {
+   "index": "sp400",
+   "name": "CNX Resources",
+   "sector": "Energy",
+   "industry": "Oil & Gas Exploration & Production",
+   "usd_volume_20d": 60231378
+  },
+  "COKE": {
+   "index": "sp400",
+   "name": "Coca-Cola Consolidated",
+   "sector": "Consumer Staples",
+   "industry": "Soft Drinks & Non-alcoholic Beverages",
+   "usd_volume_20d": 113497162
+  },
+  "COLB": {
+   "index": "sp400",
+   "name": "Columbia Banking System",
+   "sector": "Financials",
+   "industry": "Regional Banks",
+   "usd_volume_20d": 82067549
+  },
+  "COLM": {
+   "index": "sp400",
+   "name": "Columbia Sportswear",
+   "sector": "Consumer Discretionary",
+   "industry": "Apparel, Accessories & Luxury Goods",
+   "usd_volume_20d": 49988199
+  },
+  "COO": {
+   "index": "sp500",
+   "name": "Cooper Companies (The)",
+   "sector": "Health Care",
+   "industry": "Health Care Supplies",
+   "usd_volume_20d": 131920631
+  },
+  "COR": {
+   "index": "sp500",
+   "name": "Cencora",
+   "sector": "Health Care",
+   "industry": "Health Care Distributors",
+   "usd_volume_20d": 393598424
+  },
+  "CORT": {
+   "index": "sp400",
+   "name": "Corcept Therapeutics",
+   "sector": "Health Care",
+   "industry": "Pharmaceuticals",
+   "usd_volume_20d": 100144595
+  },
+  "CPAY": {
+   "index": "sp500",
+   "name": "Corpay",
+   "sector": "Financials",
+   "industry": "Transaction & Payment Processing Services",
+   "usd_volume_20d": 159188491
+  },
+  "CPRT": {
+   "index": "sp500",
+   "name": "Copart",
+   "sector": "Industrials",
+   "industry": "Diversified Support Services",
+   "usd_volume_20d": 337395263
+  },
+  "CPT": {
+   "index": "sp500",
+   "name": "Camden Property Trust",
+   "sector": "Real Estate",
+   "industry": "Multi-Family Residential REITs",
+   "usd_volume_20d": 87207966
+  },
+  "CR": {
+   "index": "sp400",
+   "name": "Crane",
+   "sector": "Industrials",
+   "industry": "Industrial Machinery & Supplies & Components",
+   "usd_volume_20d": 96129298
+  },
+  "CRBG": {
+   "index": "sp400",
+   "name": "Corebridge Financial",
+   "sector": "Financials",
+   "industry": "Asset Management & Custody Banks",
+   "usd_volume_20d": 161154996
+  },
+  "CRH": {
+   "index": "sp500",
+   "name": "CRH plc",
+   "sector": "Materials",
+   "industry": "Construction Materials",
+   "usd_volume_20d": 463247338
+  },
+  "CRL": {
+   "index": "sp500",
+   "name": "Charles River Laboratories",
+   "sector": "Health Care",
+   "industry": "Life Sciences Tools & Services",
+   "usd_volume_20d": 408864399
+  },
+  "CROX": {
+   "index": "sp400",
+   "name": "Crocs",
+   "sector": "Consumer Discretionary",
+   "industry": "Footwear",
+   "usd_volume_20d": 154260389
+  },
+  "CRS": {
+   "index": "sp400",
+   "name": "Carpenter Technology",
+   "sector": "Industrials",
+   "industry": "Industrial Machinery & Supplies & Components",
+   "usd_volume_20d": 358731946
+  },
+  "CRUS": {
+   "index": "sp400",
+   "name": "Cirrus Logic",
+   "sector": "Information Technology",
+   "industry": "Semiconductors",
+   "usd_volume_20d": 83647191
+  },
+  "CSGP": {
+   "index": "sp500",
+   "name": "CoStar Group",
+   "sector": "Real Estate",
+   "industry": "Real Estate Services",
+   "usd_volume_20d": 183331404
+  },
+  "CSL": {
+   "index": "sp400",
+   "name": "Carlisle Companies",
+   "sector": "Industrials",
+   "industry": "Industrial Conglomerates",
+   "usd_volume_20d": 146636310
+  },
+  "CSX": {
+   "index": "sp500",
+   "name": "CSX Corporation",
+   "sector": "Industrials",
+   "industry": "Rail Transportation",
+   "usd_volume_20d": 576101121
+  },
+  "CTAS": {
+   "index": "sp500",
+   "name": "Cintas",
+   "sector": "Industrials",
+   "industry": "Diversified Support Services",
+   "usd_volume_20d": 413794014
+  },
+  "CTRE": {
+   "index": "sp400",
+   "name": "CareTrust REIT",
+   "sector": "Real Estate",
+   "industry": "Health Care REITs",
+   "usd_volume_20d": 85363733
+  },
+  "CTSH": {
+   "index": "sp500",
+   "name": "Cognizant",
+   "sector": "Information Technology",
+   "industry": "IT Consulting & Other Services",
+   "usd_volume_20d": 393722671
+  },
+  "CTVA": {
+   "index": "sp400",
+   "name": "Corteva",
+   "sector": "Materials",
+   "industry": "Fertilizers & Agricultural Chemicals",
+   "usd_volume_20d": 235628590
+  },
+  "CUBE": {
+   "index": "sp400",
+   "name": "CubeSmart",
+   "sector": "Real Estate",
+   "industry": "Industrial REITs",
+   "usd_volume_20d": 86462090
+  },
+  "CUZ": {
+   "index": "sp400",
+   "name": "Cousins Properties",
+   "sector": "Real Estate",
+   "industry": "Office REITs",
+   "usd_volume_20d": 42489840
+  },
+  "CVLT": {
+   "index": "sp400",
+   "name": "CommVault Systems",
+   "sector": "Information Technology",
+   "industry": "Systems Software",
+   "usd_volume_20d": 115695295
+  },
+  "CVNA": {
+   "index": "sp500",
+   "name": "Carvana",
+   "sector": "Consumer Discretionary",
+   "industry": "Automotive Retail",
+   "usd_volume_20d": 566880473
+  },
+  "CVS": {
+   "index": "sp500",
+   "name": "CVS Health",
+   "sector": "Health Care",
+   "industry": "Health Care Services",
+   "usd_volume_20d": 710760502
+  },
+  "CW": {
+   "index": "sp400",
+   "name": "Curtiss-Wright",
+   "sector": "Industrials",
+   "industry": "Aerospace & Defense",
+   "usd_volume_20d": 186069742
+  },
+  "CXT": {
+   "index": "sp400",
+   "name": "Crane NXT",
+   "sector": "Information Technology",
+   "industry": "Electronic Equipment & Instruments",
+   "usd_volume_20d": 39944670
+  },
+  "CYTK": {
+   "index": "sp400",
+   "name": "Cytokinetics",
+   "sector": "Health Care",
+   "industry": "Biotechnology",
+   "usd_volume_20d": 93538554
+  },
+  "D": {
+   "index": "sp500",
+   "name": "Dominion Energy",
+   "sector": "Utilities",
+   "industry": "Multi-Utilities",
+   "usd_volume_20d": 275785069
+  },
+  "DAR": {
+   "index": "sp400",
+   "name": "Darling Ingredients",
+   "sector": "Consumer Staples",
+   "industry": "Agricultural Products & Services",
+   "usd_volume_20d": 131741413
+  },
+  "DASH": {
+   "index": "sp500",
+   "name": "DoorDash",
+   "sector": "Consumer Discretionary",
+   "industry": "Specialized Consumer Services",
+   "usd_volume_20d": 811165097
+  },
+  "DBX": {
+   "index": "sp400",
+   "name": "Dropbox",
+   "sector": "Information Technology",
+   "industry": "Application Software",
+   "usd_volume_20d": 114968987
+  },
+  "DCI": {
+   "index": "sp400",
+   "name": "Donaldson Company",
+   "sector": "Industrials",
+   "industry": "Industrial Machinery & Supplies & Components",
+   "usd_volume_20d": 49686554
+  },
+  "DD": {
+   "index": "sp500",
+   "name": "DuPont",
+   "sector": "Industrials",
+   "industry": "Industrial Conglomerates",
+   "usd_volume_20d": 140204284
+  },
+  "DDOG": {
+   "index": "sp500",
+   "name": "Datadog",
+   "sector": "Information Technology",
+   "industry": "Application Software",
+   "usd_volume_20d": 778373491
+  },
+  "DECK": {
+   "index": "sp500",
+   "name": "Deckers Brands",
+   "sector": "Consumer Discretionary",
+   "industry": "Footwear",
+   "usd_volume_20d": 249247081
+  },
+  "DELL": {
+   "index": "sp500",
+   "name": "Dell Technologies",
+   "sector": "Information Technology",
+   "industry": "Technology Hardware, Storage & Peripherals",
+   "usd_volume_20d": 2828546038
+  },
+  "DG": {
+   "index": "sp500",
+   "name": "Dollar General",
+   "sector": "Consumer Staples",
+   "industry": "Consumer Staples Merchandise Retail",
+   "usd_volume_20d": 270163853
+  },
+  "DGX": {
+   "index": "sp500",
+   "name": "Quest Diagnostics",
+   "sector": "Health Care",
+   "industry": "Health Care Services",
+   "usd_volume_20d": 233656061
+  },
+  "DHI": {
+   "index": "sp500",
+   "name": "D. R. Horton",
+   "sector": "Consumer Discretionary",
+   "industry": "Homebuilding",
+   "usd_volume_20d": 468230517
+  },
+  "DKS": {
+   "index": "sp400",
+   "name": "Dick's Sporting Goods",
+   "sector": "Consumer Discretionary",
+   "industry": "Other Specialty Retail",
+   "usd_volume_20d": 309237727
+  },
+  "DLB": {
+   "index": "sp400",
+   "name": "Dolby",
+   "sector": "Information Technology",
+   "industry": "Application Software",
+   "usd_volume_20d": 34581576
+  },
+  "DLR": {
+   "index": "sp500",
+   "name": "Digital Realty",
+   "sector": "Real Estate",
+   "industry": "Data Center REITs",
+   "usd_volume_20d": 478227529
+  },
+  "DLTR": {
+   "index": "sp500",
+   "name": "Dollar Tree",
+   "sector": "Consumer Staples",
+   "industry": "Consumer Staples Merchandise Retail",
+   "usd_volume_20d": 254653850
+  },
+  "DOC": {
+   "index": "sp500",
+   "name": "Healthpeak Properties",
+   "sector": "Real Estate",
+   "industry": "Health Care REITs",
+   "usd_volume_20d": 109279877
+  },
+  "DOCN": {
+   "index": "sp400",
+   "name": "DigitalOcean",
+   "sector": "Information Technology",
+   "industry": "Internet Services & Infrastructure",
+   "usd_volume_20d": 287918870
+  },
+  "DOCS": {
+   "index": "sp400",
+   "name": "Doximity",
+   "sector": "Health Care",
+   "industry": "Health Care Technology",
+   "usd_volume_20d": 74976478
+  },
+  "DOCU": {
+   "index": "sp400",
+   "name": "Docusign",
+   "sector": "Information Technology",
+   "industry": "Application Software",
+   "usd_volume_20d": 173040507
+  },
+  "DOV": {
+   "index": "sp500",
+   "name": "Dover Corporation",
+   "sector": "Industrials",
+   "industry": "Industrial Machinery & Supplies & Components",
+   "usd_volume_20d": 283509249
+  },
+  "DOW": {
+   "index": "sp500",
+   "name": "Dow Inc.",
+   "sector": "Materials",
+   "industry": "Commodity Chemicals",
+   "usd_volume_20d": 263010334
+  },
+  "DPZ": {
+   "index": "sp500",
+   "name": "Domino's",
+   "sector": "Consumer Discretionary",
+   "industry": "Restaurants",
+   "usd_volume_20d": 219416520
+  },
+  "DRI": {
+   "index": "sp500",
+   "name": "Darden Restaurants",
+   "sector": "Consumer Discretionary",
+   "industry": "Restaurants",
+   "usd_volume_20d": 194485816
+  },
+  "DT": {
+   "index": "sp400",
+   "name": "Dynatrace",
+   "sector": "Information Technology",
+   "industry": "Application Software",
+   "usd_volume_20d": 428364137
+  },
+  "DTE": {
+   "index": "sp500",
+   "name": "DTE Energy",
+   "sector": "Utilities",
+   "industry": "Multi-Utilities",
+   "usd_volume_20d": 162120784
+  },
+  "DTM": {
+   "index": "sp400",
+   "name": "DT Midstream",
+   "sector": "Energy",
+   "industry": "Oil & Gas Storage & Transportation",
+   "usd_volume_20d": 129142691
+  },
+  "DUOL": {
+   "index": "sp400",
+   "name": "Duolingo",
+   "sector": "Consumer Discretionary",
+   "industry": "Education Services",
+   "usd_volume_20d": 139107724
+  },
+  "DVA": {
+   "index": "sp500",
+   "name": "DaVita",
+   "sector": "Health Care",
+   "industry": "Health Care Services",
+   "usd_volume_20d": 130532430
+  },
+  "DVN": {
+   "index": "sp500",
+   "name": "Devon Energy",
+   "sector": "Energy",
+   "industry": "Oil & Gas Exploration & Production",
+   "usd_volume_20d": 471587519
+  },
+  "DXCM": {
+   "index": "sp500",
+   "name": "Dexcom",
+   "sector": "Health Care",
+   "industry": "Health Care Equipment",
+   "usd_volume_20d": 374749458
+  },
+  "DY": {
+   "index": "sp400",
+   "name": "Dycom Industries",
+   "sector": "Industrials",
+   "industry": "Construction & Engineering",
+   "usd_volume_20d": 135071092
+  },
+  "EAT": {
+   "index": "sp400",
+   "name": "Brinker International",
+   "sector": "Consumer Discretionary",
+   "industry": "Restaurants",
+   "usd_volume_20d": 254639364
+  },
+  "EBAY": {
+   "index": "sp500",
+   "name": "eBay Inc.",
+   "sector": "Consumer Discretionary",
+   "industry": "Broadline Retail",
+   "usd_volume_20d": 463679514
+  },
+  "ECHO": {
+   "index": "sp500",
+   "name": "EchoStar",
+   "sector": "Communication Services",
+   "industry": "Wireless Telecommunication Services",
+   "usd_volume_20d": 422741020
+  },
+  "ECL": {
+   "index": "sp500",
+   "name": "Ecolab",
+   "sector": "Materials",
+   "industry": "Specialty Chemicals",
+   "usd_volume_20d": 458679584
+  },
+  "ED": {
+   "index": "sp500",
+   "name": "Consolidated Edison",
+   "sector": "Utilities",
+   "industry": "Multi-Utilities",
+   "usd_volume_20d": 243963446
+  },
+  "EEFT": {
+   "index": "sp400",
+   "name": "Euronet Worldwide",
+   "sector": "Financials",
+   "industry": "Transaction & Payment Processing Services",
+   "usd_volume_20d": 56036329
+  },
+  "EFX": {
+   "index": "sp500",
+   "name": "Equifax",
+   "sector": "Industrials",
+   "industry": "Research & Consulting Services",
+   "usd_volume_20d": 347937195
+  },
+  "EG": {
+   "index": "sp500",
+   "name": "Everest Group",
+   "sector": "Financials",
+   "industry": "Reinsurance",
+   "usd_volume_20d": 149449839
+  },
+  "EGP": {
+   "index": "sp400",
+   "name": "EastGroup Properties",
+   "sector": "Real Estate",
+   "industry": "Industrial REITs",
+   "usd_volume_20d": 116008250
+  },
+  "EHC": {
+   "index": "sp400",
+   "name": "Encompass Health",
+   "sector": "Health Care",
+   "industry": "Health Care Facilities",
+   "usd_volume_20d": 158326181
+  },
+  "EIX": {
+   "index": "sp500",
+   "name": "Edison International",
+   "sector": "Utilities",
+   "industry": "Electric Utilities",
+   "usd_volume_20d": 185072841
+  },
+  "EL": {
+   "index": "sp500",
+   "name": "Est\u00e9e Lauder Companies (The)",
+   "sector": "Consumer Staples",
+   "industry": "Personal Care Products",
+   "usd_volume_20d": 397367072
+  },
+  "ELAN": {
+   "index": "sp400",
+   "name": "Elanco",
+   "sector": "Health Care",
+   "industry": "Pharmaceuticals",
+   "usd_volume_20d": 111267442
+  },
+  "ELF": {
+   "index": "sp400",
+   "name": "e.l.f. Beauty",
+   "sector": "Consumer Staples",
+   "industry": "Personal Care Products",
+   "usd_volume_20d": 137747458
+  },
+  "ELS": {
+   "index": "sp400",
+   "name": "Equity Lifestyle Properties",
+   "sector": "Real Estate",
+   "industry": "Single-Family Residential REITs",
+   "usd_volume_20d": 127292406
+  },
+  "EME": {
+   "index": "sp500",
+   "name": "Emcor",
+   "sector": "Industrials",
+   "industry": "Construction & Engineering",
+   "usd_volume_20d": 332773763
+  },
+  "EMR": {
+   "index": "sp500",
+   "name": "Emerson Electric",
+   "sector": "Industrials",
+   "industry": "Electrical Components & Equipment",
+   "usd_volume_20d": 480745027
+  },
+  "ENS": {
+   "index": "sp400",
+   "name": "EnerSys",
+   "sector": "Industrials",
+   "industry": "Electrical Components & Equipment",
+   "usd_volume_20d": 90896381
+  },
+  "ENSG": {
+   "index": "sp400",
+   "name": "Ensign Group",
+   "sector": "Health Care",
+   "industry": "Health Care Facilities",
+   "usd_volume_20d": 57860376
+  },
+  "ENTG": {
+   "index": "sp400",
+   "name": "Entegris",
+   "sector": "Information Technology",
+   "industry": "Semiconductor Materials & Equipment",
+   "usd_volume_20d": 480812716
+  },
+  "EPR": {
+   "index": "sp400",
+   "name": "EPR Properties",
+   "sector": "Real Estate",
+   "industry": "Other Specialized REITs",
+   "usd_volume_20d": 47893865
+  },
+  "EQH": {
+   "index": "sp400",
+   "name": "Equitable Holdings",
+   "sector": "Financials",
+   "industry": "Diversified Financial Services",
+   "usd_volume_20d": 124528469
+  },
+  "EQT": {
+   "index": "sp500",
+   "name": "EQT Corporation",
+   "sector": "Energy",
+   "industry": "Oil & Gas Exploration & Production",
+   "usd_volume_20d": 462182597
+  },
+  "ERIE": {
+   "index": "sp500",
+   "name": "Erie Indemnity",
+   "sector": "Financials",
+   "industry": "Insurance Brokers",
+   "usd_volume_20d": 43521642
+  },
+  "ES": {
+   "index": "sp500",
+   "name": "Eversource Energy",
+   "sector": "Utilities",
+   "industry": "Electric Utilities",
+   "usd_volume_20d": 217817151
+  },
+  "ESAB": {
+   "index": "sp400",
+   "name": "ESAB",
+   "sector": "Industrials",
+   "industry": "Industrial Machinery & Supplies & Components",
+   "usd_volume_20d": 82640111
+  },
+  "ESNT": {
+   "index": "sp400",
+   "name": "Essent Group Ltd.",
+   "sector": "Financials",
+   "industry": "Commercial & Residential Mortgage Finance",
+   "usd_volume_20d": 54008143
+  },
+  "ESS": {
+   "index": "sp500",
+   "name": "Essex Property Trust",
+   "sector": "Real Estate",
+   "industry": "Multi-Family Residential REITs",
+   "usd_volume_20d": 152872791
+  },
+  "ETR": {
+   "index": "sp500",
+   "name": "Entergy",
+   "sector": "Utilities",
+   "industry": "Electric Utilities",
+   "usd_volume_20d": 289009219
+  },
+  "EVR": {
+   "index": "sp400",
+   "name": "Evercore",
+   "sector": "Financials",
+   "industry": "Investment Banking & Brokerage",
+   "usd_volume_20d": 154550582
+  },
+  "EVRG": {
+   "index": "sp500",
+   "name": "Evergy",
+   "sector": "Utilities",
+   "industry": "Electric Utilities",
+   "usd_volume_20d": 190901953
+  },
+  "EW": {
+   "index": "sp500",
+   "name": "Edwards Lifesciences",
+   "sector": "Health Care",
+   "industry": "Health Care Equipment",
+   "usd_volume_20d": 369958907
+  },
+  "EWBC": {
+   "index": "sp400",
+   "name": "East West Bancorp",
+   "sector": "Financials",
+   "industry": "Regional Banks",
+   "usd_volume_20d": 108789108
+  },
+  "EXC": {
+   "index": "sp500",
+   "name": "Exelon",
+   "sector": "Utilities",
+   "industry": "Electric Utilities",
+   "usd_volume_20d": 320311316
+  },
+  "EXE": {
+   "index": "sp500",
+   "name": "Expand Energy",
+   "sector": "Energy",
+   "industry": "Oil & Gas Exploration & Production",
+   "usd_volume_20d": 297039158
+  },
+  "EXEL": {
+   "index": "sp400",
+   "name": "Exelixis",
+   "sector": "Health Care",
+   "industry": "Biotechnology",
+   "usd_volume_20d": 148515117
+  },
+  "EXLS": {
+   "index": "sp400",
+   "name": "EXL Service",
+   "sector": "Industrials",
+   "industry": "Data Processing & Outsourced Services",
+   "usd_volume_20d": 100435850
+  },
+  "EXP": {
+   "index": "sp400",
+   "name": "Eagle Materials",
+   "sector": "Materials",
+   "industry": "Construction Materials",
+   "usd_volume_20d": 68341599
+  },
+  "EXPD": {
+   "index": "sp500",
+   "name": "Expeditors International",
+   "sector": "Industrials",
+   "industry": "Air Freight & Logistics",
+   "usd_volume_20d": 242874485
+  },
+  "EXPE": {
+   "index": "sp500",
+   "name": "Expedia Group",
+   "sector": "Consumer Discretionary",
+   "industry": "Hotels, Resorts & Cruise Lines",
+   "usd_volume_20d": 469178344
+  },
+  "EXPO": {
+   "index": "sp400",
+   "name": "Exponent, Inc.",
+   "sector": "Industrials",
+   "industry": "Research & Consulting Services",
+   "usd_volume_20d": 43731628
+  },
+  "EXR": {
+   "index": "sp500",
+   "name": "Extra Space Storage",
+   "sector": "Real Estate",
+   "industry": "Self-Storage REITs",
+   "usd_volume_20d": 193571541
+  },
+  "F": {
+   "index": "sp500",
+   "name": "Ford Motor Company",
+   "sector": "Consumer Discretionary",
+   "industry": "Automobile Manufacturers",
+   "usd_volume_20d": 502974949
+  },
+  "FAF": {
+   "index": "sp400",
+   "name": "First American Financial Corporation",
+   "sector": "Financials",
+   "industry": "Property & Casualty Insurance",
+   "usd_volume_20d": 79596289
+  },
+  "FANG": {
+   "index": "sp500",
+   "name": "Diamondback Energy",
+   "sector": "Energy",
+   "industry": "Oil & Gas Exploration & Production",
+   "usd_volume_20d": 346947553
+  },
+  "FAST": {
+   "index": "sp500",
+   "name": "Fastenal",
+   "sector": "Industrials",
+   "industry": "Trading Companies & Distributors",
+   "usd_volume_20d": 332887094
+  },
+  "FBIN": {
+   "index": "sp400",
+   "name": "Fortune Brands Innovations",
+   "sector": "Industrials",
+   "industry": "Building Products",
+   "usd_volume_20d": 96858513
+  },
+  "FCFS": {
+   "index": "sp400",
+   "name": "FirstCash",
+   "sector": "Financials",
+   "industry": "Consumer Finance",
+   "usd_volume_20d": 100916634
+  },
+  "FCN": {
+   "index": "sp400",
+   "name": "FTI Consulting",
+   "sector": "Industrials",
+   "industry": "Research & Consulting Services",
+   "usd_volume_20d": 73648515
+  },
+  "FDS": {
+   "index": "sp500",
+   "name": "FactSet",
+   "sector": "Financials",
+   "industry": "Financial Exchanges & Data",
+   "usd_volume_20d": 201183460
+  },
+  "FDX": {
+   "index": "sp500",
+   "name": "FedEx",
+   "sector": "Industrials",
+   "industry": "Air Freight & Logistics",
+   "usd_volume_20d": 375855397
+  },
+  "FDXF": {
+   "index": "sp500",
+   "name": "FedEx Freight",
+   "sector": "Industrials",
+   "industry": "Cargo Ground Transportation",
+   "usd_volume_20d": 165816146
+  },
+  "FE": {
+   "index": "sp500",
+   "name": "FirstEnergy",
+   "sector": "Utilities",
+   "industry": "Electric Utilities",
+   "usd_volume_20d": 209391213
+  },
+  "FERG": {
+   "index": "sp500",
+   "name": "Ferguson Enterprises",
+   "sector": "Industrials",
+   "industry": "Trading Companies & Distributors",
+   "usd_volume_20d": 326074280
+  },
+  "FFIN": {
+   "index": "sp400",
+   "name": "First Financial Bankshares",
+   "sector": "Financials",
+   "industry": "Regional Banks",
+   "usd_volume_20d": 32118441
+  },
+  "FFIV": {
+   "index": "sp500",
+   "name": "F5, Inc.",
+   "sector": "Information Technology",
+   "industry": "Communications Equipment",
+   "usd_volume_20d": 307219462
+  },
+  "FHI": {
+   "index": "sp400",
+   "name": "Federated Hermes",
+   "sector": "Financials",
+   "industry": "Asset Management & Custody Banks",
+   "usd_volume_20d": 50858054
+  },
+  "FHN": {
+   "index": "sp400",
+   "name": "First Horizon",
+   "sector": "Financials",
+   "industry": "Regional Banks",
+   "usd_volume_20d": 138309199
+  },
+  "FICO": {
+   "index": "sp500",
+   "name": "Fair Isaac",
+   "sector": "Information Technology",
+   "industry": "Application Software",
+   "usd_volume_20d": 490290218
+  },
+  "FIS": {
+   "index": "sp500",
+   "name": "Fidelity National Information Services",
+   "sector": "Financials",
+   "industry": "Transaction & Payment Processing Services",
+   "usd_volume_20d": 222936898
+  },
+  "FISV": {
+   "index": "sp500",
+   "name": "Fiserv",
+   "sector": "Financials",
+   "industry": "Transaction & Payment Processing Services",
+   "usd_volume_20d": 357365811
+  },
+  "FITB": {
+   "index": "sp500",
+   "name": "Fifth Third Bancorp",
+   "sector": "Financials",
+   "industry": "Regional Banks",
+   "usd_volume_20d": 338621900
+  },
+  "FIVE": {
+   "index": "sp400",
+   "name": "Five Below",
+   "sector": "Consumer Discretionary",
+   "industry": "Other Specialty Retail",
+   "usd_volume_20d": 172234582
+  },
+  "FIX": {
+   "index": "sp500",
+   "name": "Comfort Systems USA",
+   "sector": "Industrials",
+   "industry": "Construction & Engineering",
+   "usd_volume_20d": 866022303
+  },
+  "FLEX": {
+   "index": "sp500",
+   "name": "Flex Ltd.",
+   "sector": "Information Technology",
+   "industry": "Electronic Manufacturing Services",
+   "usd_volume_20d": 518975018
+  },
+  "FLG": {
+   "index": "sp400",
+   "name": "Flagstar Bank",
+   "sector": "Financials",
+   "industry": "Regional Banks",
+   "usd_volume_20d": 65512415
+  },
+  "FLR": {
+   "index": "sp400",
+   "name": "Fluor",
+   "sector": "Industrials",
+   "industry": "Construction & Engineering",
+   "usd_volume_20d": 102220247
+  },
+  "FLS": {
+   "index": "sp400",
+   "name": "Flowserve",
+   "sector": "Industrials",
+   "industry": "Industrial Machinery & Supplies & Components",
+   "usd_volume_20d": 112539481
+  },
+  "FN": {
+   "index": "sp400",
+   "name": "Fabrinet",
+   "sector": "Information Technology",
+   "industry": "Electronic Manufacturing Services",
+   "usd_volume_20d": 379772830
+  },
+  "FNB": {
+   "index": "sp400",
+   "name": "FNB Corporation",
+   "sector": "Financials",
+   "industry": "Regional Banks",
+   "usd_volume_20d": 98957641
+  },
+  "FND": {
+   "index": "sp400",
+   "name": "Floor & Decor",
+   "sector": "Consumer Discretionary",
+   "industry": "Home Improvement Retail",
+   "usd_volume_20d": 152701242
+  },
+  "FNF": {
+   "index": "sp400",
+   "name": "Fidelity National Financial",
+   "sector": "Financials",
+   "industry": "Property & Casualty Insurance",
+   "usd_volume_20d": 106499782
+  },
+  "FORM": {
+   "index": "sp400",
+   "name": "FormFactor",
+   "sector": "Information Technology",
+   "industry": "Semiconductor Materials & Equipment",
+   "usd_volume_20d": 157238512
+  },
+  "FOUR": {
+   "index": "sp400",
+   "name": "Shift4",
+   "sector": "Financials",
+   "industry": "Transaction & Payment Processing Services",
+   "usd_volume_20d": 79506216
+  },
+  "FOX": {
+   "index": "sp500",
+   "name": "Fox Corporation (Class B)",
+   "sector": "Communication Services",
+   "industry": "Broadcasting",
+   "usd_volume_20d": 51520897
+  },
+  "FOXA": {
+   "index": "sp500",
+   "name": "Fox Corporation (Class A)",
+   "sector": "Communication Services",
+   "industry": "Broadcasting",
+   "usd_volume_20d": 455194052
+  },
+  "FR": {
+   "index": "sp400",
+   "name": "First Industrial Realty Trust",
+   "sector": "Real Estate",
+   "industry": "Industrial REITs",
+   "usd_volume_20d": 95604563
+  },
+  "FRT": {
+   "index": "sp500",
+   "name": "Federal Realty Investment Trust",
+   "sector": "Real Estate",
+   "industry": "Retail REITs",
+   "usd_volume_20d": 92654896
+  },
+  "FTI": {
+   "index": "sp400",
+   "name": "TechnipFMC",
+   "sector": "Energy",
+   "industry": "Oil & Gas Equipment & Services",
+   "usd_volume_20d": 213982022
+  },
+  "FTV": {
+   "index": "sp500",
+   "name": "Fortive",
+   "sector": "Industrials",
+   "industry": "Industrial Machinery & Supplies & Components",
+   "usd_volume_20d": 196370585
+  },
+  "G": {
+   "index": "sp400",
+   "name": "Genpact",
+   "sector": "Industrials",
+   "industry": "Data Processing & Outsourced Services",
+   "usd_volume_20d": 81542303
+  },
+  "GAP": {
+   "index": "sp400",
+   "name": "Gap Inc.",
+   "sector": "Consumer Discretionary",
+   "industry": "Apparel Retail",
+   "usd_volume_20d": 115218651
+  },
+  "GATX": {
+   "index": "sp400",
+   "name": "GATX",
+   "sector": "Industrials",
+   "industry": "Construction Machinery & Heavy Transportation Equipment",
+   "usd_volume_20d": 33994505
+  },
+  "GBCI": {
+   "index": "sp400",
+   "name": "Glacier Bancorp",
+   "sector": "Financials",
+   "industry": "Regional Banks",
+   "usd_volume_20d": 61241071
+  },
+  "GDDY": {
+   "index": "sp500",
+   "name": "GoDaddy",
+   "sector": "Information Technology",
+   "industry": "Internet Services & Infrastructure",
+   "usd_volume_20d": 167761133
+  },
+  "GEF": {
+   "index": "sp400",
+   "name": "Greif, Inc.",
+   "sector": "Materials",
+   "industry": "Metal, Glass & Plastic Containers",
+   "usd_volume_20d": 25546866
+  },
+  "GEHC": {
+   "index": "sp500",
+   "name": "GE HealthCare",
+   "sector": "Health Care",
+   "industry": "Health Care Equipment",
+   "usd_volume_20d": 295908834
+  },
+  "GEN": {
+   "index": "sp500",
+   "name": "Gen Digital",
+   "sector": "Information Technology",
+   "industry": "Systems Software",
+   "usd_volume_20d": 183949163
+  },
+  "GGG": {
+   "index": "sp400",
+   "name": "Graco Inc.",
+   "sector": "Industrials",
+   "industry": "Industrial Machinery & Supplies & Components",
+   "usd_volume_20d": 129886013
+  },
+  "GHC": {
+   "index": "sp400",
+   "name": "Graham Holdings",
+   "sector": "Consumer Discretionary",
+   "industry": "Education Services",
+   "usd_volume_20d": 28220805
+  },
+  "GIS": {
+   "index": "sp500",
+   "name": "General Mills",
+   "sector": "Consumer Staples",
+   "industry": "Packaged Foods & Meats",
+   "usd_volume_20d": 280397092
+  },
+  "GKOS": {
+   "index": "sp400",
+   "name": "Glaukos",
+   "sector": "Health Care",
+   "industry": "Health Care Equipment",
+   "usd_volume_20d": 215103769
+  },
+  "GL": {
+   "index": "sp500",
+   "name": "Globe Life",
+   "sector": "Financials",
+   "industry": "Life & Health Insurance",
+   "usd_volume_20d": 80824962
+  },
+  "GLPI": {
+   "index": "sp400",
+   "name": "Gaming and Leisure Properties",
+   "sector": "Real Estate",
+   "industry": "Other Specialized REITs",
+   "usd_volume_20d": 93565767
+  },
+  "GLW": {
+   "index": "sp500",
+   "name": "Corning Inc.",
+   "sector": "Information Technology",
+   "industry": "Electronic Components",
+   "usd_volume_20d": 1175493957
+  },
+  "GM": {
+   "index": "sp500",
+   "name": "General Motors",
+   "sector": "Consumer Discretionary",
+   "industry": "Automobile Manufacturers",
+   "usd_volume_20d": 673586492
+  },
+  "GME": {
+   "index": "sp400",
+   "name": "GameStop",
+   "sector": "Consumer Discretionary",
+   "industry": "Computer & Electronics Retail",
+   "usd_volume_20d": 170726994
+  },
+  "GMED": {
+   "index": "sp400",
+   "name": "Globus Medical",
+   "sector": "Health Care",
+   "industry": "Health Care Equipment",
+   "usd_volume_20d": 116641168
+  },
+  "GNRC": {
+   "index": "sp500",
+   "name": "Generac",
+   "sector": "Industrials",
+   "industry": "Heavy Electrical Equipment",
+   "usd_volume_20d": 203546380
+  },
+  "GNTX": {
+   "index": "sp400",
+   "name": "Gentex",
+   "sector": "Consumer Discretionary",
+   "industry": "Automotive Parts & Equipment",
+   "usd_volume_20d": 62474831
+  },
+  "GOOG": {
+   "index": "sp500",
+   "name": "Alphabet Inc. (Class C)",
+   "sector": "Communication Services",
+   "industry": "Interactive Media & Services",
+   "usd_volume_20d": 6445258047
+  },
+  "GPC": {
+   "index": "sp500",
+   "name": "Genuine Parts Company",
+   "sector": "Consumer Discretionary",
+   "industry": "Distributors",
+   "usd_volume_20d": 125242163
+  },
+  "GPK": {
+   "index": "sp400",
+   "name": "Graphic Packaging",
+   "sector": "Materials",
+   "industry": "Paper & Plastic Packaging Products & Materials",
+   "usd_volume_20d": 61785227
+  },
+  "GPN": {
+   "index": "sp500",
+   "name": "Global Payments",
+   "sector": "Financials",
+   "industry": "Transaction & Payment Processing Services",
+   "usd_volume_20d": 245516204
+  },
+  "GRMN": {
+   "index": "sp500",
+   "name": "Garmin",
+   "sector": "Consumer Discretionary",
+   "industry": "Consumer Electronics",
+   "usd_volume_20d": 232208469
+  },
+  "GWRE": {
+   "index": "sp400",
+   "name": "Guidewire Software",
+   "sector": "Information Technology",
+   "industry": "Application Software",
+   "usd_volume_20d": 161863665
+  },
+  "GWW": {
+   "index": "sp500",
+   "name": "W. W. Grainger",
+   "sector": "Industrials",
+   "industry": "Industrial Machinery & Supplies & Components",
+   "usd_volume_20d": 309889864
+  },
+  "GXO": {
+   "index": "sp400",
+   "name": "GXO Logistics",
+   "sector": "Industrials",
+   "industry": "Air Freight & Logistics",
+   "usd_volume_20d": 54487819
+  },
+  "H": {
+   "index": "sp400",
+   "name": "Hyatt",
+   "sector": "Consumer Discretionary",
+   "industry": "Hotels, Resorts & Cruise Lines",
+   "usd_volume_20d": 153350092
+  },
+  "HAE": {
+   "index": "sp400",
+   "name": "Haemonetics",
+   "sector": "Health Care",
+   "industry": "Health Care Supplies",
+   "usd_volume_20d": 75339927
+  },
+  "HAL": {
+   "index": "sp500",
+   "name": "Halliburton",
+   "sector": "Energy",
+   "industry": "Oil & Gas Equipment & Services",
+   "usd_volume_20d": 336646914
+  },
+  "HALO": {
+   "index": "sp400",
+   "name": "Halozyme",
+   "sector": "Health Care",
+   "industry": "Biotechnology",
+   "usd_volume_20d": 231718760
+  },
+  "HAS": {
+   "index": "sp500",
+   "name": "Hasbro",
+   "sector": "Consumer Discretionary",
+   "industry": "Leisure Products",
+   "usd_volume_20d": 250611270
+  },
+  "HBAN": {
+   "index": "sp500",
+   "name": "Huntington Bancshares",
+   "sector": "Financials",
+   "industry": "Regional Banks",
+   "usd_volume_20d": 289357918
+  },
+  "HCA": {
+   "index": "sp500",
+   "name": "HCA Healthcare",
+   "sector": "Health Care",
+   "industry": "Health Care Facilities",
+   "usd_volume_20d": 606051675
+  },
+  "HGV": {
+   "index": "sp400",
+   "name": "Hilton Grand Vacations",
+   "sector": "Consumer Discretionary",
+   "industry": "Hotels, Resorts & Cruise Lines",
+   "usd_volume_20d": 53409174
+  },
+  "HIG": {
+   "index": "sp500",
+   "name": "Hartford (The)",
+   "sector": "Financials",
+   "industry": "Property & Casualty Insurance",
+   "usd_volume_20d": 207382692
+  },
+  "HIMS": {
+   "index": "sp400",
+   "name": "Hims & Hers Health",
+   "sector": "Health Care",
+   "industry": "Health Care Services",
+   "usd_volume_20d": 286454818
+  },
+  "HL": {
+   "index": "sp400",
+   "name": "Hecla Mining",
+   "sector": "Materials",
+   "industry": "Silver",
+   "usd_volume_20d": 395686709
+  },
+  "HLI": {
+   "index": "sp400",
+   "name": "Houlihan Lokey",
+   "sector": "Financials",
+   "industry": "Investment Banking & Brokerage",
+   "usd_volume_20d": 86409367
+  },
+  "HLNE": {
+   "index": "sp400",
+   "name": "Hamilton Lane",
+   "sector": "Financials",
+   "industry": "Asset Management & Custody Banks",
+   "usd_volume_20d": 55198196
+  },
+  "HLT": {
+   "index": "sp500",
+   "name": "Hilton Worldwide",
+   "sector": "Consumer Discretionary",
+   "industry": "Hotels, Resorts & Cruise Lines",
+   "usd_volume_20d": 729113688
+  },
+  "HOG": {
+   "index": "sp400",
+   "name": "Harley-Davidson",
+   "sector": "Consumer Discretionary",
+   "industry": "Motorcycle Manufacturers",
+   "usd_volume_20d": 68747346
+  },
+  "HOMB": {
+   "index": "sp400",
+   "name": "Home BancShares",
+   "sector": "Financials",
+   "industry": "Regional Banks",
+   "usd_volume_20d": 47197830
+  },
+  "HONA": {
+   "index": "sp500",
+   "name": "Honeywell Aerospace",
+   "sector": "Industrials",
+   "industry": "Aerospace & Defense",
+   "usd_volume_20d": 506385711
+  },
+  "HPE": {
+   "index": "sp500",
+   "name": "Hewlett Packard Enterprise",
+   "sector": "Information Technology",
+   "industry": "Technology Hardware, Storage & Peripherals",
+   "usd_volume_20d": 793728008
+  },
+  "HPQ": {
+   "index": "sp500",
+   "name": "HP Inc.",
+   "sector": "Information Technology",
+   "industry": "Technology Hardware, Storage & Peripherals",
+   "usd_volume_20d": 376368651
+  },
+  "HQY": {
+   "index": "sp400",
+   "name": "HealthEquity",
+   "sector": "Health Care",
+   "industry": "Managed Health Care",
+   "usd_volume_20d": 70450004
+  },
+  "HR": {
+   "index": "sp400",
+   "name": "Healthcare Realty Trust",
+   "sector": "Real Estate",
+   "industry": "Health Care REITs",
+   "usd_volume_20d": 120857149
+  },
+  "HRB": {
+   "index": "sp400",
+   "name": "H&R Block",
+   "sector": "Consumer Discretionary",
+   "industry": "Specialized Consumer Services",
+   "usd_volume_20d": 85837625
+  },
+  "HRL": {
+   "index": "sp500",
+   "name": "Hormel Foods",
+   "sector": "Consumer Staples",
+   "industry": "Packaged Foods & Meats",
+   "usd_volume_20d": 90500669
+  },
+  "HSIC": {
+   "index": "sp500",
+   "name": "Henry Schein",
+   "sector": "Health Care",
+   "industry": "Health Care Distributors",
+   "usd_volume_20d": 103062549
+  },
+  "HST": {
+   "index": "sp500",
+   "name": "Host Hotels & Resorts",
+   "sector": "Real Estate",
+   "industry": "Hotel & Resort REITs",
+   "usd_volume_20d": 228270933
+  },
+  "HSY": {
+   "index": "sp500",
+   "name": "Hershey Company (The)",
+   "sector": "Consumer Staples",
+   "industry": "Packaged Foods & Meats",
+   "usd_volume_20d": 329579421
+  },
+  "HUBB": {
+   "index": "sp500",
+   "name": "Hubbell Incorporated",
+   "sector": "Industrials",
+   "industry": "Industrial Machinery & Supplies & Components",
+   "usd_volume_20d": 289966566
+  },
+  "HWC": {
+   "index": "sp400",
+   "name": "Hancock Whitney",
+   "sector": "Financials",
+   "industry": "Regional Banks",
+   "usd_volume_20d": 60371193
+  },
+  "HWM": {
+   "index": "sp500",
+   "name": "Howmet Aerospace",
+   "sector": "Industrials",
+   "industry": "Aerospace & Defense",
+   "usd_volume_20d": 955075127
+  },
+  "HXL": {
+   "index": "sp400",
+   "name": "Hexcel",
+   "sector": "Industrials",
+   "industry": "Aerospace & Defense",
+   "usd_volume_20d": 116787113
+  },
+  "IBKR": {
+   "index": "sp500",
+   "name": "Interactive Brokers",
+   "sector": "Financials",
+   "industry": "Investment Banking & Brokerage",
+   "usd_volume_20d": 400800975
+  },
+  "ICE": {
+   "index": "sp500",
+   "name": "Intercontinental Exchange",
+   "sector": "Financials",
+   "industry": "Financial Exchanges & Data",
+   "usd_volume_20d": 517879185
+  },
+  "IDA": {
+   "index": "sp400",
+   "name": "Idacorp",
+   "sector": "Utilities",
+   "industry": "Electric Utilities",
+   "usd_volume_20d": 78466584
+  },
+  "IDCC": {
+   "index": "sp400",
+   "name": "InterDigital",
+   "sector": "Information Technology",
+   "industry": "Communications Equipment",
+   "usd_volume_20d": 67160685
+  },
+  "IDXX": {
+   "index": "sp500",
+   "name": "Idexx Laboratories",
+   "sector": "Health Care",
+   "industry": "Health Care Equipment",
+   "usd_volume_20d": 299267135
+  },
+  "IESC": {
+   "index": "sp400",
+   "name": "IES Holdings",
+   "sector": "Industrials",
+   "industry": "Construction & Engineering",
+   "usd_volume_20d": 102817203
+  },
+  "IEX": {
+   "index": "sp500",
+   "name": "IDEX Corporation",
+   "sector": "Industrials",
+   "industry": "Industrial Machinery & Supplies & Components",
+   "usd_volume_20d": 171711623
+  },
+  "IFF": {
+   "index": "sp500",
+   "name": "International Flavors & Fragrances",
+   "sector": "Materials",
+   "industry": "Specialty Chemicals",
+   "usd_volume_20d": 231721696
+  },
+  "INCY": {
+   "index": "sp500",
+   "name": "Incyte",
+   "sector": "Health Care",
+   "industry": "Biotechnology",
+   "usd_volume_20d": 199256941
+  },
+  "INGR": {
+   "index": "sp400",
+   "name": "Ingredion",
+   "sector": "Consumer Staples",
+   "industry": "Agricultural Products & Services",
+   "usd_volume_20d": 72067342
+  },
+  "INVH": {
+   "index": "sp500",
+   "name": "Invitation Homes",
+   "sector": "Real Estate",
+   "industry": "Single-Family Residential REITs",
+   "usd_volume_20d": 131339343
+  },
+  "IP": {
+   "index": "sp500",
+   "name": "International Paper",
+   "sector": "Materials",
+   "industry": "Paper & Plastic Packaging Products & Materials",
+   "usd_volume_20d": 189957892
+  },
+  "IPGP": {
+   "index": "sp400",
+   "name": "IPG Photonics",
+   "sector": "Information Technology",
+   "industry": "Electronic Manufacturing Services",
+   "usd_volume_20d": 24742476
+  },
+  "IQV": {
+   "index": "sp500",
+   "name": "IQVIA",
+   "sector": "Health Care",
+   "industry": "Life Sciences Tools & Services",
+   "usd_volume_20d": 377485157
+  },
+  "IR": {
+   "index": "sp500",
+   "name": "Ingersoll Rand",
+   "sector": "Industrials",
+   "industry": "Industrial Machinery & Supplies & Components",
+   "usd_volume_20d": 341884781
+  },
+  "IRM": {
+   "index": "sp500",
+   "name": "Iron Mountain",
+   "sector": "Real Estate",
+   "industry": "Other Specialized REITs",
+   "usd_volume_20d": 151548825
+  },
+  "IRT": {
+   "index": "sp400",
+   "name": "Independence Realty Trust",
+   "sector": "Real Estate",
+   "industry": "Multi-Family Residential REITs",
+   "usd_volume_20d": 46757335
+  },
+  "IT": {
+   "index": "sp500",
+   "name": "Gartner",
+   "sector": "Information Technology",
+   "industry": "IT Consulting & Other Services",
+   "usd_volume_20d": 246999402
+  },
+  "ITT": {
+   "index": "sp400",
+   "name": "ITT Inc.",
+   "sector": "Industrials",
+   "industry": "Industrial Machinery & Supplies & Components",
+   "usd_volume_20d": 163476907
+  },
+  "ITW": {
+   "index": "sp500",
+   "name": "Illinois Tool Works",
+   "sector": "Industrials",
+   "industry": "Industrial Machinery & Supplies & Components",
+   "usd_volume_20d": 407193472
+  },
+  "IVZ": {
+   "index": "sp500",
+   "name": "Invesco",
+   "sector": "Financials",
+   "industry": "Asset Management & Custody Banks",
+   "usd_volume_20d": 150464689
+  },
+  "J": {
+   "index": "sp500",
+   "name": "Jacobs Solutions",
+   "sector": "Industrials",
+   "industry": "Construction & Engineering",
+   "usd_volume_20d": 140143287
+  },
+  "JAZZ": {
+   "index": "sp400",
+   "name": "Jazz Pharmaceuticals",
+   "sector": "Health Care",
+   "industry": "Pharmaceuticals",
+   "usd_volume_20d": 156609043
+  },
+  "JBHT": {
+   "index": "sp500",
+   "name": "J.B. Hunt",
+   "sector": "Industrials",
+   "industry": "Cargo Ground Transportation",
+   "usd_volume_20d": 173364626
+  },
+  "JBL": {
+   "index": "sp500",
+   "name": "Jabil",
+   "sector": "Information Technology",
+   "industry": "Electronic Manufacturing Services",
+   "usd_volume_20d": 318083449
+  },
+  "JCI": {
+   "index": "sp500",
+   "name": "Johnson Controls",
+   "sector": "Industrials",
+   "industry": "Building Products",
+   "usd_volume_20d": 604672981
+  },
+  "JEF": {
+   "index": "sp400",
+   "name": "Jefferies",
+   "sector": "Financials",
+   "industry": "Multi-Sector Holdings",
+   "usd_volume_20d": 93657205
+  },
+  "JHX": {
+   "index": "sp400",
+   "name": "James Hardie Industries",
+   "sector": "Materials",
+   "industry": "Construction Materials",
+   "usd_volume_20d": 227974950
+  },
+  "JKHY": {
+   "index": "sp500",
+   "name": "Jack Henry & Associates",
+   "sector": "Financials",
+   "industry": "Transaction & Payment Processing Services",
+   "usd_volume_20d": 138938400
+  },
+  "JLL": {
+   "index": "sp400",
+   "name": "Jones Lang LaSalle",
+   "sector": "Real Estate",
+   "industry": "Real Estate Services",
+   "usd_volume_20d": 144783408
+  },
+  "KBH": {
+   "index": "sp400",
+   "name": "KB Home",
+   "sector": "Consumer Discretionary",
+   "industry": "Homebuilding",
+   "usd_volume_20d": 52026233
+  },
+  "KBR": {
+   "index": "sp400",
+   "name": "KBR, Inc.",
+   "sector": "Industrials",
+   "industry": "Diversified Support Services",
+   "usd_volume_20d": 70168187
+  },
+  "KD": {
+   "index": "sp400",
+   "name": "Kyndryl",
+   "sector": "Information Technology",
+   "industry": "IT Consulting & Other Services",
+   "usd_volume_20d": 55955315
+  },
+  "KDP": {
+   "index": "sp500",
+   "name": "Keurig Dr Pepper",
+   "sector": "Consumer Staples",
+   "industry": "Soft Drinks & Non-alcoholic Beverages",
+   "usd_volume_20d": 573367714
+  },
+  "KEX": {
+   "index": "sp400",
+   "name": "Kirby Corporation",
+   "sector": "Industrials",
+   "industry": "Marine Transportation",
+   "usd_volume_20d": 92504792
+  },
+  "KEY": {
+   "index": "sp500",
+   "name": "KeyCorp",
+   "sector": "Financials",
+   "industry": "Regional Banks",
+   "usd_volume_20d": 347836277
+  },
+  "KEYS": {
+   "index": "sp500",
+   "name": "Keysight Technologies",
+   "sector": "Information Technology",
+   "industry": "Electronic Equipment & Instruments",
+   "usd_volume_20d": 433779616
+  },
+  "KHC": {
+   "index": "sp500",
+   "name": "Kraft Heinz",
+   "sector": "Consumer Staples",
+   "industry": "Packaged Foods & Meats",
+   "usd_volume_20d": 291663218
+  },
+  "KIM": {
+   "index": "sp500",
+   "name": "Kimco Realty",
+   "sector": "Real Estate",
+   "industry": "Retail REITs",
+   "usd_volume_20d": 161086815
+  },
+  "KKR": {
+   "index": "sp500",
+   "name": "KKR & Co.",
+   "sector": "Financials",
+   "industry": "Asset Management & Custody Banks",
+   "usd_volume_20d": 464131841
+  },
+  "KMB": {
+   "index": "sp500",
+   "name": "Kimberly-Clark",
+   "sector": "Consumer Staples",
+   "industry": "Household Products",
+   "usd_volume_20d": 585089230
+  },
+  "KMI": {
+   "index": "sp500",
+   "name": "Kinder Morgan",
+   "sector": "Energy",
+   "industry": "Oil & Gas Storage & Transportation",
+   "usd_volume_20d": 452405008
+  },
+  "KNF": {
+   "index": "sp400",
+   "name": "Knife River Corporation",
+   "sector": "Materials",
+   "industry": "Construction Materials",
+   "usd_volume_20d": 32771111
+  },
+  "KNSL": {
+   "index": "sp400",
+   "name": "Kinsale Capital Group",
+   "sector": "Financials",
+   "industry": "Property & Casualty Insurance",
+   "usd_volume_20d": 98974748
+  },
+  "KNX": {
+   "index": "sp400",
+   "name": "Knight-Swift",
+   "sector": "Industrials",
+   "industry": "Cargo Ground Transportation",
+   "usd_volume_20d": 218516454
+  },
+  "KR": {
+   "index": "sp500",
+   "name": "Kroger",
+   "sector": "Consumer Staples",
+   "industry": "Food Retail",
+   "usd_volume_20d": 355035329
+  },
+  "KRC": {
+   "index": "sp400",
+   "name": "Kilroy Realty Corp",
+   "sector": "Real Estate",
+   "industry": "Office REITs",
+   "usd_volume_20d": 53265903
+  },
+  "KRG": {
+   "index": "sp400",
+   "name": "Kite Realty Group Trust",
+   "sector": "Real Estate",
+   "industry": "Retail REITs",
+   "usd_volume_20d": 51403150
+  },
+  "KRYS": {
+   "index": "sp400",
+   "name": "Krystal Biotech",
+   "sector": "Health Care",
+   "industry": "Biotechnology",
+   "usd_volume_20d": 71038245
+  },
+  "L": {
+   "index": "sp500",
+   "name": "Loews Corporation",
+   "sector": "Financials",
+   "industry": "Multi-line Insurance",
+   "usd_volume_20d": 70876104
+  },
+  "LAD": {
+   "index": "sp400",
+   "name": "Lithia Motors",
+   "sector": "Consumer Discretionary",
+   "industry": "Automotive Retail",
+   "usd_volume_20d": 91177268
+  },
+  "LAMR": {
+   "index": "sp400",
+   "name": "Lamar Advertising Company",
+   "sector": "Real Estate",
+   "industry": "Other Specialized REITs",
+   "usd_volume_20d": 90963909
+  },
+  "LDOS": {
+   "index": "sp500",
+   "name": "Leidos",
+   "sector": "Industrials",
+   "industry": "Diversified Support Services",
+   "usd_volume_20d": 126988655
+  },
+  "LEA": {
+   "index": "sp400",
+   "name": "Lear",
+   "sector": "Consumer Discretionary",
+   "industry": "Automotive Parts & Equipment",
+   "usd_volume_20d": 60614186
+  },
+  "LECO": {
+   "index": "sp400",
+   "name": "Lincoln Electric",
+   "sector": "Industrials",
+   "industry": "Industrial Machinery & Supplies & Components",
+   "usd_volume_20d": 89500116
+  },
+  "LEN": {
+   "index": "sp500",
+   "name": "Lennar",
+   "sector": "Consumer Discretionary",
+   "industry": "Homebuilding",
+   "usd_volume_20d": 294230884
+  },
+  "LFUS": {
+   "index": "sp400",
+   "name": "Littelfuse",
+   "sector": "Information Technology",
+   "industry": "Electronic Components",
+   "usd_volume_20d": 112304513
+  },
+  "LH": {
+   "index": "sp500",
+   "name": "Labcorp",
+   "sector": "Health Care",
+   "industry": "Health Care Services",
+   "usd_volume_20d": 259317488
+  },
+  "LII": {
+   "index": "sp500",
+   "name": "Lennox International",
+   "sector": "Industrials",
+   "industry": "Building Products",
+   "usd_volume_20d": 202366426
+  },
+  "LIVN": {
+   "index": "sp400",
+   "name": "LivaNova",
+   "sector": "Health Care",
+   "industry": "Health Care Equipment",
+   "usd_volume_20d": 45869012
+  },
+  "LNT": {
+   "index": "sp500",
+   "name": "Alliant Energy",
+   "sector": "Utilities",
+   "industry": "Electric Utilities",
+   "usd_volume_20d": 207159400
+  },
+  "LNTH": {
+   "index": "sp400",
+   "name": "Lantheus Holdings",
+   "sector": "Health Care",
+   "industry": "Health Care Supplies",
+   "usd_volume_20d": 107256120
+  },
+  "LOPE": {
+   "index": "sp400",
+   "name": "Grand Canyon Education",
+   "sector": "Consumer Discretionary",
+   "industry": "Education Services",
+   "usd_volume_20d": 46056618
+  },
+  "LPX": {
+   "index": "sp400",
+   "name": "Louisiana-Pacific",
+   "sector": "Industrials",
+   "industry": "Building Products",
+   "usd_volume_20d": 94294040
+  },
+  "LSCC": {
+   "index": "sp400",
+   "name": "Lattice Semiconductor",
+   "sector": "Information Technology",
+   "industry": "Semiconductors",
+   "usd_volume_20d": 242048577
+  },
+  "LSTR": {
+   "index": "sp400",
+   "name": "Landstar System",
+   "sector": "Industrials",
+   "industry": "Cargo Ground Transportation",
+   "usd_volume_20d": 57699285
+  },
+  "LULU": {
+   "index": "sp500",
+   "name": "Lululemon Athletica",
+   "sector": "Consumer Discretionary",
+   "industry": "Apparel, Accessories & Luxury Goods",
+   "usd_volume_20d": 330583933
+  },
+  "LUV": {
+   "index": "sp500",
+   "name": "Southwest Airlines",
+   "sector": "Industrials",
+   "industry": "Passenger Airlines",
+   "usd_volume_20d": 283861904
+  },
+  "LVS": {
+   "index": "sp500",
+   "name": "Las Vegas Sands",
+   "sector": "Consumer Discretionary",
+   "industry": "Casinos & Gaming",
+   "usd_volume_20d": 250585305
+  },
+  "LYB": {
+   "index": "sp500",
+   "name": "LyondellBasell",
+   "sector": "Materials",
+   "industry": "Specialty Chemicals",
+   "usd_volume_20d": 224340230
+  },
+  "LYV": {
+   "index": "sp500",
+   "name": "Live Nation Entertainment",
+   "sector": "Communication Services",
+   "industry": "Movies & Entertainment",
+   "usd_volume_20d": 347276927
+  },
+  "M": {
+   "index": "sp400",
+   "name": "Macy's",
+   "sector": "Consumer Discretionary",
+   "industry": "Broadline Retail",
+   "usd_volume_20d": 130354733
+  },
+  "MAA": {
+   "index": "sp500",
+   "name": "Mid-America Apartment Communities",
+   "sector": "Real Estate",
+   "industry": "Multi-Family Residential REITs",
+   "usd_volume_20d": 116188574
+  },
+  "MANH": {
+   "index": "sp400",
+   "name": "Manhattan Associates",
+   "sector": "Information Technology",
+   "industry": "Application Software",
+   "usd_volume_20d": 211038609
+  },
+  "MAR": {
+   "index": "sp500",
+   "name": "Marriott International",
+   "sector": "Consumer Discretionary",
+   "industry": "Hotels, Resorts & Cruise Lines",
+   "usd_volume_20d": 634920486
+  },
+  "MAS": {
+   "index": "sp500",
+   "name": "Masco",
+   "sector": "Industrials",
+   "industry": "Building Products",
+   "usd_volume_20d": 181787649
+  },
+  "MAT": {
+   "index": "sp400",
+   "name": "Mattel",
+   "sector": "Consumer Discretionary",
+   "industry": "Leisure Products",
+   "usd_volume_20d": 87699084
+  },
+  "MCHP": {
+   "index": "sp500",
+   "name": "Microchip Technology",
+   "sector": "Information Technology",
+   "industry": "Semiconductors",
+   "usd_volume_20d": 902340598
+  },
+  "MCK": {
+   "index": "sp500",
+   "name": "McKesson",
+   "sector": "Health Care",
+   "industry": "Health Care Distributors",
+   "usd_volume_20d": 699221170
+  },
+  "MCO": {
+   "index": "sp500",
+   "name": "Moody's Corporation",
+   "sector": "Financials",
+   "industry": "Financial Exchanges & Data",
+   "usd_volume_20d": 462670216
+  },
+  "MDT": {
+   "index": "sp500",
+   "name": "Medtronic",
+   "sector": "Health Care",
+   "industry": "Health Care Equipment",
+   "usd_volume_20d": 847722433
+  },
+  "MEDP": {
+   "index": "sp400",
+   "name": "Medpace",
+   "sector": "Health Care",
+   "industry": "Life Sciences Tools & Services",
+   "usd_volume_20d": 152974181
+  },
+  "MET": {
+   "index": "sp500",
+   "name": "MetLife",
+   "sector": "Financials",
+   "industry": "Life & Health Insurance",
+   "usd_volume_20d": 307703114
+  },
+  "MGM": {
+   "index": "sp500",
+   "name": "MGM Resorts",
+   "sector": "Consumer Discretionary",
+   "industry": "Casinos & Gaming",
+   "usd_volume_20d": 163570757
+  },
+  "MIDD": {
+   "index": "sp400",
+   "name": "Middleby",
+   "sector": "Industrials",
+   "industry": "Industrial Machinery & Supplies & Components",
+   "usd_volume_20d": 56878984
+  },
+  "MKC": {
+   "index": "sp500",
+   "name": "McCormick & Company",
+   "sector": "Consumer Staples",
+   "industry": "Packaged Foods & Meats",
+   "usd_volume_20d": 174852142
+  },
+  "MLI": {
+   "index": "sp400",
+   "name": "Mueller Industries",
+   "sector": "Industrials",
+   "industry": "Industrial Machinery & Supplies & Components",
+   "usd_volume_20d": 98995378
+  },
+  "MLM": {
+   "index": "sp500",
+   "name": "Martin Marietta Materials",
+   "sector": "Materials",
+   "industry": "Construction Materials",
+   "usd_volume_20d": 479344057
+  },
+  "MMM": {
+   "index": "sp500",
+   "name": "3M",
+   "sector": "Industrials",
+   "industry": "Industrial Conglomerates",
+   "usd_volume_20d": 583278464
+  },
+  "MMS": {
+   "index": "sp400",
+   "name": "Maximus Inc.",
+   "sector": "Industrials",
+   "industry": "Data Processing & Outsourced Services",
+   "usd_volume_20d": 36805525
+  },
+  "MNST": {
+   "index": "sp500",
+   "name": "Monster Beverage",
+   "sector": "Consumer Staples",
+   "industry": "Soft Drinks & Non-alcoholic Beverages",
+   "usd_volume_20d": 460485119
+  },
+  "MOG A": {
+   "index": "sp400",
+   "name": "Moog Inc.",
+   "sector": "Industrials",
+   "industry": "Aerospace & Defense",
+   "usd_volume_20d": 89930080
+  },
+  "MORN": {
+   "index": "sp400",
+   "name": "Morningstar, Inc.",
+   "sector": "Financials",
+   "industry": "Financial Exchanges & Data",
+   "usd_volume_20d": 62596242
+  },
+  "MOS": {
+   "index": "sp500",
+   "name": "Mosaic Company (The)",
+   "sector": "Materials",
+   "industry": "Fertilizers & Agricultural Chemicals",
+   "usd_volume_20d": 212228285
+  },
+  "MRNA": {
+   "index": "sp500",
+   "name": "Moderna",
+   "sector": "Health Care",
+   "industry": "Biotechnology",
+   "usd_volume_20d": 3363102850
+  },
+  "MRSH": {
+   "index": "sp500",
+   "name": "Marsh McLennan",
+   "sector": "Financials",
+   "industry": "Insurance Brokers",
+   "usd_volume_20d": 452095583
+  },
+  "MRVL": {
+   "index": "sp500",
+   "name": "Marvell Technology",
+   "sector": "Information Technology",
+   "industry": "Semiconductors",
+   "usd_volume_20d": 4819397176
+  },
+  "MSA": {
+   "index": "sp400",
+   "name": "MSA Safety",
+   "sector": "Industrials",
+   "industry": "Office Services & Supplies",
+   "usd_volume_20d": 42298180
+  },
+  "MSCI": {
+   "index": "sp500",
+   "name": "MSCI",
+   "sector": "Financials",
+   "industry": "Financial Exchanges & Data",
+   "usd_volume_20d": 345107572
+  },
+  "MSI": {
+   "index": "sp500",
+   "name": "Motorola Solutions",
+   "sector": "Information Technology",
+   "industry": "Communications Equipment",
+   "usd_volume_20d": 583151132
+  },
+  "MSM": {
+   "index": "sp400",
+   "name": "MSC Industrial Direct",
+   "sector": "Industrials",
+   "industry": "Trading Companies & Distributors",
+   "usd_volume_20d": 108295065
+  },
+  "MTB": {
+   "index": "sp500",
+   "name": "M&T Bank",
+   "sector": "Financials",
+   "industry": "Regional Banks",
+   "usd_volume_20d": 178308959
+  },
+  "MTD": {
+   "index": "sp500",
+   "name": "Mettler Toledo",
+   "sector": "Health Care",
+   "industry": "Life Sciences Tools & Services",
+   "usd_volume_20d": 317121601
+  },
+  "MTDR": {
+   "index": "sp400",
+   "name": "Matador Resources",
+   "sector": "Energy",
+   "industry": "Oil & Gas Exploration & Production",
+   "usd_volume_20d": 86097975
+  },
+  "MTG": {
+   "index": "sp400",
+   "name": "MGIC Investment Corporation",
+   "sector": "Financials",
+   "industry": "Reinsurance",
+   "usd_volume_20d": 61597646
+  },
+  "MTN": {
+   "index": "sp400",
+   "name": "Vail Resorts",
+   "sector": "Consumer Discretionary",
+   "industry": "Hotels, Resorts & Cruise Lines",
+   "usd_volume_20d": 71347492
+  },
+  "MTSI": {
+   "index": "sp400",
+   "name": "MACOM Technology Solutions",
+   "sector": "Information Technology",
+   "industry": "Semiconductors",
+   "usd_volume_20d": 445687948
+  },
+  "MTZ": {
+   "index": "sp400",
+   "name": "MasTec",
+   "sector": "Industrials",
+   "industry": "Construction & Engineering",
+   "usd_volume_20d": 288126386
+  },
+  "MUR": {
+   "index": "sp400",
+   "name": "Murphy Oil",
+   "sector": "Energy",
+   "industry": "Oil & Gas Exploration & Production",
+   "usd_volume_20d": 64281391
+  },
+  "MUSA": {
+   "index": "sp400",
+   "name": "Murphy USA",
+   "sector": "Consumer Discretionary",
+   "industry": "Automotive Retail",
+   "usd_volume_20d": 148422636
+  },
+  "MZTI": {
+   "index": "sp400",
+   "name": "The Marzetti Company",
+   "sector": "Consumer Staples",
+   "industry": "Packaged Foods & Meats",
+   "usd_volume_20d": 37921770
+  },
+  "NBIX": {
+   "index": "sp400",
+   "name": "Neurocrine Biosciences",
+   "sector": "Health Care",
+   "industry": "Biotechnology",
+   "usd_volume_20d": 178806945
+  },
+  "NDAQ": {
+   "index": "sp500",
+   "name": "Nasdaq, Inc.",
+   "sector": "Financials",
+   "industry": "Financial Exchanges & Data",
+   "usd_volume_20d": 353272707
+  },
+  "NDSN": {
+   "index": "sp500",
+   "name": "Nordson Corporation",
+   "sector": "Industrials",
+   "industry": "Industrial Machinery & Supplies & Components",
+   "usd_volume_20d": 107074150
+  },
+  "NEU": {
+   "index": "sp400",
+   "name": "NewMarket Corporation",
+   "sector": "Materials",
+   "industry": "Specialty Chemicals",
+   "usd_volume_20d": 97784134
+  },
+  "NFG": {
+   "index": "sp400",
+   "name": "National Fuel Gas",
+   "sector": "Utilities",
+   "industry": "Gas Utilities",
+   "usd_volume_20d": 79658994
+  },
+  "NI": {
+   "index": "sp500",
+   "name": "NiSource",
+   "sector": "Utilities",
+   "industry": "Multi-Utilities",
+   "usd_volume_20d": 251800958
+  },
+  "NJR": {
+   "index": "sp400",
+   "name": "New Jersey Resources",
+   "sector": "Utilities",
+   "industry": "Gas Utilities",
+   "usd_volume_20d": 29958458
+  },
+  "NLY": {
+   "index": "sp400",
+   "name": "Annaly Capital Management",
+   "sector": "Financials",
+   "industry": "Mortgage REITs",
+   "usd_volume_20d": 205263536
+  },
+  "NNN": {
+   "index": "sp400",
+   "name": "NNN Reit",
+   "sector": "Real Estate",
+   "industry": "Retail REITs",
+   "usd_volume_20d": 116353048
+  },
+  "NOV": {
+   "index": "sp400",
+   "name": "NOV Inc.",
+   "sector": "Energy",
+   "industry": "Oil & Gas Equipment & Services",
+   "usd_volume_20d": 71955069
+  },
+  "NSC": {
+   "index": "sp500",
+   "name": "Norfolk Southern",
+   "sector": "Industrials",
+   "industry": "Rail Transportation",
+   "usd_volume_20d": 332587320
+  },
+  "NTAP": {
+   "index": "sp500",
+   "name": "NetApp",
+   "sector": "Information Technology",
+   "industry": "Technology Hardware, Storage & Peripherals",
+   "usd_volume_20d": 354158547
+  },
+  "NTNX": {
+   "index": "sp400",
+   "name": "Nutanix",
+   "sector": "Information Technology",
+   "industry": "Systems Software",
+   "usd_volume_20d": 141535807
+  },
+  "NTRS": {
+   "index": "sp500",
+   "name": "Northern Trust",
+   "sector": "Financials",
+   "industry": "Asset Management & Custody Banks",
+   "usd_volume_20d": 201366402
+  },
+  "NUE": {
+   "index": "sp500",
+   "name": "Nucor",
+   "sector": "Materials",
+   "industry": "Steel",
+   "usd_volume_20d": 388568963
+  },
+  "NVR": {
+   "index": "sp500",
+   "name": "NVR, Inc.",
+   "sector": "Consumer Discretionary",
+   "industry": "Homebuilding",
+   "usd_volume_20d": 246776300
+  },
+  "NVST": {
+   "index": "sp400",
+   "name": "Envista Holdings",
+   "sector": "Health Care",
+   "industry": "Health Care Supplies",
+   "usd_volume_20d": 78594148
+  },
+  "NWE": {
+   "index": "sp400",
+   "name": "NorthWestern Energy",
+   "sector": "Utilities",
+   "industry": "Multi-Utilities",
+   "usd_volume_20d": 45986736
+  },
+  "NWS": {
+   "index": "sp500",
+   "name": "News Corp (Class B)",
+   "sector": "Communication Services",
+   "industry": "Publishing",
+   "usd_volume_20d": 38438450
+  },
+  "NWSA": {
+   "index": "sp500",
+   "name": "News Corp (Class A)",
+   "sector": "Communication Services",
+   "industry": "Publishing",
+   "usd_volume_20d": 102536414
+  },
+  "NXPI": {
+   "index": "sp500",
+   "name": "NXP Semiconductors",
+   "sector": "Information Technology",
+   "industry": "Semiconductors",
+   "usd_volume_20d": 1206189069
+  },
+  "NXST": {
+   "index": "sp400",
+   "name": "Nexstar Media Group",
+   "sector": "Communication Services",
+   "industry": "Broadcasting",
+   "usd_volume_20d": 52189035
+  },
+  "NYT": {
+   "index": "sp400",
+   "name": "New York Times Company",
+   "sector": "Communication Services",
+   "industry": "Publishing",
+   "usd_volume_20d": 126543187
+  },
+  "O": {
+   "index": "sp500",
+   "name": "Realty Income",
+   "sector": "Real Estate",
+   "industry": "Retail REITs",
+   "usd_volume_20d": 381387629
+  },
+  "OC": {
+   "index": "sp400",
+   "name": "Owens Corning",
+   "sector": "Industrials",
+   "industry": "Building Products",
+   "usd_volume_20d": 114474183
+  },
+  "ODFL": {
+   "index": "sp500",
+   "name": "Old Dominion",
+   "sector": "Industrials",
+   "industry": "Cargo Ground Transportation",
+   "usd_volume_20d": 336910940
+  },
+  "OGE": {
+   "index": "sp400",
+   "name": "OGE Energy",
+   "sector": "Utilities",
+   "industry": "Multi-Utilities",
+   "usd_volume_20d": 101409275
+  },
+  "OGS": {
+   "index": "sp400",
+   "name": "One Gas",
+   "sector": "Utilities",
+   "industry": "Gas Utilities",
+   "usd_volume_20d": 44692172
+  },
+  "OHI": {
+   "index": "sp400",
+   "name": "Omega Healthcare Investors",
+   "sector": "Real Estate",
+   "industry": "Health Care REITs",
+   "usd_volume_20d": 94457955
+  },
+  "OKE": {
+   "index": "sp500",
+   "name": "Oneok",
+   "sector": "Energy",
+   "industry": "Oil & Gas Storage & Transportation",
+   "usd_volume_20d": 262625553
+  },
+  "OLED": {
+   "index": "sp400",
+   "name": "Universal Display",
+   "sector": "Information Technology",
+   "industry": "Semiconductors",
+   "usd_volume_20d": 72898012
+  },
+  "OLLI": {
+   "index": "sp400",
+   "name": "Ollie's Bargain Outlet",
+   "sector": "Consumer Discretionary",
+   "industry": "Broadline Retail",
+   "usd_volume_20d": 125470260
+  },
+  "OMC": {
+   "index": "sp500",
+   "name": "Omnicom Group",
+   "sector": "Communication Services",
+   "industry": "Advertising",
+   "usd_volume_20d": 237223963
+  },
+  "ON": {
+   "index": "sp500",
+   "name": "ON Semiconductor",
+   "sector": "Information Technology",
+   "industry": "Semiconductors",
+   "usd_volume_20d": 715875745
+  },
+  "ONB": {
+   "index": "sp400",
+   "name": "Old National Bank",
+   "sector": "Financials",
+   "industry": "Regional Banks",
+   "usd_volume_20d": 107263050
+  },
+  "OPCH": {
+   "index": "sp400",
+   "name": "Option Care Health",
+   "sector": "Health Care",
+   "industry": "Health Care Facilities",
+   "usd_volume_20d": 87459506
+  },
+  "ORA": {
+   "index": "sp400",
+   "name": "Ormat Technologies",
+   "sector": "Utilities",
+   "industry": "Renewable Electricity",
+   "usd_volume_20d": 67713586
+  },
+  "ORI": {
+   "index": "sp400",
+   "name": "Old Republic International",
+   "sector": "Financials",
+   "industry": "Property & Casualty Insurance",
+   "usd_volume_20d": 75156337
+  },
+  "ORLY": {
+   "index": "sp500",
+   "name": "O'Reilly Automotive",
+   "sector": "Consumer Discretionary",
+   "industry": "Automotive Retail",
+   "usd_volume_20d": 508649381
+  },
+  "OSK": {
+   "index": "sp400",
+   "name": "Oshkosh",
+   "sector": "Industrials",
+   "industry": "Construction Machinery & Heavy Transportation Equipment",
+   "usd_volume_20d": 89238962
+  },
+  "OTIS": {
+   "index": "sp500",
+   "name": "Otis Worldwide",
+   "sector": "Industrials",
+   "industry": "Industrial Machinery & Supplies & Components",
+   "usd_volume_20d": 351312946
+  },
+  "OVV": {
+   "index": "sp400",
+   "name": "Ovintiv",
+   "sector": "Energy",
+   "industry": "Oil & Gas Exploration & Production",
+   "usd_volume_20d": 216903220
+  },
+  "OZK": {
+   "index": "sp400",
+   "name": "Bank OZK",
+   "sector": "Financials",
+   "industry": "Regional Banks",
+   "usd_volume_20d": 72742043
+  },
+  "P": {
+   "index": "sp500",
+   "name": "Everpure",
+   "sector": "Information Technology",
+   "industry": "Technology Hardware, Storage & Peripherals",
+   "usd_volume_20d": 340858586
+  },
+  "PAG": {
+   "index": "sp400",
+   "name": "Penske Automotive Group",
+   "sector": "Consumer Discretionary",
+   "industry": "Automotive Retail",
+   "usd_volume_20d": 86921630
+  },
+  "PATH": {
+   "index": "sp400",
+   "name": "UiPath",
+   "sector": "Information Technology",
+   "industry": "Systems Software",
+   "usd_volume_20d": 286529777
+  },
+  "PAYX": {
+   "index": "sp500",
+   "name": "Paychex",
+   "sector": "Industrials",
+   "industry": "Human Resource & Employment Services",
+   "usd_volume_20d": 348100960
+  },
+  "PB": {
+   "index": "sp400",
+   "name": "Prosperity Bancshares",
+   "sector": "Financials",
+   "industry": "Regional Banks",
+   "usd_volume_20d": 53953569
+  },
+  "PCAR": {
+   "index": "sp500",
+   "name": "Paccar",
+   "sector": "Industrials",
+   "industry": "Construction Machinery & Heavy Transportation Equipment",
+   "usd_volume_20d": 399579423
+  },
+  "PCG": {
+   "index": "sp500",
+   "name": "PG&E Corporation",
+   "sector": "Utilities",
+   "industry": "Multi-Utilities",
+   "usd_volume_20d": 367619292
+  },
+  "PCTY": {
+   "index": "sp400",
+   "name": "Paylocity",
+   "sector": "Industrials",
+   "industry": "Human Resource & Employment Services",
+   "usd_volume_20d": 120191615
+  },
+  "PEG": {
+   "index": "sp500",
+   "name": "Public Service Enterprise Group",
+   "sector": "Utilities",
+   "industry": "Electric Utilities",
+   "usd_volume_20d": 233150830
+  },
+  "PEGA": {
+   "index": "sp400",
+   "name": "Pegasystems",
+   "sector": "Information Technology",
+   "industry": "Application Software",
+   "usd_volume_20d": 87687935
+  },
+  "PEN": {
+   "index": "sp400",
+   "name": "Penumbra, Inc.",
+   "sector": "Health Care",
+   "industry": "Health Care Equipment",
+   "usd_volume_20d": 120154815
+  },
+  "PFG": {
+   "index": "sp500",
+   "name": "Principal Financial Group",
+   "sector": "Financials",
+   "industry": "Life & Health Insurance",
+   "usd_volume_20d": 135456632
+  },
+  "PFGC": {
+   "index": "sp400",
+   "name": "Performance Food Group",
+   "sector": "Consumer Staples",
+   "industry": "Food Distributors",
+   "usd_volume_20d": 137356986
+  },
+  "PH": {
+   "index": "sp500",
+   "name": "Parker Hannifin",
+   "sector": "Industrials",
+   "industry": "Industrial Machinery & Supplies & Components",
+   "usd_volume_20d": 626260871
+  },
+  "PHM": {
+   "index": "sp500",
+   "name": "PulteGroup",
+   "sector": "Consumer Discretionary",
+   "industry": "Homebuilding",
+   "usd_volume_20d": 257799050
+  },
+  "PII": {
+   "index": "sp400",
+   "name": "Polaris",
+   "sector": "Consumer Discretionary",
+   "industry": "Leisure Products",
+   "usd_volume_20d": 51532164
+  },
+  "PINS": {
+   "index": "sp400",
+   "name": "Pinterest",
+   "sector": "Communication Services",
+   "industry": "Interactive Home Entertainment",
+   "usd_volume_20d": 229317657
+  },
+  "PK": {
+   "index": "sp400",
+   "name": "Park Hotels & Resorts",
+   "sector": "Real Estate",
+   "industry": "Hotel & Resort REITs",
+   "usd_volume_20d": 73344454
+  },
+  "PKG": {
+   "index": "sp500",
+   "name": "Packaging Corporation of America",
+   "sector": "Materials",
+   "industry": "Paper & Plastic Packaging Products & Materials",
+   "usd_volume_20d": 190093263
+  },
+  "PLNT": {
+   "index": "sp400",
+   "name": "Planet Fitness",
+   "sector": "Consumer Discretionary",
+   "industry": "Leisure Facilities",
+   "usd_volume_20d": 84496179
+  },
+  "PNC": {
+   "index": "sp500",
+   "name": "PNC Financial Services",
+   "sector": "Financials",
+   "industry": "Diversified Banks",
+   "usd_volume_20d": 422158775
+  },
+  "PNFP": {
+   "index": "sp400",
+   "name": "Pinnacle Financial Partners",
+   "sector": "Financials",
+   "industry": "Regional Banks",
+   "usd_volume_20d": 114199744
+  },
+  "PNR": {
+   "index": "sp500",
+   "name": "Pentair",
+   "sector": "Industrials",
+   "industry": "Industrial Machinery & Supplies & Components",
+   "usd_volume_20d": 171356698
+  },
+  "PNW": {
+   "index": "sp500",
+   "name": "Pinnacle West Capital",
+   "sector": "Utilities",
+   "industry": "Multi-Utilities",
+   "usd_volume_20d": 168810970
+  },
+  "PODD": {
+   "index": "sp500",
+   "name": "Insulet Corporation",
+   "sector": "Health Care",
+   "industry": "Health Care Equipment",
+   "usd_volume_20d": 188775025
+  },
+  "POR": {
+   "index": "sp400",
+   "name": "Portland General Electric",
+   "sector": "Utilities",
+   "industry": "Electric Utilities",
+   "usd_volume_20d": 110693718
+  },
+  "POST": {
+   "index": "sp400",
+   "name": "Post Holdings",
+   "sector": "Consumer Staples",
+   "industry": "Packaged Foods & Meats",
+   "usd_volume_20d": 52606001
+  },
+  "PPC": {
+   "index": "sp400",
+   "name": "Pilgrim's Pride",
+   "sector": "Consumer Staples",
+   "industry": "Packaged Foods & Meats",
+   "usd_volume_20d": 29306862
+  },
+  "PPG": {
+   "index": "sp500",
+   "name": "PPG Industries",
+   "sector": "Materials",
+   "industry": "Specialty Chemicals",
+   "usd_volume_20d": 199804960
+  },
+  "PPL": {
+   "index": "sp500",
+   "name": "PPL Corporation",
+   "sector": "Utilities",
+   "industry": "Electric Utilities",
+   "usd_volume_20d": 249576570
+  },
+  "PR": {
+   "index": "sp400",
+   "name": "Permian Resources",
+   "sector": "Energy",
+   "industry": "Oil & Gas Exploration & Production",
+   "usd_volume_20d": 216963774
+  },
+  "PRI": {
+   "index": "sp400",
+   "name": "Primerica",
+   "sector": "Financials",
+   "industry": "Life & Health Insurance",
+   "usd_volume_20d": 57071352
+  },
+  "PRU": {
+   "index": "sp500",
+   "name": "Prudential Financial",
+   "sector": "Financials",
+   "industry": "Life & Health Insurance",
+   "usd_volume_20d": 217168828
+  },
+  "PSA": {
+   "index": "sp500",
+   "name": "Public Storage",
+   "sector": "Real Estate",
+   "industry": "Self-Storage REITs",
+   "usd_volume_20d": 284911240
+  },
+  "PSN": {
+   "index": "sp400",
+   "name": "Parsons Corporation",
+   "sector": "Industrials",
+   "industry": "Aerospace & Defense",
+   "usd_volume_20d": 56219756
+  },
+  "PTC": {
+   "index": "sp500",
+   "name": "PTC Inc.",
+   "sector": "Information Technology",
+   "industry": "Application Software",
+   "usd_volume_20d": 340424284
+  },
+  "PVH": {
+   "index": "sp400",
+   "name": "PVH Corp.",
+   "sector": "Consumer Discretionary",
+   "industry": "Apparel, Accessories & Luxury Goods",
+   "usd_volume_20d": 64240157
+  },
+  "PWR": {
+   "index": "sp500",
+   "name": "Quanta Services",
+   "sector": "Industrials",
+   "industry": "Construction & Engineering",
+   "usd_volume_20d": 901049738
+  },
+  "PYPL": {
+   "index": "sp500",
+   "name": "PayPal",
+   "sector": "Financials",
+   "industry": "Transaction & Payment Processing Services",
+   "usd_volume_20d": 616901033
+  },
+  "Q": {
+   "index": "sp500",
+   "name": "Qnity Electronics",
+   "sector": "Information Technology",
+   "industry": "Semiconductor Materials & Equipment",
+   "usd_volume_20d": 278214795
+  },
+  "QLYS": {
+   "index": "sp400",
+   "name": "Qualys",
+   "sector": "Information Technology",
+   "industry": "Systems Software",
+   "usd_volume_20d": 174947261
+  },
+  "R": {
+   "index": "sp400",
+   "name": "Ryder",
+   "sector": "Industrials",
+   "industry": "Cargo Ground Transportation",
+   "usd_volume_20d": 87551054
+  },
+  "RBA": {
+   "index": "sp400",
+   "name": "RB Global",
+   "sector": "Industrials",
+   "industry": "Diversified Support Services",
+   "usd_volume_20d": 166707449
+  },
+  "RBC": {
+   "index": "sp400",
+   "name": "RBC Bearings",
+   "sector": "Industrials",
+   "industry": "Industrial Machinery & Supplies & Components",
+   "usd_volume_20d": 135877291
+  },
+  "RDDT": {
+   "index": "sp500",
+   "name": "Reddit",
+   "sector": "Communication Services",
+   "industry": "Interactive Media & Services",
+   "usd_volume_20d": 598559556
+  },
+  "REG": {
+   "index": "sp500",
+   "name": "Regency Centers",
+   "sector": "Real Estate",
+   "industry": "Retail REITs",
+   "usd_volume_20d": 90092461
+  },
+  "REGN": {
+   "index": "sp500",
+   "name": "Regeneron Pharmaceuticals",
+   "sector": "Health Care",
+   "industry": "Biotechnology",
+   "usd_volume_20d": 646756907
+  },
+  "REXR": {
+   "index": "sp400",
+   "name": "Rexford Industrial Realty",
+   "sector": "Real Estate",
+   "industry": "Industrial REITs",
+   "usd_volume_20d": 82691847
+  },
+  "RF": {
+   "index": "sp500",
+   "name": "Regions Financial Corporation",
+   "sector": "Financials",
+   "industry": "Regional Banks",
+   "usd_volume_20d": 291834057
+  },
+  "RGA": {
+   "index": "sp400",
+   "name": "Reinsurance Group of America",
+   "sector": "Financials",
+   "industry": "Reinsurance",
+   "usd_volume_20d": 113994593
+  },
+  "RGEN": {
+   "index": "sp400",
+   "name": "Repligen",
+   "sector": "Health Care",
+   "industry": "Biotechnology",
+   "usd_volume_20d": 188589241
+  },
+  "RGLD": {
+   "index": "sp400",
+   "name": "Royal Gold",
+   "sector": "Materials",
+   "industry": "Gold",
+   "usd_volume_20d": 153971650
+  },
+  "RH": {
+   "index": "sp400",
+   "name": "RH",
+   "sector": "Consumer Discretionary",
+   "industry": "Homefurnishing Retail",
+   "usd_volume_20d": 102243513
+  },
+  "RJF": {
+   "index": "sp500",
+   "name": "Raymond James Financial",
+   "sector": "Financials",
+   "industry": "Investment Banking & Brokerage",
+   "usd_volume_20d": 193357996
+  },
+  "RL": {
+   "index": "sp500",
+   "name": "Ralph Lauren Corporation",
+   "sector": "Consumer Discretionary",
+   "industry": "Apparel, Accessories & Luxury Goods",
+   "usd_volume_20d": 199650092
+  },
+  "RLI": {
+   "index": "sp400",
+   "name": "RLI Corp.",
+   "sector": "Financials",
+   "industry": "Property & Casualty Insurance",
+   "usd_volume_20d": 60654180
+  },
+  "RMBS": {
+   "index": "sp400",
+   "name": "Rambus",
+   "sector": "Information Technology",
+   "industry": "Semiconductors",
+   "usd_volume_20d": 149364667
+  },
+  "RMD": {
+   "index": "sp500",
+   "name": "ResMed",
+   "sector": "Health Care",
+   "industry": "Health Care Equipment",
+   "usd_volume_20d": 294824745
+  },
+  "RNR": {
+   "index": "sp400",
+   "name": "RenaissanceRe",
+   "sector": "Financials",
+   "industry": "Reinsurance",
+   "usd_volume_20d": 145321160
+  },
+  "ROIV": {
+   "index": "sp400",
+   "name": "Roivant Sciences",
+   "sector": "Health Care",
+   "industry": "Biotechnology",
+   "usd_volume_20d": 270564965
+  },
+  "ROL": {
+   "index": "sp500",
+   "name": "Rollins, Inc.",
+   "sector": "Industrials",
+   "industry": "Environmental & Facilities Services",
+   "usd_volume_20d": 230826659
+  },
+  "ROP": {
+   "index": "sp500",
+   "name": "Roper Technologies",
+   "sector": "Information Technology",
+   "industry": "Electronic Equipment & Instruments",
+   "usd_volume_20d": 512125877
+  },
+  "ROST": {
+   "index": "sp500",
+   "name": "Ross Stores",
+   "sector": "Consumer Discretionary",
+   "industry": "Apparel Retail",
+   "usd_volume_20d": 479634263
+  },
+  "RPM": {
+   "index": "sp400",
+   "name": "RPM International",
+   "sector": "Materials",
+   "industry": "Specialty Chemicals",
+   "usd_volume_20d": 111872080
+  },
+  "RRC": {
+   "index": "sp400",
+   "name": "Range Resources",
+   "sector": "Energy",
+   "industry": "Oil & Gas Exploration & Production",
+   "usd_volume_20d": 159210543
+  },
+  "RRX": {
+   "index": "sp400",
+   "name": "Regal Rexnord",
+   "sector": "Industrials",
+   "industry": "Electrical Components & Equipment",
+   "usd_volume_20d": 184992806
+  },
+  "RS": {
+   "index": "sp400",
+   "name": "Reliance, Inc.",
+   "sector": "Materials",
+   "industry": "Steel",
+   "usd_volume_20d": 149179641
+  },
+  "RSG": {
+   "index": "sp500",
+   "name": "Republic Services",
+   "sector": "Industrials",
+   "industry": "Environmental & Facilities Services",
+   "usd_volume_20d": 345690819
+  },
+  "RYAN": {
+   "index": "sp400",
+   "name": "Ryan Specialty",
+   "sector": "Financials",
+   "industry": "Insurance Brokers",
+   "usd_volume_20d": 98051693
+  },
+  "RYN": {
+   "index": "sp400",
+   "name": "Rayonier",
+   "sector": "Real Estate",
+   "industry": "Timber REITs",
+   "usd_volume_20d": 56505978
+  },
+  "SAIA": {
+   "index": "sp400",
+   "name": "Saia",
+   "sector": "Industrials",
+   "industry": "Cargo Ground Transportation",
+   "usd_volume_20d": 117601757
+  },
+  "SAIC": {
+   "index": "sp400",
+   "name": "Science Applications Intl Corp",
+   "sector": "Industrials",
+   "industry": "Diversified Support Services",
+   "usd_volume_20d": 59023916
+  },
+  "SANM": {
+   "index": "sp400",
+   "name": "Sanmina Corporation",
+   "sector": "Information Technology",
+   "industry": "Electronic Manufacturing Services",
+   "usd_volume_20d": 148723117
+  },
+  "SARO": {
+   "index": "sp400",
+   "name": "StandardAero",
+   "sector": "Industrials",
+   "industry": "Aerospace & Defense",
+   "usd_volume_20d": 104773762
+  },
+  "SBAC": {
+   "index": "sp500",
+   "name": "SBA Communications",
+   "sector": "Real Estate",
+   "industry": "Telecom Tower REITs",
+   "usd_volume_20d": 202489253
+  },
+  "SBRA": {
+   "index": "sp400",
+   "name": "Sabra Health Care REIT",
+   "sector": "Real Estate",
+   "industry": "Health Care REITs",
+   "usd_volume_20d": 46967443
+  },
+  "SCI": {
+   "index": "sp400",
+   "name": "Service Corp Intl",
+   "sector": "Consumer Discretionary",
+   "industry": "Specialized Consumer Services",
+   "usd_volume_20d": 113469250
+  },
+  "SEIC": {
+   "index": "sp400",
+   "name": "SEI Investments Company",
+   "sector": "Financials",
+   "industry": "Asset Management & Custody Banks",
+   "usd_volume_20d": 70177393
+  },
+  "SF": {
+   "index": "sp400",
+   "name": "Stifel",
+   "sector": "Financials",
+   "industry": "Investment Banking & Brokerage",
+   "usd_volume_20d": 97155233
+  },
+  "SFM": {
+   "index": "sp400",
+   "name": "Sprouts Farmers Market",
+   "sector": "Consumer Staples",
+   "industry": "Food Retail",
+   "usd_volume_20d": 192391269
+  },
+  "SGI": {
+   "index": "sp400",
+   "name": "Somnigroup International",
+   "sector": "Consumer Discretionary",
+   "industry": "Home Furnishings",
+   "usd_volume_20d": 175095314
+  },
+  "SHC": {
+   "index": "sp400",
+   "name": "Sotera Health",
+   "sector": "Health Care",
+   "industry": "Health Care Services",
+   "usd_volume_20d": 43701620
+  },
+  "SIGI": {
+   "index": "sp400",
+   "name": "Selective Insurance Group",
+   "sector": "Financials",
+   "industry": "Property & Casualty Insurance",
+   "usd_volume_20d": 50741782
+  },
+  "SIRI": {
+   "index": "sp400",
+   "name": "SiriusXM",
+   "sector": "Communication Services",
+   "industry": "Broadcasting",
+   "usd_volume_20d": 136822886
+  },
+  "SITM": {
+   "index": "sp400",
+   "name": "SiTime",
+   "sector": "Information Technology",
+   "industry": "Semiconductors",
+   "usd_volume_20d": 299259019
+  },
+  "SJM": {
+   "index": "sp500",
+   "name": "J.M. Smucker Company (The)",
+   "sector": "Consumer Staples",
+   "industry": "Packaged Foods & Meats",
+   "usd_volume_20d": 152413446
+  },
+  "SKYD": {
+   "index": "sp500",
+   "name": "Skydance",
+   "sector": "Communication Services",
+   "industry": "Movies & Entertainment",
+   "usd_volume_20d": 137898193
+  },
+  "SLAB": {
+   "index": "sp400",
+   "name": "Silicon Labs",
+   "sector": "Information Technology",
+   "industry": "Semiconductors",
+   "usd_volume_20d": 64972577
+  },
+  "SLGN": {
+   "index": "sp400",
+   "name": "Silgan Holdings",
+   "sector": "Materials",
+   "industry": "Metal, Glass & Plastic Containers",
+   "usd_volume_20d": 42966215
+  },
+  "SLM": {
+   "index": "sp400",
+   "name": "SLM Corp",
+   "sector": "Financials",
+   "industry": "Consumer Finance",
+   "usd_volume_20d": 68493550
+  },
+  "SMCI": {
+   "index": "sp500",
+   "name": "Supermicro",
+   "sector": "Information Technology",
+   "industry": "Technology Hardware, Storage & Peripherals",
+   "usd_volume_20d": 1271836402
+  },
+  "SMG": {
+   "index": "sp400",
+   "name": "Scotts Miracle-Gro Company",
+   "sector": "Materials",
+   "industry": "Fertilizers & Agricultural Chemicals",
+   "usd_volume_20d": 64578150
+  },
+  "SMTC": {
+   "index": "sp400",
+   "name": "Semtech",
+   "sector": "Information Technology",
+   "industry": "Semiconductors",
+   "usd_volume_20d": 386091293
+  },
+  "SN": {
+   "index": "sp400",
+   "name": "SharkNinja",
+   "sector": "Consumer Discretionary",
+   "industry": "Household Appliances",
+   "usd_volume_20d": 284896096
+  },
+  "SNA": {
+   "index": "sp500",
+   "name": "Snap-on",
+   "sector": "Industrials",
+   "industry": "Industrial Machinery & Supplies & Components",
+   "usd_volume_20d": 147192403
+  },
+  "SNPS": {
+   "index": "sp500",
+   "name": "Synopsys",
+   "sector": "Information Technology",
+   "industry": "Application Software",
+   "usd_volume_20d": 872635147
+  },
+  "SNX": {
+   "index": "sp400",
+   "name": "TD Synnex",
+   "sector": "Information Technology",
+   "industry": "Technology Distributors",
+   "usd_volume_20d": 177018132
+  },
+  "SOLS": {
+   "index": "sp400",
+   "name": "Solstice Advanced Materials",
+   "sector": "Materials",
+   "industry": "Specialty Chemicals",
+   "usd_volume_20d": 126660921
+  },
+  "SOLV": {
+   "index": "sp500",
+   "name": "Solventum",
+   "sector": "Health Care",
+   "industry": "Health Care Technology",
+   "usd_volume_20d": 95487370
+  },
+  "SON": {
+   "index": "sp400",
+   "name": "Sonoco",
+   "sector": "Materials",
+   "industry": "Paper & Plastic Packaging Products & Materials",
+   "usd_volume_20d": 67579311
+  },
+  "SPG": {
+   "index": "sp500",
+   "name": "Simon Property Group",
+   "sector": "Real Estate",
+   "industry": "Retail REITs",
+   "usd_volume_20d": 279659973
+  },
+  "SPXC": {
+   "index": "sp400",
+   "name": "SPX Technologies",
+   "sector": "Industrials",
+   "industry": "Industrial Machinery & Supplies & Components",
+   "usd_volume_20d": 109280368
+  },
+  "SR": {
+   "index": "sp400",
+   "name": "Spire",
+   "sector": "Utilities",
+   "industry": "Gas Utilities",
+   "usd_volume_20d": 43050990
+  },
+  "SRE": {
+   "index": "sp500",
+   "name": "Sempra",
+   "sector": "Utilities",
+   "industry": "Multi-Utilities",
+   "usd_volume_20d": 308016453
+  },
+  "SSB": {
+   "index": "sp400",
+   "name": "South State Bank",
+   "sector": "Financials",
+   "industry": "Regional Banks",
+   "usd_volume_20d": 78219566
+  },
+  "SSD": {
+   "index": "sp400",
+   "name": "Simpson Manufacturing",
+   "sector": "Industrials",
+   "industry": "Building Products",
+   "usd_volume_20d": 66892989
+  },
+  "ST": {
+   "index": "sp400",
+   "name": "Sensata Technologies",
+   "sector": "Industrials",
+   "industry": "Electrical Components & Equipment",
+   "usd_volume_20d": 67614472
+  },
+  "STAG": {
+   "index": "sp400",
+   "name": "STAG Industrial",
+   "sector": "Real Estate",
+   "industry": "Industrial REITs",
+   "usd_volume_20d": 45283748
+  },
+  "STE": {
+   "index": "sp500",
+   "name": "Steris",
+   "sector": "Health Care",
+   "industry": "Health Care Equipment",
+   "usd_volume_20d": 158482050
+  },
+  "STLD": {
+   "index": "sp500",
+   "name": "Steel Dynamics",
+   "sector": "Materials",
+   "industry": "Steel",
+   "usd_volume_20d": 217136220
+  },
+  "STRL": {
+   "index": "sp400",
+   "name": "Sterling Infrastructure",
+   "sector": "Industrials",
+   "industry": "Construction & Engineering",
+   "usd_volume_20d": 339899670
+  },
+  "STT": {
+   "index": "sp500",
+   "name": "State Street Corporation",
+   "sector": "Financials",
+   "industry": "Asset Management & Custody Banks",
+   "usd_volume_20d": 278549916
+  },
+  "STWD": {
+   "index": "sp400",
+   "name": "Starwood Property Trust",
+   "sector": "Financials",
+   "industry": "Mortgage REITs",
+   "usd_volume_20d": 69458529
+  },
+  "STZ": {
+   "index": "sp500",
+   "name": "Constellation Brands",
+   "sector": "Consumer Staples",
+   "industry": "Distillers & Vintners",
+   "usd_volume_20d": 306336302
+  },
+  "SUI": {
+   "index": "sp400",
+   "name": "Sun Communities",
+   "sector": "Real Estate",
+   "industry": "Single-Family Residential REITs",
+   "usd_volume_20d": 136845816
+  },
+  "SW": {
+   "index": "sp500",
+   "name": "Smurfit Westrock",
+   "sector": "Materials",
+   "industry": "Paper & Plastic Packaging Products & Materials",
+   "usd_volume_20d": 216339243
+  },
+  "SWK": {
+   "index": "sp500",
+   "name": "Stanley Black & Decker",
+   "sector": "Industrials",
+   "industry": "Industrial Machinery & Supplies & Components",
+   "usd_volume_20d": 165040609
+  },
+  "SWKS": {
+   "index": "sp500",
+   "name": "Skyworks Solutions",
+   "sector": "Information Technology",
+   "industry": "Semiconductors",
+   "usd_volume_20d": 334471244
+  },
+  "SWX": {
+   "index": "sp400",
+   "name": "Southwest Gas Corp",
+   "sector": "Utilities",
+   "industry": "Gas Utilities",
+   "usd_volume_20d": 63475254
+  },
+  "SYF": {
+   "index": "sp500",
+   "name": "Synchrony Financial",
+   "sector": "Financials",
+   "industry": "Consumer Finance",
+   "usd_volume_20d": 304361845
+  },
+  "SYK": {
+   "index": "sp500",
+   "name": "Stryker Corporation",
+   "sector": "Health Care",
+   "industry": "Health Care Equipment",
+   "usd_volume_20d": 887122394
+  },
+  "SYNA": {
+   "index": "sp400",
+   "name": "Synaptics",
+   "sector": "Information Technology",
+   "industry": "Semiconductors",
+   "usd_volume_20d": 112337909
+  },
+  "SYY": {
+   "index": "sp500",
+   "name": "Sysco",
+   "sector": "Consumer Staples",
+   "industry": "Food Distributors",
+   "usd_volume_20d": 224084999
+  },
+  "TCBI": {
+   "index": "sp400",
+   "name": "Texas Capital Bancshares",
+   "sector": "Financials",
+   "industry": "Regional Banks",
+   "usd_volume_20d": 46926274
+  },
+  "TDG": {
+   "index": "sp500",
+   "name": "TransDigm Group",
+   "sector": "Industrials",
+   "industry": "Aerospace & Defense",
+   "usd_volume_20d": 452199728
+  },
+  "TDY": {
+   "index": "sp500",
+   "name": "Teledyne Technologies",
+   "sector": "Information Technology",
+   "industry": "Electronic Equipment & Instruments",
+   "usd_volume_20d": 239012060
+  },
+  "TEL": {
+   "index": "sp500",
+   "name": "TE Connectivity",
+   "sector": "Information Technology",
+   "industry": "Electronic Manufacturing Services",
+   "usd_volume_20d": 413092983
+  },
+  "TEX": {
+   "index": "sp400",
+   "name": "Terex",
+   "sector": "Industrials",
+   "industry": "Construction Machinery & Heavy Transportation Equipment",
+   "usd_volume_20d": 72452885
+  },
+  "TFC": {
+   "index": "sp500",
+   "name": "Truist Financial",
+   "sector": "Financials",
+   "industry": "Diversified Banks",
+   "usd_volume_20d": 372756832
+  },
+  "TGT": {
+   "index": "sp500",
+   "name": "Target Corporation",
+   "sector": "Consumer Staples",
+   "industry": "Consumer Staples Merchandise Retail",
+   "usd_volume_20d": 585488722
+  },
+  "THC": {
+   "index": "sp400",
+   "name": "Tenet Health",
+   "sector": "Health Care",
+   "industry": "Health Care Facilities",
+   "usd_volume_20d": 238190737
+  },
+  "THG": {
+   "index": "sp400",
+   "name": "Hanover Insurance",
+   "sector": "Financials",
+   "industry": "Property & Casualty Insurance",
+   "usd_volume_20d": 66091709
+  },
+  "THO": {
+   "index": "sp400",
+   "name": "Thor Industries",
+   "sector": "Consumer Discretionary",
+   "industry": "Leisure Products",
+   "usd_volume_20d": 70145599
+  },
+  "TKO": {
+   "index": "sp500",
+   "name": "TKO Group Holdings",
+   "sector": "Communication Services",
+   "industry": "Movies & Entertainment",
+   "usd_volume_20d": 191892589
+  },
+  "TKR": {
+   "index": "sp400",
+   "name": "Timken",
+   "sector": "Industrials",
+   "industry": "Industrial Machinery & Supplies & Components",
+   "usd_volume_20d": 88957741
+  },
+  "TLN": {
+   "index": "sp400",
+   "name": "Talen Energy",
+   "sector": "Utilities",
+   "industry": "Independent Power Producers & Energy Traders",
+   "usd_volume_20d": 321742197
+  },
+  "TNL": {
+   "index": "sp400",
+   "name": "Travel + Leisure Co.",
+   "sector": "Consumer Discretionary",
+   "industry": "Hotels, Resorts & Cruise Lines",
+   "usd_volume_20d": 70232968
+  },
+  "TOL": {
+   "index": "sp400",
+   "name": "Toll Brothers",
+   "sector": "Consumer Discretionary",
+   "industry": "Homebuilding",
+   "usd_volume_20d": 147971431
+  },
+  "TOST": {
+   "index": "sp400",
+   "name": "Toast, Inc.",
+   "sector": "Financials",
+   "industry": "Transaction & Payment Processing Services",
+   "usd_volume_20d": 294346969
+  },
+  "TPL": {
+   "index": "sp500",
+   "name": "Texas Pacific Land Corporation",
+   "sector": "Energy",
+   "industry": "Oil & Gas Exploration & Production",
+   "usd_volume_20d": 110554455
+  },
+  "TPR": {
+   "index": "sp500",
+   "name": "Tapestry, Inc.",
+   "sector": "Consumer Discretionary",
+   "industry": "Apparel, Accessories & Luxury Goods",
+   "usd_volume_20d": 321515982
+  },
+  "TREX": {
+   "index": "sp400",
+   "name": "Trex",
+   "sector": "Industrials",
+   "industry": "Building Products",
+   "usd_volume_20d": 99952650
+  },
+  "TRGP": {
+   "index": "sp500",
+   "name": "Targa Resources",
+   "sector": "Energy",
+   "industry": "Oil & Gas Storage & Transportation",
+   "usd_volume_20d": 347825265
+  },
+  "TRMB": {
+   "index": "sp500",
+   "name": "Trimble Inc.",
+   "sector": "Information Technology",
+   "industry": "Application Software",
+   "usd_volume_20d": 134272529
+  },
+  "TROW": {
+   "index": "sp500",
+   "name": "T. Rowe Price",
+   "sector": "Financials",
+   "industry": "Asset Management & Custody Banks",
+   "usd_volume_20d": 214232921
+  },
+  "TRU": {
+   "index": "sp400",
+   "name": "TransUnion",
+   "sector": "Industrials",
+   "industry": "Research & Consulting Services",
+   "usd_volume_20d": 262166465
+  },
+  "TRV": {
+   "index": "sp500",
+   "name": "Travelers Companies (The)",
+   "sector": "Financials",
+   "industry": "Property & Casualty Insurance",
+   "usd_volume_20d": 628621566
+  },
+  "TSCO": {
+   "index": "sp500",
+   "name": "Tractor Supply",
+   "sector": "Consumer Discretionary",
+   "industry": "Other Specialty Retail",
+   "usd_volume_20d": 390729936
+  },
+  "TSN": {
+   "index": "sp500",
+   "name": "Tyson Foods",
+   "sector": "Consumer Staples",
+   "industry": "Packaged Foods & Meats",
+   "usd_volume_20d": 191378144
+  },
+  "TT": {
+   "index": "sp500",
+   "name": "Trane Technologies",
+   "sector": "Industrials",
+   "industry": "Building Products",
+   "usd_volume_20d": 713209401
+  },
+  "TTC": {
+   "index": "sp400",
+   "name": "Toro",
+   "sector": "Industrials",
+   "industry": "Agricultural & Farm Machinery",
+   "usd_volume_20d": 60377932
+  },
+  "TTEK": {
+   "index": "sp400",
+   "name": "Tetra Tech",
+   "sector": "Industrials",
+   "industry": "Construction & Engineering",
+   "usd_volume_20d": 90045843
+  },
+  "TTMI": {
+   "index": "sp400",
+   "name": "TTM Technologies",
+   "sector": "Information Technology",
+   "industry": "Electronic Manufacturing Services",
+   "usd_volume_20d": 372749044
+  },
+  "TTWO": {
+   "index": "sp500",
+   "name": "Take-Two Interactive",
+   "sector": "Communication Services",
+   "industry": "Interactive Home Entertainment",
+   "usd_volume_20d": 511017291
+  },
+  "TWLO": {
+   "index": "sp500",
+   "name": "Twilio",
+   "sector": "Information Technology",
+   "industry": "Systems Software",
+   "usd_volume_20d": 523276233
+  },
+  "TXNM": {
+   "index": "sp400",
+   "name": "TXNM Energy",
+   "sector": "Utilities",
+   "industry": "Electric Utilities",
+   "usd_volume_20d": 51466659
+  },
+  "TXRH": {
+   "index": "sp400",
+   "name": "Texas Roadhouse",
+   "sector": "Consumer Discretionary",
+   "industry": "Restaurants",
+   "usd_volume_20d": 181985900
+  },
+  "TXT": {
+   "index": "sp500",
+   "name": "Textron",
+   "sector": "Industrials",
+   "industry": "Aerospace & Defense",
+   "usd_volume_20d": 133440504
+  },
+  "TYL": {
+   "index": "sp500",
+   "name": "Tyler Technologies",
+   "sector": "Information Technology",
+   "industry": "Application Software",
+   "usd_volume_20d": 320966607
+  },
+  "UBSI": {
+   "index": "sp400",
+   "name": "United Bankshares",
+   "sector": "Financials",
+   "industry": "Regional Banks",
+   "usd_volume_20d": 37937608
+  },
+  "UDR": {
+   "index": "sp500",
+   "name": "UDR, Inc.",
+   "sector": "Real Estate",
+   "industry": "Multi-Family Residential REITs",
+   "usd_volume_20d": 170565583
+  },
+  "UFPI": {
+   "index": "sp400",
+   "name": "UFP Industries",
+   "sector": "Industrials",
+   "industry": "Building Products",
+   "usd_volume_20d": 34336889
+  },
+  "UGI": {
+   "index": "sp400",
+   "name": "UGI Corp",
+   "sector": "Utilities",
+   "industry": "Gas Utilities",
+   "usd_volume_20d": 51119870
+  },
+  "UHS": {
+   "index": "sp500",
+   "name": "Universal Health Services",
+   "sector": "Health Care",
+   "industry": "Health Care Facilities",
+   "usd_volume_20d": 112030228
+  },
+  "ULS": {
+   "index": "sp400",
+   "name": "UL Solutions",
+   "sector": "Industrials",
+   "industry": "Research & Consulting Services",
+   "usd_volume_20d": 55842409
+  },
+  "ULTA": {
+   "index": "sp500",
+   "name": "Ulta Beauty",
+   "sector": "Consumer Discretionary",
+   "industry": "Other Specialty Retail",
+   "usd_volume_20d": 278756861
+  },
+  "UMBF": {
+   "index": "sp400",
+   "name": "UMB Financial Corp.",
+   "sector": "Financials",
+   "industry": "Regional Banks",
+   "usd_volume_20d": 81653712
+  },
+  "UNM": {
+   "index": "sp400",
+   "name": "Unum",
+   "sector": "Financials",
+   "industry": "Life & Health Insurance",
+   "usd_volume_20d": 134646070
+  },
+  "UPS": {
+   "index": "sp500",
+   "name": "United Parcel Service",
+   "sector": "Industrials",
+   "industry": "Air Freight & Logistics",
+   "usd_volume_20d": 500532228
+  },
+  "URI": {
+   "index": "sp500",
+   "name": "United Rentals",
+   "sector": "Industrials",
+   "industry": "Trading Companies & Distributors",
+   "usd_volume_20d": 581443402
+  },
+  "USB": {
+   "index": "sp500",
+   "name": "U.S. Bancorp",
+   "sector": "Financials",
+   "industry": "Diversified Banks",
+   "usd_volume_20d": 386841399
+  },
+  "USFD": {
+   "index": "sp400",
+   "name": "US Foods",
+   "sector": "Consumer Staples",
+   "industry": "Food Distributors",
+   "usd_volume_20d": 227442473
+  },
+  "UTHR": {
+   "index": "sp400",
+   "name": "United Therapeutics",
+   "sector": "Health Care",
+   "industry": "Biotechnology",
+   "usd_volume_20d": 270999766
+  },
+  "VAL": {
+   "index": "sp400",
+   "name": "Valaris",
+   "sector": "Energy",
+   "industry": "Oil & Gas Drilling",
+   "usd_volume_20d": 71064014
+  },
+  "VC": {
+   "index": "sp400",
+   "name": "Visteon",
+   "sector": "Consumer Discretionary",
+   "industry": "Automotive Parts & Equipment",
+   "usd_volume_20d": 56158118
+  },
+  "VEEV": {
+   "index": "sp500",
+   "name": "Veeva Systems",
+   "sector": "Health Care",
+   "industry": "Health Care Technology",
+   "usd_volume_20d": 440289981
+  },
+  "VFC": {
+   "index": "sp400",
+   "name": "VF Corporation",
+   "sector": "Consumer Discretionary",
+   "industry": "Apparel, Accessories & Luxury Goods",
+   "usd_volume_20d": 176724130
+  },
+  "VIAV": {
+   "index": "sp400",
+   "name": "Viavi Solutions",
+   "sector": "Information Technology",
+   "industry": "Communications Equipment",
+   "usd_volume_20d": 168115343
+  },
+  "VICI": {
+   "index": "sp500",
+   "name": "Vici Properties",
+   "sector": "Real Estate",
+   "industry": "Hotel & Resort REITs",
+   "usd_volume_20d": 232416408
+  },
+  "VICR": {
+   "index": "sp400",
+   "name": "Vicor Corporation",
+   "sector": "Industrials",
+   "industry": "Electrical Components & Equipment",
+   "usd_volume_20d": 182555575
+  },
+  "VLTO": {
+   "index": "sp500",
+   "name": "Veralto",
+   "sector": "Industrials",
+   "industry": "Environmental & Facilities Services",
+   "usd_volume_20d": 190612239
+  },
+  "VLY": {
+   "index": "sp400",
+   "name": "Valley Bank",
+   "sector": "Financials",
+   "industry": "Regional Banks",
+   "usd_volume_20d": 95986258
+  },
+  "VMC": {
+   "index": "sp500",
+   "name": "Vulcan Materials Company",
+   "sector": "Materials",
+   "industry": "Construction Materials",
+   "usd_volume_20d": 343007872
+  },
+  "VMI": {
+   "index": "sp400",
+   "name": "Valmont Industries",
+   "sector": "Industrials",
+   "industry": "Industrial Machinery & Supplies & Components",
+   "usd_volume_20d": 87096852
+  },
+  "VMRK": {
+   "index": "sp500",
+   "name": "Vivmark Residential",
+   "sector": "Real Estate",
+   "industry": "Multi-Family Residential REITs",
+   "usd_volume_20d": 241144535
+  },
+  "VNO": {
+   "index": "sp400",
+   "name": "Vornado Realty Trust",
+   "sector": "Real Estate",
+   "industry": "Office REITs",
+   "usd_volume_20d": 47553511
+  },
+  "VNOM": {
+   "index": "sp400",
+   "name": "Viper Energy",
+   "sector": "Energy",
+   "industry": "Oil & Gas Storage & Transportation",
+   "usd_volume_20d": 83699937
+  },
+  "VNT": {
+   "index": "sp400",
+   "name": "Vontier",
+   "sector": "Information Technology",
+   "industry": "Electronic Equipment & Instruments",
+   "usd_volume_20d": 46255876
+  },
+  "VOYA": {
+   "index": "sp400",
+   "name": "Voya Financial",
+   "sector": "Financials",
+   "industry": "Multi-Sector Holdings",
+   "usd_volume_20d": 82420493
+  },
+  "VRSK": {
+   "index": "sp500",
+   "name": "Verisk Analytics",
+   "sector": "Industrials",
+   "industry": "Research & Consulting Services",
+   "usd_volume_20d": 225157922
+  },
+  "VRSN": {
+   "index": "sp500",
+   "name": "Verisign",
+   "sector": "Information Technology",
+   "industry": "Internet Services & Infrastructure",
+   "usd_volume_20d": 289882070
+  },
+  "VTR": {
+   "index": "sp500",
+   "name": "Ventas",
+   "sector": "Real Estate",
+   "industry": "Health Care REITs",
+   "usd_volume_20d": 242628599
+  },
+  "VTRS": {
+   "index": "sp500",
+   "name": "Viatris",
+   "sector": "Health Care",
+   "industry": "Pharmaceuticals",
+   "usd_volume_20d": 171605332
+  },
+  "VVV": {
+   "index": "sp400",
+   "name": "Valvoline",
+   "sector": "Consumer Discretionary",
+   "industry": "Automotive Retail",
+   "usd_volume_20d": 85477073
+  },
+  "VYLR": {
+   "index": "sp500",
+   "name": "Vylor",
+   "sector": "Consumer Staples",
+   "industry": "Agricultural Products & Services",
+   "usd_volume_20d": 223158191
+  },
+  "WAB": {
+   "index": "sp500",
+   "name": "Wabtec",
+   "sector": "Industrials",
+   "industry": "Construction Machinery & Heavy Transportation Equipment",
+   "usd_volume_20d": 271189013
+  },
+  "WAL": {
+   "index": "sp400",
+   "name": "Western Alliance Bancorporation",
+   "sector": "Financials",
+   "industry": "Regional Banks",
+   "usd_volume_20d": 70317546
+  },
+  "WCC": {
+   "index": "sp400",
+   "name": "WESCO International",
+   "sector": "Industrials",
+   "industry": "Trading Companies & Distributors",
+   "usd_volume_20d": 215279466
+  },
+  "WEC": {
+   "index": "sp500",
+   "name": "WEC Energy Group",
+   "sector": "Utilities",
+   "industry": "Electric Utilities",
+   "usd_volume_20d": 334657472
+  },
+  "WEX": {
+   "index": "sp400",
+   "name": "WEX Inc.",
+   "sector": "Financials",
+   "industry": "Transaction & Payment Processing Services",
+   "usd_volume_20d": 114545850
+  },
+  "WFRD": {
+   "index": "sp400",
+   "name": "Weatherford International",
+   "sector": "Energy",
+   "industry": "Oil & Gas Equipment & Services",
+   "usd_volume_20d": 89600570
+  },
+  "WH": {
+   "index": "sp400",
+   "name": "Wyndham Hotels & Resorts",
+   "sector": "Consumer Discretionary",
+   "industry": "Hotels, Resorts & Cruise Lines",
+   "usd_volume_20d": 104746042
+  },
+  "WHR": {
+   "index": "sp400",
+   "name": "Whirlpool Corporation",
+   "sector": "Consumer Discretionary",
+   "industry": "Household Appliances",
+   "usd_volume_20d": 132594472
+  },
+  "WING": {
+   "index": "sp400",
+   "name": "Wingstop",
+   "sector": "Consumer Discretionary",
+   "industry": "Restaurants",
+   "usd_volume_20d": 192127826
+  },
+  "WLK": {
+   "index": "sp400",
+   "name": "Westlake Corporation",
+   "sector": "Materials",
+   "industry": "Specialty Chemicals",
+   "usd_volume_20d": 61607469
+  },
+  "WM": {
+   "index": "sp500",
+   "name": "Waste Management",
+   "sector": "Industrials",
+   "industry": "Environmental & Facilities Services",
+   "usd_volume_20d": 578162656
+  },
+  "WMB": {
+   "index": "sp500",
+   "name": "Williams Companies",
+   "sector": "Energy",
+   "industry": "Oil & Gas Storage & Transportation",
+   "usd_volume_20d": 600598684
+  },
+  "WMG": {
+   "index": "sp400",
+   "name": "Warner Music Group",
+   "sector": "Communication Services",
+   "industry": "Movies & Entertainment",
+   "usd_volume_20d": 60264136
+  },
+  "WMS": {
+   "index": "sp400",
+   "name": "Advanced Drainage Systems",
+   "sector": "Industrials",
+   "industry": "Building Products",
+   "usd_volume_20d": 92245417
+  },
+  "WPC": {
+   "index": "sp400",
+   "name": "W. P. Carey",
+   "sector": "Real Estate",
+   "industry": "Diversified REITs",
+   "usd_volume_20d": 115527866
+  },
+  "WRB": {
+   "index": "sp500",
+   "name": "W. R. Berkley Corporation",
+   "sector": "Financials",
+   "industry": "Property & Casualty Insurance",
+   "usd_volume_20d": 147048286
+  },
+  "WSM": {
+   "index": "sp500",
+   "name": "Williams-Sonoma, Inc.",
+   "sector": "Consumer Discretionary",
+   "industry": "Homefurnishing Retail",
+   "usd_volume_20d": 219003494
+  },
+  "WSO": {
+   "index": "sp400",
+   "name": "Watsco",
+   "sector": "Industrials",
+   "industry": "Trading Companies & Distributors",
+   "usd_volume_20d": 212182242
+  },
+  "WST": {
+   "index": "sp500",
+   "name": "West Pharmaceutical Services",
+   "sector": "Health Care",
+   "industry": "Health Care Supplies",
+   "usd_volume_20d": 261993798
+  },
+  "WTFC": {
+   "index": "sp400",
+   "name": "Wintrust Financial",
+   "sector": "Financials",
+   "industry": "Regional Banks",
+   "usd_volume_20d": 74561444
+  },
+  "WTRG": {
+   "index": "sp400",
+   "name": "Essential Utilities",
+   "sector": "Utilities",
+   "industry": "Water Utilities",
+   "usd_volume_20d": 93898710
+  },
+  "WTS": {
+   "index": "sp400",
+   "name": "Watts Water Technologies",
+   "sector": "Industrials",
+   "industry": "Building Products",
+   "usd_volume_20d": 88416131
+  },
+  "WTW": {
+   "index": "sp500",
+   "name": "Willis Towers Watson",
+   "sector": "Financials",
+   "industry": "Insurance Brokers",
+   "usd_volume_20d": 172836000
+  },
+  "WWD": {
+   "index": "sp400",
+   "name": "Woodward, Inc.",
+   "sector": "Industrials",
+   "industry": "Electrical Components & Equipment",
+   "usd_volume_20d": 216624832
+  },
+  "WY": {
+   "index": "sp500",
+   "name": "Weyerhaeuser",
+   "sector": "Real Estate",
+   "industry": "Timber REITs",
+   "usd_volume_20d": 151304105
+  },
+  "WYNN": {
+   "index": "sp500",
+   "name": "Wynn Resorts",
+   "sector": "Consumer Discretionary",
+   "industry": "Casinos & Gaming",
+   "usd_volume_20d": 175231143
+  },
+  "XEL": {
+   "index": "sp500",
+   "name": "Xcel Energy",
+   "sector": "Utilities",
+   "industry": "Multi-Utilities",
+   "usd_volume_20d": 531900231
+  },
+  "XPO": {
+   "index": "sp400",
+   "name": "XPO, Inc.",
+   "sector": "Industrials",
+   "industry": "Cargo Ground Transportation",
+   "usd_volume_20d": 206928007
+  },
+  "XRAY": {
+   "index": "sp400",
+   "name": "Dentsply Sirona",
+   "sector": "Health Care",
+   "industry": "Health Care Supplies",
+   "usd_volume_20d": 39486031
+  },
+  "XYL": {
+   "index": "sp500",
+   "name": "Xylem Inc.",
+   "sector": "Industrials",
+   "industry": "Industrial Machinery & Supplies & Components",
+   "usd_volume_20d": 282634699
+  },
+  "XYZ": {
+   "index": "sp500",
+   "name": "Block, Inc.",
+   "sector": "Financials",
+   "industry": "Transaction & Payment Processing Services",
+   "usd_volume_20d": 391377824
+  },
+  "YETI": {
+   "index": "sp400",
+   "name": "Yeti Holdings",
+   "sector": "Consumer Discretionary",
+   "industry": "Leisure Products",
+   "usd_volume_20d": 59166290
+  },
+  "YUM": {
+   "index": "sp500",
+   "name": "Yum! Brands",
+   "sector": "Consumer Discretionary",
+   "industry": "Restaurants",
+   "usd_volume_20d": 380707993
+  },
+  "ZBH": {
+   "index": "sp500",
+   "name": "Zimmer Biomet",
+   "sector": "Health Care",
+   "industry": "Health Care Equipment",
+   "usd_volume_20d": 204036719
+  },
+  "ZBRA": {
+   "index": "sp500",
+   "name": "Zebra Technologies",
+   "sector": "Information Technology",
+   "industry": "Electronic Equipment & Instruments",
+   "usd_volume_20d": 229959892
+  },
+  "ZION": {
+   "index": "sp400",
+   "name": "Zions Bancorporation",
+   "sector": "Financials",
+   "industry": "Regional Banks",
+   "usd_volume_20d": 112827826
+  },
+  "ZTS": {
+   "index": "sp500",
+   "name": "Zoetis",
+   "sector": "Health Care",
+   "industry": "Pharmaceuticals",
+   "usd_volume_20d": 318634331
+  }
+ }
+}

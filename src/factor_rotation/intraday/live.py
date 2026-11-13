@@ -102,7 +102,9 @@ def _refresh(today: date) -> None:
 
 
 def tick(now: datetime | None = None, decide=model.decide, news=model.headlines, pull=_refresh, held=None,
-         broker=orders.broker) -> dict:
+         broker=orders.broker, dry: bool = False) -> dict:
+    """One tick. `dry` is a look: the setups run and the model still judges, but nothing is written to
+    the journal and no order leaves the machine. A run by hand is dry unless it says otherwise."""
     now = now or datetime.now(NY)
     today, slot = now.date(), min(last_slot(now), signals.SLOTS - 1)
     if not journal.is_trading_day(today) or not full_session(today) or slot < 0:
@@ -141,29 +143,35 @@ def tick(now: datetime | None = None, decide=model.decide, news=model.headlines,
 
     takes = [x for x in doc["signals"] if (x.get("verdict") or {}).get("decision") == "take"]
     open_takes = sum(1 for x in takes if "exit" not in x)
-    judged = 0
-    for sig in sorted(hits, key=lambda x: -x["numbers"]["rvol"]):
+    ranked = sorted(hits, key=lambda x: -x["numbers"]["rvol"])
+    to_judge = []
+    for sig in ranked:
         if "skipped" in sig:
             sig["verdict"] = {"decision": "not judged", "why": sig["skipped"]}
-        elif judged >= JUDGED_PER_TICK:
+        elif len(to_judge) >= JUDGED_PER_TICK:
             sig["verdict"] = {"decision": "not judged", "why": f"more than {JUDGED_PER_TICK} signals at this bar; the heaviest volume went first"}
         elif len(takes) >= MAX_TAKES or open_takes >= MAX_OPEN:
             sig["verdict"] = {"decision": "not judged", "why": f"the book is full ({len(takes)} takes today, {open_takes} open)"}
         else:
-            judged += 1
-            sig["headlines"] = news(sig["symbol"])
-            asked = {k: sig[k] for k in ("symbol", "hedge", "beta", "setup", "direction", "signal_at", "numbers", "plan")}
-            sig["verdict"] = decide(asked, sig["headlines"])
-            if sig["verdict"]["decision"] == "take":
-                takes.append(sig)
+            to_judge.append(sig)
+    model.judge_all(to_judge, decide, news)   # researched side by side: a verdict takes a minute or two
+    judged = len(to_judge)
+    for sig in ranked:
+        if sig in to_judge and sig["verdict"]["decision"] == "take":
+            if len(takes) >= MAX_TAKES or open_takes >= MAX_OPEN:   # judged together, so a later take can find the book full
+                sig["paper"] = {"state": "not sent", "why": f"the book filled at this bar ({len(takes)} takes today, {open_takes} open)"}
+            else:
                 open_takes += 1
+            takes.append(sig)
         doc["signals"].append(sig)
 
-    warnings = orders.step(doc, slot, lambda: _save(today, doc), broker)
+    save = (lambda: None) if dry else (lambda: _save(today, doc))
+    warnings = orders.step(doc, slot, save, (lambda: orders.DryRun()) if dry else broker)
     doc["ticks"].append({"at": now.isoformat(timespec="seconds"), "bar_closed": replay.slot_time(slot), "signals": len(hits), "judged": judged,
                          **({"warnings": warnings} if warnings else {})})
-    _save(today, doc)
-    return {"date": today.isoformat(), "bar_closed": replay.slot_time(slot), "new": hits, "open": sum(1 for x in doc["signals"] if "exit" not in x),
+    if not dry:
+        _save(today, doc)
+    return {"date": today.isoformat(), "dry": dry, "bar_closed": replay.slot_time(slot), "new": hits, "open": sum(1 for x in doc["signals"] if "exit" not in x),
             "total": len(doc["signals"]), "warnings": warnings,
             "paper": [{"id": x["id"], **{k: x["paper"].get(k) for k in ("state", "exit_reason", "result")}} for x in doc["signals"] if "paper" in x]}
 
@@ -200,5 +208,6 @@ def rows() -> list[dict]:
                                                     "entry", "exit", "so_far_bp", "headlines")},
                         "paper": sig.get("paper") and {k: sig["paper"].get(k) for k in ("state", "why", "legs", "exit_reason", "result", "warnings")},
                         "decision": v.get("decision", "not judged"), "conviction": v.get("conviction"), "why": v.get("why") or v.get("error"),
-                        "against": v.get("against"), "catalyst": v.get("catalyst")})
+                        "against": v.get("against"), "catalyst": v.get("catalyst"), "coming": v.get("coming"),
+                        "sources": v.get("sources"), "researched": v.get("prompt", 0) >= 4 and v.get("seconds")})
     return out

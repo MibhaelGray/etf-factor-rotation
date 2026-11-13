@@ -36,6 +36,8 @@ class Orders(unittest.TestCase):
         p = mock.patch.object(orders, "HALT", self.halt)
         p.start()
         self.addCleanup(p.stop)
+        self.paused = mock.patch.object(orders.drawdown, "paused", return_value=None).start()   # not the real journal's
+        self.addCleanup(mock.patch.stopall)
 
     def test_a_take_goes_out_as_two_market_orders_ten_thousand_a_side(self):
         doc, b, saves = {"signals": [sig(), sig("pass", symbol="BBB")]}, Broker(), []
@@ -115,6 +117,15 @@ class Orders(unittest.TestCase):
         doc["signals"][0]["exit"] = {"reason": "stop"}
         run(doc, SLOT + 1, dry)
         self.assertEqual((p["state"], len(p["exit_orders"]), p.get("result")), ("closed", 2, None))
+
+    def test_a_paused_book_sends_no_entries(self):
+        self.paused.return_value = "the intraday book is down $10,500"
+        doc, b = {"signals": [sig()]}, Broker()
+        warnings = run(doc, SLOT, b)
+        self.assertEqual(b.sent, [])
+        self.assertEqual(doc["signals"][0]["paper"]["state"], "not sent")
+        self.assertIn("paused", warnings[0])
+        self.paused.assert_called_with("intraday")
 
     def test_halt_stops_entries(self):
         self.halt.write_text("testing")
