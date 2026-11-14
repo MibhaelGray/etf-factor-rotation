@@ -1,0 +1,594 @@
+{
+ "date": "2026-11-13",
+ "mode": "paper",
+ "ticks": [
+  {
+   "at": "2026-11-13T10:01:07-05:00",
+   "bar_closed": "10:00 AM",
+   "signals": 1,
+   "judged": 1
+  },
+  {
+   "at": "2026-11-13T10:16:07-05:00",
+   "bar_closed": "10:15 AM",
+   "signals": 5,
+   "judged": 4
+  },
+  {
+   "at": "2026-11-13T10:31:07-05:00",
+   "bar_closed": "10:30 AM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T10:46:07-05:00",
+   "bar_closed": "10:45 AM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T11:01:01-05:00",
+   "bar_closed": "11:00 AM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T11:16:06-05:00",
+   "bar_closed": "11:15 AM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T11:31:07-05:00",
+   "bar_closed": "11:30 AM",
+   "signals": 1,
+   "judged": 1
+  },
+  {
+   "at": "2026-11-13T11:46:07-05:00",
+   "bar_closed": "11:45 AM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T12:01:07-05:00",
+   "bar_closed": "12:00 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T12:16:07-05:00",
+   "bar_closed": "12:15 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T12:31:07-05:00",
+   "bar_closed": "12:30 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T12:46:07-05:00",
+   "bar_closed": "12:45 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T13:01:07-05:00",
+   "bar_closed": "1:00 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T13:16:07-05:00",
+   "bar_closed": "1:15 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T13:31:07-05:00",
+   "bar_closed": "1:30 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T13:46:07-05:00",
+   "bar_closed": "1:45 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T14:01:06-05:00",
+   "bar_closed": "2:00 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T14:16:07-05:00",
+   "bar_closed": "2:15 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T14:31:07-05:00",
+   "bar_closed": "2:30 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T14:46:07-05:00",
+   "bar_closed": "2:45 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T15:01:06-05:00",
+   "bar_closed": "3:00 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T15:16:07-05:00",
+   "bar_closed": "3:15 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T15:31:07-05:00",
+   "bar_closed": "3:30 PM",
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T15:46:07-05:00",
+   "bar_closed": "3:45 PM",
+   "signals": 0,
+   "judged": 0
+  }
+ ],
+ "signals": [
+  {
+   "id": "I-1113-CBRS",
+   "symbol": "CBRS",
+   "hedge": "SMH",
+   "beta": 1.27,
+   "setup": "gap_hold",
+   "direction": "long",
+   "slot": 1,
+   "signal_at": "10:00 AM",
+   "numbers": {
+    "gap_atr": 1.09,
+    "day_atr": 1.45,
+    "run_atr": 0.35,
+    "rvol": 6.52,
+    "rsi": 70.8,
+    "price": 108.72,
+    "name_day_pct": 12.15,
+    "hedge_day_pct": -2.89
+   },
+   "atr_pct": 0.1091,
+   "hedge_price": 485.3147,
+   "plan": {
+    "stop_pct": -2.0,
+    "target_pct": 4.0,
+    "max_bars": null,
+    "flat_by": "3:45 PM"
+   },
+   "headlines": [
+    "Nov 13, 9:43 AM ET \u00b7 Investor's Business Daily \u00b7 Stock Market Today: Dow Rises On Surprise Inflation Data; Nvidia Struggles (Live Coverage)",
+    "Nov 13, 9:38 AM ET \u00b7 Proactive \u00b7 Cerebras shares jump 16% as earnings beat and Microsoft deal fuel raised outlook",
+    "Nov 13, 9:31 AM ET \u00b7 TIKR \u00b7 Cerebras Soars 15% on Raised Outlook and Microsoft Deal, Expects to \u201cTriple Revenue in 2027\u201d",
+    "Nov 13, 8:56 AM ET \u00b7 International Business Times \u00b7 Cerebras Stock Surges After Microsoft Deal. Can The AI Chipmaker Sustain Its Growth?",
+    "Nov 13, 7:47 AM ET \u00b7 Yahoo Finance \u00b7 Cerebras stock surges on Q3 results, outlook raise, hyperscaler deals",
+    "Nov 13, 7:27 AM ET \u00b7 Investing.com \u00b7 Premarket movers: Modine surges; Cerebras jumps on Microsoft deal",
+    "Nov 13, 7:01 AM ET \u00b7 GuruFocus.com \u00b7 Cerebras Stock Jumps 17% as It Expects to Triple Revenue in 2027",
+    "Nov 13, 6:17 AM ET \u00b7 InvestorsHub \u00b7 Why Is Cerebras Systems Stock Surging Today?"
+   ],
+   "verdict": {
+    "decision": "pass",
+    "conviction": 3,
+    "catalyst": "Q3 2026 results released after the close on Nov 12, 2026: core revenue $230.9M vs ~$214.7M consensus, Q4 core revenue guide $310-330M (vs ~$271M expected), and FY26 core guide raised to $940-960M. The stock rose about 17% after hours.",
+    "why": "The fundamental catalyst is real and recent, and the relative volume (6.5x) and the roughly 15-point lead over SMH support the move. The stop is the problem: at a daily ATR of roughly 8% (implied by the 1.45 day_atr on a 12% move), a -2% pair stop is only about a quarter of an ATR, which ordinary intraday swings in this name will hit. The stock has also already given back about 5 points from the after-hours 17% move, so buyers are not fully in control.",
+    "against": "A -2% stop on a name with an ATR near 8% gets hit by normal noise, and the after-hours high already faded about 5 points into the open.",
+    "coming": "Nothing found inside the window. The Q4 report is outside it, and the CS-5 launch is targeted for early summer 2027.",
+    "sources": [
+     "CNBC, Nov 12, 2026 4:07 PM ET: \"Cerebras surges 17% after beating on quarterly revenue and announcing Microsoft deal\"",
+     "Cerebras via SEC 8-K (EX-99.1), Nov 12, 2026: Q3 2026 financial results and raised FY26 core revenue outlook to $940-960M",
+     "Cerebras Q3 2026 earnings call, Nov 12, 2026 5pm ET (per CNBC): Microsoft deal said to be signed in October; revenue expected to start in Q1 2027",
+     "Investing.com, Nov 12, 2026: \"Earnings call transcript: Cerebras tops guidance in Q3 2026, shares jump after hours\""
+    ],
+    "model": "claude-haiku-5-5",
+    "prompt": 4,
+    "turns": 9,
+    "seconds": 43
+   },
+   "entry": {
+    "at": "10:00 AM",
+    "name": 108.725,
+    "hedge": 485.44
+   },
+   "exit": {
+    "at": "10:30 AM",
+    "reason": "stop",
+    "bars": 2,
+    "result_bp": -302.7,
+    "after_costs_bp": -310.7
+   }
+  },
+  {
+   "id": "I-1113-FN",
+   "symbol": "FN",
+   "hedge": "SMH",
+   "beta": 1.46,
+   "setup": "range_break",
+   "direction": "short",
+   "slot": 2,
+   "signal_at": "10:15 AM",
+   "numbers": {
+    "gap_atr": -0.09,
+    "day_atr": -0.33,
+    "run_atr": -0.25,
+    "rvol": 10.89,
+    "rsi": 15.1,
+    "price": 322.06,
+    "name_day_pct": -9.13,
+    "hedge_day_pct": -4.25
+   },
+   "atr_pct": 0.0887,
+   "hedge_price": 478.509,
+   "plan": {
+    "stop_pct": -2.0,
+    "target_pct": 4.0,
+    "max_bars": null,
+    "flat_by": "3:45 PM"
+   },
+   "headlines": [
+    "Nov 12, 11:38 AM ET \u00b7 24/7 Wall St. \u00b7 Microsoft Is Fighting a Ban on Chinese Parts Inside AI Data Centers"
+   ],
+   "verdict": {
+    "decision": "pass",
+    "conviction": 2,
+    "catalyst": "No company-specific news found for FN on Nov 12-13. The headline it was screened on is a Reuters-sourced piece (iTnews, Nov 11, 2026) saying Microsoft is lobbying the administration to drop a planned ban on Chinese optical transceivers. The article does not name Fabrinet. The move looks like a sector-wide AI-optics selloff, not a stock-specific event. FN closed Nov 12 at $353.61, down 4.17%, per Seeking Alpha.",
+    "why": "The stop at -2% sits inside this name's normal noise. FN has moved 4% or more in single sessions repeatedly this month, including a 14% drop on Nov 5, and it is already down about 9% on the day after a 33% one-month slide, with RSI at 15. The screen's ATR figures also don't reconcile with a -9.13% move at -0.33 ATR, so I can't confirm the lead is as large as it looks. The Microsoft story also cuts against a short, since a restriction on Chinese transceivers would arguably help domestic manufacturers like Fabrinet. I see no specific reason the move continues beyond a flush that can bounce hard.",
+    "against": "The sell-off is already extreme, with RSI at 15, a 9% day and a 33% one-month drop, so a 2% stop is likely to be hit by an ordinary bounce before any continuation.",
+    "coming": "NVIDIA fiscal Q3 2027 results and call are set for Nov 17, 2026 at 5 PM ET (confirmed in NVIDIA's Oct 28 press release). That falls after this trade's flat-by time, but it is inside the next few days. Fabrinet's next report is in early February, per TIKR.",
+    "sources": [
+     "iTnews (Reuters, Alexandra Alper), Nov 11 2026, \"Microsoft presses Trump to scuttle expected ban on Chinese data centre technology\"",
+     "TIKR, last updated Nov 9 2026, \"Fabrinet Dropped 33% in a Month Despite a Record Quarter. Time to Sell, or Load Up?\"",
+     "Seeking Alpha FN quote page, close 11/12/26: $353.61, -4.17% (quote data, no headline)",
+     "NVIDIA investor relations, Oct 28 2026, \"NVIDIA Sets Conference Call for Third Quarter Financial Results\""
+    ],
+    "model": "claude-haiku-5-5",
+    "prompt": 4,
+    "turns": 11,
+    "seconds": 62
+   },
+   "entry": {
+    "at": "10:15 AM",
+    "name": 322.265,
+    "hedge": 478.54
+   },
+   "exit": {
+    "at": "3:45 PM",
+    "reason": "flat",
+    "bars": 22,
+    "result_bp": 55.5,
+    "after_costs_bp": 47.5
+   }
+  },
+  {
+   "id": "I-1113-SO",
+   "symbol": "SO",
+   "hedge": "XLU",
+   "beta": 0.95,
+   "setup": "range_break",
+   "direction": "long",
+   "slot": 2,
+   "signal_at": "10:15 AM",
+   "numbers": {
+    "gap_atr": -0.2,
+    "day_atr": 0.43,
+    "run_atr": 0.63,
+    "rvol": 4.8,
+    "rsi": 57.5,
+    "price": 93.4,
+    "name_day_pct": 0.8,
+    "hedge_day_pct": -0.05
+   },
+   "atr_pct": 0.0196,
+   "hedge_price": 43.845,
+   "plan": {
+    "stop_pct": -0.98,
+    "target_pct": 1.96,
+    "max_bars": null,
+    "flat_by": "3:45 PM"
+   },
+   "headlines": [
+    "Nov 13, 1:11 AM ET \u00b7 Simply Wall St. \u00b7 Is Southern (SO) Fairly Valued As It Files For 5,000,000 New Shares?",
+    "Nov 12, 6:26 PM ET \u00b7 Simply Wall St. \u00b7 What Does Southern (SO) $1.75 Billion Equity Units Offering Mean For Investors?",
+    "Nov 12, 4:15 PM ET \u00b7 Trefis \u00b7 Do You Like Cash? Consider Vistra Stock",
+    "Nov 12, 4:08 PM ET \u00b7 Trefis \u00b7 Is NextEra Energy Stock A Real Bargain?",
+    "Nov 12, 4:00 PM ET \u00b7 Trefis \u00b7 Could Sempra Be The Value Stock For Your Portfolio?",
+    "Nov 12, 11:56 AM ET \u00b7 Trefis \u00b7 What Changed In PG&E's Story?",
+    "Nov 12, 10:59 AM ET \u00b7 Trefis \u00b7 Is Constellation Energy Stock Increasing Your Market Risk?",
+    "Nov 12, 6:04 AM ET \u00b7 GuruFocus.com \u00b7 What Utilities Select Sector SPDR ETF (XLU) Sold: NextEra Leads on Nov. 10"
+   ],
+   "verdict": {
+    "decision": "pass",
+    "conviction": 2,
+    "catalyst": "Southern Company announced a $1.75B 2026 Series A equity units offering on Nov 12, 2026 (Simply Wall St headline, Nov 12, 6:26 PM ET), and IndexBox (Nov 13, 2026) reports it priced 35M units at 8.625% with a $92.47 reference price. I found no company news that explains a move on Nov 13 itself, and the offering is a dilutive financing, not a fundamental catalyst.",
+    "why": "The name is up 0.8% against XLU's -0.05%, a lead of under 1%, and the 4.8x relative volume comes from a financing whose hedging and convert-repurchase flows can drive it rather than from new demand. The stock is trading just above the $92.47 reference price, so pricing held, but the equity overhang and unwind of the 2024A converts could reverse a move that has no news behind it. The stop at -0.98% is about half the name's daily ATR (roughly 1.9%, implied by the 0.43 ATR reading), which is inside normal intraday noise.",
+    "against": "The move is financing-related flow with no fundamental catalyst, and the dilutive units settling Nov 17 give the stock a supply overhang that could pull it back through the stop.",
+    "coming": "Units close Nov 17, 2026 (IndexBox), and the over-allotment option (5M units) is open for 13 days after issuance. One source lists Q4 2026 earnings on Nov 18, 2026, but this is unverified and conflicts with the usual February report timing. Nothing else found.",
+    "sources": [
+     "IndexBox, Nov 13, 2026, \"Southern Company Prices $1.75 Billion 2026 Series A Equity Units Offering\"",
+     "Simply Wall St, Nov 12, 2026, 6:26 PM ET, \"What Does Southern (SO) $1.75 Billion Equity Units Offering Mean For Investors?\" (headline only, not opened)",
+     "Simply Wall St, Nov 13, 2026, 1:11 AM ET, \"Is Southern (SO) Fairly Valued As It Files For 5,000,000 New Shares?\" (headline only, not opened; not verified)",
+     "Investing.com, Nov 3, 2025, \"Southern Company announces $1.75 billion equity units offering\" (a prior deal with different underwriters; opened and excluded)",
+     "Stock-analysis listing, undated, \"Southern Company next report Nov 18, 2026\" (single source, unverified)"
+    ],
+    "model": "claude-haiku-5-5",
+    "prompt": 4,
+    "turns": 11,
+    "seconds": 48
+   },
+   "entry": {
+    "at": "10:15 AM",
+    "name": 93.405,
+    "hedge": 43.845
+   },
+   "exit": {
+    "at": "3:45 PM",
+    "reason": "flat",
+    "bars": 22,
+    "result_bp": -20.6,
+    "after_costs_bp": -28.6
+   }
+  },
+  {
+   "id": "I-1113-MTUM",
+   "symbol": "MTUM",
+   "hedge": "SPY",
+   "beta": 1.7,
+   "setup": "range_break",
+   "direction": "short",
+   "slot": 2,
+   "signal_at": "10:15 AM",
+   "numbers": {
+    "gap_atr": -0.16,
+    "day_atr": -0.41,
+    "run_atr": -0.26,
+    "rvol": 2.02,
+    "rsi": 16.9,
+    "price": 67.19,
+    "name_day_pct": -3.06,
+    "hedge_day_pct": -1.03
+   },
+   "atr_pct": 0.032,
+   "hedge_price": 749.045,
+   "plan": {
+    "stop_pct": -1.6,
+    "target_pct": 3.2,
+    "max_bars": null,
+    "flat_by": "3:45 PM"
+   },
+   "headlines": [
+    "Nov 12, 6:06 AM ET \u00b7 GuruFocus.com \u00b7 What iShares MSCI USA Momentum Factor ETF (MTUM) Sold: AMD Leads on Tuesday",
+    "Nov 12, 6:02 AM ET \u00b7 GuruFocus.com \u00b7 ETFs Are Net Sellers of Entergy (ETR) on Nov. 10",
+    "Nov 12, 6:02 AM ET \u00b7 GuruFocus.com \u00b7 ETFs Are Net Sellers of ExxonMobil (XOM) on Nov. 10"
+   ],
+   "verdict": {
+    "decision": "pass",
+    "conviction": 3,
+    "catalyst": "Jensen Huang resigned as Nvidia CEO effective immediately on the morning of Nov 12, 2026 (Yahoo Finance live blog), which hit NVDA and the AI trade; this is a sector-wide AI/momentum move, not MTUM company news, and MTUM's top holdings were not verified",
+    "why": "The lead is real: MTUM -3.06% vs SPY -1.03% at 10:15, about -2.0% relative, on rvol 2.02, and a fresh catalyst exists. I still pass because the -1.6% stop looks like ordinary noise for a momentum ETF whose daily range is several percent (inferred from day_atr), and RSI 16.9 after an AI-led flush with the Nasdaq already recovering from its lows makes a short late, with bounce risk.",
+    "against": "The stop sits inside normal daily noise for MTUM and the move is a sector-wide AI and momentum unwind that the hedge also partly shares, so the pair may not hold its lead long enough for the 3.2% target to matter.",
+    "coming": "Nvidia Q3 earnings, reported as Nov 17 or 18, 2026 after the close (unconfirmed, so outside today's window); nothing found inside today's window (Nov 12 to 3:45 PM); CPI and other releases not checked",
+    "sources": [
+     "Motley Fool, Nov 12 2026 5:25 PM EST, 'Stock Market Today, Nov. 12: Nvidia CEO's Stunning Exit Sends Wall Street Lower as Rivals Surge'",
+     "Yahoo Finance live blog, Nov 12 2026 4:59 PM CST, 'Stock market today: Dow, S&P 500, Nasdaq slip as Nvidia stock falls on CEO exit, bond yields rise'",
+     "Advisor Perspectives, Nov 9 2026, 'Wall Street sticks AI playbook, historic unwind' (Goldman: largest long-momentum unwind against the market in about 40 years)",
+     "Earnings Whispers (via web search), undated, NVDA earnings confirmed for Nov 17 2026 after close (unconfirmed by company IR)",
+     "Cappnotes Substack, Nov 12 2026, 'Closing Look, Thursday, November 12, 2026' (closing context; not opened)"
+    ],
+    "model": "claude-haiku-5-5",
+    "prompt": 4,
+    "turns": 11,
+    "seconds": 67
+   },
+   "entry": {
+    "at": "10:15 AM",
+    "name": 67.18,
+    "hedge": 749.02
+   },
+   "exit": {
+    "at": "3:45 PM",
+    "reason": "flat",
+    "bars": 22,
+    "result_bp": -44.1,
+    "after_costs_bp": -52.1
+   }
+  },
+  {
+   "id": "I-1113-NBIS",
+   "symbol": "NBIS",
+   "hedge": "SMH",
+   "beta": 1.71,
+   "setup": "range_break",
+   "direction": "short",
+   "slot": 2,
+   "signal_at": "10:15 AM",
+   "numbers": {
+    "gap_atr": -0.18,
+    "day_atr": -0.36,
+    "run_atr": -0.2,
+    "rvol": 2.0,
+    "rsi": 16.0,
+    "price": 111.15,
+    "name_day_pct": -12.46,
+    "hedge_day_pct": -4.25
+   },
+   "atr_pct": 0.1426,
+   "hedge_price": 478.509,
+   "plan": {
+    "stop_pct": -2.0,
+    "target_pct": 4.0,
+    "max_bars": null,
+    "flat_by": "3:45 PM"
+   },
+   "headlines": [
+    "Nov 13, 10:06 AM ET \u00b7 Investor's Business Daily \u00b7 Stock Market Rebounds Even As Nvidia CEO Jensen Huang Resigns, Treasury Yields Jump: Weekly Review",
+    "Nov 13, 9:31 AM ET \u00b7 TIKR \u00b7 Cerebras Soars 15% on Raised Outlook and Microsoft Deal, Expects to \u201cTriple Revenue in 2027\u201d",
+    "Nov 13, 9:19 AM ET \u00b7 Stocktwits \u00b7 NBIS Stock On Track For 6th Straight Weekly Loss \u2014 Analysts Flag Data Center, Capacity Activation Delays",
+    "Nov 13, 9:18 AM ET \u00b7 The Wall Street Journal \u00b7 AI After Huang: Stocks I\u2019m Watching",
+    "Nov 13, 9:00 AM ET \u00b7 Zacks \u00b7 NBIS Q3 Earnings Call Highlights Expansion Plans and Funding",
+    "Nov 13, 8:11 AM ET \u00b7 Investor's Business Daily \u00b7 Nebius Earnings Topped Estimates. Why Shares Sold Off.",
+    "Nov 13, 8:08 AM ET \u00b7 Zacks \u00b7 CRWV Q3 Earnings Impress, Outlook Raised: How to Play the Stock Now?",
+    "Nov 13, 7:15 AM ET \u00b7 24/7 Wall St. \u00b7 CoreWeave\u2019s Demand is There, $41.6B of Corporate Debt Remains: What This Means for Nebius and CoreWeave"
+   ],
+   "verdict": {
+    "decision": "pass",
+    "conviction": 2,
+    "catalyst": "Q3 2026 results on Nov 12, 2026 cut the ARR path. The $7-9B by-December target was replaced by monthly ARR above $7B in Feb 2027, because some third-party capacity moves into Q2 2027, and ARR guidance was dropped (Nebius Q3 2026 letter summary, Futu News, Nov 12; Globe and Mail transcript). Nov 13 8:11 AM IBD headline 'Nebius Earnings Topped Estimates. Why Shares Sold Off' (headline only, not opened). Huang's Nov 12 resignation also hit chips (SMH -4.25%). The move is real, but the name's own news is the earnings cut.",
+    "why": "The lead over SMH is large (about -8 points raw, about -5 beta-adjusted) and volume is 2x, so the move is company-specific, which supports continuation. But the trade fails on the stop. A -2% pair stop on a beta-1.7 name that just fell 12% in a session, with a 16 RSI and a live sector shock, is inside one normal bar's swing, so the trade is likely shaken out before the 4% target gets a chance. Oversold rebound risk is also high after a double-digit gap on a sector-wide down day.",
+    "against": "The stop is inside normal noise for this name, and a short after a 12% earnings-driven gap at RSI 16 is exposed to a sharp bounce that would stop the trade before any drift.",
+    "coming": "Nothing found in the window. No scheduled NBIS report, investor event, or lockup surfaced in searches, and I did not find a dated peer report in the next few hours.",
+    "sources": [
+     "Futu News, Nov 12, 2026: Nebius Third Quarter 2026 Letter to Shareholders",
+     "The Globe and Mail, Nov 12, 2026: Nebius Group (NBIS) Q3 2026 Earnings Call Transcript",
+     "Investor's Business Daily, Nov 13, 2026 8:11 AM: Nebius Earnings Topped Estimates. Why Shares Sold Off (headline only)",
+     "SEC 8-K, Nov 12, 2026: NVIDIA announces CEO transition (Huang steps down)",
+     "Zacks, Nov 13, 2026 9:00 AM: NBIS Q3 Earnings Call Highlights Expansion Plans and Funding (headline only)"
+    ],
+    "model": "claude-haiku-5-5",
+    "prompt": 4,
+    "turns": 8,
+    "seconds": 35
+   },
+   "entry": {
+    "at": "10:15 AM",
+    "name": 111.11,
+    "hedge": 478.54
+   },
+   "exit": {
+    "at": "11:15 AM",
+    "reason": "stop",
+    "bars": 4,
+    "result_bp": -243.6,
+    "after_costs_bp": -251.6
+   }
+  },
+  {
+   "id": "I-1113-TJX",
+   "symbol": "TJX",
+   "hedge": "XRT",
+   "beta": 0.7,
+   "setup": "range_break",
+   "direction": "short",
+   "slot": 2,
+   "signal_at": "10:15 AM",
+   "numbers": {
+    "gap_atr": -0.57,
+    "day_atr": -0.56,
+    "run_atr": 0.01,
+    "rvol": 1.79,
+    "rsi": 20.0,
+    "price": 133.82,
+    "name_day_pct": -1.61,
+    "hedge_day_pct": -0.3
+   },
+   "atr_pct": 0.0251,
+   "hedge_price": 90.425,
+   "plan": {
+    "stop_pct": -1.25,
+    "target_pct": 2.51,
+    "max_bars": null,
+    "flat_by": "3:45 PM"
+   },
+   "verdict": {
+    "decision": "not judged",
+    "why": "more than 4 signals at this bar; the heaviest volume went first"
+   },
+   "entry": {
+    "at": "10:15 AM",
+    "name": 133.79,
+    "hedge": 90.355
+   },
+   "exit": {
+    "at": "3:45 PM",
+    "reason": "flat",
+    "bars": 22,
+    "result_bp": 29.0,
+    "after_costs_bp": 21.0
+   }
+  },
+  {
+   "id": "I-1113-CI",
+   "symbol": "CI",
+   "hedge": "XLV",
+   "beta": 0.9,
+   "setup": "range_break",
+   "direction": "short",
+   "slot": 7,
+   "signal_at": "11:30 AM",
+   "numbers": {
+    "gap_atr": 0.27,
+    "day_atr": -0.36,
+    "run_atr": -0.62,
+    "rvol": 16.12,
+    "rsi": 22.4,
+    "price": 293.15,
+    "name_day_pct": -1.06,
+    "hedge_day_pct": -0.06
+   },
+   "atr_pct": 0.0283,
+   "hedge_price": 188.1603,
+   "plan": {
+    "stop_pct": -1.41,
+    "target_pct": 2.83,
+    "max_bars": null,
+    "flat_by": "3:45 PM"
+   },
+   "headlines": [
+    "Nov 12, 9:15 PM ET \u00b7 Simply Wall St. \u00b7 Learn Why The Bull Case For Cigna Group (CI) Could Change Following Higher EPS Outlook",
+    "Nov 12, 4:11 PM ET \u00b7 Insider Monkey \u00b7 Cigna Group (CI): Raised Forecast, Long Runway and a Spot in CIBC\u2019s Defensive Basket",
+    "Nov 12, 2:07 PM ET \u00b7 Trefis \u00b7 What Could Go Wrong At CVS Health From Here?",
+    "Nov 12, 10:13 AM ET \u00b7 Trefis \u00b7 Which Dates Could Move Hims & Hers Stock Most?",
+    "Nov 12, 10:13 AM ET \u00b7 Trefis \u00b7 What Does Progyny's Falling Multiple Really Say?",
+    "Nov 12, 6:14 AM ET \u00b7 Zacks \u00b7 Can CVS Health's 2028 Split Unlock Value Despite Execution Risks?"
+   ],
+   "verdict": {
+    "decision": "pass",
+    "conviction": 2,
+    "catalyst": "none found. The Nov 12 headlines are analyst and commentary pieces (Simply Wall St, Insider Monkey, Trefis, Zacks), not company news. The last Cigna news I found was Q3 results on Nov 5, 2026, which raised the 2026 EPS outlook to at least $30.60, and the CVS split announced Nov 4. Neither explains a Nov 13 drop.",
+    "why": "The name is down about 1% against a flat XLV on 16x relative volume, with no news I could find to explain it, and RSI at 22 after falling from a 52-week high near $318. The -1.41% stop is about half of the roughly 2.9% daily ATR implied by the signal's numbers, so ordinary four-hour noise or an oversold bounce could hit it before any move develops. The research leaves the case for continuation weaker than the case against. Several sources were search snippets rather than opened pages.",
+    "against": "The 16x volume with no identified catalyst could be an unreported event that reverses, and a tight stop inside normal noise on an oversold name invites a bounce.",
+    "coming": "Dividend record date is Dec 3, 2026, and payment is Dec 17, outside the window. Nothing found inside the window itself; the CFO's UBS conference appearance was Nov 10, already past.",
+    "sources": [
+     "Investing.com, Nov 2026 (undated snippet), \"Cigna stock hits 52-week high at $318.0 USD\"",
+     "Stockanalysis.com / CNBC, Nov 13, 2026 intraday quotes (search snippet), Cigna quote pages",
+     "Insurance Business, Nov 5, 2026, \"Cigna lifts 2026 outlook as employer medical growth offsets individual-market exit\"",
+     "Boston Globe, Nov 4, 2026, \"CVS pharmacy health split\"",
+     "Simply Wall St via Yahoo, Nov 12, 2026, \"Learn Why The Bull Case For Cigna Group (CI) Could Change Following Higher EPS Outlook\" (headline only)"
+    ],
+    "model": "claude-haiku-5-5",
+    "prompt": 4,
+    "turns": 11,
+    "seconds": 41
+   },
+   "entry": {
+    "at": "11:30 AM",
+    "name": 293.295,
+    "hedge": 188.16
+   },
+   "exit": {
+    "at": "3:45 PM",
+    "reason": "flat",
+    "bars": 17,
+    "result_bp": -48.2,
+    "after_costs_bp": -56.2
+   }
+  }
+ ]
+}

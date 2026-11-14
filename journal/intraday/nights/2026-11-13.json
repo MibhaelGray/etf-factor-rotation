@@ -136,6 +136,294 @@
    "quoted": 286,
    "signals": 0,
    "judged": 0
+  },
+  {
+   "at": "2026-11-13T00:01:06-05:00",
+   "session": "overnight",
+   "prices": "IBKR",
+   "quoted": 286,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T00:16:05-05:00",
+   "session": "overnight",
+   "prices": "IBKR",
+   "quoted": 286,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T00:31:02-05:00",
+   "session": "overnight",
+   "prices": "IBKR",
+   "quoted": 286,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T00:46:07-05:00",
+   "session": "overnight",
+   "prices": "IBKR",
+   "quoted": 286,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T01:01:06-05:00",
+   "session": "overnight",
+   "prices": "IBKR",
+   "quoted": 286,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T01:16:06-05:00",
+   "session": "overnight",
+   "prices": "IBKR",
+   "quoted": 286,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T01:31:06-05:00",
+   "session": "overnight",
+   "prices": "IBKR",
+   "quoted": 286,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T01:46:06-05:00",
+   "session": "overnight",
+   "prices": "IBKR",
+   "quoted": 286,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T02:01:06-05:00",
+   "session": "overnight",
+   "prices": "IBKR",
+   "quoted": 286,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T02:16:06-05:00",
+   "session": "overnight",
+   "prices": "IBKR",
+   "quoted": 286,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T02:31:06-05:00",
+   "session": "overnight",
+   "prices": "IBKR",
+   "quoted": 286,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T02:46:06-05:00",
+   "session": "overnight",
+   "prices": "IBKR",
+   "quoted": 286,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T03:01:06-05:00",
+   "session": "overnight",
+   "prices": "IBKR",
+   "quoted": 286,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T03:16:06-05:00",
+   "session": "overnight",
+   "prices": "IBKR",
+   "quoted": 286,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T03:31:06-05:00",
+   "session": "overnight",
+   "prices": "IBKR",
+   "quoted": 286,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T03:46:05-05:00",
+   "session": "overnight",
+   "prices": "IBKR",
+   "quoted": 286,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T04:16:05-05:00",
+   "session": "pre-market",
+   "prices": "Yahoo",
+   "quoted": 173,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T04:31:05-05:00",
+   "session": "pre-market",
+   "prices": "Yahoo",
+   "quoted": 178,
+   "signals": 1,
+   "judged": 1
+  },
+  {
+   "at": "2026-11-13T04:46:05-05:00",
+   "session": "pre-market",
+   "prices": "Yahoo",
+   "quoted": 180,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T05:01:05-05:00",
+   "session": "pre-market",
+   "prices": "Yahoo",
+   "quoted": 185,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T05:16:06-05:00",
+   "session": "pre-market",
+   "prices": "Yahoo",
+   "quoted": 185,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T05:31:06-05:00",
+   "session": "pre-market",
+   "prices": "Yahoo",
+   "quoted": 188,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T05:46:06-05:00",
+   "session": "pre-market",
+   "prices": "Yahoo",
+   "quoted": 192,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T06:01:06-05:00",
+   "session": "pre-market",
+   "prices": "Yahoo",
+   "quoted": 194,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T06:16:06-05:00",
+   "session": "pre-market",
+   "prices": "Yahoo",
+   "quoted": 197,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T06:31:06-05:00",
+   "session": "pre-market",
+   "prices": "Yahoo",
+   "quoted": 200,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T06:46:06-05:00",
+   "session": "pre-market",
+   "prices": "Yahoo",
+   "quoted": 201,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T07:01:06-05:00",
+   "session": "pre-market",
+   "prices": "Yahoo",
+   "quoted": 207,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T07:16:06-05:00",
+   "session": "pre-market",
+   "prices": "Yahoo",
+   "quoted": 212,
+   "signals": 1,
+   "judged": 1
+  },
+  {
+   "at": "2026-11-13T07:31:06-05:00",
+   "session": "pre-market",
+   "prices": "Yahoo",
+   "quoted": 213,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T07:46:06-05:00",
+   "session": "pre-market",
+   "prices": "Yahoo",
+   "quoted": 220,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T08:01:06-05:00",
+   "session": "pre-market",
+   "prices": "Yahoo",
+   "quoted": 229,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T08:16:06-05:00",
+   "session": "pre-market",
+   "prices": "Yahoo",
+   "quoted": 236,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T08:31:06-05:00",
+   "session": "pre-market",
+   "prices": "Yahoo",
+   "quoted": 252,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T09:16:07-05:00",
+   "session": "pre-market",
+   "prices": "Yahoo",
+   "quoted": 252,
+   "signals": 0,
+   "judged": 0
+  },
+  {
+   "at": "2026-11-13T09:31:06-05:00",
+   "session": "open",
+   "prices": "Yahoo",
+   "quoted": 284,
+   "signals": 0,
+   "judged": 0
   }
  ],
  "signals": [
@@ -322,6 +610,136 @@
     "reason": "flat",
     "result_bp": -294.9,
     "after_costs_bp": -302.9
+   }
+  },
+  {
+   "id": "X-1113-0431-MSFT",
+   "symbol": "MSFT",
+   "hedge": "SPY",
+   "beta": 1.194,
+   "setup": "news_mover",
+   "direction": "short",
+   "session": "pre-market",
+   "signal_at": "4:31 AM ET (pre-market)",
+   "numbers": {
+    "price": 507.0,
+    "hedge_price": 757.49,
+    "since_close_pct": -3.06,
+    "hedge_since_close_pct": 0.05,
+    "move_atr": -1.06,
+    "daily_atr_pct": 2.95,
+    "last_close": 523.0
+   },
+   "entry": {
+    "at": "4:31 AM",
+    "name": 507.0,
+    "hedge": 757.49
+   },
+   "plan": {
+    "stop_pct": -1.47,
+    "target_pct": 2.95,
+    "flat_by": "9:20 AM (pre-market)",
+    "flat_at": "2026-11-13T09:20:00-05:00"
+   },
+   "headlines": [
+    "Nov 13, 2:30 AM ET \u00b7 Investing.com \u00b7 At 21x earnings, Amazon is cheaper than Walmart and surging",
+    "Nov 13, 12:40 AM ET \u00b7 The Wall Street Journal \u00b7 Microsoft Working to Fix Widespread Outage",
+    "Nov 13, 12:37 AM ET \u00b7 Associated Press \u00b7 World shares log modest losses as investors assess impact on AI sector from the Nvidia scandal",
+    "Nov 13, 12:15 AM ET \u00b7 Simply Wall St. \u00b7 Microsoft (MSFT) Unveiled An Enterprise AI Agent Platform",
+    "Nov 12, 11:13 PM ET \u00b7 Stocktwits \u00b7 Michael Burry Sees A \u2018Mechanical Bid\u2019 Under NVDA Stock \u2013 Even As He Questions Nvidia\u2019s Succession Plan And Asia Sales",
+    "Nov 12, 10:45 PM ET \u00b7 The Telegraph \u00b7 Microsoft hit by major global blackout",
+    "Nov 12, 10:07 PM ET \u00b7 Stocktwits \u00b7 Dow, S&P 500, Nasdaq Futures Edge Higher As Markets Attempt To Recover From Nvidia Rout: SLS, MSFT, CADL, MSTR In Focus",
+    "Nov 12, 5:38 PM ET \u00b7 Yahoo Finance \u00b7 Bill Ackman says Microsoft's position is 'really, really strong' as Anthropic pushes into enterprise software"
+   ],
+   "verdict": {
+    "decision": "pass",
+    "conviction": 2,
+    "catalyst": "Microsoft outage affecting Outlook, Teams and Copilot: WSJ, Nov 13, 12:40 AM ET, 'Microsoft Working to Fix Widespread Outage' (Yahoo headline; the article itself was not opened). Background: the outage began around 1800 GMT Nov 12 (Reuters via Investing.com, Nov 12), and the broader AI-sector selloff followed the Nvidia CEO scandal.",
+    "why": "The name has a real lead over SPY (-3.06% vs +0.05%), but the outage that explains it is already being fixed, and Reuters reports it had scant direct market impact, so the premarket drop may be partly sector or Nvidia spillover, which the pair doesn't earn. The stop at -1.47% is about half the 2.95% daily ATR, and premarket spreads are wide, so ordinary noise is likely to hit it. I read search snippets and headlines, not the full articles.",
+    "against": "A fixed outage plus a thin premarket move is a set-up for a bounce toward the prior close, and a stop at half an ATR is likely to be hit by noise before any continuation.",
+    "coming": "nothing found",
+    "sources": [
+     "Investing.com (Reuters), Nov 12, 2026: 'Global AI stocks sink as Nvidia crisis deepens sector selloff'",
+     "Associated Press via Yahoo Finance, Nov 13, 2026: 'World shares log modest losses as investors assess impact on AI sector from the Nvidia scandal'",
+     "The Wall Street Journal, Nov 13, 2026 12:40 AM ET: 'Microsoft Working to Fix Widespread Outage' (headline from signal feed)",
+     "The Telegraph, Nov 12, 2026 10:45 PM ET: 'Microsoft hit by major global blackout' (headline from signal feed)",
+     "London Stock Exchange News (lse.co.uk), date not shown: 'London open: FTSE nudges lower; Microsoft outage in focus'"
+    ],
+    "model": "claude-haiku-5-5",
+    "prompt": 4,
+    "turns": 7,
+    "seconds": 30
+   },
+   "exit": {
+    "at": "7:31 AM",
+    "reason": "stop",
+    "result_bp": -147.4,
+    "after_costs_bp": -155.4
+   }
+  },
+  {
+   "id": "X-1113-0716-CSCO",
+   "symbol": "CSCO",
+   "hedge": "XLK",
+   "beta": 0.828,
+   "setup": "news_mover",
+   "direction": "short",
+   "session": "pre-market",
+   "signal_at": "7:16 AM ET (pre-market)",
+   "numbers": {
+    "price": 98.47,
+    "hedge_price": 174.03,
+    "since_close_pct": -3.47,
+    "hedge_since_close_pct": 0.15,
+    "move_atr": -1.0,
+    "daily_atr_pct": 3.58,
+    "last_close": 102.01
+   },
+   "entry": {
+    "at": "7:16 AM",
+    "name": 98.4729,
+    "hedge": 174.0291
+   },
+   "plan": {
+    "stop_pct": -1.79,
+    "target_pct": 3.58,
+    "flat_by": "9:20 AM (pre-market)",
+    "flat_at": "2026-11-13T09:20:00-05:00"
+   },
+   "headlines": [
+    "Nov 13, 7:08 AM ET \u00b7 Investor's Business Daily \u00b7 Dow Jones Futures Rise, Yields Up Again; Nvidia Climbs After Tumbling On CEO Huang's Exit",
+    "Nov 13, 6:15 AM ET \u00b7 InvestorsHub \u00b7 Why Is Cisco Stock Falling Today Despite Higher Quarterly Revenue and Earnings?",
+    "Nov 13, 6:01 AM ET \u00b7 Stocktwits \u00b7 Futures Edge Lower As NVDA Fallout Unsettles Tech Stocks \u2014 SLS, AMAT, CSCO, CADL Stocks In Focus",
+    "Nov 13, 6:01 AM ET \u00b7 Benzinga \u00b7 Nvidia CEO Jensen Huang Resigns \u2014 CFO Collette Kress in as Interim CEO",
+    "Nov 13, 5:00 AM ET \u00b7 WSJ \u00b7 How Cisco Is Rewiring Its Corporate Structure for the AI Era",
+    "Nov 13, 4:54 AM ET \u00b7 InvestorsHub \u00b7 US Stock Futures Edge Lower as Nvidia Leadership Changes Offset Cisco and Applied Materials Forecasts: Dow Jones, S&P, Nasdaq, Wall Street",
+    "Nov 13, 4:35 AM ET \u00b7 Investing.com \u00b7 Huang ouster fallout; Cisco, Applied Materials outlooks - what\u2019s moving markets",
+    "Nov 13, 4:14 AM ET \u00b7 Stocktwits \u00b7 AI Roundup: Nvidia CEO\u2019s Exit Dominates Headlines \u2014 CoreWeave, Cisco Results Boost AI Sentiment"
+   ],
+   "verdict": {
+    "decision": "pass",
+    "conviction": 2,
+    "catalyst": "Cisco's fiscal Q1 2027 results, released Nov 12, 2026 after the close (Cisco press release via StockTitan, Nov 12): revenue $18.5B vs $18.1B est, non-GAAP EPS $1.40 vs $1.33 est, FY27 guide raised to $74.8B-$75.8B. No premarket reason for the Nov 13 drop found; the Huang resignation headline could not be confirmed.",
+    "why": "The premarket drop came after a beat-and-raise, and I could not find a stated sell-side reason for it, so the continuation case rests only on the gap itself. Reported non-GAAP gross margin of 65.6% sat inside Cisco's own 65-66% guide, and Q2 revenue guidance midpoint ($18.1B) was above the $17.88B LSEG estimate, which argues against a fundamental miss. The -1.79% stop is about half of the 3.58% daily ATR and falls within normal pre-market noise on thin volume, so a modest bounce would stop the trade out before any thesis is tested. Relative lead vs XLK is real (-3.47% vs +0.15%), but without r",
+    "against": "The gap came after a beat-and-raise with no identified bearish catalyst, so the 1.79% stop is likely to be hit by pre-market noise or a regular-session rebound before the 3.58% target is reached.",
+    "coming": "Nothing found inside the 9:20 AM window. Nvidia's earnings call (Nov 17) and the House China committee briefing with Huang (reported for Nov 18) fall after the window.",
+    "sources": [
+     "StockTitan, Nov 12 2026 (4:05 PM EST), Cisco Reports First Quarter FY2027 press release summary",
+     "HeyGoTrade, Nov 13 2026, Cisco Reports Q1 Fiscal 2027 Earnings on $18.5 Billion Revenue",
+     "GuruFocus, Nov 2026, Cisco Systems Reports Q1 2027 Earnings: GAAP EPS of $1.14 and Revenue of $18.5 Billion Exceed Estimates",
+     "247wallst, Aug 13 2026, Cisco Drops 7% on Gross Margin Fears: Five Firms Raise CSCO Price Target Anyway",
+     "Dexerto, Nov 2026, Nvidia launches independent investigation into CEO after reports of suspected Chinese spy link"
+    ],
+    "model": "claude-haiku-5-5",
+    "prompt": 4,
+    "turns": 13,
+    "seconds": 73
+   },
+   "exit": {
+    "at": "9:31 AM",
+    "reason": "flat",
+    "result_bp": -237.2,
+    "after_costs_bp": -245.2
    }
   }
  ]
