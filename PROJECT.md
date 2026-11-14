@@ -27,6 +27,10 @@ whose answer matters whichever way it comes out, and something to build and lear
 - **Real signal means statistically significant**, not a good-looking week. The measure:
   - *Main test:* the trades the research takes beat the ones it passes on, with under a 5% chance the gap is luck.
   - *Second test:* the book's return after costs is reliably above zero and above the S&P's over the same days.
+  - *Early test (swing book, added 2026-11-13):* the evening pass ranks every candidate it judges, best to worst,
+    and the better-ranked ones go on to do better. It uses all twenty or so verdicts a night, not only the takes,
+    so it can speak in about 20 nights. It is an early read on the research's judgment, not a substitute for the
+    main test.
   - The test and the bar are fixed in advance and checked on a schedule (weekly), not whenever it looks good.
 - **Excessive risk: a 10% drop.** If a paper book falls 10%, trading pauses and we work out what to do differently.
   The drop is measured against the book's full capital: $90,000 on the swing book's $900,000, $10,000 on the
@@ -44,7 +48,7 @@ whose answer matters whichever way it comes out, and something to build and lear
   a small model (Haiku) that researches each one. An experiment alongside the swing book: the aim is to find
   out whether both styles can succeed.
 - **Every verdict is recorded before the trade and scored afterwards**, taken or passed, so the passes are the
-  control group.
+  control group. The swing book's evening pass also ranks the night's verdicts, and the ranking is scored.
 - **Paper sizes stay large** ($10,000 a side). What matters is percent return, and a bigger book gives more
   trades and a faster answer. Sizing for a $15,000 account is a later step, before real money.
 

@@ -23,7 +23,7 @@ from .intraday.model import binary
 
 log = logging.getLogger(__name__)
 
-MODEL, EFFORT = "claude-fable-5-2", "medium"
+MODEL, EFFORT = "claude-fable-5-2", "high"   # the pass itself; its agents run on Opus 5.5 at medium (the skill, "Models")
 TIMEOUT = 40 * 60
 PROMPTS = Path("deploy/passes")
 DRAFTS = Path("data/pass-drafts")

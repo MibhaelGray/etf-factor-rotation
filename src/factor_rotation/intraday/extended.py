@@ -13,14 +13,16 @@ earnings reporters are not skipped here, since a report is the usual reason for 
 holds or is entering early are skipped. Every signal is followed by the same exit rules on each tick's prices
 (stop and target in ATRs as in signals.py, out at the session's flat time), so takes can be scored against passes.
 
-Takes trade on the paper account: limit orders LIMIT_SLIP through the price, $10,000 a side, on SMART outside
+Takes trade on the paper account: limit orders LIMIT_SLIP through the gateway's bid or ask, $10,000 a side, on SMART outside
 regular hours or the OVERNIGHT venue. An entry still unfilled at the next tick is cancelled; a pair with one side
 filled is closed. An exit that hasn't filled is cancelled and sent again at the new price at each tick, into the
 next session if it must, and anything still held at the 9:31 AM tick goes out with a market order.
 
 Prices come from the paper gateway (read-only, FR_EXT_DATA_CLIENT_ID, default 73): snapshot quotes, and 15-minute
-bars for the session's volume. Before 8:00 PM and after 4:00 AM Yahoo stands in when the gateway has no data;
-overnight there is no stand-in, so the tick waits. The night's record is journal/intraday/nights/<session>.json,
+bars for the session's volume. Before 8:00 PM and after 4:00 AM Yahoo stands in when the gateway has no data,
+for finding signals and following them only: no order goes out without the gateway's own bid and ask for it, so
+on Yahoo's prices a take is recorded as not sent, with the gateway's reason. Overnight there is no stand-in, so
+the tick waits. The night's record is journal/intraday/nights/<session>.json,
 named for the session the night leads into.
 """
 
@@ -166,9 +168,16 @@ class IBMarket:
     async def __aenter__(self):
         from ib_async import IB
         self.ib = IB()
+        self.errors: dict[int, tuple[int, str]] = {}   # conId -> the gateway's last refusal for it
+        self.ib.errorEvent += self._on_error
         await self.ib.connectAsync(self.host, self.port, clientId=self.client_id, readonly=True, timeout=15)
         self.ib.reqMarketDataType(1)
         return self
+
+    def _on_error(self, req_id, code, message, contract):
+        """Keeps what the gateway said about a contract, so a missing quote comes with its reason."""
+        if contract is not None and getattr(contract, "conId", 0) and code not in QUOTE_NOISE:
+            self.errors[contract.conId] = (code, message)
 
     async def __aexit__(self, *exc):
         if self.ib:
@@ -184,22 +193,37 @@ class IBMarket:
                     out[c.symbol.replace(" ", ".")] = Contract(conId=c.conId, exchange="OVERNIGHT") if overnight else c
         return out
 
-    async def quotes(self, symbols: list[str], overnight: bool) -> dict[str, float]:
+    async def quotes(self, symbols: list[str], overnight: bool, tries: int = 1, need_books: bool = False) -> dict[str, float]:
+        """symbol -> latest price. Also sets `books` (symbol -> bid, ask) and `missing` (symbol -> why it has no
+        bid and ask). `need_books` waits for the bid and ask, not just a price; `tries` asks again for the names
+        still without a book, unless the gateway refused them for a reason that asking again won't change."""
         contracts = await self._contracts(symbols, overnight)
         out = {}
         self.books: dict[str, tuple[float, float]] = {}
-        items = list(contracts.items())
-        for i in range(0, len(items), SNAPSHOT_BATCH):
-            tickers = [(s, self.ib.reqMktData(c, "", False, False)) for s, c in items[i:i + SNAPSHOT_BATCH]]
-            for _ in range(16):
-                await asyncio.sleep(0.5)
-                if all(_price(t) for _, t in tickers):
-                    break
-            out.update({s: p for s, t in tickers if (p := _price(t))})
-            self.books.update({s: (float(t.bid), float(t.ask)) for s, t in tickers
-                               if t.bid and t.ask and t.bid > 0 and t.ask > t.bid})
-            for _, tk in tickers:
-                self.ib.cancelMktData(tk.contract)
+        self.missing: dict[str, str] = {s: "IBKR has no contract for it" for s in symbols if s not in contracts}
+        why = {}
+        todo = list(contracts.items())
+        for attempt in range(tries):
+            if attempt:
+                await asyncio.sleep(QUOTE_RETRY_WAIT)
+            for i in range(0, len(todo), SNAPSHOT_BATCH):
+                batch = todo[i:i + SNAPSHOT_BATCH]
+                for _, c in batch:
+                    self.errors.pop(c.conId, None)
+                tickers = [(s, self.ib.reqMktData(c, "", False, False)) for s, c in batch]
+                for _ in range(QUOTE_WAITS):
+                    await asyncio.sleep(0.5)
+                    if all((_book(t) if need_books else _price(t)) or t.contract.conId in self.errors for _, t in tickers):
+                        break
+                out.update({s: p for s, t in tickers if (p := _price(t))})
+                self.books.update({s: b for s, t in tickers if (b := _book(t))})
+                why.update({s: _why_no_book(t, self.errors.get(t.contract.conId)) for s, t in tickers if not _book(t)})
+                for _, tk in tickers:
+                    self.ib.cancelMktData(tk.contract)
+            todo = [(s, c) for s, c in todo if s not in self.books and self.errors.get(c.conId, (0, ""))[0] not in QUOTE_REFUSED]
+            if not todo:
+                break
+        self.missing.update({s: w for s, w in why.items() if s not in self.books})
         self._contracts_cache = contracts
         return out
 
@@ -229,6 +253,43 @@ class IBMarket:
                         total += b.close * b.volume
             out[s] = total if answered else None
         return out
+
+
+QUOTE_WAITS = 16            # of 0.5 s: how long one request waits for its quote
+QUOTE_RETRY_WAIT = 5        # seconds before asking again for the names still without a bid and ask
+QUOTE_NOISE = {2104, 2106, 2107, 2108, 2119, 2158, 300, 10167}   # farm status lines, notices, the cancel of a refused request
+# The gateway's refusals that asking again won't change, in plain words.
+QUOTE_REFUSED = {
+    10197: "the live IBKR login is in use somewhere else, and IBKR gives its quotes to one session at a time",
+    10168: "the account has no market data subscription for it over the API",
+    10089: "the account has no market data subscription for it over the API",
+    10090: "the account has no market data subscription for it over the API",
+    10091: "the account has no market data subscription for it over the API",
+    354: "the account has no market data subscription for it over the API",
+    200: "IBKR has no such contract on this venue",
+}
+
+
+def _book(t) -> tuple[float, float] | None:
+    """The ticker's bid and ask when both are there and the bid isn't over the ask."""
+    bid, ask = t.bid, t.ask
+    if bid is None or ask is None or not (np.isfinite(bid) and np.isfinite(ask)):
+        return None
+    return (float(bid), float(ask)) if bid > 0 and ask >= bid else None
+
+
+def _why_no_book(t, error: tuple[int, str] | None) -> str:
+    """Why a name has no bid and ask, in a sentence fragment that follows "because"."""
+    if error:
+        code, message = error
+        return f"{QUOTE_REFUSED.get(code) or message.strip()} (IBKR error {code})"
+    have = lambda v: v is not None and np.isfinite(v) and v > 0   # noqa: E731
+    bid, ask = have(t.bid), have(t.ask)
+    if bid and ask:
+        return f"its bid ({t.bid:g}) is above its ask ({t.ask:g})"
+    if bid or ask:
+        return f"the gateway sent {'a bid and no ask' if bid else 'an ask and no bid'}"
+    return f"the gateway sent no bid or ask within {QUOTE_WAITS * 0.5:g} seconds and gave no reason"
 
 
 def _price(t) -> float | None:
@@ -305,15 +366,18 @@ def _limit(action: str, px: float) -> float:
     return round(px * (1 + LIMIT_SLIP) if action == "BUY" else px * (1 - LIMIT_SLIP), 2)
 
 
-def _order(sig, symbol, action, shares, sess, px, now, book_=None, exiting=False) -> dict:
+def _order(sig, symbol, action, shares, sess, px, now, book_=None, exiting=False) -> dict | None:
+    """One paper order, or None when there is no bid and ask to price it on: outside regular hours nothing is
+    sent without the gateway's quote (2026-11-13; until then a missing quote fell back to Yahoo's last price)."""
     if sess == "open":
         return {"trade_id": sig["id"], "symbol": symbol, "action": action, "shares": shares, "kind": "MKT"}
+    if rules.spread_pct(book_) is None:
+        return None
     # Orders cross the book to fill at once: a buy at the ask, a sell at the bid (the limit is LIMIT_SLIP beyond,
     # so it still fills if the quote moves a little). The one exception is a book wider than MAX_CROSS_SPREAD
-    # (1%): the order then rests at the mid. (Until 2026-11-12 the limit was a quarter of the name's daily ATR.)
-    if book_ and rules.crossable(book_, MAX_CROSS_SPREAD):
-        bid, ask = book_
-        px = ask if action == "BUY" else bid
+    # (1%): the order then rests at the mid.
+    bid, ask = book_
+    px = (ask if action == "BUY" else bid) if rules.crossable(book_, MAX_CROSS_SPREAD) else (bid + ask) / 2
     from ..paper.early import book_fields
     o = {"trade_id": sig["id"], "symbol": symbol, "action": action, "shares": shares, "kind": "LMT",
          "limit": _limit(action, px), "venue": "overnight" if sess == "overnight" else "extended", **book_fields(book_)}
@@ -322,10 +386,20 @@ def _order(sig, symbol, action, shares, sess, px, now, book_=None, exiting=False
     return o
 
 
+def _no_entry(x: dict, books: dict, missing: dict) -> str | None:
+    """Why a take can't go in at this tick, or None when both legs have a bid and ask from the gateway."""
+    parts = [f"no quote for {s} from the gateway" + (f" because {missing[s]}" if missing.get(s) else "")
+             for s in (x["symbol"], x["hedge"]) if rules.spread_pct(books.get(s)) is None]
+    return "; ".join(parts) or None
+
+
 async def trade(doc: dict, sess: str, px: dict, now: datetime, save, make_broker=orders.broker,
-                books: dict | None = None) -> list[str]:
-    """This tick's paper orders: new takes in, unfilled entries cancelled, exits out and sent again until flat."""
+                books: dict | None = None, missing: dict | None = None) -> list[str]:
+    """This tick's paper orders: new takes in, unfilled entries cancelled, exits out and sent again until flat.
+    Outside regular hours every order is priced on the gateway's bid and ask (`books`). A take without a quote
+    on both legs isn't sent; an exit without a quote waits for the next tick, or the market order at the open."""
     warnings: list[str] = []
+    books, missing = books or {}, missing or {}
     new = [x for x in doc["signals"] if (x.get("verdict") or {}).get("decision") == "take" and "paper" not in x]
     live = [x for x in doc["signals"] if (x.get("paper") or {}).get("state") in ("entering", "open", "exiting", "dry run")]
     if new and orders.HALT.exists():
@@ -341,6 +415,11 @@ async def trade(doc: dict, sess: str, px: dict, now: datetime, save, make_broker
         for x in new:
             x["paper"] = {"state": "not sent", "why": "too late: the regular session has opened"}
         new = []
+    for x in list(new):
+        if why := _no_entry(x, books, missing):
+            x["paper"] = {"state": "not sent", "why": why}
+            warnings.append(f"{x['id']} {x['symbol']} vs {x['hedge']} wasn't sent: {why}.")
+            new.remove(x)
     if not new and not live:
         return warnings
     async with make_broker() as b:
@@ -376,9 +455,16 @@ async def trade(doc: dict, sess: str, px: dict, now: datetime, save, make_broker
                     continue
                 by = {leg["symbol"]: leg for leg in p["legs"]}
                 for s, n in held.items():
-                    if n > 0 and (px.get(s) or sess == "open"):
-                        action = "SELL" if by[s]["side"] == "long" else "BUY"
-                        out.append(_order(x, s, action, n, sess, px.get(s), now, (books or {}).get(s), exiting=True))
+                    if n <= 0:
+                        continue
+                    action = "SELL" if by[s]["side"] == "long" else "BUY"
+                    o = _order(x, s, action, n, sess, px.get(s), now, books.get(s), exiting=True)
+                    if o:
+                        out.append(o)
+                    else:
+                        warnings.append(f"{x['id']}: the exit of {n} {s} waits, with no quote for it from the gateway"
+                                        + (f" because {missing[s]}" if missing.get(s) else "")
+                                        + ". It is tried again at the next tick and goes at the market at the open.")
                 p["state"] = "exiting"
         for x in new:
             legs = orders._legs({**x, "numbers": {"price": px.get(x["symbol"]) or x["numbers"]["price"]},
@@ -388,7 +474,7 @@ async def trade(doc: dict, sess: str, px: dict, now: datetime, save, make_broker
                 continue
             x["paper"] = {"state": "dry run" if dry else "entering", "dry_run": dry, "legs": legs, "session": sess, "warnings": []}
             out += [_order(x, leg["symbol"], "BUY" if leg["side"] == "long" else "SELL", leg["shares"], sess,
-                           px.get(leg["symbol"]) or leg["ref_price"], now, (books or {}).get(leg["symbol"])) for leg in legs]
+                           px.get(leg["symbol"]) or leg["ref_price"], now, books.get(leg["symbol"])) for leg in legs]
         if not out:
             return warnings
         if not dry:
@@ -462,7 +548,7 @@ def tick(now: datetime | None = None, decide=model.decide, news=model.headlines,
                 doc["signals"].append(h)
             save = (lambda: None) if dry else (lambda: _save(night, doc))
             warnings = await trade(doc, sess, px, now, save, (lambda: orders.DryRun()) if dry else broker,
-                                   getattr(m, "books", {}))
+                                   getattr(m, "books", {}), getattr(m, "missing", {}))
             return px, source, hits, judged, warnings
         finally:
             if market is None:

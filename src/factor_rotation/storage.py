@@ -11,6 +11,7 @@ Layout:
 
 import os
 import posixpath
+import threading
 from datetime import datetime
 
 import pandas as pd
@@ -29,10 +30,26 @@ def _resolve(path: str) -> tuple[fs.FileSystem, str]:
 
 
 def write(df: pd.DataFrame, path: str) -> str:
+    """Write the file so a reader never finds it half written. On a local disk the new file is written beside the
+    old one and swapped in with one rename: a reader gets the old file or the new one, whole. (Until 2026-11-14 the
+    file was opened in place, which empties it first; a job reading bars while the dashboard refreshed them failed
+    with "Parquet file size is 0 bytes".) On S3 an object only appears once its upload has finished."""
     filesystem, target = _resolve(path)
     filesystem.create_dir(posixpath.dirname(target), recursive=True)
-    with filesystem.open_output_stream(target) as out:
-        pq.write_table(pa.Table.from_pandas(df, preserve_index=False), out, compression="zstd")
+    table = pa.Table.from_pandas(df, preserve_index=False)
+    if not isinstance(filesystem, fs.LocalFileSystem):
+        with filesystem.open_output_stream(target) as out:
+            pq.write_table(table, out, compression="zstd")
+        return target
+    # The name doesn't end in .parquet, so list_files never takes a file in progress for data.
+    tmp = f"{target}.{os.getpid()}.{threading.get_ident()}.tmp"
+    try:
+        with open(tmp, "wb") as out:
+            pq.write_table(table, out, compression="zstd")
+        os.replace(tmp, target)
+    finally:
+        if os.path.exists(tmp):
+            os.remove(tmp)
     return target
 
 

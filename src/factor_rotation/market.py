@@ -416,7 +416,9 @@ def _paper() -> list[dict]:
 
     rows = [{"section": "paper", **r} for r in book.rows()]
     try:  # the verdicts need bars for every proposal's legs; the trades are still worth showing without them
-        rows += [{"section": "paper_proposal", **r} for r in learn.outcomes()]
+        verdicts = learn.outcomes()
+        rows += [{"section": "paper_proposal", **r} for r in verdicts]
+        rows.append({"section": "paper_rank", **learn.rank_table(verdicts)})
     except Exception as e:
         logging.getLogger(__name__).warning("paper_proposals_failed error=%r", e)
     try:

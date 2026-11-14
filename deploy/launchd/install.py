@@ -53,6 +53,10 @@ SCHEDULE = {
     # The swing book's pre-close review as a background job, on trial: it works on a copy of the journal, and the
     # pass scheduled in the Claude app is still the one that counts.
     "pass-pre-close": ["15:00"],
+    # Side facts for the night's verdicts (paper/side.py): after the evening pass, which has recorded as early as
+    # 7:48 PM and as late as 11:15 PM ET, with two morning runs for a late pass or a failed pull. A run with
+    # nothing left to pull does nothing, and none pulls after the open.
+    "side-facts": ["21:30", "23:45", "06:00", "08:45"],
     "intraday-tick": [f"{h:02d}:{m:02d}" for h in range(10, 16) for m in (1, 16, 31, 46)],
     # The intraday book outside regular hours (intraday/extended.py): after-hours from 4:46 PM (once the 4:30 PM
     # daily bars are in), overnight, pre-market, and a 9:31 AM clean-up of anything still held.
@@ -64,7 +68,7 @@ SCHEDULE = {
 
 
 # job -> New York times on Sundays as well
-SUNDAY = {"keep-awake": ["19:55"], "paper-early": ["21:00"], "intraday-ext": [t for t in EXT_EVENING if t >= "20:16"]}
+SUNDAY = {"keep-awake": ["19:55"], "paper-early": ["21:00"], "side-facts": ["21:30", "23:45"], "intraday-ext": [t for t in EXT_EVENING if t >= "20:16"]}
 
 
 def local_zone() -> ZoneInfo:

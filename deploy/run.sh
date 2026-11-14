@@ -5,7 +5,7 @@ cd "$(dirname "$0")/.."
 # One IB job at a time: a later job waits for the one running. flock on Linux, lockf on macOS. Paper jobs
 # use the paper gateway and have their own lock, so a long option pull can't make the 3:45 PM exits miss the
 # market-on-close cutoff.
-case "${1:-}" in keep-awake) lock=/tmp/fr-awake.lock ;; paper-*) lock=/tmp/fr-paper.lock ;; intraday-*) lock=/tmp/fr-intraday.lock ;; pass-*) lock=/tmp/fr-pass.lock ;; *) lock=/tmp/fr-ib.lock ;; esac
+case "${1:-}" in keep-awake) lock=/tmp/fr-awake.lock ;; paper-*) lock=/tmp/fr-paper.lock ;; intraday-*) lock=/tmp/fr-intraday.lock ;; pass-*) lock=/tmp/fr-pass.lock ;; side-*) lock=/tmp/fr-side.lock ;; *) lock=/tmp/fr-ib.lock ;; esac
 if [ -z "${FR_LOCKED:-}" ]; then
   export FR_LOCKED=1
   if command -v flock >/dev/null; then exec flock "$lock" "$0" "$@"; fi
@@ -50,6 +50,9 @@ case "$1" in
     # Entries outside regular hours (paper/early.py). Not gated on the trading day: Sunday night enters Monday's takes.
     [ -n "${FR_PAPER_ACCOUNT:-}" ] || { echo "FR_PAPER_ACCOUNT not set; skipping $1" >&2; exit 0; }
     exec uv run fr paper early ;;
+  side-facts)
+    # Facts recorded beside the night's verdicts, which no research pass reads (paper/side.py). Yahoo only.
+    exec uv run fr paper side ;;
   pass-pre-close)
     uv run fr trading-day || exit 0
     exec uv run fr pass "${1#pass-}" --shadow ;;

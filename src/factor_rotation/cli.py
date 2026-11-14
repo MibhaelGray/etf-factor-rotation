@@ -68,8 +68,9 @@ def main(argv: list[str] | None = None) -> None:
                    help="a job that sends orders only looks when it is run by hand: it prints what it would send "
                         "and sends nothing. This makes it count, as the scheduled job does")
     c.add_argument("job", choices=["open", "early", "check", "midday", "close", "sync", "status", "report", "halt", "resume",
-                                   "propose", "review", "midday-check", "postmortem", "learn", "hedges"])
-    c.add_argument("args", nargs="*", help="propose, review, midday-check, postmortem: the draft JSON file; hedges: the symbols on one side")
+                                   "propose", "review", "midday-check", "postmortem", "learn", "hedges", "side", "holds", "depth"])
+    c.add_argument("args", nargs="*", help="propose, review, midday-check, postmortem: the draft JSON file; hedges: the symbols on one side; "
+                                           "side: `report` to score the side facts instead of pulling them")
     c.add_argument("--flatten", action="store_true", help="close: exit every open trade at today's close")
     c.add_argument("--reason", default="", help="halt: why, kept in the HALT file")
     c.add_argument("--book", choices=["swing", "intraday"],
@@ -260,7 +261,8 @@ def _research(a) -> None:
             path, doc, notes = proposals.record(draft())
             takes = [p for p in doc["proposals"] if p["decision"] == "take"]
             print(f"{path}: {len(doc['proposals'])} verdicts for {doc['session']}, {len(takes)} takes "
-                  f"(the entry job trades up to {proposals.rules.MAX_NEW}, strongest conviction first)")
+                  f"(the entry job trades up to {proposals.rules.MAX_NEW}, strongest conviction first, then by rank); "
+                  f"{sum(bool(p.get('rank')) for p in doc['proposals'])} ranked")
             for p in takes:
                 st = p.get("stats") or {}
                 legs = " / ".join(filter(None, [p["long"] and "long " + ", ".join(p["long"]), p["short"] and "short " + ", ".join(p["short"])]))
@@ -269,6 +271,16 @@ def _research(a) -> None:
                       + (f"  {p['preopen']['decision'].upper().replace('_', ' ')}: {p['preopen']['reason']}" if p.get("preopen") else ""))
             for n in notes:
                 print(f"  note: {n}")
+            try:  # the night's research depth, kept beside the verdicts (paper/depth.py); it never stops a pass recording
+                from .paper import depth
+                m = depth.measure()
+                if m["measured"] and depth.keep(date.fromisoformat(doc["session"]), m):
+                    for f in m["flags"]:
+                        print(f"  note: {f}")
+                    if m["thin"]:
+                        print(f"  note: research was thin for {', '.join(sorted(m['thin']))} (uv run fr paper depth)")
+            except Exception as e:  # noqa: BLE001
+                print(f"  note: research depth not kept ({type(e).__name__}: {e})")
         elif a.job == "review":
             path = learn.record_review(draft())
             for r in json.loads(path.read_text())["reviews"]:
@@ -299,6 +311,24 @@ def _paper(a) -> None:
 
     if a.job in ("propose", "review", "midday-check", "postmortem", "learn", "hedges"):
         return _research(a)
+    if a.job == "depth":
+        # How much research each candidate got, from this session's transcripts (paper/depth.py). `args`: a session id.
+        from .paper import depth
+        return print(depth.report(depth.measure(a.args[0] if a.args else None)))
+    if a.job == "holds":
+        # Every idea scored at every hold from 1 to 10 sessions (paper/holds.py). Journal and bars only.
+        from .paper import holds
+        return print(holds.report())
+    if a.job == "side":
+        # Facts recorded beside the verdicts and kept from the research passes (paper/side.py). No gateway.
+        from .paper import side
+        if a.args == ["report"]:
+            return print(side.report())
+        r = side.record(dry=_looking(a))
+        print(f"paper side {r['session']}: " + (r.get("note") or f"{len(r['pulled'])} names pulled, {len(r['failed'])} failed, {r['have']} already had"))
+        if r["failed"]:
+            print("  ! nothing from Yahoo for " + ", ".join(r["failed"]) + "; the next run tries again")
+        return
     today = _today()
     if a.job in ("open", "check", "midday", "close", "sync") and not journal.is_trading_day(today):
         logging.info("market_closed date=%s", today)

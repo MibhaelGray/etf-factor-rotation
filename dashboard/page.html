@@ -183,9 +183,8 @@
   .fr-open p { margin: 0; font-size: var(--cds-font-size-caption); line-height: 1.55; }
   .fr-open .fr-wide { grid-column: 1 / -1; }
   @media (max-width: 40rem) { .fr-tabs { flex-wrap: wrap; } }
-  .fr-paperband { grid-template-columns: repeat(5, minmax(0, 1fr)); }
-  .fr-paperband .fr-val { font-size: clamp(1.15rem, 2.2vw, 1.6rem); }
-  @media (max-width: 52rem) { .fr-paperband { grid-template-columns: repeat(2, minmax(0, 1fr)); } .fr-paperband > :last-child:nth-child(odd) { grid-column: span 2; } }
+  .fr-paperband { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  @media (max-width: 52rem) { .fr-paperband { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   .fr-held { white-space: nowrap; }
   .fr-papernotes { display: grid; gap: var(--cds-gap-xs); }
   .fr-cellsub { display: block; font-weight: 400; color: var(--fr-muted); font-size: var(--cds-font-size-caption); }
@@ -531,10 +530,10 @@
   <section class="fr-view" id="paper" data-view="paper" hidden>
     <div class="fr-viewhead"><h2>Swing research</h2><p>What the research pass judged and how its calls did. Positions and dollar results are on <button type="button" class="fr-link" data-view-to="portfolio">Portfolio</button>.</p></div>
     <div class="fr-papernotes" data-draw="paper-notes" data-source="mkt_paper mkt_paper_account"></div>
-    <div class="fr-band fr-paperband" aria-label="Research record" data-draw="paper-band" data-source="mkt_paper mkt_paper_proposals mkt_paper_account"></div>
+    <div class="fr-band fr-paperband" aria-label="Research record" data-draw="paper-band" data-source="mkt_paper mkt_paper_proposals mkt_paper_rank mkt_paper_account"></div>
     <div class="fr-panel">
       <div class="fr-phead"><h3>Research verdicts</h3><span class="fr-sub" data-draw="paper-verdict-sum" data-source="mkt_paper_proposals">—</span>
-        <p>Every candidate the research pass judged for the swing book, newest first. "Plan result" scores each one's own plan on daily bars, from the first open to its stop or time limit, before costs, whether or not it was taken. If the takes don't beat the passes, the research isn't adding anything.</p></div>
+        <p>Every candidate the research pass judged for the swing book, newest first, each night in the pass’s own ranking. "Plan result" scores each one's own plan on daily bars, from the first open to its stop or time limit, before costs, whether or not it was taken. If the takes don't beat the passes, the research isn't adding anything.</p></div>
       <div class="fr-tablewrap" data-draw="paper-verdicts" data-source="mkt_paper_proposals"></div>
     </div>
     <details class="fr-method"><summary>How the swing book works</summary>
@@ -739,7 +738,9 @@
   dash.calc('mkt_paper', { inputs: ['market'], title: 'Paper trades', description: 'Every paper trade on the IBKR paper account: plan, state, result after commissions and the difference from the daily-bar model.',
     fn: (market) => market.filter((r) => r.section === 'paper').sort((a, b) => b.entry_date.localeCompare(a.entry_date) || a.id.localeCompare(b.id)) });
   dash.calc('mkt_paper_proposals', { inputs: ['market'], title: 'Research verdicts', description: 'Every candidate the research pass judged for the swing book: take or pass, conviction, reasoning, and the result of its own plan on daily bars.',
-    fn: (market) => market.filter((r) => r.section === 'paper_proposal').sort((a, b) => b.session.localeCompare(a.session) || a.id.localeCompare(b.id)) });
+    fn: (market) => market.filter((r) => r.section === 'paper_proposal').sort((a, b) => b.session.localeCompare(a.session) || (a.rank || 1e6) - (b.rank || 1e6) || a.id.localeCompare(b.id)) });
+  dash.calc('mkt_paper_rank', { inputs: ['market'], title: 'Ranking against results', description: 'Whether the research pass’s ranking of each night’s candidates predicts their plan results: the rank correlation night by night, and the results of each night’s top, middle and bottom third.',
+    fn: (market) => market.filter((r) => r.section === 'paper_rank') });
   dash.calc('mkt_paper_account', { inputs: ['market'], title: 'Paper account', description: 'The paper account’s value and positions at the last sync.',
     fn: (market) => market.filter((r) => r.section === 'paper_account') });
   dash.calc('mkt_portfolio_pos', { inputs: ['market'], title: 'Portfolio positions', description: 'Each symbol a paper book holds: shares, average cost, latest price, market value, today’s change and total profit and loss.',
@@ -1046,9 +1047,16 @@
     const closed = rows.filter((r) => r.state === 'closed' && r.pnl != null && !isBroken(r));
     const slip = closed.filter((r) => r.slippage_bps != null);
     const next = paperNext(paperAcct());
+    // Whether each night's ranking predicted the results: every ranked candidate counts, not only the takes.
+    const rk = (okData('mkt_paper_rank') || [])[0];
+    const third = (k) => rk.thirds[k].n ? fmtBp(rk.thirds[k].mean) : '—';
+    const ranking = !rk || !rk.ranked ? stat('Ranking', '—', '', 'Starts with the next evening pass', 'Every candidate is ranked, and the ranking is scored')
+      : !rk.nights ? stat('Ranking', '—', '', `${rk.ranked} verdicts ranked`, 'No ranked night has finished yet')
+      : stat('Ranking', signed(rk.ic, '.2f'), tone(rk.ic), `Rank correlation over ${rk.nights} night${rk.nights === 1 ? '' : 's'}${rk.t == null ? '' : ` · t ${signed(rk.t, '.1f')}`}${rk.nights < rk.nights_needed ? ` · needs about ${rk.nights_needed}` : ''}`,
+        `Top third ${third('top')} · bottom third ${third('bottom')}`);
     el.replaceChildren(
       stat('Verdicts', String(props.length), '', `${takes} taken · ${props.length - takes} not taken`, `Over ${sessions} session${sessions === 1 ? '' : 's'}`),
-      side('Taken', true), side('Not taken', false),
+      side('Taken', true), side('Not taken', false), ranking,
       stat('Closed trades', closed.length ? `${closed.filter((r) => r.pnl > 0).length} of ${closed.length} won` : '—', '',
         closed.length ? `Average ${fmtBp(d3.mean(closed, (r) => r.bps))} after commissions` : 'Nothing closed yet', slip.length ? `Fills vs model ${fmtBp(d3.mean(slip, (r) => r.slippage_bps))}` : null),
       next ? stat('Next step', next.time, '', `${next.day}: ${next.name.toLowerCase()}`, next.what) : stat('Next step', '—', ''));
@@ -1569,13 +1577,13 @@
     const d = ready(el, 'mkt_paper_proposals', true);
     if (!d) return;
     if (!d.data.length) { el.replaceChildren(h('p', 'fr-empty', 'No research verdicts yet. The evening pass records them for the next open, and the swing book takes nothing without them.')); return; }
-    paperTable(el, [['For'], ['Candidate'], ['Verdict'], ['Conviction', 'num fr-hide-narrow'], ['Plan result', 'num']], d.data, (tr, r, open) => {
+    paperTable(el, [['For'], ['Candidate'], ['Verdict'], ['Rank', 'num fr-hide-narrow'], ['Conviction', 'num fr-hide-narrow'], ['Plan result', 'num']], d.data, (tr, r, open) => {
       const tg = h('button', 'fr-toggle', r.name); tg.type = 'button'; tg.setAttribute('aria-expanded', String(open)); tg.append(h('small', null, `${human(r.setup)} · ${r.legs || human(r.direction)}`));
       const name = h('td'); name.append(tg);
       const v = VERDICT[r.verdict] || [human(r.verdict), 'is-fg'];
       const vTd = h('td'); vTd.append(chip(v[0], v[1]));
       const live = r.plan_bps == null && r.plan_so_far_bps != null;
-      tr.append(h('td', 'fr-num', day(r.session, '%a %b %-d')), name, vTd, h('td', 'num fr-hide-narrow', r.conviction == null ? '—' : `${r.conviction} of 5`),
+      tr.append(h('td', 'fr-num', day(r.session, '%a %b %-d')), name, vTd, h('td', 'num fr-hide-narrow', r.rank ? `${r.rank} of ${r.ranked}` : '—'), h('td', 'num fr-hide-narrow', r.conviction == null ? '—' : `${r.conviction} of 5`),
         twoLine(`num fr-amt ${tone(r.plan_bps ?? r.plan_so_far_bps)}`, fmtBp(r.plan_bps ?? r.plan_so_far_bps), live ? 'so far' : r.paper_bps != null ? `paper ${fmtBp(r.paper_bps)}` : null));
     }, (r, n) => {
       const dt = verdictDetail(r, n);

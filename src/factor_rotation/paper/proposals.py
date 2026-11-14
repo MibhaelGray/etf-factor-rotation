@@ -212,11 +212,25 @@ def _proposal(raw: dict, session: date, screen: dict | None, cands: dict) -> dic
     return p
 
 
+def _ranks(raws: list[dict], kind: str) -> list[int | None]:
+    """The pass's ranking of the verdicts in one draft: 1 is the idea it believes in most. The evening pass ranks
+    every verdict, passes too, so each night gives a whole list to score against the ideas' plan results
+    (learn.rank_table) and not just a take or two. Another pass may rank its verdicts or leave all of them unranked."""
+    given = [r.get("rank") for r in raws]
+    if kind != "evening" and all(g is None for g in given):
+        return given
+    n = len(raws)
+    if any(not isinstance(g, int) or isinstance(g, bool) for g in given) or sorted(given) != list(range(1, n + 1)):
+        raise ValueError(f"rank every verdict in the draft from 1 (the idea you believe in most) to {n} (the least), passes and "
+                         "own ideas too, with no ties and no gaps: the ranking is scored against each idea's plan result")
+    return given
+
+
 def record(draft: dict, now: datetime | None = None) -> tuple[Path, dict, list[str]]:
     """Add a pass's verdicts to the session's proposals. Returns the path, the file and notes for the pass.
 
     draft: {"session": "2026-11-10", "pass": "evening" | "preopen", "summary": "...", "market": {...},
-            "proposals": [{"candidate": "ABNB", "decision": "take", "conviction": 3, "reason": "...", ...}],
+            "proposals": [{"candidate": "ABNB", "rank": 1, "decision": "take", "conviction": 3, "reason": "...", ...}],
             "checks": [{"id": "2026-11-10-P01", "decision": "stands" | "stand_down", "reason": "..."}]}
     """
     now = now or datetime.now(NY)
@@ -237,8 +251,13 @@ def record(draft: dict, now: datetime | None = None) -> tuple[Path, dict, list[s
         raise FileNotFoundError(f"no screen with next session {session}; run `fr screen` on settled bars first")
     have = {p["name"]: p for p in doc["proposals"]}
     new, replaced, notes = [], 0, []
-    for raw in draft.get("proposals", []):
-        p = {**_proposal(raw, session, screen, cands), "session": session.isoformat(), "pass": kind, "recorded_at": now.isoformat()}
+    raws = draft.get("proposals", [])
+    ranks = _ranks(raws, kind)
+    ranked = []
+    for raw, rank in zip(raws, ranks):
+        p = {**_proposal(raw, session, screen, cands), "session": session.isoformat(), "pass": kind, "recorded_at": now.isoformat(),
+             "rank": rank, "ranked": len(raws) if rank else None}
+        ranked.append(p)
         old = have.get(p["name"])
         if p["name"] in {x["name"] for x in new} or (old and old["reviewed"]):
             raise ValueError(f"{p['name']} already has a verdict for {session}; a verdict is not rewritten")
@@ -247,13 +266,19 @@ def record(draft: dict, now: datetime | None = None) -> tuple[Path, dict, list[s
             replaced += 1
         else:
             new.append(p)
+    order = sorted((p for p in ranked if p["rank"]), key=lambda p: p["rank"])
+    for a, b in zip(order, order[1:]):  # the rank is the conviction, drawn finer: the two can't disagree
+        if b["conviction"] > a["conviction"]:
+            raise ValueError(f"{b['name']} is ranked {b['rank']} with conviction {b['conviction']}, below {a['name']} at rank "
+                             f"{a['rank']} with conviction {a['conviction']}: an idea with more conviction ranks higher")
     if kind == "evening":
         judged = set(have) | {p["name"] for p in new}
         for name, (rank, c) in cands.items():
             if name not in judged:
                 new.append({**_from_screen(c, rank, screen), "session": session.isoformat(), "pass": kind, "recorded_at": now.isoformat(),
                             "decision": "pass", "conviction": None, "reason": "not reviewed", "reviewed": False, "reasoning": None,
-                            "wrong_if": None, "hedge_why": None, "through_earnings": None, "preopen": None, "stats": None})
+                            "wrong_if": None, "hedge_why": None, "through_earnings": None, "preopen": None, "stats": None,
+                            "rank": None, "ranked": None})
                 notes.append(f"{name} (screen #{rank}) had no verdict, so it is recorded as not reviewed")
     for k, p in enumerate(new, len(doc["proposals"]) + 1):
         p["id"] = f"{session}-P{k:02d}"

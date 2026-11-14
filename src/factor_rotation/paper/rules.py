@@ -144,7 +144,8 @@ def proposal_trades(proposals: list[dict], entry_date: str, prices: dict[str, fl
     `room` is how many of the session's MAX_NEW are left. Returns (trades, skipped with reasons)."""
     trades, skipped, used = [], [], set(held)
     takes = [p for p in proposals if p["decision"] == "take"]
-    for p in sorted(takes, key=lambda p: -p["conviction"]):  # a stable sort: the pass's own order within a conviction
+    # Strongest conviction first, then the pass's own ranking; a stable sort, so unranked takes keep the pass's order.
+    for p in sorted(takes, key=lambda p: (-p["conviction"], p.get("rank") or 10**6)):
         if (p.get("preopen") or {}).get("decision") == "stand_down":
             skipped.append({"name": p["id"], "reason": f"stood down before the open: {p['preopen']['reason']}"})
             continue

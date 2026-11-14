@@ -337,6 +337,8 @@ class Research(Case):
         self.bars = pd.DataFrame()
 
     def propose(self, *verdicts, kind="evening", now=SUNDAY_EVENING, checks=()):
+        if kind == "evening" and not any("rank" in v for v in verdicts):       # ranked in the order given
+            verdicts = [{**v, "rank": i} for i, v in enumerate(verdicts, 1)]
         return proposals.record({"session": DAY.isoformat(), "pass": kind, "proposals": list(verdicts), "checks": list(checks)}, now)
 
 
@@ -399,9 +401,35 @@ class Proposals(Research):
                          [("AAA", "screen 2026-11-06 #1", ["AAA"], ["XLY"]), ("Refiners", "own", ["CCC", "DDD", "EEE"], ["XLE"]),
                           ("BBB", "screen 2026-11-06 #2", [], ["BBB"])])
 
+    def test_the_evening_pass_ranks_every_verdict_and_the_rank_agrees_with_conviction(self):
+        low = {"candidate": "BBB", "decision": "pass", "conviction": 2, "reason": "no story behind the move"}
+        for bad in ([verdict(), low], [verdict(rank=1), low], [verdict(rank=1), {**low, "rank": 1}], [verdict(rank=1), {**low, "rank": 3}]):
+            with self.assertRaisesRegex(ValueError, "rank every verdict in the draft from 1 .* to 2"):
+                proposals.record({"session": DAY.isoformat(), "pass": "evening", "proposals": bad}, SUNDAY_EVENING)
+        with self.assertRaisesRegex(ValueError, "AAA is ranked 2 with conviction 4, below BBB at rank 1 with conviction 2"):
+            self.propose(verdict(rank=2), {**low, "rank": 1})
+        self.assertFalse((self.root / "proposals").exists())
+        _, doc, _ = self.propose(verdict(rank=1), {**low, "rank": 2})
+        self.assertEqual([(p["name"], p["rank"], p["ranked"]) for p in doc["proposals"]], [("AAA", 1, 2), ("BBB", 2, 2)])
+
+    def test_an_unjudged_candidate_and_a_late_verdict_carry_no_rank(self):
+        self.propose(verdict())
+        _, doc, _ = self.propose({"candidate": "BBB", "decision": "pass", "conviction": 1, "reason": "gapped back up overnight"},
+                                 kind="preopen", now=datetime(2026, 11, 9, 8, 40, tzinfo=NY))
+        self.assertEqual([(p["rank"], p["ranked"]) for p in doc["proposals"]], [(1, 1), (None, None)])
+
+    def test_within_a_conviction_the_better_ranked_take_is_traded_first(self):
+        second = take("P01", "AAA", conviction=3)
+        first = take("P02", "BBB", long=("BBB",), short=("SPY",), conviction=3)
+        strongest = take("P03", "CCC", long=("CCC",), short=("QQQ",), conviction=4)
+        ranked = [{**second, "rank": 3}, {**first, "rank": 2}, {**strongest, "rank": 1}]
+        prices = {s: 100.0 for s in ("AAA", "BBB", "CCC", "HHH", "SPY", "QQQ")}
+        trades, _ = rules.proposal_trades(ranked, str(DAY), prices, set())
+        self.assertEqual([t["name"] for t in trades], ["CCC", "BBB", "AAA"])
+
     def test_only_for_the_next_entries_and_never_rewritten(self):
         with self.assertRaisesRegex(ValueError, "next entries, 2026-11-09"):
-            proposals.record({"session": "2026-11-10", "pass": "evening", "proposals": [verdict()]}, SUNDAY_EVENING)
+            proposals.record({"session": "2026-11-10", "pass": "evening", "proposals": [verdict(rank=1)]}, SUNDAY_EVENING)
         with self.assertRaisesRegex(ValueError, "next entries, 2026-11-10"):
             self.propose(verdict(), now=datetime(2026, 11, 9, 9, 14, tzinfo=NY))
         self.propose(verdict())
@@ -495,6 +523,23 @@ class Learn(Research):
         self.assertEqual((t["by_verdict"]["take"], t["by_verdict"]["pass"]["mean"], t["by_conviction"][4]["n"]),
                          ({"n": 1, "mean": 300.0, "median": 300.0, "winners": 1.0}, -800.0, 1))
         self.assertIn("take", learn.brief())
+
+    def test_the_ranking_is_scored_against_the_plan_results_night_by_night(self):
+        names = ["AAA", "BBB", "CCC", "DDD"]
+        screen = {**SCREEN, "candidates": [{**SCREEN["candidates"][0], "name": n} for n in names]}
+        (self.root.parent / "screens" / "2026-11-06.json").write_text(json.dumps(screen))
+        plan = {"horizon_days": 2, "stop": {"spread_pct": -8}}
+        self.propose(verdict(plan=plan), *[{"candidate": n, "decision": "pass", "conviction": 2, "reason": "no story", "plan": plan} for n in names[1:]])
+        self.assertEqual(learn.rank_table()["nights"], 0)                    # nothing has finished
+        # ranked AAA, BBB, CCC, DDD and they finish +6%, +4%, -2%, -3%: the ranking was exactly right
+        self.bars = frame({"AAA": [103.0, 106.0], "BBB": [102.0, 104.0], "CCC": [99.0, 98.0], "DDD": [99.0, 97.0], "HHH": [100.0, 100.0]})
+        t = learn.rank_table()
+        self.assertEqual((t["ranked"], t["finished"], t["nights"], t["ic"], t["t"]), (4, 4, 1, 1.0, None))
+        self.assertEqual([t["thirds"][k]["mean"] for k in ("top", "middle", "bottom")], [500.0, -200.0, -300.0])
+        self.assertIn("rank correlation +1.00 on average over 1 night", learn.brief())
+        # the same results with the ranking upside down
+        self.assertEqual(learn._spearman([-4, -3, -2, -1], [600.0, 400.0, -200.0, -300.0]), -1.0)
+        self.assertIsNone(learn._spearman([1, 2, 3], [5.0, 5.0, 5.0]))
 
     def test_an_unfinished_plan_has_no_result_yet(self):
         self.propose(verdict())

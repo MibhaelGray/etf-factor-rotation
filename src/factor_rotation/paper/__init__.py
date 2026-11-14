@@ -18,6 +18,11 @@ open-to-close scoring. The one exception closes a trade that only half filled:
                                 and sends market-on-close exits. An earlier exit that never filled goes again.
 - 4:20 PM ET  `fr paper sync`   pulls the day's fills, commissions and positions from the paper account.
 
+Beside these, `fr paper side` records facts about each night's ideas that no pass reads, to test later whether
+they would have helped (side.py). `fr paper holds` scores every idea at every hold from 1 to 10 sessions, to
+learn which hold period pays (holds.py); no pass runs that either.
+`fr paper depth` measures how much research each candidate got from the pass's own transcripts (depth.py).
+
 Everything lands in journal/paper/, and each job's file lists its warnings in plain words; the dashboard's
 Paper view and `fr paper report` show the latest. broker.py holds the guards that keep this off any live account.
 FR_PAPER_SEND=1 normally comes from .env, which is read whenever the variable isn't already set: to run a

@@ -7,9 +7,13 @@ limit orders in whatever session is trading:
   pre-market   4:00-9:10 AM ET     SMART, outside regular hours, good until 9:25 AM so it never meets the open
 Each order crosses the book to fill at once: a buy is priced at the gateway's ask, a sell at its bid, and the
 limit sits LIMIT_SLIP beyond that so a small move doesn't leave it resting. A leg whose spread is wider than
-rules.MAX_CROSS_SPREAD (2%) isn't sent: it waits for the next run, or the opening auction. Without a quote from the gateway it
-falls back to LIMIT_SLIP through the latest Yahoo price. (Since 2026-11-12: limits through Yahoo's price left
-four of six legs resting overnight on 2026-11-11, because the bids had drifted under them.)
+rules.MAX_CROSS_SPREAD (2%) isn't sent: it waits for the next run, or the opening auction.
+
+No order goes out without the gateway's own bid and ask for it. A leg with no quote waits like a wide one, and
+while nothing of its trade has filled the whole trade waits with it, so a pair never goes in one side at a time.
+The run's record keeps the gateway's reason for each missing quote (`no_quote`). (Until 2026-11-13 a missing
+quote fell back to Yahoo's last price with no spread check: that morning the gateway had no pre-market quotes,
+YETI's short went in alone on Yahoo's price, and its hedge waited five hours for the open.)
 
 The job runs at 9:00 PM, 4:05 AM and 9:00 AM ET (after the pre-open pass). Each run cancels the early orders
 still working, pulls the fills, and sends what is left of each take at the current price. A take stood down
@@ -86,28 +90,33 @@ def limit_price(action: str, price: float) -> float:
     return round(price * (1 + LIMIT_SLIP) if action == "BUY" else price * (1 - LIMIT_SLIP), 2)
 
 
-def crossing(action: str, book_: tuple[float, float] | None, fallback: float | None) -> float | None:
-    """The price an order crosses at: the ask for a buy, the bid for a sell; the fallback without a book."""
-    if book_:
-        return book_[1] if action == "BUY" else book_[0]
-    return fallback
+QUOTE_TRIES = 3             # asks of the gateway for a bid and ask before a leg is left to wait
 
 
-async def gateway_books(symbols: list[str], overnight: bool) -> dict[str, tuple[float, float]]:
-    """symbol -> (bid, ask) from the paper gateway in the session that is trading; {} if it can't be had."""
+def crossing(action: str, book_: tuple[float, float] | None) -> float | None:
+    """The price an order crosses at: the ask for a buy, the bid for a sell. None without a book: no order."""
+    if rules.spread_pct(book_) is None:
+        return None
+    return book_[1] if action == "BUY" else book_[0]
+
+
+async def gateway_books(symbols: list[str], overnight: bool) -> tuple[dict[str, tuple[float, float]], dict[str, str]]:
+    """(symbol -> bid, ask; symbol -> why it has none) from the paper gateway in the session that is trading."""
     from ..intraday.extended import IBMarket
     try:
         async with IBMarket(client_id=DATA_CLIENT_ID) as m:
-            await m.quotes(symbols, overnight)
-            return m.books
-    except Exception as e:  # noqa: BLE001 - no quote means the Yahoo fallback, not a failed run
+            await m.quotes(symbols, overnight, tries=QUOTE_TRIES, need_books=True)
+            return m.books, m.missing
+    except Exception as e:  # noqa: BLE001 - no quotes means no orders at this run, not a failed run
         log.warning("early_gateway_quotes_failed %r", e)
-        return {}
+        why = f"the gateway couldn't be asked for quotes ({type(e).__name__}{': ' + str(e) if str(e) else ''})"
+        return {}, {s: why for s in symbols}
 
 
-async def run(now: datetime | None = None, broker=None, dry: bool = False) -> dict:
+async def run(now: datetime | None = None, broker=None, dry: bool = False, quotes=None) -> dict:
     """One early-entry run. Returns the run's record, which is also appended to the session's file.
-    `dry` is a run by hand: it sizes and prices the entries and prints them, and sends nothing."""
+    `dry` is a run by hand: it sizes and prices the entries and prints them, and sends nothing.
+    `quotes` stands in for `gateway_books` in tests."""
     now = now or datetime.now(NY)
     session = proposals.next_entry_session(now)
     where = venue(now)
@@ -173,41 +182,50 @@ async def run(now: datetime | None = None, broker=None, dry: bool = False) -> di
             got = entered(t)
             left += [(t, leg, leg["shares"] - got[leg["symbol"]]) for leg in t["legs"] if leg["shares"] > got[leg["symbol"]]]
         symbols = sorted({leg["symbol"] for _, leg, _ in left})
-        live = await asyncio.to_thread(book.quotes, symbols, *QUOTES) if symbols else {}
-        books = await gateway_books(symbols, where == "overnight") if symbols and not dry_quotes(broker) else {}
-        # A leg whose book is wider than rules.MAX_CROSS_SPREAD isn't crossed. If nothing of its trade has filled
-        # yet, the whole trade waits, so a pair never goes in one side at a time; otherwise only that leg waits.
-        wide = {}
+        books, missing = await (quotes or gateway_books)(symbols, where == "overnight") if symbols else ({}, {})
+        missing = {s: missing.get(s) or "the gateway gave no bid and ask" for s in symbols if rules.spread_pct(books.get(s)) is None}
+        if missing:
+            record["no_quote"] = missing
+        # A leg isn't sent without the gateway's bid and ask, or across a book wider than rules.MAX_CROSS_SPREAD.
+        # If nothing of its trade has filled yet, the whole trade waits, so a pair never goes in one side at a
+        # time; otherwise only that leg waits.
+        blocked: dict[str, list[str]] = {}
         for t, leg, _ in left:
-            b_ = books.get(leg["symbol"])
-            if b_ and not rules.crossable(b_):
-                wide.setdefault(t["id"], []).append(leg["symbol"])
+            sym = leg["symbol"]
+            if sym in missing:
+                blocked.setdefault(t["id"], []).append(sym)
+            elif not rules.crossable(books[sym]):
+                blocked.setdefault(t["id"], []).append(sym)
+
         def why(t):
-            parts = [f"{s} {rules.spread_pct(books[s]):.1%}" if rules.spread_pct(books[s]) is not None else f"{s} no usable quote"
-                     for s in wide[t["id"]]]
-            return f"spread wider than {rules.MAX_CROSS_SPREAD:.0%} ({', '.join(parts)})"
+            parts = []
+            wide = [f"{x} {rules.spread_pct(books[x]):.1%}" for x in blocked[t["id"]] if x not in missing]
+            if wide:
+                parts.append(f"spread wider than {rules.MAX_CROSS_SPREAD:.0%} ({', '.join(wide)})")
+            reasons: dict[str, list[str]] = {}
+            for x in blocked[t["id"]]:
+                if x in missing:
+                    reasons.setdefault(missing[x], []).append(x)
+            parts += [f"no quote for {' or '.join(names)} from the gateway because {reason}" for reason, names in reasons.items()]
+            return "; ".join(parts)
         held_back = set()
         for t in active:
-            if t["id"] in wide:
+            if t["id"] in blocked:
                 none_in = not any(entered(t).values())
                 if none_in:
                     held_back.add(t["id"])
-                record["warnings"].append(f"{t['id']}: {why(t)}, so " + ("the whole trade waits" if none_in else "that leg waits")
-                                          + " for the next run or the open.")
+                waits = "the whole trade waits" if none_in else "that leg waits" if len(blocked[t["id"]]) == 1 else "those legs wait"
+                record["warnings"].append(f"{t['id']}: {why(t)}, so {waits} for the next run or the open.")
         orders = []
         for t, leg, n in left:
             action = "BUY" if leg["side"] == "long" else "SELL"
-            book_ = books.get(leg["symbol"])
-            if t["id"] in held_back or leg["symbol"] in wide.get(t["id"], []):
+            if t["id"] in held_back or leg["symbol"] in blocked.get(t["id"], []):
                 continue
-            px = crossing(action, book_, live.get(leg["symbol"]))
-            if not px:
-                record["warnings"].append(f"{t['id']}: no price for {leg['symbol']} in this session, so that leg waits for the next run or the open.")
-                continue
+            book_ = books[leg["symbol"]]
+            px = crossing(action, book_)
             o = {"trade_id": t["id"], "symbol": leg["symbol"], "action": action, "shares": n, "kind": "LMT",
                  "limit": limit_price(action, px), "venue": where, "ref_price": round(px, 4),
-                 "priced_on": "gateway bid/ask" if leg["symbol"] in books else "Yahoo",
-                 **book_fields(book_)}
+                 "priced_on": "gateway bid/ask", **book_fields(book_)}
             if where == "extended" and now.time() < PREMARKET_END:
                 o["good_till"] = f"{session:%Y%m%d} {GOOD_TILL} US/Eastern"
             orders.append(o)
@@ -229,11 +247,6 @@ def book_fields(book_: tuple[float, float] | None) -> dict:
         return {}
     s = rules.spread_pct(book_)
     return {"bid": book_[0], "ask": book_[1], "spread_pct": round(s * 100, 3) if s is not None else None}
-
-
-def dry_quotes(broker) -> bool:
-    """A stand-in broker in tests: don't reach for the gateway's quotes."""
-    return broker is not None and not hasattr(broker, "ib")
 
 
 def _save(session: date, state: dict, record: dict, dry: bool) -> None:

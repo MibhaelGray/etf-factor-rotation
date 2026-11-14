@@ -51,11 +51,17 @@ class Early(Case):
     def props(self, *props):
         book._write(self.root / "proposals" / f"{DAY}.json", {"session": DAY.isoformat(), "screen": "2026-11-06", "passes": [], "proposals": list(props)})
 
-    def run_early(self, now, broker, live=None):
+    def run_early(self, now, broker, live=None, books=None, missing=None):
+        """`live` is Yahoo's price for sizing. The gateway quotes each of those names at that price, bid and ask
+        alike, unless `books` says otherwise; `missing` is the gateway's reason for a name it doesn't quote."""
         live = live if live is not None else {"AAA": 50.0, "HHH": 100.0}
+        books = books if books is not None else {s: (p, p) for s, p in live.items()}
+
+        async def gateway(symbols, overnight):
+            return {s: books[s] for s in symbols if s in books}, {s: w for s, w in (missing or {}).items() if s in symbols}
         with mock.patch.object(book, "quotes", lambda symbols, *a: {s: live[s] for s in symbols if s in live}), \
                 mock.patch.object(book, "PaperSettings", lambda: mock.Mock(send=True)):
-            return asyncio.run(early.run(now, broker))
+            return asyncio.run(early.run(now, broker, quotes=gateway))
 
     def run_open(self, broker, live=None):
         live = live or {"AAA": 50.0, "HHH": 100.0}
@@ -144,16 +150,55 @@ class Early(Case):
         self.assertIn("down $91,000", plan["halted"])
         self.assertEqual((b.sent, plan["orders"]), ([], []))
 
-    def test_a_leg_with_no_price_in_this_session_waits(self):
+
+
+class NoQuoteNoOrder(Early):
+    """Nothing is sent without the gateway's own bid and ask. Yahoo's price sizes a trade and never prices an order."""
+
+    def test_a_pair_with_an_unquoted_leg_waits_whole_and_says_why(self):
         self.props(take())
         b = Broker()
-        r = self.run_early(SUNDAY_NIGHT, b, {"AAA": 50.0, "HHH": 100.0})
-        self.assertEqual(len(r["orders"]), 2)
-        b2 = Broker()
-        self.props(take("P02", "BBB", ("BBB",), ("XLY",)))
-        with mock.patch.object(book, "_closes", lambda symbols: {s: 50.0 for s in symbols}):
-            r = self.run_early(PREMARKET, b2, {"BBB": 20.0})
-        self.assertIn("no price for XLY", r["warnings"][0])
+        r = self.run_early(PREMARKET, b, books={"AAA": (49.9, 50.1)},
+                           missing={"HHH": "the live IBKR login is in use somewhere else (IBKR error 10197)"})
+        self.assertEqual((b.sent, r["orders"]), ([], []))
+        self.assertIn("no quote for HHH from the gateway because the live IBKR login is in use", r["warnings"][0])
+        self.assertIn("the whole trade waits", r["warnings"][0])
+        self.assertEqual(list(r["no_quote"]), ["HHH"])
+        self.assertEqual(early.load(DAY)["runs"][-1]["no_quote"], r["no_quote"])     # kept in the journal
+
+    def test_with_no_quotes_at_all_nothing_goes_out_even_though_yahoo_has_prices(self):
+        self.props(take())
+        b = Broker()
+        r = self.run_early(PREMARKET, b, live={"AAA": 50.0, "HHH": 100.0}, books={})
+        self.assertEqual(b.sent, [])
+        self.assertIn("the gateway gave no bid and ask", r["warnings"][0])
+        plan = self.run_open(b)                                                       # the open takes the whole trade
+        self.assertEqual(sorted((o["symbol"], o["kind"]) for o in plan["orders"]), [("AAA", "MOO"), ("HHH", "MOO")])
+
+    def test_once_a_trade_is_partly_in_only_the_unquoted_leg_waits(self):
+        self.props(take())
+        b = Broker(fill=lambda o: o["symbol"] == "AAA")
+        self.run_early(SUNDAY_NIGHT, b)                                               # AAA fills, HHH doesn't
+        r = self.run_early(PREMARKET, b, books={"AAA": (50.0, 50.0)}, missing={"HHH": "the gateway sent a bid and no ask"})
+        self.assertEqual(r["orders"], [])
+        self.assertIn("that leg waits", r["warnings"][0])
+
+    def test_a_gateway_that_cannot_be_reached_gives_its_reason_for_every_name(self):
+        class Down:
+            def __init__(self, **k):
+                pass
+
+            async def __aenter__(self):
+                raise ConnectionRefusedError("nothing is listening on 4002")
+
+            async def __aexit__(self, *exc):
+                pass
+        from factor_rotation.intraday import extended
+        with mock.patch.object(extended, "IBMarket", Down):
+            books, missing = asyncio.run(early.gateway_books(["AAA", "HHH"], False))
+        self.assertEqual(books, {})
+        self.assertIn("ConnectionRefusedError: nothing is listening on 4002", missing["AAA"])
+        self.assertEqual(set(missing), {"AAA", "HHH"})
 
 
 class InTheBook(Early):
@@ -214,10 +259,7 @@ class InTheBook(Early):
 
 class WideSpreads(Early):
     def run_with_books(self, books_):
-        async def gateway(symbols, overnight):
-            return books_
-        with mock.patch.object(early, "gateway_books", gateway), mock.patch.object(early, "dry_quotes", lambda b: False):
-            return self.run_early(SUNDAY_NIGHT, Broker())
+        return self.run_early(SUNDAY_NIGHT, Broker(), books=books_)
 
     def test_both_legs_cross_up_to_two_percent(self):
         self.props(take())
@@ -236,7 +278,7 @@ class WideSpreads(Early):
 class Crossing(unittest.TestCase):
     def test_buy_at_the_ask_sell_at_the_bid(self):
         from factor_rotation.paper import early
-        self.assertEqual(early.crossing("BUY", (99.0, 100.0), 99.5), 100.0)
-        self.assertEqual(early.crossing("SELL", (99.0, 100.0), 99.5), 99.0)
-        self.assertEqual(early.crossing("SELL", None, 99.5), 99.5)
+        self.assertEqual(early.crossing("BUY", (99.0, 100.0)), 100.0)
+        self.assertEqual(early.crossing("SELL", (99.0, 100.0)), 99.0)
+        self.assertIsNone(early.crossing("SELL", None))                 # no book, no price, no order
         self.assertEqual(early.limit_price("SELL", 99.0), 98.5)

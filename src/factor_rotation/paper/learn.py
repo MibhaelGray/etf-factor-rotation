@@ -36,6 +36,8 @@ MIDDAY_WINDOW = (time(10, 0), time(14, 45))  # after the open has settled; later
 MIDDAY_ACTIONS = ("hold", "exit")
 MIDDAY_EXIT_THESIS = ("broken", "played_out")
 SMALL = 30                    # below this many results a group's average is an anecdote
+MIN_RANKED = 4                # a night's ranking is scored once this many of its ranked ideas have finished
+RANK_NIGHTS = 20              # about how many scored nights a ranking needs before its average means something
 LESSONS = "lessons.md"
 
 
@@ -218,6 +220,7 @@ def outcomes() -> list[dict]:
         out.append({
             "id": p["id"], "session": p["session"], "name": p["name"], "kind": p["kind"], "setup": p["setup"], "direction": p["direction"],
             "source": p["source"], "verdict": _verdict(p), "decision": p["decision"], "conviction": p["conviction"], "reason": p["reason"],
+            "rank": p.get("rank"), "ranked": p.get("ranked"), "recorded_at": p.get("recorded_at"),
             "legs": " / ".join(filter(None, [", ".join(p["long"]) and f"long {', '.join(p['long'])}", ", ".join(p["short"]) and f"short {', '.join(p['short'])}"])),
             "horizon_days": (p["plan"] or {}).get("horizon_days"), "stop_pct": ((p["plan"] or {}).get("stop") or {}).get("spread_pct"),
             "stats": p.get("stats"), "wrong_if": p.get("wrong_if"), "reasoning": p.get("reasoning"), "hedge_why": p.get("hedge_why"),
@@ -236,6 +239,53 @@ def _stat(values: list[float]) -> dict:
             "winners": round(sum(v > 0 for v in values) / len(values), 2)} if values else {"n": 0}
 
 
+def _spearman(xs: list[float], ys: list[float]) -> float | None:
+    """Rank correlation, with tied values sharing their average rank. None when either side doesn't vary."""
+    def ranks(vs):
+        order = sorted(range(len(vs)), key=lambda i: vs[i])
+        out, i = [0.0] * len(vs), 0
+        while i < len(order):
+            j = i
+            while j + 1 < len(order) and vs[order[j + 1]] == vs[order[i]]:
+                j += 1
+            for k in range(i, j + 1):
+                out[order[k]] = (i + j) / 2 + 1
+            i = j + 1
+        return out
+
+    a, b = ranks(xs), ranks(ys)
+    ma, mb = mean(a), mean(b)
+    va, vb = sum((x - ma) ** 2 for x in a), sum((y - mb) ** 2 for y in b)
+    return sum((x - ma) * (y - mb) for x, y in zip(a, b)) / (va * vb) ** 0.5 if va and vb else None
+
+
+def rank_table(rows: list[dict] | None = None) -> dict:
+    """Whether the pass's ranking predicts results. Each ranked draft is one night: among its ideas whose plans
+    have finished, the rank correlation between the pass's rank and the plan result, signed so that a positive
+    number means the better-ranked ideas did better. Ideas judged on one night rise and fall together, so the
+    night is the unit: the score is the nights' average, and `t` is that average over its standard error.
+    Also the plan results of each night's top, middle and bottom third, pooled."""
+    rows = outcomes() if rows is None else rows
+    ranked = [r for r in rows if r.get("rank")]
+    nights: dict[tuple, list[dict]] = {}
+    for r in ranked:
+        if r["plan_bps"] is not None:
+            nights.setdefault((r["session"], r["recorded_at"]), []).append(r)
+    scored = []
+    for (session, _), rs in sorted(nights.items()):
+        ic = _spearman([-r["rank"] for r in rs], [float(r["plan_bps"]) for r in rs]) if len(rs) >= MIN_RANKED else None
+        if ic is not None:
+            scored.append({"session": session, "finished": len(rs), "ranked": rs[0]["ranked"], "ic": round(ic, 3)})
+    ics = [n["ic"] for n in scored]
+    sd = (sum((v - mean(ics)) ** 2 for v in ics) / (len(ics) - 1)) ** 0.5 if len(ics) > 2 else 0
+    third = lambda r: min(2, (r["rank"] - 1) * 3 // r["ranked"])  # noqa: E731
+    done = [r for rs in nights.values() for r in rs]
+    return {"ranked": len(ranked), "finished": len(done), "nights": len(scored), "nights_needed": RANK_NIGHTS,
+            "ic": round(mean(ics), 3) if ics else None, "t": round(mean(ics) / (sd / len(ics) ** 0.5), 2) if sd else None,
+            "thirds": {name: _stat([r["plan_bps"] for r in done if third(r) == k]) for k, name in enumerate(("top", "middle", "bottom"))},
+            "by_night": scored}
+
+
 def tables(rows: list[dict] | None = None) -> dict:
     """Averages of the finished proposals' plan results by verdict, conviction and setup, the paper results
     of the trades taken, the trades the review managed against their original plans, and post-mortem tags."""
@@ -248,6 +298,7 @@ def tables(rows: list[dict] | None = None) -> dict:
         "proposals": len(rows), "finished": len(done),
         "by_verdict": by(lambda r: r["verdict"]),
         "by_conviction": by(lambda r: r["conviction"] if r["conviction"] is not None else "none"),
+        "rank": rank_table(rows),
         "by_setup": {f"{setup} · {verdict}": s for (setup, verdict), s in by(lambda r: (r["setup"], "take" if r["verdict"] == "take" else "not taken")).items()},
         "paper": _stat([r["paper_bps"] for r in traded]),
         "managed": {kind: {"paper": _stat([r["paper_bps"] for r in managed if r["managed"] == kind]),
@@ -274,6 +325,15 @@ def brief() -> str:
              "The passes are the control: the takes have to beat them.", "", "By verdict"]
     lines += [_line(k, s) for k, s in t["by_verdict"].items()] or ["  nothing finished yet"]
     lines += ["", "By conviction"] + ([_line(f"conviction {k}", s) for k, s in t["by_conviction"].items()] or ["  nothing finished yet"])
+    rk = t["rank"]
+    lines += ["", "By rank (1 = the night's best idea; the ranking works if better-ranked ideas do better)"]
+    if rk["nights"]:
+        lines.append(f"  rank correlation {rk['ic']:+.2f} on average over {rk['nights']} night{'s' if rk['nights'] != 1 else ''}"
+                     + (f", t {rk['t']:+.1f}" if rk["t"] is not None else "")
+                     + (f"   (an anecdote before about {RANK_NIGHTS} nights)" if rk["nights"] < RANK_NIGHTS else ""))
+        lines += [_line(f"{name} third of each night", s) for name, s in rk["thirds"].items()]
+    else:
+        lines.append(f"  no ranked night has {MIN_RANKED} finished plans yet ({rk['ranked']} verdicts ranked so far)")
     lines += ["", "By setup"] + ([_line(k, s) for k, s in t["by_setup"].items()] or ["  nothing finished yet"])
     lines += ["", "Paper trades closed (after commissions)", _line("all", t["paper"])]
     for kind, s in t["managed"].items():
