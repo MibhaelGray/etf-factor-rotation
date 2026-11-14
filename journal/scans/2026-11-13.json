@@ -1,0 +1,1022 @@
+{
+ "as_of": "2026-11-13",
+ "built_at": "2026-11-13T20:49:49-05:00",
+ "bars_settled": true,
+ "next_session": "2026-11-16",
+ "reports": {
+  "tonight": [
+   {
+    "symbol": "ARMK",
+    "close": 53.94,
+    "ret_1d": 0.00111,
+    "ret_5d": 0.02665,
+    "ret_20d": -0.02424,
+    "atr_pct": 0.03099,
+    "rsi14": 48.30545,
+    "volume_z20": 0.35103,
+    "rs_vs_spy_20d": -0.0124,
+    "dist_sma200": 0.06389,
+    "dist_52w_high": -0.13372,
+    "gap": -0.00167,
+    "open_to_close": 0.00279,
+    "move_atr": 0.03593,
+    "usd_volume_20d": 163836160.65941,
+    "baskets": "",
+    "report": "2026-11-16",
+    "when": "before_open",
+    "eps_estimate": 0.75
+   }
+  ],
+  "traded_today": [
+   {
+    "symbol": "CBRS",
+    "close": 108.72,
+    "ret_1d": 0.11223,
+    "ret_5d": 0.21231,
+    "ret_20d": -0.14535,
+    "atr_pct": 0.10597,
+    "rsi14": 44.56045,
+    "volume_z20": 3.65785,
+    "rs_vs_spy_20d": -0.13351,
+    "dist_sma200": null,
+    "dist_52w_high": -0.6505,
+    "gap": 0.10895,
+    "open_to_close": 0.00295,
+    "move_atr": 1.05903,
+    "usd_volume_20d": 1096104330.28412,
+    "baskets": "Neoclouds",
+    "report": "2026-11-12",
+    "when": "after_close",
+    "surprise_pct": 186.97,
+    "gap_bucket": "up 10%+",
+    "history": {
+     "gap": "up 10%+",
+     "cut": "all",
+     "n": 639,
+     "sessions": 366,
+     "mean_bp": 42.4,
+     "median_bp": 7.8,
+     "up_share": 0.502,
+     "hold_mean_bp": 106.9,
+     "hold_up_share": 0.538,
+     "drift_n": 634,
+     "drift_mean_bp": 65.5,
+     "drift_median_bp": 44.8,
+     "drift_up_share": 0.544
+    }
+   },
+   {
+    "symbol": "CSCO",
+    "close": 95.64,
+    "ret_1d": -0.06244,
+    "ret_5d": 0.01907,
+    "ret_20d": -0.10941,
+    "atr_pct": 0.04055,
+    "rsi14": 37.14153,
+    "volume_z20": 1.16411,
+    "rs_vs_spy_20d": -0.09757,
+    "dist_sma200": -0.05997,
+    "dist_52w_high": -0.25869,
+    "gap": -0.01681,
+    "open_to_close": -0.04641,
+    "move_atr": -1.53993,
+    "usd_volume_20d": 1977927272.36328,
+    "baskets": "",
+    "report": "2026-11-12",
+    "when": "after_close",
+    "surprise_pct": 5.64,
+    "gap_bucket": "flat \u00b12%",
+    "history": {
+     "gap": "flat \u00b12%",
+     "cut": "all",
+     "n": 4070,
+     "sessions": 741,
+     "mean_bp": 21.1,
+     "median_bp": 17.9,
+     "up_share": 0.518,
+     "hold_mean_bp": 32.5,
+     "hold_up_share": 0.508,
+     "drift_n": 4060,
+     "drift_mean_bp": 8.3,
+     "drift_median_bp": -15.1,
+     "drift_up_share": 0.48
+    }
+   },
+   {
+    "symbol": "AMAT",
+    "close": 370.5,
+    "ret_1d": -0.02743,
+    "ret_5d": 0.11355,
+    "ret_20d": -0.09477,
+    "atr_pct": 0.06741,
+    "rsi14": 42.57784,
+    "volume_z20": 1.16658,
+    "rs_vs_spy_20d": -0.08293,
+    "dist_sma200": -0.16929,
+    "dist_52w_high": -0.487,
+    "gap": -0.01198,
+    "open_to_close": -0.01564,
+    "move_atr": -0.40695,
+    "usd_volume_20d": 2921378194.19861,
+    "baskets": "Chip equipment",
+    "report": "2026-11-12",
+    "when": "after_close",
+    "surprise_pct": 2.6,
+    "gap_bucket": "flat \u00b12%",
+    "history": {
+     "gap": "flat \u00b12%",
+     "cut": "all",
+     "n": 4070,
+     "sessions": 741,
+     "mean_bp": 21.1,
+     "median_bp": 17.9,
+     "up_share": 0.518,
+     "hold_mean_bp": 32.5,
+     "hold_up_share": 0.508,
+     "drift_n": 4060,
+     "drift_mean_bp": 8.3,
+     "drift_median_bp": -15.1,
+     "drift_up_share": 0.48
+    }
+   },
+   {
+    "symbol": "ALM",
+    "close": 8.22,
+    "ret_1d": 0.07733,
+    "ret_5d": 0.01232,
+    "ret_20d": -0.16378,
+    "atr_pct": 0.09226,
+    "rsi14": 37.76682,
+    "volume_z20": 0.57636,
+    "rs_vs_spy_20d": -0.15194,
+    "dist_sma200": -0.47705,
+    "dist_52w_high": -0.64902,
+    "gap": -0.00786,
+    "open_to_close": 0.08587,
+    "move_atr": 0.83812,
+    "usd_volume_20d": 51521103.61452,
+    "baskets": "Rare earths and critical minerals",
+    "report": "2026-11-12",
+    "when": "after_close",
+    "surprise_pct": -90.48,
+    "gap_bucket": "flat \u00b12%",
+    "history": {
+     "gap": "flat \u00b12%",
+     "cut": "all",
+     "n": 4070,
+     "sessions": 741,
+     "mean_bp": 21.1,
+     "median_bp": 17.9,
+     "up_share": 0.518,
+     "hold_mean_bp": 32.5,
+     "hold_up_share": 0.508,
+     "drift_n": 4060,
+     "drift_mean_bp": 8.3,
+     "drift_median_bp": -15.1,
+     "drift_up_share": 0.48
+    }
+   }
+  ]
+ },
+ "movers_up": [
+  {
+   "symbol": "STE",
+   "close": 264.32001,
+   "ret_1d": 0.04293,
+   "ret_5d": 0.04764,
+   "ret_20d": 0.1871,
+   "atr_pct": 0.026,
+   "rsi14": 75.71372,
+   "volume_z20": 0.24712,
+   "rs_vs_spy_20d": 0.19895,
+   "dist_sma200": 0.18374,
+   "dist_52w_high": -0.00766,
+   "gap": 0.02588,
+   "open_to_close": 0.01662,
+   "move_atr": 1.65096,
+   "usd_volume_20d": 174706034.198,
+   "baskets": ""
+  },
+  {
+   "symbol": "FOUR",
+   "close": 44.78,
+   "ret_1d": 0.07852,
+   "ret_5d": 0.01865,
+   "ret_20d": 0.13568,
+   "atr_pct": 0.05842,
+   "rsi14": 59.53132,
+   "volume_z20": 0.19576,
+   "rs_vs_spy_20d": 0.14753,
+   "dist_sma200": -0.01156,
+   "dist_52w_high": -0.39306,
+   "gap": 0.00265,
+   "open_to_close": 0.07567,
+   "move_atr": 1.34408,
+   "usd_volume_20d": 83422871.90437,
+   "baskets": ""
+  },
+  {
+   "symbol": "CROX",
+   "close": 163.72,
+   "ret_1d": 0.0436,
+   "ret_5d": 0.0781,
+   "ret_20d": 0.32954,
+   "atr_pct": 0.03703,
+   "rsi14": 72.98507,
+   "volume_z20": -0.18655,
+   "rs_vs_spy_20d": 0.34139,
+   "dist_sma200": 0.44144,
+   "dist_52w_high": 0.0,
+   "gap": 0.01345,
+   "open_to_close": 0.02975,
+   "move_atr": 1.17745,
+   "usd_volume_20d": 183686919.26422,
+   "baskets": ""
+  },
+  {
+   "symbol": "VNOM",
+   "close": 42.34,
+   "ret_1d": 0.03571,
+   "ret_5d": 0.05517,
+   "ret_20d": -0.04796,
+   "atr_pct": 0.03092,
+   "rsi14": 49.00981,
+   "volume_z20": 0.59492,
+   "rs_vs_spy_20d": -0.03611,
+   "dist_sma200": -0.02087,
+   "dist_52w_high": -0.13301,
+   "gap": 0.00465,
+   "open_to_close": 0.03092,
+   "move_atr": 1.15519,
+   "usd_volume_20d": 82980831.41346,
+   "baskets": ""
+  },
+  {
+   "symbol": "FOXA",
+   "close": 68.42,
+   "ret_1d": 0.04124,
+   "ret_5d": 0.02671,
+   "ret_20d": 0.06656,
+   "atr_pct": 0.03625,
+   "rsi14": 56.98578,
+   "volume_z20": -0.3188,
+   "rs_vs_spy_20d": 0.07841,
+   "dist_sma200": 0.10843,
+   "dist_52w_high": -0.09264,
+   "gap": 0.00989,
+   "open_to_close": 0.03104,
+   "move_atr": 1.13761,
+   "usd_volume_20d": 455194052.20985,
+   "baskets": ""
+  },
+  {
+   "symbol": "FISV",
+   "close": 63.78,
+   "ret_1d": 0.03707,
+   "ret_5d": 0.01431,
+   "ret_20d": 0.34132,
+   "atr_pct": 0.03292,
+   "rsi14": 74.81248,
+   "volume_z20": -0.29806,
+   "rs_vs_spy_20d": 0.35317,
+   "dist_sma200": 0.17074,
+   "dist_52w_high": -0.0869,
+   "gap": -0.00033,
+   "open_to_close": 0.03741,
+   "move_atr": 1.1263,
+   "usd_volume_20d": 429106824.87679,
+   "baskets": ""
+  },
+  {
+   "symbol": "FOX",
+   "close": 61.11,
+   "ret_1d": 0.04088,
+   "ret_5d": 0.02706,
+   "ret_20d": 0.06798,
+   "atr_pct": 0.03637,
+   "rsi14": 57.70885,
+   "volume_z20": -1.12627,
+   "rs_vs_spy_20d": 0.07983,
+   "dist_sma200": 0.10306,
+   "dist_52w_high": -0.08882,
+   "gap": 0.01771,
+   "open_to_close": 0.02276,
+   "move_atr": 1.12406,
+   "usd_volume_20d": 51520896.80042,
+   "baskets": ""
+  },
+  {
+   "symbol": "COR",
+   "close": 359.03,
+   "ret_1d": 0.02762,
+   "ret_5d": 0.07636,
+   "ret_20d": 0.05312,
+   "atr_pct": 0.0252,
+   "rsi14": 66.26313,
+   "volume_z20": -0.0603,
+   "rs_vs_spy_20d": 0.06496,
+   "dist_sma200": 0.13617,
+   "dist_52w_high": -0.03623,
+   "gap": 0.00498,
+   "open_to_close": 0.02253,
+   "move_atr": 1.09626,
+   "usd_volume_20d": 393598424.49951,
+   "baskets": ""
+  },
+  {
+   "symbol": "KO",
+   "close": 99.25,
+   "ret_1d": 0.01858,
+   "ret_5d": 0.03742,
+   "ret_20d": 0.05698,
+   "atr_pct": 0.01746,
+   "rsi14": 73.62256,
+   "volume_z20": -0.08819,
+   "rs_vs_spy_20d": 0.06882,
+   "dist_sma200": 0.2006,
+   "dist_52w_high": 0.0,
+   "gap": 0.00759,
+   "open_to_close": 0.0109,
+   "move_atr": 1.06369,
+   "usd_volume_20d": 1623027278.29514,
+   "baskets": ""
+  },
+  {
+   "symbol": "CBRS",
+   "close": 108.72,
+   "ret_1d": 0.11223,
+   "ret_5d": 0.21231,
+   "ret_20d": -0.14535,
+   "atr_pct": 0.10597,
+   "rsi14": 44.56045,
+   "volume_z20": 3.65785,
+   "rs_vs_spy_20d": -0.13351,
+   "dist_sma200": null,
+   "dist_52w_high": -0.6505,
+   "gap": 0.10895,
+   "open_to_close": 0.00295,
+   "move_atr": 1.05903,
+   "usd_volume_20d": 1096104330.28412,
+   "baskets": "Neoclouds"
+  }
+ ],
+ "movers_down": [
+  {
+   "symbol": "CVLT",
+   "close": 152.07001,
+   "ret_1d": -0.0848,
+   "ret_5d": -0.03972,
+   "ret_20d": 0.01985,
+   "atr_pct": 0.054,
+   "rsi14": 43.02363,
+   "volume_z20": 0.69237,
+   "rs_vs_spy_20d": 0.0317,
+   "dist_sma200": 0.25288,
+   "dist_52w_high": -0.11869,
+   "gap": -0.03942,
+   "open_to_close": -0.04724,
+   "move_atr": -1.57033,
+   "usd_volume_20d": 119482695.578,
+   "baskets": ""
+  },
+  {
+   "symbol": "CSCO",
+   "close": 95.64,
+   "ret_1d": -0.06244,
+   "ret_5d": 0.01907,
+   "ret_20d": -0.10941,
+   "atr_pct": 0.04055,
+   "rsi14": 37.14153,
+   "volume_z20": 1.16411,
+   "rs_vs_spy_20d": -0.09757,
+   "dist_sma200": -0.05997,
+   "dist_52w_high": -0.25869,
+   "gap": -0.01681,
+   "open_to_close": -0.04641,
+   "move_atr": -1.53993,
+   "usd_volume_20d": 1977927272.36328,
+   "baskets": ""
+  },
+  {
+   "symbol": "AMD",
+   "close": 534.06,
+   "ret_1d": -0.08754,
+   "ret_5d": 0.18934,
+   "ret_20d": 0.01004,
+   "atr_pct": 0.07852,
+   "rsi14": 50.35615,
+   "volume_z20": 0.83302,
+   "rs_vs_spy_20d": 0.02189,
+   "dist_sma200": 0.2622,
+   "dist_52w_high": -0.17764,
+   "gap": -0.03183,
+   "open_to_close": -0.05755,
+   "move_atr": -1.11492,
+   "usd_volume_20d": 16032323498.55804,
+   "baskets": ""
+  },
+  {
+   "symbol": "OUST",
+   "close": 33.48,
+   "ret_1d": -0.08525,
+   "ret_5d": -0.03779,
+   "ret_20d": 0.17763,
+   "atr_pct": 0.092,
+   "rsi14": 48.34609,
+   "volume_z20": -0.37149,
+   "rs_vs_spy_20d": 0.18947,
+   "dist_sma200": 0.01862,
+   "dist_52w_high": -0.46449,
+   "gap": -0.01366,
+   "open_to_close": -0.07258,
+   "move_atr": -0.92663,
+   "usd_volume_20d": 79774097.78937,
+   "baskets": "Robotics and automation"
+  },
+  {
+   "symbol": "AVGO",
+   "close": 347.01001,
+   "ret_1d": -0.04762,
+   "ret_5d": 0.18155,
+   "ret_20d": 0.05554,
+   "atr_pct": 0.0514,
+   "rsi14": 53.20007,
+   "volume_z20": 0.43174,
+   "rs_vs_spy_20d": 0.06739,
+   "dist_sma200": -0.05312,
+   "dist_52w_high": -0.27696,
+   "gap": -0.02146,
+   "open_to_close": -0.02673,
+   "move_atr": -0.9264,
+   "usd_volume_20d": 8372454559.61304,
+   "baskets": ""
+  },
+  {
+   "symbol": "BURL",
+   "close": 242.86,
+   "ret_1d": -0.03577,
+   "ret_5d": -0.0158,
+   "ret_20d": -0.07538,
+   "atr_pct": 0.03996,
+   "rsi14": 43.07604,
+   "volume_z20": -0.8115,
+   "rs_vs_spy_20d": -0.06354,
+   "dist_sma200": -0.20387,
+   "dist_52w_high": -0.34748,
+   "gap": -0.03125,
+   "open_to_close": -0.00467,
+   "move_atr": -0.89516,
+   "usd_volume_20d": 294188318.0687,
+   "baskets": ""
+  },
+  {
+   "symbol": "NUE",
+   "close": 251.73,
+   "ret_1d": -0.03459,
+   "ret_5d": 0.0276,
+   "ret_20d": -0.01779,
+   "atr_pct": 0.0391,
+   "rsi14": 44.81338,
+   "volume_z20": -1.24182,
+   "rs_vs_spy_20d": -0.00595,
+   "dist_sma200": 0.10762,
+   "dist_52w_high": -0.09335,
+   "gap": 0.00548,
+   "open_to_close": -0.03986,
+   "move_atr": -0.88462,
+   "usd_volume_20d": 388568963.28125,
+   "baskets": ""
+  },
+  {
+   "symbol": "AVEX",
+   "close": 12.51,
+   "ret_1d": -0.09084,
+   "ret_5d": 0.22647,
+   "ret_20d": -0.18555,
+   "atr_pct": 0.11033,
+   "rsi14": 49.63551,
+   "volume_z20": -0.23887,
+   "rs_vs_spy_20d": -0.1737,
+   "dist_sma200": null,
+   "dist_52w_high": -0.69096,
+   "gap": -0.01672,
+   "open_to_close": -0.07539,
+   "move_atr": -0.82338,
+   "usd_volume_20d": 21322839.62297,
+   "baskets": "Drones and defense tech"
+  },
+  {
+   "symbol": "ROST",
+   "close": 231.67999,
+   "ret_1d": -0.02344,
+   "ret_5d": 0.00255,
+   "ret_20d": -0.02199,
+   "atr_pct": 0.02968,
+   "rsi14": 47.91844,
+   "volume_z20": -0.55235,
+   "rs_vs_spy_20d": -0.01015,
+   "dist_sma200": 0.0334,
+   "dist_52w_high": -0.09052,
+   "gap": 0.0011,
+   "open_to_close": -0.02451,
+   "move_atr": -0.78969,
+   "usd_volume_20d": 457069712.86011,
+   "baskets": ""
+  },
+  {
+   "symbol": "STLD",
+   "close": 229.42999,
+   "ret_1d": -0.03239,
+   "ret_5d": 0.0293,
+   "ret_20d": -0.04619,
+   "atr_pct": 0.04132,
+   "rsi14": 43.01533,
+   "volume_z20": -0.91177,
+   "rs_vs_spy_20d": -0.03434,
+   "dist_sma200": 0.0152,
+   "dist_52w_high": -0.18482,
+   "gap": 0.01084,
+   "open_to_close": -0.04277,
+   "move_atr": -0.78395,
+   "usd_volume_20d": 214893757.02362,
+   "baskets": ""
+  }
+ ],
+ "baskets": [
+  {
+   "id": "robotics",
+   "name": "Robotics and automation",
+   "hedge": "XLI",
+   "members": "SYM, ROK, CGNX, OUST, HSAI, NOVT, ZBRA",
+   "spread_today_pct": -0.64,
+   "ret_5d": -0.046,
+   "ret_20d": -0.0122,
+   "z_50d": -1.77,
+   "worst": [
+    "OUST",
+    -8.52
+   ],
+   "best": [
+    "ZBRA",
+    1.94
+   ],
+   "member_range_pct": 10.46
+  },
+  {
+   "id": "copper_miners",
+   "name": "Copper miners",
+   "hedge": "XLB",
+   "members": "FCX, SCCO, TECK, HBM, ERO, TGB",
+   "spread_today_pct": -1.75,
+   "ret_5d": -0.0067,
+   "ret_20d": -0.1503,
+   "z_50d": -1.68,
+   "worst": [
+    "SCCO",
+    -2.46
+   ],
+   "best": [
+    "HBM",
+    -1.11
+   ],
+   "member_range_pct": 1.35
+  },
+  {
+   "id": "life_science_tools",
+   "name": "Life science tools",
+   "hedge": "XLV",
+   "members": "TMO, DHR, A, WAT, ILMN, TECH, RVTY, TXG, AVTR, BIO, MTD, CRL, BRKR",
+   "spread_today_pct": -0.83,
+   "ret_5d": -0.0244,
+   "ret_20d": -0.0623,
+   "z_50d": -1.64,
+   "worst": [
+    "RVTY",
+    -1.67
+   ],
+   "best": [
+    "BRKR",
+    2.09
+   ],
+   "member_range_pct": 3.76
+  },
+  {
+   "id": "drones_defense_tech",
+   "name": "Drones and defense tech",
+   "hedge": "XLI",
+   "members": "AVAV, KTOS, RCAT, ONDS, UMAC, AVEX",
+   "spread_today_pct": -3.83,
+   "ret_5d": -0.0194,
+   "ret_20d": -0.1566,
+   "z_50d": -1.59,
+   "worst": [
+    "AVEX",
+    -9.08
+   ],
+   "best": [
+    "KTOS",
+    -2.42
+   ],
+   "member_range_pct": 6.66
+  },
+  {
+   "id": "utility_solar",
+   "name": "Utility-scale solar",
+   "hedge": "XLU",
+   "members": "FSLR, NXT, SHLS, TE, CSIQ",
+   "spread_today_pct": -0.71,
+   "ret_5d": -0.1615,
+   "ret_20d": -0.0319,
+   "z_50d": -1.49,
+   "worst": [
+    "TE",
+    -3.05
+   ],
+   "best": [
+    "SHLS",
+    2.73
+   ],
+   "member_range_pct": 5.78
+  },
+  {
+   "id": "memory_storage",
+   "name": "Memory and storage",
+   "hedge": "SMH",
+   "members": "MU, SNDK, WDC, STX, SIMO",
+   "spread_today_pct": -1.37,
+   "ret_5d": 0.0519,
+   "ret_20d": -0.0749,
+   "z_50d": -1.48,
+   "worst": [
+    "SIMO",
+    -5.6
+   ],
+   "best": [
+    "MU",
+    -2.52
+   ],
+   "member_range_pct": 3.08
+  },
+  {
+   "id": "nuclear_new",
+   "name": "Nuclear fuel and new reactors",
+   "hedge": "XLU",
+   "members": "OKLO, SMR, LEU, BWXT, CCJ, UEC, UUUU, NNE",
+   "spread_today_pct": -1.92,
+   "ret_5d": -0.0317,
+   "ret_20d": -0.1817,
+   "z_50d": -1.47,
+   "worst": [
+    "SMR",
+    -3.32
+   ],
+   "best": [
+    "NNE",
+    0.18
+   ],
+   "member_range_pct": 3.5
+  },
+  {
+   "id": "quantum",
+   "name": "Quantum computing",
+   "hedge": "QQQ",
+   "members": "IONQ, RGTI, QBTS, QUBT, INFQ, QNT",
+   "spread_today_pct": -3.63,
+   "ret_5d": -0.1336,
+   "ret_20d": -0.0514,
+   "z_50d": -1.34,
+   "worst": [
+    "RGTI",
+    -6.87
+   ],
+   "best": [
+    "QBTS",
+    -2.85
+   ],
+   "member_range_pct": 4.02
+  },
+  {
+   "id": "dc_power_equipment",
+   "name": "Data-center power equipment",
+   "hedge": "XLI",
+   "members": "VRT, ETN, GEV, BE, MPWR, NVT, POWL, PWR, HUBB, EME, FIX",
+   "spread_today_pct": -1.33,
+   "ret_5d": 0.047,
+   "ret_20d": -0.0839,
+   "z_50d": -1.33,
+   "worst": [
+    "BE",
+    -4.92
+   ],
+   "best": [
+    "POWL",
+    0.67
+   ],
+   "member_range_pct": 5.59
+  },
+  {
+   "id": "refiners",
+   "name": "Refiners",
+   "hedge": "XLE",
+   "members": "MPC, VLO, PSX, PBF, DINO, DK, CVI, PARR",
+   "spread_today_pct": -0.4,
+   "ret_5d": 0.0247,
+   "ret_20d": -0.1134,
+   "z_50d": -1.31,
+   "worst": [
+    "CVI",
+    -0.32
+   ],
+   "best": [
+    "PARR",
+    1.49
+   ],
+   "member_range_pct": 1.81
+  },
+  {
+   "id": "crypto_equities",
+   "name": "Crypto stocks",
+   "hedge": "IBIT",
+   "members": "COIN, HOOD, MSTR, CRCL, BMNR, BLSH",
+   "spread_today_pct": 0.31,
+   "ret_5d": 0.0422,
+   "ret_20d": -0.0679,
+   "z_50d": -1.28,
+   "worst": [
+    "BMNR",
+    -4.72
+   ],
+   "best": [
+    "COIN",
+    -2.31
+   ],
+   "member_range_pct": 2.41
+  },
+  {
+   "id": "defense_primes",
+   "name": "Defense primes",
+   "hedge": "XLI",
+   "members": "LMT, NOC, GD, RTX, LHX, HII",
+   "spread_today_pct": 0.16,
+   "ret_5d": 0.009,
+   "ret_20d": 0.0672,
+   "z_50d": 1.24,
+   "worst": [
+    "LMT",
+    -1.33
+   ],
+   "best": [
+    "NOC",
+    0.24
+   ],
+   "member_range_pct": 1.57
+  },
+  {
+   "id": "hyperscalers",
+   "name": "Hyperscalers",
+   "hedge": "QQQ",
+   "members": "MSFT, GOOGL, AMZN, META, ORCL",
+   "spread_today_pct": 1.29,
+   "ret_5d": 0.0009,
+   "ret_20d": 0.0049,
+   "z_50d": 1.22,
+   "worst": [
+    "ORCL",
+    -1.38
+   ],
+   "best": [
+    "META",
+    2.9
+   ],
+   "member_range_pct": 4.28
+  },
+  {
+   "id": "managed_care",
+   "name": "Managed care",
+   "hedge": "XLV",
+   "members": "UNH, HUM, ELV, CNC, MOH, OSCR, CI, CVS",
+   "spread_today_pct": -0.52,
+   "ret_5d": 0.0025,
+   "ret_20d": -0.0509,
+   "z_50d": -1.14,
+   "worst": [
+    "OSCR",
+    -2.79
+   ],
+   "best": [
+    "CNC",
+    1.42
+   ],
+   "member_range_pct": 4.21
+  },
+  {
+   "id": "critical_minerals",
+   "name": "Rare earths and critical minerals",
+   "hedge": "XLB",
+   "members": "MP, USAR, UAMY, ALM, ALB",
+   "spread_today_pct": 3.66,
+   "ret_5d": 0.026,
+   "ret_20d": -0.0899,
+   "z_50d": -1.12,
+   "worst": [
+    "ALB",
+    -1.39
+   ],
+   "best": [
+    "ALM",
+    7.73
+   ],
+   "member_range_pct": 9.12
+  },
+  {
+   "id": "neoclouds",
+   "name": "Neoclouds",
+   "hedge": "SMH",
+   "members": "CRWV, NBIS, APLD, IREN, WULF, CBRS",
+   "spread_today_pct": -0.44,
+   "ret_5d": -0.0081,
+   "ret_20d": -0.0465,
+   "z_50d": -1.09,
+   "worst": [
+    "NBIS",
+    -9.92
+   ],
+   "best": [
+    "CBRS",
+    11.22
+   ],
+   "member_range_pct": 21.14
+  },
+  {
+   "id": "texas_power",
+   "name": "Texas power",
+   "hedge": "XLU",
+   "members": "VST, NRG, CEG",
+   "spread_today_pct": -1.48,
+   "ret_5d": 0.0741,
+   "ret_20d": -0.0921,
+   "z_50d": -0.97,
+   "worst": [
+    "VST",
+    -1.12
+   ],
+   "best": [
+    "CEG",
+    -0.78
+   ],
+   "member_range_pct": 0.34
+  },
+  {
+   "id": "oil_tankers",
+   "name": "Oil tankers",
+   "hedge": "XLE",
+   "members": "FRO, DHT, INSW, TNK, NAT, ECO, STNG, TRMD",
+   "spread_today_pct": -0.4,
+   "ret_5d": -0.0038,
+   "ret_20d": -0.0021,
+   "z_50d": -0.79,
+   "worst": [
+    "STNG",
+    -0.49
+   ],
+   "best": [
+    "TRMD",
+    1.52
+   ],
+   "member_range_pct": 2.01
+  },
+  {
+   "id": "ai_networking",
+   "name": "AI networking and optics",
+   "hedge": "SMH",
+   "members": "ANET, CIEN, COHR, LITE, CRDO, ALAB, MRVL, APH, GLW, FN",
+   "spread_today_pct": -1.66,
+   "ret_5d": 0.057,
+   "ret_20d": -0.0288,
+   "z_50d": -0.77,
+   "worst": [
+    "FN",
+    -7.31
+   ],
+   "best": [
+    "APH",
+    -1.75
+   ],
+   "member_range_pct": 5.56
+  },
+  {
+   "id": "texas_ai_hosts",
+   "name": "Texas AI hosts",
+   "hedge": "SMH",
+   "members": "IREN, CORZ, CIFR, RIOT, GLXY, MARA",
+   "spread_today_pct": -0.3,
+   "ret_5d": 0.0031,
+   "ret_20d": 0.0431,
+   "z_50d": -0.72,
+   "worst": [
+    "IREN",
+    -6.72
+   ],
+   "best": [
+    "CORZ",
+    0.97
+   ],
+   "member_range_pct": 7.69
+  },
+  {
+   "id": "cybersecurity",
+   "name": "Cybersecurity",
+   "hedge": "IGV",
+   "members": "PANW, CRWD, FTNT, ZS, OKTA, S, RBRK, QLYS",
+   "spread_today_pct": -0.3,
+   "ret_5d": -0.0013,
+   "ret_20d": -0.018,
+   "z_50d": -0.71,
+   "worst": [
+    "FTNT",
+    -1.79
+   ],
+   "best": [
+    "OKTA",
+    0.18
+   ],
+   "member_range_pct": 1.97
+  },
+  {
+   "id": "space",
+   "name": "Space",
+   "hedge": "XLI",
+   "members": "RKLB, ASTS, LUNR, PL, RDW, VOYG, FLY, SPCX",
+   "spread_today_pct": -1.83,
+   "ret_5d": 0.0845,
+   "ret_20d": 0.0798,
+   "z_50d": -0.55,
+   "worst": [
+    "ASTS",
+    -5.51
+   ],
+   "best": [
+    "LUNR",
+    -0.23
+   ],
+   "member_range_pct": 5.28
+  },
+  {
+   "id": "travel",
+   "name": "Airlines, cruises and bookings",
+   "hedge": "XLY",
+   "members": "DAL, UAL, RCL, CCL, NCLH, BKNG, AAL, LUV, ALK, EXPE, ABNB",
+   "spread_today_pct": -0.04,
+   "ret_5d": -0.0271,
+   "ret_20d": 0.0317,
+   "z_50d": 0.31,
+   "worst": [
+    "UAL",
+    -1.74
+   ],
+   "best": [
+    "ABNB",
+    3.12
+   ],
+   "member_range_pct": 4.86
+  },
+  {
+   "id": "seat_software",
+   "name": "Seat-based software",
+   "hedge": "IGV",
+   "members": "CRM, NOW, WDAY, ADBE, TEAM, HUBS, MNDY, ASAN, ADSK, DOCU, DBX",
+   "spread_today_pct": 1.18,
+   "ret_5d": -0.0299,
+   "ret_20d": -0.0404,
+   "z_50d": -0.05,
+   "worst": [
+    "TEAM",
+    -1.51
+   ],
+   "best": [
+    "WDAY",
+    3.05
+   ],
+   "member_range_pct": 4.56
+  },
+  {
+   "id": "semicap",
+   "name": "Chip equipment",
+   "hedge": "SMH",
+   "members": "AMAT, LRCX, KLAC, ASML, TER, ONTO, MKSI, ENTG, AEIS, FORM",
+   "spread_today_pct": -0.34,
+   "ret_5d": 0.0691,
+   "ret_20d": 0.0243,
+   "z_50d": 0.0,
+   "worst": [
+    "TER",
+    -5.38
+   ],
+   "best": [
+    "ASML",
+    -0.13
+   ],
+   "member_range_pct": 5.25
+  }
+ ]
+}

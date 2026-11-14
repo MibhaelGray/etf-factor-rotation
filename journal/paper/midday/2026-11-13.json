@@ -1,0 +1,37 @@
+{
+ "session": "2026-11-13",
+ "reviewed_at": "2026-11-13T12:12:04.856404-05:00",
+ "summary": "Tech-led selloff (SPY -0.7%, QQQ -1.5%, SMH -4.0% at about 12:10 PM ET, Yahoo) the session after Applied's report. No trade's wrong_if has happened: five holds, no exits.",
+ "reviews": [
+  {
+   "trade_id": "2026-11-10-A02",
+   "action": "hold",
+   "thesis": "weakened",
+   "reason": "No wrong_if: the only account of ServiceNow's 11-12 BMO chat (Investing.com summary) has an SVP saying seats grew, with no raise or reaffirmation of the cRPO outlook; no upgrade of any member found 11-10 to 11-13. Weakened because the basket has beaten IGV three sessions running (+1.3 points today; WDAY +2.1%, HUBS +1.5%, ADBE +1.3% vs IGV -0.4%), but it has regained under 1 point of the 8.7% five-day loss. Pre-close: read a full BMO transcript if one is indexed, and look for a reason for WDAY's rise."
+  },
+  {
+   "trade_id": "2026-11-10-A03",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "NOVT -0.8% vs XLK -2.5%, so the pair gives a little back today on the tech selloff, not on news. Still no account of the 11-11 Baird conference and no note quantifying the Q4 shortfall as a one-off; Baird's only action is the 11-12 target cut to $175 (MarketBeat). Pre-close: check again for a Baird write-up; the next company appearance is Jefferies London on 11-18, after the time limit."
+  },
+  {
+   "trade_id": "2026-11-12-A01",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "HUM -1.0% vs UNH -0.8% and XLV +0.1%, no headline. The CY2028 main rule is still at OMB (reginfo.gov, received 10-26, pending); no payment or star-rating proposal this week. No 8-K or cost-trend remark from HUM, UNH, CVS or CNC on 11-12 or 11-13. Form 144s unchanged (Ventura 5,495 shares, a director 440). Losing is not a reason. Pre-close: Elevance's 11-10 Item 7.01 8-K and Humana's three 11-12 Form 4s were not read."
+  },
+  {
+   "trade_id": "2026-11-12-A02",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "The wrong_if test is today and it is failing to trigger: the memory basket is -6.0% vs SMH -4.0% (SNDK -7.8%, WDC -6.4%, SIMO -6.0%, STX -4.8%, MU -4.7%) the session after Applied's report, though Applied showed DRAM at 33% of systems sales. TrendForce DDR4 spot slipped each day 11-10 to 11-13 ($45.00 to $44.54); no NAND update. Not the whole move yet with two sessions left. Pre-close: confirm memory still trails SMH at the close."
+  },
+  {
+   "trade_id": "2026-11-13-A01",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "YETI +1.3% vs XRT +0.1%, a small bounce after -10.5% on 11-12. Broker actions today all cut: Piper Sandler downgraded to Neutral, target $39 from $58 (Investing.com, 11-13); KeyBanc, Baird and Stifel lowered targets. No new or accelerated buyback (11-12 release: about $350M left on the existing authorization). YETI 38.8, below 40.47; the retail reports start 11-17."
+  }
+ ]
+}

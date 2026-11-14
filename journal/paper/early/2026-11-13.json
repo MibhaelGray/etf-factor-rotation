@@ -1,0 +1,84 @@
+{
+ "session": "2026-11-13",
+ "trades": [
+  {
+   "id": "2026-11-13-A01",
+   "book": "dynamic",
+   "source": "proposal 2026-11-13-P01",
+   "proposal_id": "2026-11-13-P01",
+   "conviction": 3,
+   "name": "YETI",
+   "setup": "breakdown",
+   "direction": "short",
+   "why": "Guide cut on weaker US demand with the CEO flagging Q4 pressure; broke the 20-day low on 4.9x volume inside a downtrend, with analyst cuts still to come and retail reports next week.",
+   "wrong_if": "Two or more brokers raise targets or upgrade on the margin story; the company announces an accelerated buyback; or the retail reports (retail sales and Home Depot 11-17, TJX and Lowe's 11-18, Walmart 11-19) describe improving discretionary demand and YETI regains 40.47.",
+   "entry_date": "2026-11-13",
+   "horizon_days": 5,
+   "stop": {
+    "spread_pct": -7.5
+   },
+   "notional": 10000,
+   "legs": [
+    {
+     "symbol": "XRT",
+     "side": "long",
+     "shares": 110,
+     "ref_price": 90.67
+    },
+    {
+     "symbol": "YETI",
+     "side": "short",
+     "shares": 263,
+     "ref_price": 38.02
+    }
+   ],
+   "hedge": "XRT"
+  }
+ ],
+ "runs": [
+  {
+   "at": "2026-11-13T04:05:05-05:00",
+   "venue": "extended",
+   "dry_run": false,
+   "new": [
+    "2026-11-13-A01"
+   ],
+   "stood_down": [],
+   "cancelled": 0,
+   "orders": [
+    {
+     "trade_id": "2026-11-13-A01",
+     "symbol": "YETI",
+     "action": "SELL",
+     "shares": 263,
+     "kind": "LMT",
+     "limit": 37.83,
+     "venue": "extended",
+     "ref_price": 38.02,
+     "priced_on": "Yahoo",
+     "good_till": "20261113 09:25:00 US/Eastern",
+     "order_id": 132,
+     "status": "Submitted",
+     "note": ""
+    }
+   ],
+   "skipped": [],
+   "warnings": [
+    "2026-11-13-A01: no price for XRT in this session, so that leg waits for the next run or the open."
+   ]
+  },
+  {
+   "at": "2026-11-13T09:08:31-05:00",
+   "venue": "extended",
+   "dry_run": false,
+   "new": [],
+   "stood_down": [],
+   "cancelled": 0,
+   "orders": [],
+   "skipped": [],
+   "warnings": [
+    "2026-11-13-A01: no price for XRT in this session, so that leg waits for the next run or the open."
+   ]
+  }
+ ]
+}

@@ -1,0 +1,37 @@
+{
+ "session": "2026-11-13",
+ "reviewed_at": "2026-11-13T15:02:02.790590-05:00",
+ "summary": "Tech-led selloff the session after Applied's report (SPY -0.5%, QQQ -1.3%, SMH -3.1% at 3:00 PM ET, Yahoo). No trade's wrong_if has happened and none is on its last session: five holds, no exits, no extensions.",
+ "reviews": [
+  {
+   "trade_id": "2026-11-10-A02",
+   "action": "hold",
+   "thesis": "weakened",
+   "reason": "No wrong_if event found: no transcript or recap of ServiceNow's 11-12 BMO chat shows a raise or firm reaffirmation of the cRPO outlook (standing guide is still the Q3 one, 18.5% Q4 cRPO growth), and no upgrade of any member 11-10 to 11-13. Weakened because the basket has beaten IGV four sessions running: seven of eight members up today (WDAY +2.8%, HUBS +2.3%, ASAN +2.3%, NOW +2.1%, ADBE +1.9%) against IGV flat, and HUBS is +12% since the 11-10 close with no news found. That is roughly a third of the 8.7% five-day loss regained, not all of it, so the third wrong_if clause has not been met. Tomorrow is its last session. Not verified: the BMO chat's actual content."
+  },
+  {
+   "trade_id": "2026-11-10-A03",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "NOVT +0.9% vs XLK -2.0% today, so the pair gives back about 3 points on the tech selloff, not on news. Still no account of the 11-11 Baird presentation and no analyst note framing the guide as conservative or newly quantifying the Q4 shortfall as a one-off; the Stockport shipment halt and its 200 bp margin hit were in the 11-09 report the trade was built on. Not played out: one session left and nothing has answered the cut. Not verified: Baird presentation content; paywalled broker wires."
+  },
+  {
+   "trade_id": "2026-11-12-A01",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "HUM +1.2% today vs UNH +0.4% and XLV +0.6%. No Medicare Advantage or star-ratings document in the Federal Register on 11-12 or 11-13 or on the 11-16 inspection list; the CY2028 main rule (CMS-4214) is still at OMB. No cost-trend remark found from HUM, UNH, ELV, CVS or CNC; Humana's only 8-K this week is the 11-09 debt tender. The Form 144s are resolved by the 11-12 Form 4s: the chief legal officer sold 5,495 vested-award shares (about $2.35M, keeps 21,473) and a director sold 440; neither is a large senior-executive sale. Not verified: CMS newsroom page, peer 8-Ks."
+  },
+  {
+   "trade_id": "2026-11-12-A02",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "The 11-13 test did not trigger: at 3:00 PM ET the memory basket is about -4.9% (SNDK -6.6%, SIMO -5.8%, WDC -5.3%, MU -3.5%, STX -3.5%) against SMH -3.1%, the session after Applied reported record DRAM at 33% of systems sales. TrendForce DDR4 8GB spot fell each day, $44.89 on 11-11 to $44.54 on 11-13; no NAND spot update. An 11-12 TrendForce headline on planned contract price hikes could not be read; contract is not spot, so it does not meet wrong_if. Not played out with two sessions left."
+  },
+  {
+   "trade_id": "2026-11-13-A01",
+   "action": "hold",
+   "thesis": "intact",
+   "reason": "YETI +2.7% vs XRT +0.1% today, a bounce after -10.5% on 11-12 with no news behind it; a first-session loss is not a reason. Broker actions all cut: Piper Sandler downgraded to Neutral (target $39 from $58), KeyBanc to $49, Stifel to $48. No accelerated or new buyback (about $350M left on the existing authorization, 11-12 release; no 8-K since). YETI 39.3, still below 40.47, and the retail reports start 11-17."
+  }
+ ]
+}
